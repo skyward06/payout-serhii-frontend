@@ -90,7 +90,6 @@ export const navData: NavSectionProps['data'] = [
       { title: 'Reward', path: paths.dashboard.reward.root, icon: ICONS.reward, deepMatch: true },
       { title: 'Calculator', path: paths.dashboard.calculator.root, icon: ICONS.calculator },
       { title: 'Team', path: paths.dashboard.team.root, icon: ICONS.team },
-      { title: 'Mail', path: paths.dashboard.mail.root, icon: ICONS.mail },
       { title: 'Communication', path: paths.dashboard.communication.root, icon: ICONS.send },
       { title: 'TXC Request', path: paths.dashboard.txcRequest.root, icon: ICONS.txc_buy },
       { title: 'Profile', path: paths.dashboard.profile.root, icon: ICONS.user },

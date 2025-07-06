@@ -2,10 +2,8 @@ import React from 'react';
 import { createClient } from 'graphql-ws';
 import { setContext } from '@apollo/client/link/context';
 import { getMainDefinition } from '@apollo/client/utilities';
-import { createFragmentRegistry } from '@apollo/client/cache';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import {
-  gql,
   split,
   ApolloLink,
   ApolloClient,
@@ -15,6 +13,8 @@ import {
 } from '@apollo/client';
 
 import { CONFIG } from 'src/config';
+
+import { fragment } from './utils/fragment';
 
 const httpLink = createHttpLink({
   uri: `${CONFIG.SERVER_HOST}/graphql`,
@@ -55,48 +55,7 @@ const authLink = setContext((_, { headers }) => {
 
 const client = new ApolloClient({
   link: ApolloLink.concat(authLink, splitLink),
-  cache: new InMemoryCache({
-    fragments: createFragmentRegistry(gql`
-      # TODO: Consider rename Member to Miner
-      fragment MemberFields on Member {
-        id
-        ID
-        city
-        email
-        point
-        state
-        avatar
-        mobile
-        status
-        assetId
-        country
-        zipCode
-        username
-        fullName
-        sponsorId
-        allowState
-        ethAssetId
-        teamReport
-        OTPEnabled
-        teamStrategy
-        syncWithSendy
-        emailVerified
-        isTexitRanger
-        peerAcceptable
-        peerETHAddress
-        primaryAddress
-        secondaryAddress
-        totalIntroducers
-        preferredContact
-        commissionDefault
-        placementParentId
-        placementPosition
-        cmnCalculatedWeeks
-        placementRequested
-        preferredContactDetail
-      }
-    `),
-  }),
+  cache: new InMemoryCache(fragment),
   defaultOptions: {
     watchQuery: {
       fetchPolicy: 'network-only',

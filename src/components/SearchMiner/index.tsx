@@ -1,4 +1,4 @@
-import type { Member } from 'src/__generated__/graphql';
+import type { Member, BasicMemberInfo } from 'src/__generated__/graphql';
 
 import React, { useState, useEffect } from 'react';
 
@@ -46,7 +46,10 @@ export default function SearchMiner({
 
   useEffect(() => {
     if (setMemberId) {
-      setMemberId(members.find((member) => member.username === username?.split(' (')[0])?.id ?? '');
+      setMemberId(
+        members.find((member: BasicMemberInfo) => member.username === username?.split(' (')[0])
+          ?.id ?? ''
+      );
     }
 
     const handler = setTimeout(() => {
@@ -62,7 +65,7 @@ export default function SearchMiner({
   return (
     <Autocomplete
       fullWidth
-      options={members.map((item) => `${item.username} (${item.fullName})`)}
+      options={members.map((item: BasicMemberInfo) => `${item.username} (${item.fullName})`)}
       isOptionEqualToValue={(option, value) => option === value}
       value={
         username ?? (currentMember && `${currentMember?.username} (${currentMember?.fullName})`)

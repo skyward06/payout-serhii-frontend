@@ -8,7 +8,7 @@ import {
   UPDATE_MEMBER,
   FETCH_MY_PROFILE,
   VERIFY_2FA_ENABLE,
-  VERIFY_EMAIL_CODE,
+  EMAIL_VERIFY_CODE,
   FETCH_PAYOUTS_QUERY,
   FETCH_MEMBER_HISTORY,
   UPDATE_SETTING_MEMBER,
@@ -31,7 +31,7 @@ export function useFetchMe() {
 export function useFetchMemberSearch() {
   const [fetchMemberSearch, { loading, data, error }] = useLazyQuery(FETCH_MEMBER_SEARCH_QUERY);
 
-  return { loading, members: data?.searchMembers.members ?? [], error, fetchMemberSearch };
+  return { loading, members: data?.searchMembers ?? [], error, fetchMemberSearch };
 }
 
 export function useFetchPlacementOMembers() {
@@ -42,7 +42,7 @@ export function useFetchPlacementOMembers() {
   return {
     called,
     loading,
-    members: data?.placementMembers ?? [],
+    members: data?.placementMembersWithLevel ?? [],
     fetchPlacementMembers,
   };
 }
@@ -165,7 +165,7 @@ export function useMemberExchangeLogin() {
 }
 
 export function useEmailVerifyCode() {
-  const [emailVerifyCode, { loading, data, error }] = useMutation(VERIFY_EMAIL_CODE);
+  const [emailVerifyCode, { loading, data, error }] = useMutation(EMAIL_VERIFY_CODE);
 
   return { loading, data, error, emailVerifyCode };
 }

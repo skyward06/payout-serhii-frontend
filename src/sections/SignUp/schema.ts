@@ -12,7 +12,7 @@ export const Schema = zod
     assetId: zod.string().optional(),
     zipCode: zod.string().optional(),
     country: zod.string().optional(),
-    sponsorUserId: zod.string().optional(),
+    sponsorUsername: zod.string().optional(),
     secondaryAddress: zod.string().optional(),
     uname: zod.string({ required_error: 'Username is required' }),
     packageId: zod.string({ required_error: 'Package is required' }),

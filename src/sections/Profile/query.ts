@@ -167,12 +167,12 @@ export const FETCH_MEMBER_STATS_QUERY = gql(/* GraphQL */ `
 export const FETCH_MEMBER_SEARCH_QUERY = gql(/* GraphQL */ `
   query SearchMembers($sort: String, $page: String, $filter: JSONObject) {
     searchMembers(sort: $sort, page: $page, filter: $filter) {
-      members {
-        id
-        email
-        username
-        fullName
-      }
+      id
+      ID
+      email
+      mobile
+      username
+      fullName
     }
   }
 `);
@@ -190,24 +190,9 @@ export const FETCH_PLACEMENT_MEMBERS = gql(/* GraphQL */ `
 `);
 
 export const FETCH_PLACEMENT_MEMBERS_O_QUERY = gql(/* GraphQL */ `
-  query PlacementMembers {
-    placementMembers {
-      id
-      status
-      username
-      fullName
-      createdAt
-      teamStrategy
-      placementStatus
-      placementPosition
-      placementParentId
-      cmnCalculatedWeeks
-      commission {
-        begL
-        begR
-        newL
-        newR
-      }
+  query PlacementMembersWithLevel($data: PlacementWithLevelInput!) {
+    placementMembersWithLevel(data: $data) {
+      ...PlacementMemberFields
     }
   }
 `);
@@ -337,9 +322,9 @@ export const MEMBER_EXCHANGE_LOGIN = gql(/* GraphQL */ `
   }
 `);
 
-export const VERIFY_EMAIL_CODE = gql(/* GraphQL */ `
-  mutation EmailVerifyCode($data: VerificationCodeInput!) {
-    emailVerifyCode(data: $data) {
+export const EMAIL_VERIFY_CODE = gql(/* GraphQL */ `
+  mutation VerifyEmailCode($data: VerificationCodeInput!) {
+    verifyEmailCode(data: $data) {
       accessToken
     }
   }

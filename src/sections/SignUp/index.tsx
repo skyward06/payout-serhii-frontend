@@ -56,7 +56,7 @@ export function SignUpView() {
     password: '',
     primaryAddress: '',
     secondaryAddress: '',
-    sponsorUserId: refID,
+    sponsorUsername: refID,
   };
 
   const methods = useForm<SchemaType>({
@@ -85,13 +85,13 @@ export function SignUpView() {
   }, [signOut]);
 
   const onSubmit = handleSubmit(
-    async ({ confirmPassword, firstName, lastName, sponsorUserId, uname, ...rest }) => {
+    async ({ confirmPassword, firstName, lastName, sponsorUsername, uname, ...rest }) => {
       try {
         if (user) {
           await handleSignOut();
         }
 
-        localStorage.setItem('payout_reference', refID || sponsorUserId!);
+        localStorage.setItem('payout_reference', refID || sponsorUsername!);
 
         const { data } = await submitSignUp({
           variables: {
@@ -99,7 +99,7 @@ export function SignUpView() {
               ...rest,
               username: removeSpecialCharacters(uname),
               fullName: `${firstName} ${lastName}`,
-              sponsorUserId,
+              sponsorUsername,
             },
           },
         });
@@ -243,7 +243,7 @@ export function SignUpView() {
         </Stack>
         <Stack width={1}>
           <Field.Text
-            name="sponsorUserId"
+            name="sponsorUsername"
             label="Sponsor ID"
             placeholder="name or ID of the person"
           />

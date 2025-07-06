@@ -366,7 +366,7 @@ function PlacementListView() {
 
   const reset = useCallback(async () => {
     const { data } = await fetchPlacementMembers();
-    const newVisibleMap = getResetVisibleMap(data?.placementMembers, user!);
+    const newVisibleMap = getResetVisibleMap(data?.placementMembersWithLevel, user!);
 
     exSetVisibleMap(newVisibleMap);
 
@@ -382,7 +382,7 @@ function PlacementListView() {
     const { data } = await fetchPlacementMembers();
     const storageVisibleMap = localStorage.getItem('placementVisibleMap');
     const newVisibleMap = storageVisibleMap
-      ? getNewVisibleMap(data?.placementMembers, JSON.parse(storageVisibleMap), user!)
+      ? getNewVisibleMap(data?.placementMembersWithLevel, JSON.parse(storageVisibleMap), user!)
       : {};
     exSetVisibleMap(newVisibleMap);
 
