@@ -3,7 +3,7 @@ import type { CreateReimbursementInput } from 'src/__generated__/graphql';
 import { useRef, useMemo, useCallback } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 
-import { useAgQuery as useQueryString } from 'src/routes/hooks';
+import { useQuery as useQueryString } from 'src/routes/hooks';
 
 import { parseFilterModel } from 'src/utils/parseFilter';
 

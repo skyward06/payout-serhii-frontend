@@ -60,6 +60,11 @@ const TXCRequestCreatePage = lazy(() => import('src/pages/TXCRequest/Create'));
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
+const ReimbursementListPage = lazy(() => import('src/pages/Reimbursement/List'));
+const ReimbursementCreatePage = lazy(() => import('src/pages/Reimbursement/Create'));
+// ----------------------------------------------------------------------
+
+// ----------------------------------------------------------------------
 const NotificationListPage = lazy(() => import('src/pages/Notification/List'));
 // ----------------------------------------------------------------------
 
@@ -196,6 +201,13 @@ export const dashboardRoutes = [
         children: [
           { index: true, element: <TXCRequestPage /> },
           { path: 'new', element: <TXCRequestCreatePage /> },
+        ],
+      },
+      {
+        path: 'reimbursement',
+        children: [
+          { index: true, element: <ReimbursementListPage /> },
+          { path: 'new', element: <ReimbursementCreatePage /> },
         ],
       },
       {

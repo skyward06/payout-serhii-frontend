@@ -5,6 +5,7 @@ import type {
   IDateFilterParams,
   ITextFilterParams,
 } from '@ag-grid-community/core';
+import type { BasicReimbursement } from './type';
 
 import { useMemo } from 'react';
 
@@ -29,8 +30,6 @@ import { Breadcrumbs } from 'src/components/Breadcrumbs';
 import { parseType } from './parseType';
 import { FileRenderer } from './FileRender';
 import { useFetchReimbursement } from '../useApollo';
-
-import type { BasicReimbursement } from './type';
 
 export function ReimbursementList() {
   const { loading, rowCount, reimbursements } = useFetchReimbursement();
@@ -110,7 +109,7 @@ export function ReimbursementList() {
           formatDate(data?.createdAt),
       },
     ],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
     []
   );
 

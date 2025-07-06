@@ -1,11 +1,13 @@
+import type { SchemaType } from './schema';
+
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ApolloError } from '@apollo/client';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
-import Grid from '@mui/material/Unstable_Grid2';
 import LoadingButton from '@mui/lab/LoadingButton';
 
 import { paths } from 'src/routes/paths';
@@ -22,8 +24,6 @@ import { FileRecentItem } from 'src/sections/BugReport/FileRecentItem';
 import { Schema } from './schema';
 import { useCreteReimbursement } from '../useApollo';
 import { FileManagerNewFolderDialog } from './Upload';
-
-import type { SchemaType } from './schema';
 
 export function CreateForm() {
   const router = useRouter();
@@ -98,7 +98,7 @@ export function CreateForm() {
 
       <Form methods={methods} onSubmit={onSubmit}>
         <Grid container columnSpacing={2}>
-          <Grid xs={12} md={8}>
+          <Grid size={{ xs: 12, md: 8 }}>
             <Box display="grid" gap={2}>
               <Field.Text type="number" name="amountInCent" label="Amount" required />
 
@@ -116,7 +116,7 @@ export function CreateForm() {
               </LoadingButton>
             </Stack>
           </Grid>
-          <Grid xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Box mb={2}>
               <FileManagerNewFolderDialog handleUpdate={handleUpdate} />
             </Box>

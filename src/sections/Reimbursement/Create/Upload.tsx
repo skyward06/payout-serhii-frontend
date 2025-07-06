@@ -14,9 +14,9 @@ import { CustomUpload } from 'src/components/Upload';
 type Props = {
   preview?: boolean;
   folderName?: string;
-  handleUpdate: Function;
   onCreate?: () => void;
   onUpdate?: () => void;
+  handleUpdate: (data: any) => void;
   onChangeFolderName?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -40,7 +40,7 @@ export function FileManagerNewFolderDialog({
       setFiles([...files, ...acceptedFiles]);
       setLoading(true);
 
-      const token = localStorage.getItem(CONFIG.storageTokenKey);
+      const token = localStorage.getItem(CONFIG.STORAGE_TOKEN_KEY);
 
       const formData = new FormData();
 
@@ -48,7 +48,7 @@ export function FileManagerNewFolderDialog({
       acceptedFiles.forEach((file) => formData.append('reimbursements', file));
 
       try {
-        const { data } = await axios.post(`${CONFIG.SITE_URL}/api/upload`, formData, {
+        const { data } = await axios.post(`${CONFIG.SERVER_HOST}/api/upload`, formData, {
           headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' },
         });
 
@@ -90,7 +90,7 @@ export function FileManagerNewFolderDialog({
       />
 
       <Stack direction="row" justifyContent="center">
-        {loading && <Iconify icon="eos-icons:bubble-loading" mt={2} />}
+        {loading && <Iconify icon="eos-icons:bubble-loading" sx={{ mt: 2 }} />}
       </Stack>
     </>
   );

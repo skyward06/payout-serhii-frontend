@@ -1,12 +1,11 @@
 import type { CustomCellRendererProps } from '@ag-grid-community/react';
+import type { BasicReimbursement } from './type';
 
 import { memo } from 'react';
 
 import Stack from '@mui/material/Stack';
 
 import { FileThumbnail } from 'src/components/FileThumbnail';
-
-import type { BasicReimbursement } from './type';
 
 export const FileRenderer = memo(
   ({ data }: CustomCellRendererProps<BasicReimbursement>) => (
