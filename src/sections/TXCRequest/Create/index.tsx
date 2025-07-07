@@ -34,7 +34,7 @@ export default function TXCRequest() {
   const { createBuyTXCOrder } = useCreateBuyTXCOrder();
 
   const defaultValues = {
-    amount: 0,
+    amount: 30,
   };
 
   const methods = useForm<SchemaType>({
