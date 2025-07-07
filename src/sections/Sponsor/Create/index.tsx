@@ -36,8 +36,8 @@ export default function AddMiner() {
   const [state, setState] = useState<string>();
   const [country, setCountry] = useState<string>();
   const [packageId, setPackageId] = useState<string>();
-  const [sponsorId, setSponsorId] = useState<string>('');
-  const [placementParentId, setPlacementParentId] = useState<string>('');
+  const [sponsorId, setSponsorId] = useState<string | null>(null);
+  const [placementParentId, setPlacementParentId] = useState<string | null>(null);
 
   const location = useLocation();
 

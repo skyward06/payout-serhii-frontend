@@ -8,7 +8,7 @@ import { Iconify } from 'src/components/Iconify';
 import { useFetchPlacementSearchMembers } from 'src/sections/Placement/useApollo';
 
 interface Props {
-  setMemberId: React.Dispatch<React.SetStateAction<string>>;
+  setMemberId: React.Dispatch<React.SetStateAction<string | null>>;
   currentMember?: { id: string; username: string; fullName: string } | null;
 }
 
@@ -37,7 +37,7 @@ export function PlacementSelector({ currentMember, setMemberId }: Props) {
       setMemberId(
         members.find((member) => member.username === username?.split(' (')[0])?.id ??
           currentMember?.id ??
-          ''
+          null
       );
     }
     const handler = setTimeout(() => {
