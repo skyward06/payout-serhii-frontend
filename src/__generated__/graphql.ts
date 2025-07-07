@@ -1379,6 +1379,7 @@ export type Mutation = {
   duplicateMember: Member;
   duplicateMember2: SuccessResponse;
   forceMemberLogout: SuccessResponse;
+  generateThailandAdventureReport: SuccessResponse;
   generateWDMSVegasReport: SuccessResponse;
   generateWeekP2PInvoice: SuccessResponse;
   generateWeeklyReport: SuccessResponse;
@@ -2567,6 +2568,7 @@ export type Query = {
   txcRequestById: TxcRequest;
   txcRequests: TxcRequestResponse;
   txcShares: Array<TxcSharedResponse>;
+  txcSupplyWalletBalance: WalletBalance;
   weekIntroducers: ReportMemberResponse;
   weeklyCommissionById: WeeklyCommission;
   weeklyCommissions: BasicWeeklyCommissionResponse;
@@ -3776,6 +3778,12 @@ export type Verify2FaInput = {
 export type VerifyTokenResponse = {
   __typename?: 'VerifyTokenResponse';
   token: Scalars['String']['output'];
+};
+
+export type WalletBalance = {
+  __typename?: 'WalletBalance';
+  balance: Scalars['Float']['output'];
+  walletAddress: Scalars['String']['output'];
 };
 
 export type WeekPlacementMember = {
