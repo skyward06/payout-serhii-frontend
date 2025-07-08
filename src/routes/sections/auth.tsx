@@ -40,33 +40,27 @@ const signUp = {
 const forgotPassword = {
   path: 'forgot-password',
   element: (
-    <GuestGuard>
-      <AuthSplitLayout section={{ title: 'Hi, Welcome mineTXC' }}>
-        <ForgotPasswordPage />
-      </AuthSplitLayout>
-    </GuestGuard>
+    <AuthSplitLayout section={{ title: 'Hi, Welcome mineTXC' }}>
+      <ForgotPasswordPage />
+    </AuthSplitLayout>
   ),
 };
 
 const resetPassword = {
   path: 'reset-password',
   element: (
-    <GuestGuard>
-      <AuthSplitLayout section={{ title: 'Hi, Welcome mineTXC' }}>
-        <ResetPasswordPage />
-      </AuthSplitLayout>
-    </GuestGuard>
+    <AuthSplitLayout section={{ title: 'Hi, Welcome mineTXC' }}>
+      <ResetPasswordPage />
+    </AuthSplitLayout>
   ),
 };
 
 const updatePassword = {
   path: 'update-password',
   element: (
-    <GuestGuard>
-      <AuthSplitLayout section={{ title: 'Hi, Welcome mineTXC' }}>
-        <UpdatePasswordPage />
-      </AuthSplitLayout>
-    </GuestGuard>
+    <AuthSplitLayout section={{ title: 'Hi, Welcome mineTXC' }}>
+      <UpdatePasswordPage />
+    </AuthSplitLayout>
   ),
 };
 
@@ -84,11 +78,9 @@ const verifyEmail = {
 const verifyResult = {
   path: 'thanks',
   element: (
-    <GuestGuard>
-      <AuthSplitLayout section={{ title: 'Hi, Welcome mineTXC' }}>
-        <VerifyResult />
-      </AuthSplitLayout>
-    </GuestGuard>
+    <AuthSplitLayout section={{ title: 'Hi, Welcome mineTXC' }}>
+      <VerifyResult />
+    </AuthSplitLayout>
   ),
 };
 

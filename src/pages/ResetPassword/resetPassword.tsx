@@ -1,5 +1,6 @@
 import { useLocation } from 'react-router';
 import { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 
 import LoadingButton from '@mui/lab/LoadingButton';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -20,7 +21,6 @@ export default function Page() {
   const queryParams = new URLSearchParams(location.search);
   const token = queryParams.get('token');
 
-  // const [tokenVerify, { loading, data, error }] = useMutation(VERIFY_RESET_PASSWORD_TOKEN);
   const { loading, data, error, verifyResetPasswordToken } = useVerifyResetPasswordToken();
 
   useEffect(() => {
@@ -45,7 +45,9 @@ export default function Page() {
 
   return (
     <>
-      <title> {`${CONFIG.site.name} - Reset Password`}</title>
+      <Helmet>
+        <title> {`${CONFIG.site.name} - Reset Password`}</title>
+      </Helmet>
 
       {isOpen ? (
         <ResetPasswordView token={data?.verifyResetPasswordToken.token!} />
