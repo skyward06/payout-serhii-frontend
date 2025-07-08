@@ -23,6 +23,7 @@ import { LoadingScreen } from 'src/components/loading-screen';
 import Detail from './Detail';
 import { Token } from './Token';
 import { Chain } from './Chain';
+import { HelpView } from './Help';
 import PaymentStatus from './PaymentStatus';
 import { ConfirmCancel } from './ConfirmCancel';
 import { useFetchOrderById, useSetOrderPayment } from './useApollo';
@@ -213,6 +214,8 @@ export default function Order() {
           </>
         )}
       </Stack>
+
+      {step === 1 && <HelpView />}
 
       <ConfirmCancel id={id!} open={isCancel} setStep={setStep} setStatus={setStatus} />
     </>

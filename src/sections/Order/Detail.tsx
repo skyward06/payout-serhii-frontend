@@ -183,7 +183,7 @@ export default function Detail({
           {item.copy ? (
             <Iconify
               icon={copy === item.value ? 'line-md:check-all' : 'bxs:copy'}
-              color={theme.palette.primary.main}
+              color="primary.main"
               sx={{ cursor: 'pointer' }}
               onClick={() => handleCopy(item.value)}
             />
