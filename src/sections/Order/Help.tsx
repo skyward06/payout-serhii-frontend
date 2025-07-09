@@ -1,7 +1,10 @@
 import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
+
+import { RouterLink } from 'src/routes/components';
 
 import { Iconify } from 'src/components/Iconify';
 
@@ -52,7 +55,10 @@ export function HelpView() {
           <Iconify icon="lets-icons:check-fill" color="primary.main" />
           <Typography variant="body2">
             If your order expires before payment is completed, please contact us at{' '}
-            <a href="mailto:help@minetxc.com">help@minetxc.com</a> with your Order ID
+            <Link component={RouterLink} href="mailto:help@minetxc.com">
+              help@minetxc.com
+            </Link>{' '}
+            with your Order ID
           </Typography>
         </Stack>
 
