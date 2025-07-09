@@ -1,28 +1,16 @@
-import { useEffect } from 'react';
-
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import { paths } from 'src/routes/paths';
-import { useSearchParams } from 'src/routes/hooks';
 
 import { useBoolean } from 'src/hooks/useBoolean';
 
-import { toast } from 'src/components/SnackBar';
 import { Iconify } from 'src/components/Iconify';
 import { LoadingScreen } from 'src/components/loading-screen';
 
-import { useVerifyEmail } from './useApollo';
-
 export default function AmplifyVerifyView() {
   const loading = useBoolean();
-
-  const searchParams = useSearchParams();
-
-  const token = searchParams.get('token');
-
-  const { verifyEmail } = useVerifyEmail();
 
   const info = (
     <>
@@ -48,24 +36,6 @@ export default function AmplifyVerifyView() {
       </Link>
     </>
   );
-
-  useEffect(() => {
-    async function handleVerify() {
-      try {
-        const { data } = await verifyEmail({ variables: { data: { token: token ?? '' } } });
-
-        if (data) {
-          loading.onTrue();
-        }
-      } catch (error) {
-        toast.error(error.message);
-      }
-    }
-
-    handleVerify();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
 
   return <>{loading.value ? info : <LoadingScreen />}</>;
 }

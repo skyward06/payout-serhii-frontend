@@ -19,24 +19,6 @@ export const SEND_EMAIL_VERIFICATION_CODE = gql(/* GraphQL */ `
   }
 `);
 
-export const SEND_EMAIL_VERIFICATION_LINK = gql(/* GraphQL */ `
-  mutation SendEmailVerificationLink($data: EmailInput!) {
-    sendEmailVerificationLink(data: $data) {
-      result
-      message
-    }
-  }
-`);
-
-export const VERIFY_EMAIL = gql(/* GraphQL */ `
-  mutation VerifyEmailToken($data: TokenInput!) {
-    verifyEmailToken(data: $data) {
-      result
-      message
-    }
-  }
-`);
-
 export const FETCH_PROMOS_QUERY = gql(/* GraphQL */ `
   query Promos($sort: String, $page: String, $filter: JSONObject) {
     promos(sort: $sort, page: $page, filter: $filter) {

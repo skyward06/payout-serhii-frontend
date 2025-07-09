@@ -3,34 +3,16 @@ import { useEffect } from 'react';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import LoadingButton from '@mui/lab/LoadingButton';
 
 import { useSearchParams } from 'src/routes/hooks';
 
 import { toast } from 'src/components/SnackBar';
 import DarkLogo from 'src/components/logo/dark-logo';
 
-import { useSendEmailVerificationLink } from './useApollo';
-
 export default function Info() {
   const searchParams = useSearchParams();
 
-  const email = searchParams.get('email');
   const paymentStatus = searchParams.get('paymentStatus');
-
-  const { loading, sendVerificationLink } = useSendEmailVerificationLink();
-
-  const handleSend = async () => {
-    try {
-      const { data } = await sendVerificationLink({ variables: { data: { email: email ?? '' } } });
-
-      if (data) {
-        toast.success('Successfully sent!');
-      }
-    } catch (error) {
-      console.log('error => ', error);
-    }
-  };
 
   useEffect(() => {
     if (paymentStatus === 'success') {
@@ -87,14 +69,6 @@ export default function Info() {
         <Typography variant="body1" sx={{ color: 'text.secondary', mb: 4 }}>
           The Texitcoin Team
         </Typography>
-
-        <Typography variant="body2">{`Click the send button if you haven't received an email in your inbox`}</Typography>
-
-        <Stack direction="row" justifyContent="center">
-          <LoadingButton variant="contained" color="primary" loading={loading} onClick={handleSend}>
-            Send to Email
-          </LoadingButton>
-        </Stack>
       </Stack>
     </>
   );

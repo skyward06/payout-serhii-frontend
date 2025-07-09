@@ -131,6 +131,10 @@ export type ApproveCommissionWithTxIdInput = {
   txData: Array<ApproveCommissionWithTxId>;
 };
 
+export type AssetCountInput = {
+  count: Scalars['Int']['input'];
+};
+
 export type AutoCampaign = {
   __typename?: 'AutoCampaign';
   approvedCommission: Scalars['Boolean']['output'];
@@ -750,6 +754,7 @@ export type CreatePromoInput = {
 export type CreateProofInput = {
   amount: Scalars['Float']['input'];
   fileIds?: InputMaybe<Array<Scalars['ID']['input']>>;
+  hashPower?: InputMaybe<Scalars['Int']['input']>;
   mineLocation?: InputMaybe<Scalars['String']['input']>;
   note?: InputMaybe<Scalars['String']['input']>;
   orderedAt?: InputMaybe<Scalars['DateTimeISO']['input']>;
@@ -876,14 +881,6 @@ export type EmailTemplateResponse = {
   __typename?: 'EmailTemplateResponse';
   templates?: Maybe<Array<EmailTemplate>>;
   total?: Maybe<Scalars['Int']['output']>;
-};
-
-export type EmailVerifyResult = {
-  __typename?: 'EmailVerifyResult';
-  message?: Maybe<Scalars['String']['output']>;
-  packageID?: Maybe<Scalars['Int']['output']>;
-  paymentMethod?: Maybe<Scalars['String']['output']>;
-  result: SuccessResult;
 };
 
 export type EntityLog = {
@@ -1424,7 +1421,6 @@ export type Mutation = {
   resetBonusClock: SuccessResponse;
   resetPasswordByToken: SuccessResponse;
   sendEmailVerificationCode: SuccessResponse;
-  sendEmailVerificationLink: SuccessResponse;
   sendWelcomeEmail: SuccessResponse;
   setCardPointCurrentWeek: SuccessResponse;
   setCollectAddress: SuccessResponse;
@@ -1466,7 +1462,6 @@ export type Mutation = {
   verify2FAToken: LoginResponse;
   verifyAdminResetPasswordToken: VerifyTokenResponse;
   verifyEmailCode: AccessTokenResponse;
-  verifyEmailToken: EmailVerifyResult;
   verifyMemberEmail: SuccessResponse;
   verifyResetPasswordToken: VerifyTokenResponse;
 };
@@ -1897,11 +1892,6 @@ export type MutationResetPasswordByTokenArgs = {
 };
 
 
-export type MutationSendEmailVerificationLinkArgs = {
-  data: EmailInput;
-};
-
-
 export type MutationSendWelcomeEmailArgs = {
   data: EmailInput;
 };
@@ -2094,11 +2084,6 @@ export type MutationVerifyAdminResetPasswordTokenArgs = {
 
 export type MutationVerifyEmailCodeArgs = {
   data: VerificationCodeInput;
-};
-
-
-export type MutationVerifyEmailTokenArgs = {
-  data: TokenInput;
 };
 
 
@@ -2424,6 +2409,7 @@ export type Proof = {
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   files?: Maybe<Array<PFile>>;
   frontActions?: Maybe<Array<FrontAction>>;
+  hashPower?: Maybe<Scalars['Int']['output']>;
   id: Scalars['ID']['output'];
   mineLocation?: Maybe<Scalars['String']['output']>;
   note?: Maybe<Scalars['String']['output']>;
@@ -2569,6 +2555,7 @@ export type Query = {
   txcRequests: TxcRequestResponse;
   txcShares: Array<TxcSharedResponse>;
   txcSupplyWalletBalance: WalletBalance;
+  unusedAssets: Array<BasicCartonAddress>;
   weekIntroducers: ReportMemberResponse;
   weeklyCommissionById: WeeklyCommission;
   weeklyCommissions: BasicWeeklyCommissionResponse;
@@ -3081,6 +3068,11 @@ export type QueryTxcSharesArgs = {
 };
 
 
+export type QueryUnusedAssetsArgs = {
+  data: AssetCountInput;
+};
+
+
 export type QueryWeekIntroducersArgs = {
   page?: InputMaybe<Scalars['String']['input']>;
   sort?: InputMaybe<Scalars['String']['input']>;
@@ -3328,7 +3320,6 @@ export type SignupFormInput = {
   mobile: Scalars['String']['input'];
   note?: InputMaybe<Scalars['String']['input']>;
   packageId: Scalars['ID']['input'];
-  password: Scalars['String']['input'];
   paymentMethod: Scalars['String']['input'];
   preferredContact?: InputMaybe<Scalars['String']['input']>;
   preferredContactDetail?: InputMaybe<Scalars['String']['input']>;
@@ -3688,6 +3679,7 @@ export type UpdatePromoInput = {
 export type UpdateProofByIdInput = {
   amount?: InputMaybe<Scalars['Float']['input']>;
   fileIds?: InputMaybe<Array<Scalars['ID']['input']>>;
+  hashPower?: InputMaybe<Scalars['Int']['input']>;
   id: Scalars['ID']['input'];
   mineLocation?: InputMaybe<Scalars['String']['input']>;
   note?: InputMaybe<Scalars['String']['input']>;
@@ -4327,20 +4319,6 @@ export type SendEmailVerificationCodeMutationVariables = Exact<{ [key: string]: 
 
 export type SendEmailVerificationCodeMutation = { __typename?: 'Mutation', sendEmailVerificationCode: { __typename?: 'SuccessResponse', message?: string | null, result: SuccessResult } };
 
-export type SendEmailVerificationLinkMutationVariables = Exact<{
-  data: EmailInput;
-}>;
-
-
-export type SendEmailVerificationLinkMutation = { __typename?: 'Mutation', sendEmailVerificationLink: { __typename?: 'SuccessResponse', result: SuccessResult, message?: string | null } };
-
-export type VerifyEmailTokenMutationVariables = Exact<{
-  data: TokenInput;
-}>;
-
-
-export type VerifyEmailTokenMutation = { __typename?: 'Mutation', verifyEmailToken: { __typename?: 'EmailVerifyResult', result: SuccessResult, message?: string | null } };
-
 export type PromosQueryVariables = Exact<{
   sort?: InputMaybe<Scalars['String']['input']>;
   page?: InputMaybe<Scalars['String']['input']>;
@@ -4590,8 +4568,6 @@ export const OrderAvailablePointDocument = {"kind":"Document","definitions":[{"k
 export const LoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Login"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MemberLoginInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"memberLogin"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"accessToken"}},{"kind":"Field","name":{"kind":"Name","value":"passwordExpired"}}]}}]}}]} as unknown as DocumentNode<LoginMutation, LoginMutationVariables>;
 export const SignUpMemberDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SignUpMember"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"SignupFormInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"signUpMember"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"username"}}]}}]}}]} as unknown as DocumentNode<SignUpMemberMutation, SignUpMemberMutationVariables>;
 export const SendEmailVerificationCodeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SendEmailVerificationCode"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sendEmailVerificationCode"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"result"}}]}}]}}]} as unknown as DocumentNode<SendEmailVerificationCodeMutation, SendEmailVerificationCodeMutationVariables>;
-export const SendEmailVerificationLinkDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SendEmailVerificationLink"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"EmailInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sendEmailVerificationLink"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"result"}},{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}}]} as unknown as DocumentNode<SendEmailVerificationLinkMutation, SendEmailVerificationLinkMutationVariables>;
-export const VerifyEmailTokenDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"VerifyEmailToken"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"TokenInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"verifyEmailToken"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"result"}},{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}}]} as unknown as DocumentNode<VerifyEmailTokenMutation, VerifyEmailTokenMutationVariables>;
 export const PromosDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Promos"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sort"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"page"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"JSONObject"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"promos"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"sort"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sort"}}},{"kind":"Argument","name":{"kind":"Name","value":"page"},"value":{"kind":"Variable","name":{"kind":"Name","value":"page"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"promos"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"endDate"}},{"kind":"Field","name":{"kind":"Name","value":"startDate"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"deletedAt"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]} as unknown as DocumentNode<PromosQuery, PromosQueryVariables>;
 export const CreateAddMemberOrderDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateAddMemberOrder"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateAddMemberOrderInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createAddMemberOrder"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateAddMemberOrderMutation, CreateAddMemberOrderMutationVariables>;
 export const QueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Query"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"LiveStatsArgs"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"liveBlockStats"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"dailyData"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}},{"kind":"Field","name":{"kind":"Name","value":"field"}}]}},{"kind":"Field","name":{"kind":"Name","value":"meta"}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}},{"kind":"Field","name":{"kind":"Name","value":"liveMiningStats"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"dailyData"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}},{"kind":"Field","name":{"kind":"Name","value":"field"}}]}},{"kind":"Field","name":{"kind":"Name","value":"meta"}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}},{"kind":"Field","name":{"kind":"Name","value":"liveUserStats"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"dailyData"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}},{"kind":"Field","name":{"kind":"Name","value":"field"}}]}},{"kind":"Field","name":{"kind":"Name","value":"meta"}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]} as unknown as DocumentNode<QueryQuery, QueryQueryVariables>;

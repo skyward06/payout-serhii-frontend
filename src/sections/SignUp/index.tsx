@@ -17,7 +17,6 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Autocomplete from '@mui/material/Autocomplete';
-import InputAdornment from '@mui/material/InputAdornment';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
@@ -33,11 +32,11 @@ import { Form, Field } from 'src/components/Form';
 import { useAuthContext } from 'src/auth/hooks';
 
 import Calculator from './Calculator';
+import { useSignUp } from './useApollo';
 import { Schema, type SchemaType } from './schema';
 import { useFetchPackages } from '../Sales/useApollo';
 import { useFetchPayments } from '../Payment/useApollo';
 import { useCreateSignUpOrder } from '../Order/useApollo';
-import { useSignUp, useSendEmailVerificationLink } from './useApollo';
 
 // ----------------------------------------------------------------------
 
@@ -55,7 +54,6 @@ export function SignUpView() {
 
   const router = useRouter();
 
-  const password = useBoolean();
   const calculator = useBoolean();
 
   const defaultValues = {
@@ -64,7 +62,6 @@ export function SignUpView() {
     assetId: null,
     note: '',
     uname: '',
-    password: '',
     primaryAddress: '',
     secondaryAddress: '',
     state: '',
@@ -88,18 +85,16 @@ export function SignUpView() {
   const { createSignUpOrder } = useCreateSignUpOrder();
   const { user, signOut } = useAuthContext();
   const { packages, fetchPackages } = useFetchPackages();
-  const { sendVerificationLink } = useSendEmailVerificationLink();
 
   const onSubmit = handleSubmit(
-    async ({ confirmPassword, firstName, lastName, sponsorUsername, uname, ...rest }) => {
+    async ({ firstName, lastName, sponsorUsername, uname, ...rest }) => {
       try {
         if (user) {
           await handleSignOut();
         }
-        localStorage.setItem('payout_reference', refID || sponsorUsername);
 
         if (!packageId) {
-          toast.error('PackageId is required');
+          toast.error('Package is required');
           return;
         }
 
@@ -118,7 +113,7 @@ export function SignUpView() {
         });
 
         if (data) {
-          await sendVerificationLink({ variables: { data: { email: rest.email } } });
+          localStorage.setItem('payout_reference', refID || sponsorUsername);
 
           const searchParams = new URLSearchParams({ email: rest.email }).toString();
 
@@ -332,41 +327,6 @@ export function SignUpView() {
             placeholder="Do you have a coin? Enter the ID here"
           />
         </Stack>
-      </Stack>
-
-      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-        <Field.Text
-          name="password"
-          label="Password"
-          placeholder="8+ characters"
-          type={password.value ? 'text' : 'password'}
-          required
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={password.onToggle} edge="end">
-                  <Iconify icon={password.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-
-        <Field.Text
-          name="confirmPassword"
-          label="Confirm New Password"
-          type={password.value ? 'text' : 'password'}
-          required
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={password.onToggle} edge="end">
-                  <Iconify icon={password.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
       </Stack>
 
       <Box display="flex" justifyContent="flex-end" gap={2} alignItems="center">
