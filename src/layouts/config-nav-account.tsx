@@ -42,7 +42,7 @@ export const _account = [
   },
   {
     label: 'Sponsor',
-    href: '/sponsor',
+    href: '/sponsorships',
     icon: <Iconify icon="bi:diagram-3" />,
   },
   {
