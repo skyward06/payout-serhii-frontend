@@ -1,7 +1,6 @@
 import type { IFileManager } from 'src/types/file';
 import type { PaperProps } from '@mui/material/Paper';
 
-import axios from 'axios';
 import { useState } from 'react';
 
 import Box from '@mui/material/Box';
@@ -12,6 +11,7 @@ import { useBoolean } from 'src/hooks/useBoolean';
 
 import { fData } from 'src/utils/formatNumber';
 import { fDateTime } from 'src/utils/format-time';
+import { downloadFile } from 'src/utils/axios/axios';
 
 import { CONFIG } from 'src/config';
 
@@ -64,27 +64,12 @@ export function FileRecentItem({ file, sx, ...other }: Props) {
   const handleExport = async (fileData: any) => {
     setLoading(true);
 
-    const token = localStorage.getItem(CONFIG.storageTokenKey);
-
-    const { data } = await axios.get(`${fileData.url}`, {
+    downloadFile(`${fileData.url}`, fileData.originalName, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${localStorage.getItem(CONFIG.storageTokenKey)}`,
       },
       responseType: 'arraybuffer',
     });
-
-    const blob = new Blob([data], { type: fileType });
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${fileData.originalName}`;
-
-    document.body.appendChild(a);
-    a.click();
-
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
 
     setLoading(false);
   };

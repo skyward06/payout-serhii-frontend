@@ -1,8 +1,9 @@
-import axios from 'axios';
 import { useState, useEffect, useCallback } from 'react';
 
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
+
+import { uploadService } from 'src/utils/axios/api-service';
 
 import { CONFIG } from 'src/config';
 
@@ -40,16 +41,15 @@ export function FileManagerNewFolderDialog({
       setFiles([...files, ...acceptedFiles]);
       setLoading(true);
 
-      const token = localStorage.getItem(CONFIG.storageTokenKey);
-
       const formData = new FormData();
 
       // Append all accepted files to FormData
       acceptedFiles.forEach((file) => formData.append('reimbursements', file));
 
       try {
-        const { data } = await axios.post(`${CONFIG.SITE_URL}/api/upload`, formData, {
-          headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' },
+        const data = await uploadService.uploadFile({
+          formData,
+          token: localStorage.getItem(CONFIG.storageTokenKey)!,
         });
 
         handleUpdate(data);

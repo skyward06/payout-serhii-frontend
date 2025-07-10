@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useState, useEffect } from 'react';
 import { ApolloError } from '@apollo/client';
@@ -14,7 +13,8 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 
-import { CONFIG } from 'src/config';
+import { explorerService } from 'src/utils/axios/api-service';
+
 import { DashboardContent } from 'src/layouts/dashboard';
 
 import { toast } from 'src/components/SnackBar';
@@ -82,9 +82,7 @@ export default function TXCRequest() {
   useEffect(() => {
     async function getPrice() {
       try {
-        const { data } = await axios.get(`${CONFIG.SITE_URL}/api/explorer/getcurrentprice`, {
-          responseType: 'json',
-        });
+        const data = await explorerService.getCurrentPrice();
 
         setPrice(data);
       } catch (error) {

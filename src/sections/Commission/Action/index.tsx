@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router';
 
@@ -8,7 +7,7 @@ import Typography from '@mui/material/Typography';
 
 import { useBoolean } from 'src/hooks/useBoolean';
 
-import { CONFIG } from 'src/config';
+import { commissionService } from 'src/utils/axios/api-service';
 
 import { toast } from 'src/components/SnackBar';
 import { Iconify } from 'src/components/Iconify';
@@ -19,15 +18,12 @@ export default function ActionView() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
 
-  const token = queryParams.get('token');
-  const action = queryParams.get('action');
-
   useEffect(() => {
     const handleGetApi = async () => {
       try {
-        const { data } = await axios.post(`${CONFIG.SITE_URL}/api/commission/action`, {
-          token,
-          action,
+        const { data } = await commissionService.performAction({
+          token: queryParams.get('token')!,
+          action: queryParams.get('action')!,
         });
 
         if (data.message === 'success') {

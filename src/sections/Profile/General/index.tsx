@@ -1,4 +1,3 @@
-import axios from 'axios';
 import isEqual from 'lodash/isEqual';
 import countries from 'country-list';
 import { useForm } from 'react-hook-form';
@@ -22,6 +21,7 @@ import { useRouter } from 'src/routes/hooks';
 import { useBoolean } from 'src/hooks/useBoolean';
 
 import { fData } from 'src/utils/formatNumber';
+import { uploadService } from 'src/utils/axios/api-service';
 
 import { CONFIG } from 'src/config';
 import { CONTACT } from 'src/consts';
@@ -163,9 +163,7 @@ export default function MemberGeneral({ me }: Props) {
     acceptedFiles.forEach((file) => formData.append('avatar', file));
 
     try {
-      const { data } = await axios.post(`${CONFIG.SITE_URL}/api/upload`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
+      const data = await uploadService.uploadFile({ formData });
 
       if (data) {
         setAvatar(data.files[0].url);

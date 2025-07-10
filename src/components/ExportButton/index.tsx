@@ -1,11 +1,11 @@
-import axios from 'axios';
+import type { RequestConfig } from 'src/utils/axios/axios';
+
 import { useState } from 'react';
 
 import LoadingButton from '@mui/lab/LoadingButton';
 
 import { fDate, fTime } from 'src/utils/format-time';
-
-import { CONFIG } from 'src/config';
+import { exportService } from 'src/utils/axios/api-service';
 
 import { Iconify } from 'src/components/Iconify';
 
@@ -20,12 +20,12 @@ export default function ExportButton({ target, token }: Props) {
   const handleExport = async () => {
     setLoading(true);
 
-    const { data } = await axios.get(`${CONFIG.SERVER_BASE}/api/export-${target}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    const config: RequestConfig = {
+      headers: { Authorization: `Bearer ${token}` },
       responseType: 'arraybuffer',
-    });
+    };
+
+    const { data } = await exportService.exportData(target, config);
 
     const blob = new Blob([data], {
       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
