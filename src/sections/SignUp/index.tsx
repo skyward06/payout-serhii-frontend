@@ -12,11 +12,9 @@ import Stack from '@mui/material/Stack';
 import MenuItem from '@mui/material/MenuItem';
 import Grid from '@mui/material/Unstable_Grid2';
 import Container from '@mui/material/Container';
-import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
-import Autocomplete from '@mui/material/Autocomplete';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
@@ -41,8 +39,6 @@ import { useCreateSignUpOrder } from '../Order/useApollo';
 // ----------------------------------------------------------------------
 
 export function SignUpView() {
-  const [state, setState] = useState<string>();
-  const [country, setCountry] = useState<string>();
   const [packageId, setPackageId] = useState<string>();
 
   const location = useLocation();
@@ -65,6 +61,7 @@ export function SignUpView() {
     primaryAddress: '',
     secondaryAddress: '',
     state: '',
+    country: 'United States of America',
     zipCode: '',
     city: '',
   };
@@ -103,8 +100,6 @@ export function SignUpView() {
             data: {
               ...rest,
               username: removeSpecialCharacters(uname),
-              state,
-              country,
               fullName: `${firstName} ${lastName}`,
               sponsorUsername,
               packageId,
@@ -192,39 +187,30 @@ export function SignUpView() {
       </Stack>
 
       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-        <Autocomplete
-          freeSolo
+        <Field.Autocomplete
+          name="country"
+          label="Country"
           fullWidth
           options={countries.getNames()}
           getOptionLabel={(option: any) => option}
-          defaultValue="United States of America"
-          renderInput={(params) => (
-            <TextField {...params} name="country" label="Country" margin="none" />
-          )}
           renderOption={(props, option) => (
             <li {...props} key={option}>
               {option}
             </li>
           )}
-          onChange={(_, value: any) => setCountry(value)}
-          onInputChange={(_, value: any) => setCountry(value)}
         />
 
-        <Autocomplete
-          freeSolo
+        <Field.Autocomplete
+          name="state"
+          label="State"
           fullWidth
-          options={states}
-          getOptionLabel={(option: any) => option.name}
-          renderInput={(params) => (
-            <TextField {...params} name="state" label="States" margin="none" />
-          )}
+          options={states.map((item) => item.name)}
+          getOptionLabel={(option: any) => option}
           renderOption={(props, option) => (
-            <li {...props} key={option!.name}>
-              {option.name}
+            <li {...props} key={option}>
+              {option}
             </li>
           )}
-          onChange={(_, value: any) => setState(value.name)}
-          onInputChange={(_, value: any) => setState(value)}
         />
       </Stack>
 
@@ -334,7 +320,7 @@ export function SignUpView() {
           Click here to sign out
         </Link>
         <LoadingButton
-          color="inherit"
+          color="primary"
           size="large"
           type="submit"
           variant="contained"

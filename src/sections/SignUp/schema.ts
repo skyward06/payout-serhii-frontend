@@ -13,6 +13,7 @@ export const Schema = zod.object({
   city: zod.string(),
   zipCode: zod.string(),
   state: zod.string(),
+  country: zod.string(),
   primaryAddress: zod.string(),
   sponsorUsername: zod.string(),
   secondaryAddress: zod.string(),
