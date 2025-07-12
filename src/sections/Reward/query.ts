@@ -14,11 +14,6 @@ export const FETCH_STATISTICS_QUERY = gql(/* GraphQL */ `
         totalBlocks
         totalMembers
         totalHashPower
-        statisticsSales {
-          id
-          saleId
-          issuedAt
-        }
         memberStatistics {
           txcShared
           memberStatisticsWallets {
@@ -155,7 +150,7 @@ export const REMOVE_STATISTICS = gql(/* GraphQL */ `
   }
 `);
 
-export const REWARED_BY_WALLETS = gql(/* GraphQL */ `
+export const REWARD_BY_WALLETS = gql(/* GraphQL */ `
   query Rewards($from: DateTimeISO!, $to: DateTimeISO!) {
     rewardsByWallets(from: $from, to: $to) {
       rewards {

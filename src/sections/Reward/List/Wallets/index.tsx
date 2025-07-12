@@ -9,13 +9,13 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { fDateTime } from 'src/utils/format-time';
 
 import Table from './Table';
-import { REWARED_BY_WALLETS } from '../../query';
+import { REWARD_BY_WALLETS } from '../../query';
 
 export default function Wallets() {
   const [from, setFrom] = useState<any>(dayjs('2024-04-01'));
   const [to, setTo] = useState<any>(dayjs());
 
-  const [fetchReward, { loading, data }] = useLazyQuery(REWARED_BY_WALLETS);
+  const [fetchReward, { loading, data }] = useLazyQuery(REWARD_BY_WALLETS);
 
   useEffect(() => {
     fetchReward({ variables: { from, to } });
