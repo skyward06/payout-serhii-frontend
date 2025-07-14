@@ -103,7 +103,7 @@ export const endpoints = {
   // Invoice
   invoice: (target: string) => `/api/${target}`,
   // Export
-  export: (target: string) => `/api/export-${target}`,
+  export: (target: string) => `/api/export/${target}`,
 } as const;
 
 // ----------------------------------------------------------------------

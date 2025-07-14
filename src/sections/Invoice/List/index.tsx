@@ -25,7 +25,7 @@ import { Breadcrumbs } from 'src/components/Breadcrumbs';
 
 import { parseType } from '../parseType';
 import { FileRenderer } from './FileRenderer';
-import { ActionRender } from './ActoinRenderer';
+import { ActionRender } from './ActionRender';
 import { useFetchInvoices } from '../useApollo';
 
 import type { Invoice } from './type';
