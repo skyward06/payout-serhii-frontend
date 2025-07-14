@@ -736,13 +736,6 @@ export type CreatePaymentMethodInput = {
   visible?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-export type CreatePayoutInput = {
-  display: Scalars['String']['input'];
-  method: Scalars['String']['input'];
-  name: Scalars['String']['input'];
-  status: Scalars['Boolean']['input'];
-};
-
 export type CreatePromoInput = {
   code: Scalars['String']['input'];
   description: Scalars['String']['input'];
@@ -1290,7 +1283,6 @@ export type MemberWallet = {
   frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['ID']['output'];
   isDefault: Scalars['Boolean']['output'];
-  member?: Maybe<Member>;
   memberId: Scalars['String']['output'];
   memberStatisticsWallets?: Maybe<Array<MemberStatisticsWallet>>;
   note?: Maybe<Scalars['String']['output']>;
@@ -1306,12 +1298,6 @@ export type MemberWalletDataInput = {
   note?: InputMaybe<Scalars['String']['input']>;
   payoutId: Scalars['String']['input'];
   percent: Scalars['Float']['input'];
-};
-
-export type MemberWalletResponse = {
-  __typename?: 'MemberWalletResponse';
-  MemberWallets?: Maybe<Array<MemberWallet>>;
-  total?: Maybe<Scalars['Int']['output']>;
 };
 
 export type MembersByCountryItem = {
@@ -1361,7 +1347,6 @@ export type Mutation = {
   createMemberStatistics: MemberStatistics;
   createPackage: Package;
   createPaymentMethod: PaymentMethod;
-  createPayout: Payout;
   createPromo: Promo;
   createProof: Proof;
   createReimbursement: Reimbursement;
@@ -1440,7 +1425,6 @@ export type Mutation = {
   updateInvoice: Invoice;
   updateMember: Member;
   updateMemberList: MemberList;
-  updateMemberWallet: SuccessResponse;
   updatePackage: Package;
   updatePasswordAdmin: SuccessResponse;
   updatePasswordAdminById: Admin;
@@ -1612,11 +1596,6 @@ export type MutationCreatePackageArgs = {
 
 export type MutationCreatePaymentMethodArgs = {
   data: CreatePaymentMethodInput;
-};
-
-
-export type MutationCreatePayoutArgs = {
-  data: CreatePayoutInput;
 };
 
 
@@ -1975,11 +1954,6 @@ export type MutationUpdateMemberListArgs = {
 };
 
 
-export type MutationUpdateMemberWalletArgs = {
-  data: UpdateMemberWalletInput;
-};
-
-
 export type MutationUpdatePackageArgs = {
   data: UpdatePackageInput;
 };
@@ -2260,17 +2234,10 @@ export type Payout = {
   display: Scalars['String']['output'];
   frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['ID']['output'];
-  memberWallets?: Maybe<Array<MemberWallet>>;
   method: Scalars['String']['output'];
   name: Scalars['String']['output'];
   status: Scalars['Boolean']['output'];
   updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
-};
-
-export type PayoutResponse = {
-  __typename?: 'PayoutResponse';
-  payouts?: Maybe<Array<Payout>>;
-  total?: Maybe<Scalars['Int']['output']>;
 };
 
 export type PeriodStatsArgs = {
@@ -2483,7 +2450,6 @@ export type Query = {
   memberOverview: MemberOverview;
   memberStatistics: MemberStatisticsResponse;
   memberStatisticsWallets: MemberStatisticsWalletResponse;
-  memberWallets: MemberWalletResponse;
   memberlists: MemberListResponse;
   members: BasicMemberResponse;
   membersByCountry: Array<MembersByCountryItem>;
@@ -2497,7 +2463,6 @@ export type Query = {
   packageBySId: Package;
   packages: PackageResponse;
   paymentMethods: PaymentMethodResponse;
-  payouts: PayoutResponse;
   placementChildrenById: Array<PlacementMember>;
   placementMembersForWeek: Array<WeekPlacementMember>;
   placementMembersToBottom: Array<PlacementMember>;
@@ -2775,13 +2740,6 @@ export type QueryMemberStatisticsWalletsArgs = {
 };
 
 
-export type QueryMemberWalletsArgs = {
-  filter?: InputMaybe<Scalars['JSONObject']['input']>;
-  page?: InputMaybe<Scalars['String']['input']>;
-  sort?: InputMaybe<Scalars['String']['input']>;
-};
-
-
 export type QueryMemberlistsArgs = {
   filter?: InputMaybe<Scalars['JSONObject']['input']>;
   page?: InputMaybe<Scalars['String']['input']>;
@@ -2844,13 +2802,6 @@ export type QueryPackagesArgs = {
 
 
 export type QueryPaymentMethodsArgs = {
-  filter?: InputMaybe<Scalars['JSONObject']['input']>;
-  page?: InputMaybe<Scalars['String']['input']>;
-  sort?: InputMaybe<Scalars['String']['input']>;
-};
-
-
-export type QueryPayoutsArgs = {
   filter?: InputMaybe<Scalars['JSONObject']['input']>;
   page?: InputMaybe<Scalars['String']['input']>;
   sort?: InputMaybe<Scalars['String']['input']>;
@@ -3626,11 +3577,6 @@ export type UpdateMemberPasswordInputById = {
   newPassword: Scalars['String']['input'];
 };
 
-export type UpdateMemberWalletInput = {
-  memberId: Scalars['ID']['input'];
-  wallets: Array<MemberWalletDataInput>;
-};
-
 export type UpdatePackageInput = {
   amount?: InputMaybe<Scalars['Float']['input']>;
   date?: InputMaybe<Scalars['DateTimeISO']['input']>;
@@ -4069,15 +4015,6 @@ export type MemberStatisticsQueryVariables = Exact<{
 
 
 export type MemberStatisticsQuery = { __typename?: 'Query', memberStatistics: { __typename?: 'MemberStatisticsResponse', total?: number | null, memberStatistics?: Array<{ __typename?: 'MemberStatistics', issuedAt: any, hashPower: number, txcShared: any }> | null } };
-
-export type PayoutsQueryVariables = Exact<{
-  filter?: InputMaybe<Scalars['JSONObject']['input']>;
-  page?: InputMaybe<Scalars['String']['input']>;
-  sort?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type PayoutsQuery = { __typename?: 'Query', payouts: { __typename?: 'PayoutResponse', total?: number | null, payouts?: Array<{ __typename?: 'Payout', id: string, method: string, display: string, name: string, status: boolean, createdAt?: any | null, updatedAt?: any | null, deletedAt?: any | null }> | null } };
 
 export type UpdatePasswordMemberMutationVariables = Exact<{
   data: UpdateMemberPasswordInput;
@@ -4518,7 +4455,6 @@ export const FetchPlacementMembersDocument = {"kind":"Document","definitions":[{
 export const UpdateMemberDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateMember"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateMemberInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateMember"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"mobile"}},{"kind":"Field","name":{"kind":"Name","value":"primaryAddress"}},{"kind":"Field","name":{"kind":"Name","value":"secondaryAddress"}},{"kind":"Field","name":{"kind":"Name","value":"memberWallets"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"percent"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}},{"kind":"Field","name":{"kind":"Name","value":"payoutId"}},{"kind":"Field","name":{"kind":"Name","value":"payout"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"method"}},{"kind":"Field","name":{"kind":"Name","value":"display"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"assetId"}}]}}]}}]} as unknown as DocumentNode<UpdateMemberMutation, UpdateMemberMutationVariables>;
 export const MemberOverviewDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"MemberOverview"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"IDInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"memberOverview"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"point"}},{"kind":"Field","name":{"kind":"Name","value":"joinDate"}},{"kind":"Field","name":{"kind":"Name","value":"totalTXCShared"}},{"kind":"Field","name":{"kind":"Name","value":"currentHashPower"}},{"kind":"Field","name":{"kind":"Name","value":"orderedAvailablePoint"}},{"kind":"Field","name":{"kind":"Name","value":"cashCommissionPotential"}}]}}]}}]} as unknown as DocumentNode<MemberOverviewQuery, MemberOverviewQueryVariables>;
 export const MemberStatisticsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"MemberStatistics"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sort"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"page"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"JSONObject"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"memberStatistics"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"sort"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sort"}}},{"kind":"Argument","name":{"kind":"Name","value":"page"},"value":{"kind":"Variable","name":{"kind":"Name","value":"page"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"memberStatistics"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"issuedAt"}},{"kind":"Field","name":{"kind":"Name","value":"hashPower"}},{"kind":"Field","name":{"kind":"Name","value":"txcShared"}}]}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]} as unknown as DocumentNode<MemberStatisticsQuery, MemberStatisticsQueryVariables>;
-export const PayoutsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Payouts"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"JSONObject"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"page"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sort"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"payouts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}},{"kind":"Argument","name":{"kind":"Name","value":"page"},"value":{"kind":"Variable","name":{"kind":"Name","value":"page"}}},{"kind":"Argument","name":{"kind":"Name","value":"sort"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sort"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"payouts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"method"}},{"kind":"Field","name":{"kind":"Name","value":"display"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"deletedAt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]} as unknown as DocumentNode<PayoutsQuery, PayoutsQueryVariables>;
 export const UpdatePasswordMemberDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdatePasswordMember"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateMemberPasswordInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updatePasswordMember"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"result"}}]}}]}}]} as unknown as DocumentNode<UpdatePasswordMemberMutation, UpdatePasswordMemberMutationVariables>;
 export const GenerateQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"generateQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"generate2FA"}}]}}]} as unknown as DocumentNode<GenerateQueryQuery, GenerateQueryQueryVariables>;
 export const Verify2FaAndEnableDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Verify2FAAndEnable"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Verify2FAInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"verify2FAAndEnable"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"accessToken"}}]}}]}}]} as unknown as DocumentNode<Verify2FaAndEnableMutation, Verify2FaAndEnableMutationVariables>;

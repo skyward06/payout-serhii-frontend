@@ -43,7 +43,6 @@ const documents = {
     "\n  mutation UpdateMember($data: UpdateMemberInput!) {\n    updateMember(data: $data) {\n      id\n      mobile\n      primaryAddress\n      secondaryAddress\n      memberWallets {\n        id\n        address\n        percent\n        memberId\n        payoutId\n        payout {\n          method\n          display\n        }\n      }\n      assetId\n    }\n  }\n": types.UpdateMemberDocument,
     "\n  query MemberOverview($data: IDInput!) {\n    memberOverview(data: $data) {\n      point\n      joinDate\n      totalTXCShared\n      currentHashPower\n      orderedAvailablePoint\n      cashCommissionPotential\n    }\n  }\n": types.MemberOverviewDocument,
     "\n  query MemberStatistics($sort: String, $page: String, $filter: JSONObject) {\n    memberStatistics(sort: $sort, page: $page, filter: $filter) {\n      memberStatistics {\n        issuedAt\n        hashPower\n        txcShared\n      }\n      total\n    }\n  }\n": types.MemberStatisticsDocument,
-    "\n  query Payouts($filter: JSONObject, $page: String, $sort: String) {\n    payouts(filter: $filter, page: $page, sort: $sort) {\n      payouts {\n        id\n        method\n        display\n        name\n        status\n        createdAt\n        updatedAt\n        deletedAt\n      }\n      total\n    }\n  }\n": types.PayoutsDocument,
     "\n  mutation UpdatePasswordMember($data: UpdateMemberPasswordInput!) {\n    updatePasswordMember(data: $data) {\n      message\n      result\n    }\n  }\n": types.UpdatePasswordMemberDocument,
     "\n  query generateQuery {\n    generate2FA\n  }\n": types.GenerateQueryDocument,
     "\n  mutation Verify2FAAndEnable($data: Verify2FAInput!) {\n    verify2FAAndEnable(data: $data) {\n      accessToken\n    }\n  }\n": types.Verify2FaAndEnableDocument,
@@ -236,10 +235,6 @@ export function gql(source: "\n  query MemberOverview($data: IDInput!) {\n    me
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  query MemberStatistics($sort: String, $page: String, $filter: JSONObject) {\n    memberStatistics(sort: $sort, page: $page, filter: $filter) {\n      memberStatistics {\n        issuedAt\n        hashPower\n        txcShared\n      }\n      total\n    }\n  }\n"): (typeof documents)["\n  query MemberStatistics($sort: String, $page: String, $filter: JSONObject) {\n    memberStatistics(sort: $sort, page: $page, filter: $filter) {\n      memberStatistics {\n        issuedAt\n        hashPower\n        txcShared\n      }\n      total\n    }\n  }\n"];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(source: "\n  query Payouts($filter: JSONObject, $page: String, $sort: String) {\n    payouts(filter: $filter, page: $page, sort: $sort) {\n      payouts {\n        id\n        method\n        display\n        name\n        status\n        createdAt\n        updatedAt\n        deletedAt\n      }\n      total\n    }\n  }\n"): (typeof documents)["\n  query Payouts($filter: JSONObject, $page: String, $sort: String) {\n    payouts(filter: $filter, page: $page, sort: $sort) {\n      payouts {\n        id\n        method\n        display\n        name\n        status\n        createdAt\n        updatedAt\n        deletedAt\n      }\n      total\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

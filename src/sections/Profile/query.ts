@@ -270,24 +270,6 @@ export const FETCH_MEMBER_STATISTICS = gql(/* GraphQL */ `
   }
 `);
 
-export const FETCH_PAYOUTS_QUERY = gql(/* GraphQL */ `
-  query Payouts($filter: JSONObject, $page: String, $sort: String) {
-    payouts(filter: $filter, page: $page, sort: $sort) {
-      payouts {
-        id
-        method
-        display
-        name
-        status
-        createdAt
-        updatedAt
-        deletedAt
-      }
-      total
-    }
-  }
-`);
-
 export const UPDATE_MEMBER_PASSWORD = gql(/* GraphQL */ `
   mutation UpdatePasswordMember($data: UpdateMemberPasswordInput!) {
     updatePasswordMember(data: $data) {
