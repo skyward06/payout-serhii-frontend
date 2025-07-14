@@ -132,7 +132,9 @@ export const merge = (target: any, ...sources: any[]): any => {
 export const formatID = (id: string | number, format: string = 'M') =>
   `${format}-${id.toString().padStart(7, '0')}`;
 
-export const customizeFullName = (fullName: string) => {
+export const customizeFullName = (fullName: string | null | undefined) => {
+  if (fullName === null) return '';
+
   const [firstName, lastName] = fullName ? fullName.split(' ').filter(Boolean) : ['', ''];
 
   return `${firstName} ${lastName?.length ? `${lastName[0].toUpperCase()}.` : ''}`;
