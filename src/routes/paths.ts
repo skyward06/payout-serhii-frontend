@@ -20,7 +20,7 @@ const ROOTS = {
   MAINTENANCE: '/maintenance',
 
   // Dashboard
-  DASHBOARD: '/dashboard',
+  OVERVIEW: '/overview',
   SALES: '/sales',
   REWARD: '/reward',
   SPONSOR: '/sponsorships',
@@ -85,8 +85,8 @@ export const paths = {
   // DASHBOARD
   dashboard: {
     root: '/',
-    history: {
-      root: ROOTS.DASHBOARD,
+    overview: {
+      root: ROOTS.OVERVIEW,
     },
     sales: {
       root: ROOTS.SALES,

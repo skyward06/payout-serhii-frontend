@@ -122,9 +122,9 @@ export function AccountDrawer({ data = [], sx, ...other }: AccountDrawerProps) {
             }}
           >
             {data.map((option) => {
-              const rootLabel = pathname.includes('/dashboard') ? 'Home' : 'Dashboard';
+              const rootLabel = pathname.includes('/overview') ? 'Home' : 'Dashboard';
 
-              const rootHref = pathname.includes('/dashboard')
+              const rootHref = pathname.includes('/overview')
                 ? paths.pages.intro.root
                 : paths.dashboard.root;
 

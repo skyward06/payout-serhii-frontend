@@ -39,7 +39,7 @@ export const useAuthExample = () => {
     onSuccess: (authData) => {
       // Store token and redirect
       localStorage.setItem('token', authData.token);
-      window.location.href = '/dashboard';
+      window.location.href = '/overview';
     },
     onError: (authError) => {
       console.error('Sign in failed:', authError);

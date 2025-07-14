@@ -89,9 +89,9 @@ export const dashboardRoutes = [
       </AuthGuard>
     ),
     children: [
-      { element: <Navigate to={paths.dashboard.history.root} replace />, index: true },
+      { element: <Navigate to={paths.dashboard.overview.root} replace />, index: true },
       {
-        path: 'dashboard',
+        path: 'overview',
         children: [{ index: true, element: <DashboardPage /> }],
       },
       {
