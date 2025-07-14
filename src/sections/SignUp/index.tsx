@@ -3,18 +3,20 @@ import countries from 'country-list';
 import { useForm } from 'react-hook-form';
 import { useLocation } from 'react-router';
 import { ApolloError } from '@apollo/client';
-import { useEffect, useCallback } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useState, useEffect, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import MenuItem from '@mui/material/MenuItem';
 import Grid from '@mui/material/Unstable_Grid2';
+import TextField from '@mui/material/TextField';
 import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
+import Autocomplete from '@mui/material/Autocomplete';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
@@ -39,6 +41,8 @@ import { useCreateSignUpOrder } from '../Order/useApollo';
 // ----------------------------------------------------------------------
 
 export function SignUpView() {
+  const [state, setState] = useState<string>();
+
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
 
@@ -78,8 +82,8 @@ export function SignUpView() {
 
   const { submitSignUp } = useSignUp();
   const { payments } = useFetchPayments();
-  const { createSignUpOrder } = useCreateSignUpOrder();
   const { user, signOut } = useAuthContext();
+  const { createSignUpOrder } = useCreateSignUpOrder();
   const { packages, fetchPackages } = useFetchPackages();
 
   const onSubmit = handleSubmit(
@@ -93,6 +97,7 @@ export function SignUpView() {
           variables: {
             data: {
               ...rest,
+              state: watch('country') === 'United States of America' ? state : '',
               username: removeSpecialCharacters(uname),
               fullName: `${firstName} ${lastName}`,
               sponsorUsername,
@@ -196,17 +201,22 @@ export function SignUpView() {
           )}
         />
 
-        <Field.Autocomplete
-          name="state"
-          label="State"
+        <Autocomplete
+          freeSolo
           fullWidth
-          options={states.map((item) => item.name)}
-          getOptionLabel={(option: any) => option}
+          options={states}
+          getOptionLabel={(option: any) => option.name}
+          disabled={watch('country') !== 'United States of America'}
+          renderInput={(params) => (
+            <TextField {...params} name="state" label="State" margin="none" />
+          )}
           renderOption={(props, option) => (
-            <li {...props} key={option}>
-              {option}
+            <li {...props} key={option!.name}>
+              {option.name}
             </li>
           )}
+          onChange={(_, value: any) => setState(value.name)}
+          onInputChange={(_, value: any) => setState(value)}
         />
       </Stack>
 
