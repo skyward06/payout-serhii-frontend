@@ -3,8 +3,8 @@ import countries from 'country-list';
 import { useForm } from 'react-hook-form';
 import { useLocation } from 'react-router';
 import { ApolloError } from '@apollo/client';
+import { useEffect, useCallback } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState, useEffect, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
@@ -39,8 +39,6 @@ import { useCreateSignUpOrder } from '../Order/useApollo';
 // ----------------------------------------------------------------------
 
 export function SignUpView() {
-  const [packageId, setPackageId] = useState<string>();
-
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
 
@@ -72,6 +70,7 @@ export function SignUpView() {
   });
 
   const {
+    watch,
     setError,
     handleSubmit,
     formState: { isSubmitting },
@@ -90,11 +89,6 @@ export function SignUpView() {
           await handleSignOut();
         }
 
-        if (!packageId) {
-          toast.error('Package is required');
-          return;
-        }
-
         const { data } = await submitSignUp({
           variables: {
             data: {
@@ -102,7 +96,6 @@ export function SignUpView() {
               username: removeSpecialCharacters(uname),
               fullName: `${firstName} ${lastName}`,
               sponsorUsername,
-              packageId,
             },
           },
         });
@@ -114,7 +107,7 @@ export function SignUpView() {
 
           if (rest.paymentMethod === 'Crypto') {
             const { data: order } = await createSignUpOrder({
-              variables: { data: { memberId: data.signUpMember.id, packageId } },
+              variables: { data: { memberId: data.signUpMember.id, packageId: rest.packageId } },
             });
 
             if (order) {
@@ -149,9 +142,12 @@ export function SignUpView() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handlePackageChange = (value: string) => {
-    setPackageId(value);
-  };
+  useEffect(() => {
+    if (location.state?.packageId) {
+      watch('packageId', location.state.packageId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.state]);
 
   const handleSignOut = useCallback(async () => {
     try {
@@ -228,8 +224,6 @@ export function SignUpView() {
               label="Package"
               fullWidth
               inputProps={{ sx: { width: 'auto', minWidth: '100%' } }}
-              value={location.state?.packageId ?? packageId}
-              onChange={(event) => handlePackageChange(event.target.value)}
               required
             >
               {packages.map((option) => (

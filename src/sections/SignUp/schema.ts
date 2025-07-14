@@ -17,6 +17,7 @@ export const Schema = zod.object({
   primaryAddress: zod.string(),
   sponsorUsername: zod.string(),
   secondaryAddress: zod.string(),
+  packageId: zod.string({ required_error: 'Package is required' }),
   paymentMethod: zod.string({ required_error: 'Payment Method is required' }),
   assetId: zod.string().optional().nullable(),
   note: zod.string().optional().nullable(),
