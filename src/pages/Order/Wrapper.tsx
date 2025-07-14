@@ -1,0 +1,38 @@
+import { Navigate, useMatch } from 'react-router';
+
+import Typography from '@mui/material/Typography';
+
+import { paths } from 'src/routes/paths';
+
+import { formatID } from 'src/utils/helper';
+
+import { CONFIG } from 'src/config';
+import { ORDER_STATUS } from 'src/consts';
+import { useOrderContext } from 'src/libs/Order/Context/useOrderContext';
+
+interface Props {
+  children: React.ReactNode;
+}
+
+export default function OrderWrapper({ children }: Props) {
+  const { order } = useOrderContext();
+  const match = useMatch(`${paths.pages.order.root}/:orderId/:status`);
+
+  const status = match?.params.status ?? ORDER_STATUS.NEW;
+
+  const orderRoot = `${paths.pages.order.root}/${order.id}`;
+
+  if (status !== ORDER_STATUS[order.status]) {
+    return <Navigate to={`${orderRoot}/${ORDER_STATUS[order.status]}`} replace />;
+  }
+
+  return (
+    <>
+      <title>{`${CONFIG.site.name} - Order`}</title>
+
+      <Typography variant="subtitle1">{formatID(order.ID, 'O')}</Typography>
+
+      {children}
+    </>
+  );
+}

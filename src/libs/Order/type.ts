@@ -1,0 +1,16 @@
+import type { OrderStatus, PaymentChain, PaymentToken } from 'src/__generated__/graphql';
+
+export type OrderContextValue = {
+  order: {
+    __typename?: 'Order';
+    id: string;
+    ID: number;
+    expiredAt: any;
+    status: OrderStatus;
+    paidBalance: number;
+    paymentAddress?: string | null;
+    requiredBalance?: number | null;
+    paymentToken?: PaymentToken | null;
+    paymentChain?: PaymentChain | null;
+  };
+};

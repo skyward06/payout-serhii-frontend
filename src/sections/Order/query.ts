@@ -7,15 +7,11 @@ export const FETCH_ORDER_BY_ID = gql(/* GraphQL */ `
       ID
       status
       expiredAt
+      paidBalance
       paymentToken
       paymentChain
       paymentAddress
       requiredBalance
-      availablePaymentMethods {
-        paymentChain
-        paymentToken
-        isP2P
-      }
     }
   }
 `);
@@ -57,6 +53,10 @@ export const SET_ORDER_PAYMENT = gql(/* GraphQL */ `
   mutation SetOrderPayment($data: OrderPaymentSetInput!) {
     setOrderPayment(data: $data) {
       id
+      status
+      paymentToken
+      paymentAddress
+      requiredBalance
     }
   }
 `);

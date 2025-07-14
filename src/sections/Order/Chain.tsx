@@ -23,7 +23,7 @@ const payments: CHAIN_TYPE = {
     {
       chain: PaymentChain.Base,
       label: 'Base',
-      icon: `${CONFIG.site.basePath}/assets/BASE.jpg`,
+      icon: `${CONFIG.site.basePath}/assets/BASE.png`,
       disable: false,
     },
   ],
@@ -37,7 +37,7 @@ const payments: CHAIN_TYPE = {
     {
       chain: PaymentChain.Base,
       label: 'Base',
-      icon: `${CONFIG.site.basePath}/assets/BASE.jpg`,
+      icon: `${CONFIG.site.basePath}/assets/BASE.png`,
       disable: false,
     },
   ],
@@ -53,7 +53,7 @@ const payments: CHAIN_TYPE = {
 
 interface Props {
   paymentType: PAYMENT_TYPE;
-  setPaymentType: Function;
+  setPaymentType: React.Dispatch<any>;
 }
 
 export function Chain({ paymentType, setPaymentType }: Props) {

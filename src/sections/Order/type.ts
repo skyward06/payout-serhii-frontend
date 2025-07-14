@@ -11,6 +11,11 @@ export type PAYMENT_METHOD_TYPE = {
   disable: boolean;
 };
 
+export type PAYMENT_TYPE = {
+  paymentChain: PaymentChain;
+  paymentToken: PaymentToken;
+};
+
 export type TOKEN_TYPE = {
   label: string;
   icon?: string;
@@ -27,8 +32,3 @@ export type CHAIN_TYPE = Record<
     chain: PaymentChain;
   }[]
 >;
-
-export type PAYMENT_TYPE = {
-  paymentChain: PaymentChain;
-  paymentToken: PaymentToken;
-};
