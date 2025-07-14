@@ -670,10 +670,6 @@ export type CreateManyMemberStatisticsInput = {
   memberStatistics: Array<CreateMemberStatisticsInput>;
 };
 
-export type CreateManyStatisticsSaleInput = {
-  statisticsSales: Array<CreateStatisticsSaleInput>;
-};
-
 export type CreateMemberInput = {
   assetId: Scalars['String']['input'];
   avatar?: InputMaybe<Scalars['String']['input']>;
@@ -821,12 +817,6 @@ export type CreateStatisticsMemberStatisticsInput = {
   memberId: Scalars['ID']['input'];
   percent: Scalars['Float']['input'];
   txcShared: Scalars['Float']['input'];
-};
-
-export type CreateStatisticsSaleInput = {
-  issuedAt: Scalars['DateTimeISO']['input'];
-  saleId: Scalars['ID']['input'];
-  statisticsId: Scalars['ID']['input'];
 };
 
 export type DailyReward = {
@@ -1341,7 +1331,6 @@ export type Mutation = {
   createEmailTemplate: EmailTemplate;
   createGroupSetting: GroupSetting;
   createManyMemberStatistics: ManySuccessResponse;
-  createManyStatisticsSales: ManySuccessResponse;
   createMember: Member;
   createMemberList: MemberList;
   createMemberStatistics: MemberStatistics;
@@ -1355,7 +1344,6 @@ export type Mutation = {
   createShareAccount: ShareAccount;
   createSignUpOrder: Order;
   createStatistics: Statistics;
-  createStatisticsSale: StatisticsSale;
   disable2FA: AccessTokenResponse;
   duplicateMember: Member;
   duplicateMember2: SuccessResponse;
@@ -1385,7 +1373,6 @@ export type Mutation = {
   removeGroupSetting: GroupSetting;
   removeManyMemberStatistics: ManySuccessResponse;
   removeManyStatistics: ManySuccessResponse;
-  removeManyStatisticsSales: ManySuccessResponse;
   removeMember: SuccessResponse;
   removeMemberFromPlacementTree: SuccessResponse;
   removeMemberList: SuccessResponse;
@@ -1396,7 +1383,6 @@ export type Mutation = {
   removeProof: SuccessResponse;
   removeRole: SuccessResponse;
   removeSale: SuccessResponse;
-  removeStatisticsSalesByStaitisId: ManySuccessResponse;
   removeSubtreeFromPlacementTree: SuccessResponse;
   reopenOrder: Order;
   requestResetPassword: SuccessResponse;
@@ -1569,11 +1555,6 @@ export type MutationCreateManyMemberStatisticsArgs = {
 };
 
 
-export type MutationCreateManyStatisticsSalesArgs = {
-  data: CreateManyStatisticsSaleInput;
-};
-
-
 export type MutationCreateMemberArgs = {
   data: CreateMemberInput;
 };
@@ -1636,11 +1617,6 @@ export type MutationCreateSignUpOrderArgs = {
 
 export type MutationCreateStatisticsArgs = {
   data: CreateStatisticsInput;
-};
-
-
-export type MutationCreateStatisticsSaleArgs = {
-  data: CreateStatisticsSaleInput;
 };
 
 
@@ -1769,11 +1745,6 @@ export type MutationRemoveManyStatisticsArgs = {
 };
 
 
-export type MutationRemoveManyStatisticsSalesArgs = {
-  data: IDsInput;
-};
-
-
 export type MutationRemoveMemberArgs = {
   data: IdInput;
 };
@@ -1820,11 +1791,6 @@ export type MutationRemoveRoleArgs = {
 
 
 export type MutationRemoveSaleArgs = {
-  data: IdInput;
-};
-
-
-export type MutationRemoveStatisticsSalesByStaitisIdArgs = {
   data: IdInput;
 };
 
@@ -2489,7 +2455,6 @@ export type Query = {
   shareAccounts: ShareAccountResponse;
   sponsorMembers: Array<SponsorMember>;
   statistics: StatisticsResponse;
-  statisticsSales: StatisticsSaleResponse;
   teamCommissions: BasicWeeklyCommissionResponse;
   teamMembers: Array<Member>;
   texasMembers: TexasMemberResponse;
@@ -2945,13 +2910,6 @@ export type QueryStatisticsArgs = {
 };
 
 
-export type QueryStatisticsSalesArgs = {
-  filter?: InputMaybe<Scalars['JSONObject']['input']>;
-  page?: InputMaybe<Scalars['String']['input']>;
-  sort?: InputMaybe<Scalars['String']['input']>;
-};
-
-
 export type QueryTeamCommissionsArgs = {
   filter?: InputMaybe<Scalars['JSONObject']['input']>;
   page?: InputMaybe<Scalars['String']['input']>;
@@ -3156,7 +3114,6 @@ export type Sale = {
   paymentMethod: Scalars['String']['output'];
   proof?: Maybe<Proof>;
   sponsorCnt: Scalars['Float']['output'];
-  statisticsSales?: Maybe<Array<StatisticsSale>>;
   status: Scalars['Boolean']['output'];
   toMember?: Maybe<Member>;
   toMemberId?: Maybe<Scalars['ID']['output']>;
@@ -3292,7 +3249,6 @@ export type Statistics = {
   issuedAt: Scalars['DateTimeISO']['output'];
   memberStatistics?: Maybe<Array<MemberStatistics>>;
   newBlocks: Scalars['Float']['output'];
-  statisticsSales?: Maybe<Array<StatisticsSale>>;
   status: Scalars['Boolean']['output'];
   to: Scalars['DateTimeISO']['output'];
   totalBlocks: Scalars['Float']['output'];
@@ -3306,26 +3262,6 @@ export type Statistics = {
 export type StatisticsResponse = {
   __typename?: 'StatisticsResponse';
   statistics?: Maybe<Array<Statistics>>;
-  total?: Maybe<Scalars['Int']['output']>;
-};
-
-export type StatisticsSale = {
-  __typename?: 'StatisticsSale';
-  createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
-  deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
-  frontActions?: Maybe<Array<FrontAction>>;
-  id: Scalars['ID']['output'];
-  issuedAt: Scalars['DateTimeISO']['output'];
-  sale?: Maybe<Sale>;
-  saleId: Scalars['ID']['output'];
-  statistics?: Maybe<Statistics>;
-  statisticsId: Scalars['ID']['output'];
-  updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
-};
-
-export type StatisticsSaleResponse = {
-  __typename?: 'StatisticsSaleResponse';
-  statisticsSales?: Maybe<Array<StatisticsSale>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
 
