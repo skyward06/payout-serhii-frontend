@@ -16,7 +16,7 @@ export function PersonalLink() {
   const { user } = useAuthContext();
 
   const referralLink = useMemo(
-    () => `${CONFIG.SITE_PATH}/intro#sign-up?sponsor=${user?.username}`,
+    () => `${CONFIG.SITE_PATH}/sign-up?sponsor=${user?.username}`,
     [user]
   );
 

@@ -44,7 +44,7 @@ export function SignUpView() {
   const [state, setState] = useState<string>();
 
   const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
+  const queryParams = new URLSearchParams(location.hash.split('?')[1]);
 
   const referralID = queryParams.get('sponsor');
   const localStorageReferralID = localStorage.getItem('payout_reference');
@@ -161,23 +161,6 @@ export function SignUpView() {
       console.error(error);
     }
   }, [signOut]);
-
-  useEffect(() => {
-    const maxAttempts = 20;
-    let attempts = 0;
-
-    const scrollToSignUp = () => {
-      const el = document.getElementById('sign-up');
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
-      } else if (attempts < maxAttempts) {
-        attempts += 1;
-        setTimeout(scrollToSignUp, 100);
-      }
-    };
-
-    scrollToSignUp();
-  }, []);
 
   const renderHead = (
     <Stack spacing={1.5} sx={{ mb: 5, outline: 'none' }} id="sign-up" tabIndex={-1}>

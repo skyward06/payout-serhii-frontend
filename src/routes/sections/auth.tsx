@@ -10,9 +10,9 @@ import { GuestGuard } from 'src/auth/guard';
 // ----------------------------------------------------------------------
 
 const LoginPage = lazy(() => import('src/pages/SignIn'));
-const IntroPage = lazy(() => import('src/sections/Introduction'));
 const VerifyResult = lazy(() => import('src/sections/SignUp/Info'));
 const VerifyEmail = lazy(() => import('src/sections/SignUp/verify'));
+const RedirectingPage = lazy(() => import('src/pages/SignUp/redirect'));
 const ResetPasswordPage = lazy(() => import('src/pages/ResetPassword/resetPassword'));
 const UpdatePasswordPage = lazy(() => import('src/pages/ResetPassword/updatePassword'));
 const ForgotPasswordPage = lazy(() => import('src/pages/ResetPassword/forgotPassword'));
@@ -32,7 +32,7 @@ const signUp = {
   path: 'sign-up',
   element: (
     <GuestGuard>
-      <IntroPage />
+      <RedirectingPage />
     </GuestGuard>
   ),
 };
