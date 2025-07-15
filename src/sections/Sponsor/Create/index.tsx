@@ -84,7 +84,7 @@ export default function AddMiner() {
             packageId,
             placementParentId,
             fullName: `${firstName} ${lastName}`,
-            ...(user?.isTexitRanger && { sponsorId }),
+            ...((user?.isTexitRanger || user?.peerAcceptable) && { sponsorId }),
           },
         },
       });
@@ -183,7 +183,7 @@ export default function AddMiner() {
 
         <Field.Text name="uname" label="Affiliate ID" placeholder="5 characters or more" required />
 
-        {user?.isTexitRanger && (
+        {(user?.isTexitRanger || user?.peerAcceptable) && (
           <SearchMiner label="Sponsor" setMemberId={setSponsorId} currentMember={user} />
         )}
 
