@@ -1,54 +1,43 @@
-import { useEffect } from 'react';
-import { useQuery as useGraphQuery } from '@apollo/client';
+import { toast } from 'sonner';
+import { useMemo } from 'react';
 
 import { TextField, IconButton, InputAdornment } from '@mui/material';
 
-import { useBoolean } from 'src/hooks/useBoolean';
+import { useCopyToClipboard } from 'src/hooks/use-copy-to-clipboard';
 
-import { gql } from 'src/__generated__/gql';
+import { CONFIG } from 'src/config';
+
+import { useAuthContext } from 'src/auth/hooks';
 
 import { Iconify } from '../Iconify';
 
-const GENERATE_REFERENCE_LINK = gql(/* GraphQL */ `
-  query GenerateReferenceLink {
-    generateReferenceLink {
-      link
-    }
-  }
-`);
-
 export function PersonalLink() {
-  const copy = useBoolean();
+  const { copy } = useCopyToClipboard();
+  const { user } = useAuthContext();
 
-  const { data } = useGraphQuery(GENERATE_REFERENCE_LINK);
+  const referralLink = useMemo(
+    () => `${CONFIG.SITE_PATH}/intro#sign-up?sponsor=${user?.username}`,
+    [user]
+  );
 
-  const handleCopy = async () => {
-    await navigator.clipboard.writeText(data?.generateReferenceLink.link ?? '');
-    copy.onTrue();
+  const onCopy = () => {
+    if (referralLink) {
+      copy(referralLink);
+      toast.success('Copied');
+    }
   };
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      copy.onFalse();
-    }, 1000);
-
-    return () => {
-      clearTimeout(timer);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [handleCopy]);
 
   return (
     <TextField
       size="small"
       fullWidth
       disabled
-      value={data?.generateReferenceLink.link}
+      value={referralLink}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
-            <IconButton onClick={handleCopy} edge="end">
-              <Iconify icon={copy.value ? 'mingcute:check-fill' : 'bxs:copy'} width={20} />
+            <IconButton onClick={onCopy} edge="end">
+              <Iconify icon="bxs:copy" width={20} />
             </IconButton>
           </InputAdornment>
         ),

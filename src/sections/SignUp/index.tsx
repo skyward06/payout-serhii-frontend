@@ -162,6 +162,23 @@ export function SignUpView() {
     }
   }, [signOut]);
 
+  useEffect(() => {
+    const maxAttempts = 20;
+    let attempts = 0;
+
+    const scrollToSignUp = () => {
+      const el = document.getElementById('sign-up');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      } else if (attempts < maxAttempts) {
+        attempts += 1;
+        setTimeout(scrollToSignUp, 100);
+      }
+    };
+
+    scrollToSignUp();
+  }, []);
+
   const renderHead = (
     <Stack spacing={1.5} sx={{ mb: 5, outline: 'none' }} id="sign-up" tabIndex={-1}>
       <Typography variant="h2" textAlign="center">
