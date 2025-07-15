@@ -1,19 +1,32 @@
 import type { UseBooleanReturn } from 'src/hooks/useBoolean';
 
+import { useEffect } from 'react';
+
 import Stack from '@mui/material/Stack';
 import Drawer from '@mui/material/Drawer';
 import Typography from '@mui/material/Typography';
 
 import { ScrollBar } from 'src/components/ScrollBar';
 
+import { useFetchCampaignMember } from './useApollo';
+
 interface Props {
   open: UseBooleanReturn;
   subject: string;
-  body: any;
+  id: any;
 }
 
-export default function Detail({ open, subject, body }: Props) {
+export default function Detail({ open, subject, id }: Props) {
   /* eslint-disable react/no-danger */
+
+  const { campaignMember, fetchCampaignMember } = useFetchCampaignMember();
+
+  useEffect(() => {
+    if (id && open.value) {
+      fetchCampaignMember({ variables: { data: { id } } });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, open]);
 
   return (
     <Drawer
@@ -34,7 +47,7 @@ export default function Detail({ open, subject, body }: Props) {
           <Typography>{subject}</Typography>
         </Stack>
 
-        <div dangerouslySetInnerHTML={{ __html: body }} />
+        <div dangerouslySetInnerHTML={{ __html: campaignMember?.body ?? '' }} />
       </ScrollBar>
     </Drawer>
   );
