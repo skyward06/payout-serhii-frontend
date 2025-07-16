@@ -16,7 +16,7 @@ export default function PaymentStatus() {
   const { order } = useOrderContext();
 
   const handleClose = () => {
-    router.push(paths.dashboard.root);
+    router.push(paths.dashboard.overview.root);
   };
 
   return (

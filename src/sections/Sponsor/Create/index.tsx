@@ -84,7 +84,9 @@ export default function AddMiner() {
             packageId,
             placementParentId,
             fullName: `${firstName} ${lastName}`,
-            ...((user?.isTexitRanger || user?.peerAcceptable) && { sponsorId }),
+            ...((user?.isTexitRanger || user?.peerAcceptable) && {
+              sponsorId: sponsorId || user.id,
+            }),
           },
         },
       });
