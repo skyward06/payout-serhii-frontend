@@ -2399,7 +2399,6 @@ export type Query = {
   generate2FA: Scalars['String']['output'];
   generateCommissionTXCSendmany: Array<CommissionSendmany>;
   generateCommissionUSDCSendmany: CommissionSendmany;
-  generateReferenceLink: ReferenceLink;
   groupSettings: GroupSettingResponse;
   hashPowerResponse: HashPowerResponse;
   individualMembers: Array<IndividualMember>;
@@ -3005,11 +3004,6 @@ export type RefLink = {
 export type RefLinkDuplicationResponse = {
   __typename?: 'RefLinkDuplicationResponse';
   duplicated: Array<Scalars['String']['output']>;
-};
-
-export type ReferenceLink = {
-  __typename?: 'ReferenceLink';
-  link: Scalars['String']['output'];
 };
 
 export type Reimbursement = {
