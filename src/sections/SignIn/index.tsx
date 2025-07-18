@@ -126,7 +126,7 @@ export function SignInView() {
           color="inherit"
           sx={{ alignSelf: 'flex-end' }}
         >
-          Forgot password?
+          First time here or forgot password?
         </Link>
 
         <Field.Text

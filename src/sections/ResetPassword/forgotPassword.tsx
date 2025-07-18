@@ -60,7 +60,7 @@ export function ForgotPasswordView() {
       <PasswordIcon sx={{ mx: 'auto' }} />
 
       <Stack spacing={1} sx={{ mt: 3, mb: 5, textAlign: 'center', whiteSpace: 'pre-line' }}>
-        <Typography variant="h5">Forgot your password?</Typography>
+        <Typography variant="h5">First time here or forgot your password</Typography>
 
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
           {`Please enter the email address associated with your account and we'll email you a link to reset your password.`}
