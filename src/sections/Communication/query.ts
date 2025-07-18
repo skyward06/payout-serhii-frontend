@@ -1,17 +1,17 @@
 import { gql } from 'src/__generated__/gql';
 
 export const FETCH_CAMPAIGN_MEMBER = gql(/* GraphQL */ `
-  query CampaignMember($data: IDInput!) {
-    campaignMember(data: $data) {
+  query EmailRecipient($data: IDInput!) {
+    emailRecipient(data: $data) {
       id
       body
-      open
-      sent
       email
       sender
+      status
+      sentAt
       subject
-      openTime
-      sentTime
+      openedAt
+      senderName
     }
   }
 `);

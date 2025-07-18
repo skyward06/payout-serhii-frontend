@@ -14,17 +14,18 @@ import { useAuthContext } from 'src/auth/hooks';
 
 import { ActionRender } from './ActionRenderer';
 
-import type { CampaignMember } from './type';
+import type { EmailRecipient } from './type';
 
 export default function CommunicationTable() {
   const { user } = useAuthContext();
 
-  const colDefs = useMemo<ColDef<CampaignMember>[]>(
+  const colDefs = useMemo<ColDef<EmailRecipient>[]>(
     () => [
       {
         field: 'subject',
         headerName: 'Subject',
-        width: 600,
+        flex: 1,
+        minWidth: 200,
         filter: 'agTextColumnFilter',
         resizable: true,
         editable: false,
@@ -49,24 +50,18 @@ export default function CommunicationTable() {
         filterParams: { buttons: ['reset'] } as ITextFilterParams,
       },
       {
-        field: 'sentTime',
-        headerName: 'Sent At',
-        width: 200,
-        filter: 'agDateColumnFilter',
-        filterParams: {
-          buttons: ['reset'],
-          defaultOption: 'greaterThan',
-          filterOptions: ['greaterThan', 'lessThan', 'equals', 'notEqual'],
-        } as IDateFilterParams,
+        field: 'senderName',
+        headerName: 'Sender Name',
+        width: 250,
+        filter: 'agTextColumnFilter',
         resizable: true,
         editable: false,
-        cellRenderer: ({ data }: CustomCellRendererProps<CampaignMember>) =>
-          formatDate(data?.sentTime),
+        filterParams: { buttons: ['reset'] } as ITextFilterParams,
       },
       {
-        field: 'openTime',
-        headerName: 'Opened At',
-        width: 200,
+        field: 'sentAt',
+        headerName: 'Sent At',
+        width: 150,
         filter: 'agDateColumnFilter',
         filterParams: {
           buttons: ['reset'],
@@ -75,19 +70,35 @@ export default function CommunicationTable() {
         } as IDateFilterParams,
         resizable: true,
         editable: false,
-        cellRenderer: ({ data }: CustomCellRendererProps<CampaignMember>) =>
-          data?.openTime ? formatDate(data?.openTime) : 'Not opened yet',
+        cellRenderer: ({ data }: CustomCellRendererProps<EmailRecipient>) =>
+          formatDate(data?.sentAt),
+      },
+      {
+        field: 'openedAt',
+        headerName: 'Opened At',
+        width: 150,
+        filter: 'agDateColumnFilter',
+        filterParams: {
+          buttons: ['reset'],
+          defaultOption: 'greaterThan',
+          filterOptions: ['greaterThan', 'lessThan', 'equals', 'notEqual'],
+        } as IDateFilterParams,
+        resizable: true,
+        editable: false,
+        cellRenderer: ({ data }: CustomCellRendererProps<EmailRecipient>) =>
+          data?.openedAt ? formatDate(data?.openedAt) : 'Not opened yet',
       },
       {
         headerName: 'Status',
-        flex: 1,
+        width: 100,
         filter: false,
+        sortable: false,
         resizable: true,
         editable: false,
-        cellRenderer: ({ data }: CustomCellRendererProps<CampaignMember>) => (
+        cellRenderer: ({ data }: CustomCellRendererProps<EmailRecipient>) => (
           <Iconify
-            icon={data?.open ? 'akar-icons:double-check' : 'lucide:check'}
-            color={data?.sent ? 'green' : '#999999'}
+            icon={data?.openedAt ? 'akar-icons:double-check' : 'lucide:check'}
+            color={data?.sentAt ? 'green' : '#999999'}
             mt={0.8}
           />
         ),
@@ -115,7 +126,7 @@ export default function CommunicationTable() {
         overflow: 'hidden',
       }}
     >
-      <AgGrid<CampaignMember>
+      <AgGrid<EmailRecipient>
         gridKey="member-communication-list"
         rowData={user?.communications}
         columnDefs={colDefs}

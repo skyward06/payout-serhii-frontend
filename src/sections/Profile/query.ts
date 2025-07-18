@@ -167,13 +167,15 @@ export const FETCH_ME_QUERY = gql(/* GraphQL */ `
       }
       communications {
         id
-        open
-        sent
+        body
         email
         sender
+        status
+        sentAt
         subject
-        openTime
-        sentTime
+        openedAt
+        createdAt
+        senderName
       }
       setting {
         id

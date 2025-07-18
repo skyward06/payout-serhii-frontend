@@ -11,10 +11,10 @@ import { Iconify } from 'src/components/Iconify';
 
 import Detail from './Detail';
 
-import type { CampaignMember } from './type';
+import type { EmailRecipient } from './type';
 
 export const ActionRender = memo(
-  ({ data }: CustomCellRendererProps<CampaignMember>) => {
+  ({ data }: CustomCellRendererProps<EmailRecipient>) => {
     const open = useBoolean();
 
     return (
