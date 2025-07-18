@@ -165,18 +165,6 @@ export const FETCH_ME_QUERY = gql(/* GraphQL */ `
           display
         }
       }
-      communications {
-        id
-        body
-        email
-        sender
-        status
-        sentAt
-        subject
-        openedAt
-        createdAt
-        senderName
-      }
       setting {
         id
         memberId

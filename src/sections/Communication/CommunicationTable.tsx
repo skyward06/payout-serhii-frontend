@@ -13,11 +13,14 @@ import { Iconify } from 'src/components/Iconify';
 import { useAuthContext } from 'src/auth/hooks';
 
 import { ActionRender } from './ActionRenderer';
+import { useFetchEmailRecipients } from './useApollo';
 
 import type { EmailRecipient } from './type';
 
 export default function CommunicationTable() {
   const { user } = useAuthContext();
+
+  const { loading, rowCount, emailRecipients } = useFetchEmailRecipients();
 
   const colDefs = useMemo<ColDef<EmailRecipient>[]>(
     () => [
@@ -127,10 +130,11 @@ export default function CommunicationTable() {
       }}
     >
       <AgGrid<EmailRecipient>
+        loading={loading}
         gridKey="member-communication-list"
-        rowData={user?.communications}
+        rowData={emailRecipients}
         columnDefs={colDefs}
-        totalRowCount={user?.communications?.length}
+        totalRowCount={rowCount}
       />
     </Card>
   );
