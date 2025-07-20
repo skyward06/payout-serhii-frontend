@@ -30,8 +30,6 @@ export default function MemberReward() {
 
   const { loading, commission, fetchCommissionByPeriod } = useFetchCommissionByPeriod();
 
-  const max = Math.max(...commission.map((item) => item.revenue));
-
   useEffect(() => {
     fetchCommissionByPeriod({ variables: { data: { type: currentSeries?.value ?? '' } } });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -57,12 +55,12 @@ export default function MemberReward() {
             {
               name: 'Commission',
               type: 'column',
-              data: commission.map((item) => item.commission / 1000).reverse(),
+              data: commission.map((item) => item.commission).reverse(),
             },
             {
               name: 'Revenue',
               type: 'area',
-              data: commission.map((item) => item.revenue / 1000).reverse(),
+              data: commission.map((item) => item.revenue).reverse(),
             },
           ],
           options: {
@@ -77,14 +75,6 @@ export default function MemberReward() {
                     : item.base
                 )
                 .reverse(),
-            },
-            yaxis: {
-              stepSize: Math.floor(max / 4000),
-              labels: {
-                formatter(val: any) {
-                  return `${Math.floor(val)}K`;
-                },
-              },
             },
           },
         }}

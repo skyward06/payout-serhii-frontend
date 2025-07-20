@@ -33,6 +33,22 @@ export function fNumber(inputValue: InputNumberValue, options?: Options) {
 
 // ----------------------------------------------------------------------
 
+export function formatNumber(num: number): string {
+  if (num < 1000) return num.toString();
+
+  const units = ['', 'K', 'M', 'B', 'T'];
+  const order = Math.floor(Math.log10(num) / 3);
+  const unit = units[order];
+
+  const scaled = num / 1000 ** order;
+
+  const formatted = scaled.toFixed(2);
+
+  return `${formatted.replace(/\.?0+$/, '')}${unit}`;
+}
+
+// ----------------------------------------------------------------------
+
 export function fCurrency(inputValue: InputNumberValue, options?: Options) {
   const number = processInput(inputValue);
   if (number === null) return '';

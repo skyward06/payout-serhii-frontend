@@ -3,6 +3,8 @@ import Paper from '@mui/material/Paper';
 import Skeleton from '@mui/material/Skeleton';
 import { useTheme, alpha as hexAlpha } from '@mui/material/styles';
 
+import { formatNumber } from 'src/utils/formatNumber';
+
 import { Chart, useChart } from 'src/components/chart';
 
 import { useSettingsContext } from '../settings';
@@ -55,7 +57,7 @@ export function ChartMixed({ loading, chart }: Props) {
             item: any,
             index: number
           ) => `${prev}<div style="display: flex; padding: 10px;"><div style="margin-right: 8px; width: 12px; height: 12px; border-radius: 50%; background-color: ${w.globals.colors[index]}; margin-top: 4px;">
-          </div><div><span style="color: ${colorScheme === 'dark' ? '#ffffff' : '#637381'}; margin-right: 5px;">${w.globals.seriesNames[index]}:</span> <span style="font-weight: bold;">${item}K</span></div></div>`,
+          </div><div><span style="color: ${colorScheme === 'dark' ? '#ffffff' : '#637381'}; margin-right: 5px;">${w.globals.seriesNames[index]}:</span> <span style="font-weight: bold;">${formatNumber(item)}</span></div></div>`,
           ''
         );
 
