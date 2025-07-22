@@ -1,7 +1,12 @@
 import { useRef, useMemo } from 'react';
 import { useMutation, useLazyQuery } from '@apollo/client';
 
-import { SIGN_UP_MEMBER, FETCH_PROMOS_QUERY, SEND_EMAIL_VERIFICATION_CODE } from './query';
+import {
+  SIGN_UP_MEMBER,
+  CHECK_PEER_CODE,
+  FETCH_PROMOS_QUERY,
+  SEND_EMAIL_VERIFICATION_CODE,
+} from './query';
 
 export function useSignUp() {
   const [submitSignUp, { loading, data }] = useMutation(SIGN_UP_MEMBER);
@@ -37,4 +42,10 @@ export function useFetchPromos() {
     promos: data?.promos.promos ?? [],
     fetchPromos,
   };
+}
+
+export function useCheckPeerCode() {
+  const [checkPeerCode, { loading, data, error }] = useLazyQuery(CHECK_PEER_CODE);
+
+  return { loading, exist: data?.checkIfPeerCodeExists ?? false, error, checkPeerCode };
 }

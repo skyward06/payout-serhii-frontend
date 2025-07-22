@@ -37,3 +37,9 @@ export const FETCH_PROMOS_QUERY = gql(/* GraphQL */ `
     }
   }
 `);
+
+export const CHECK_PEER_CODE = gql(/* GraphQL */ `
+  query checkPeerCode($code: String!) {
+    checkIfPeerCodeExists(code: $code)
+  }
+`);
