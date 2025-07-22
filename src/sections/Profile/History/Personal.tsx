@@ -258,6 +258,19 @@ export default function Personal({ me }: Props) {
               )}
             </Stack>
 
+            {me.peerAcceptable && (
+              <Stack direction="row" spacing={2} pb={1}>
+                <Stack width={0.5}>
+                  <Typography variant="body2" fontWeight="bold">
+                    Peer Code:
+                  </Typography>
+                </Stack>
+                <Stack width={1}>
+                  <Typography variant="body2">{me.peerCode}</Typography>
+                </Stack>
+              </Stack>
+            )}
+
             <Divider sx={{ borderStyle: 'dashed', my: 1 }} />
 
             {/* Group info */}
