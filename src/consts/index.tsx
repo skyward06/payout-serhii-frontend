@@ -87,6 +87,11 @@ export const PACKAGES = [
   'aa4043ca-a950-415a-9497-be8d6687194e',
 ];
 
+export const PAYMENT_METHOD_IDS = [
+  'c5d87c08-4d4c-4243-acc7-466925791501',
+  '65c74bed-4e8f-4be2-8b8c-9495dda3d848',
+];
+
 export const TARGET = [
   { label: '100, 000', value: 100000 },
   { label: '250, 000', value: 250000 },

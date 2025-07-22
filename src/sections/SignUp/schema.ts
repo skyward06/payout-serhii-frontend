@@ -21,4 +21,11 @@ export const Schema = zod.object({
   paymentMethod: zod.string({ required_error: 'Payment Method is required' }),
   assetId: zod.string().optional().nullable(),
   note: zod.string().optional().nullable(),
+  paymentPeerCode: zod
+    .string()
+    .optional()
+    .nullable()
+    .refine((value) => !value || /^\d{6}$/.test(value), {
+      message: 'Peer Code must be 6 digits',
+    }),
 });

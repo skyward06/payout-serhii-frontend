@@ -25,6 +25,8 @@ import { useBoolean } from 'src/hooks/useBoolean';
 
 import { removeSpecialCharacters } from 'src/utils/helper';
 
+import { PAYMENT_METHOD_IDS } from 'src/consts';
+
 import { toast } from 'src/components/SnackBar';
 import { Iconify } from 'src/components/Iconify';
 import { Form, Field } from 'src/components/Form';
@@ -80,6 +82,10 @@ export function SignUpView() {
     formState: { isSubmitting },
   } = methods;
 
+  const paymentMethod = watch('paymentMethod');
+
+  const isPeerCode = paymentMethod?.split('::')[0] === PAYMENT_METHOD_IDS[1];
+
   const { submitSignUp } = useSignUp();
   const { payments } = useFetchPayments();
   const { user, signOut } = useAuthContext();
@@ -97,6 +103,8 @@ export function SignUpView() {
           variables: {
             data: {
               ...rest,
+              paymentMethod: rest.paymentMethod.split('::')[1],
+              paymentPeerCode: isPeerCode ? rest.paymentPeerCode : null,
               state: watch('country') === 'United States of America' ? state : '',
               username: removeSpecialCharacters(uname),
               fullName: `${firstName} ${lastName}`,
@@ -110,7 +118,7 @@ export function SignUpView() {
 
           const searchParams = new URLSearchParams({ email: rest.email }).toString();
 
-          if (rest.paymentMethod === 'Crypto') {
+          if (rest.paymentMethod.split('::')[0] === PAYMENT_METHOD_IDS[0]) {
             const { data: order } = await createSignUpOrder({
               variables: { data: { memberId: data.signUpMember.id, packageId: rest.packageId } },
             });
@@ -283,13 +291,19 @@ export function SignUpView() {
         <Stack width={1}>
           <Field.Select name="paymentMethod" label="Payment Method" required>
             {payments.map((option) => (
-              <MenuItem key={option.name} value={option.name}>
+              <MenuItem key={option.id} value={`${option.id}::${option.name}`}>
                 {option.name}
               </MenuItem>
             ))}
           </Field.Select>
         </Stack>
       </Stack>
+
+      {isPeerCode && (
+        <Stack direction="row" justifyContent="flex-end">
+          <Field.Text name="paymentPeerCode" label="Peer Code" sx={{ width: 200 }} />
+        </Stack>
+      )}
 
       <Stack direction={{ xs: 'column', sm: 'row' }} alignItems="center" spacing={2}>
         <Stack width={1}>
