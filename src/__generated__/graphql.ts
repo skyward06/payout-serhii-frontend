@@ -2491,6 +2491,9 @@ export type Query = {
   weeklyCommissionById: WeeklyCommission;
   weeklyCommissions: BasicWeeklyCommissionResponse;
   weeklyReports: WeeklyReportResponse;
+  wtxcSwapBackBalance: WtxcSwapBackBalance;
+  wtxcSwapById: WtxcSwap;
+  wtxcSwaps: WtxcSwapResponse;
 };
 
 
@@ -3015,6 +3018,18 @@ export type QueryWeeklyCommissionsArgs = {
 
 
 export type QueryWeeklyReportsArgs = {
+  filter?: InputMaybe<Scalars['JSONObject']['input']>;
+  page?: InputMaybe<Scalars['String']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryWtxcSwapByIdArgs = {
+  data: IdInput;
+};
+
+
+export type QueryWtxcSwapsArgs = {
   filter?: InputMaybe<Scalars['JSONObject']['input']>;
   page?: InputMaybe<Scalars['String']['input']>;
   sort?: InputMaybe<Scalars['String']['input']>;
@@ -3663,6 +3678,57 @@ export type VerifyTokenResponse = {
   __typename?: 'VerifyTokenResponse';
   token: Scalars['String']['output'];
 };
+
+export type WtxcSwap = {
+  __typename?: 'WTXCSwap';
+  createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
+  currentBalance: Scalars['BigInt']['output'];
+  deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
+  email: Scalars['String']['output'];
+  expiredAt: Scalars['DateTimeISO']['output'];
+  from: WtxcSwapType;
+  frontActions?: Maybe<Array<FrontAction>>;
+  id: Scalars['ID']['output'];
+  inputAddress: Scalars['String']['output'];
+  outputAddress: Scalars['String']['output'];
+  paidAt?: Maybe<Scalars['DateTimeISO']['output']>;
+  paidBalance: Scalars['BigInt']['output'];
+  paidTransactionHash?: Maybe<Scalars['String']['output']>;
+  status: WtxcSwapStatus;
+  swappedAt?: Maybe<Scalars['DateTimeISO']['output']>;
+  swappedBalance: Scalars['BigInt']['output'];
+  swappedTransactionHash?: Maybe<Scalars['String']['output']>;
+  to: WtxcSwapType;
+  updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
+};
+
+export type WtxcSwapBackBalance = {
+  __typename?: 'WTXCSwapBackBalance';
+  txcAddress: Scalars['String']['output'];
+  txcBalance: Scalars['BigInt']['output'];
+  wtxcAddress: Scalars['String']['output'];
+  wtxcBalance: Scalars['BigInt']['output'];
+};
+
+export type WtxcSwapResponse = {
+  __typename?: 'WTXCSwapResponse';
+  total?: Maybe<Scalars['Int']['output']>;
+  wtxcSwaps?: Maybe<Array<WtxcSwap>>;
+};
+
+export enum WtxcSwapStatus {
+  Canceled = 'CANCELED',
+  Completed = 'COMPLETED',
+  Expired = 'EXPIRED',
+  Failed = 'FAILED',
+  Paid = 'PAID',
+  Waiting = 'WAITING'
+}
+
+export enum WtxcSwapType {
+  Txc = 'TXC',
+  Wtxc = 'WTXC'
+}
 
 export type WalletBalance = {
   __typename?: 'WalletBalance';
