@@ -4,6 +4,8 @@ import { Helmet } from 'react-helmet-async';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 
+import { paths } from 'src/routes/paths';
+
 import { useTabs } from 'src/hooks/use-tabs';
 
 import { client } from 'src/utils/sanity/client';
@@ -51,7 +53,7 @@ export default function Resource() {
       <DashboardContent>
         <Breadcrumbs
           heading="Resources"
-          links={[{ name: 'Resources', href: '#' }, { name: 'list' }]}
+          links={[{ name: 'Resources', href: paths.dashboard.resource.root }, { name: 'list' }]}
           sx={{
             mb: { xs: 2, md: 3 },
           }}

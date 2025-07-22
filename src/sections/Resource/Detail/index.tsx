@@ -84,7 +84,7 @@ export default function Detail() {
         <Stack>
           {current.fullTranscript?.map((item: any) => (
             <Typography sx={{ mb: 2 }} variant={item.style}>
-              {item?.children[0].text}
+              {item?.children.map((row: any) => row.text)}
             </Typography>
           ))}
         </Stack>
