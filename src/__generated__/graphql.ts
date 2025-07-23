@@ -1147,7 +1147,6 @@ export type Member = {
   id: Scalars['ID']['output'];
   introduceMembers?: Maybe<Array<Member>>;
   isTexitRanger: Scalars['Boolean']['output'];
-  logs?: Maybe<Array<EntityLog>>;
   memberWallets?: Maybe<Array<MemberWallet>>;
   mobile: Scalars['String']['output'];
   peerAcceptable: Scalars['Boolean']['output'];
@@ -1181,11 +1180,6 @@ export type Member = {
   username: Scalars['String']['output'];
   weeklyCommissions?: Maybe<Array<WeeklyCommission>>;
   zipCode?: Maybe<Scalars['String']['output']>;
-};
-
-
-export type MemberLogsArgs = {
-  logsize?: Scalars['Float']['input'];
 };
 
 export type MemberInOutRevenue = {
@@ -3173,7 +3167,6 @@ export type Sale = {
   frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['ID']['output'];
   isMetal: Scalars['Boolean']['output'];
-  logs?: Maybe<Array<EntityLog>>;
   member?: Maybe<Member>;
   memberId: Scalars['ID']['output'];
   orderedAt: Scalars['DateTimeISO']['output'];
@@ -3186,11 +3179,6 @@ export type Sale = {
   toMember?: Maybe<Member>;
   toMemberId?: Maybe<Scalars['ID']['output']>;
   updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
-};
-
-
-export type SaleLogsArgs = {
-  logsize?: Scalars['Float']['input'];
 };
 
 export type SaleRefDuplicationInput = {
