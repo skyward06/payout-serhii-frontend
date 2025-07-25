@@ -1,5 +1,5 @@
 import { useRef, useMemo } from 'react';
-import { useQuery, useLazyQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 
 import { useAgQuery as useQueryString } from 'src/routes/hooks';
 
@@ -31,8 +31,8 @@ export function useFetchEmailRecipients() {
   return { loading, rowCount, emailRecipients: data?.emailRecipients?.emailRecipients ?? [] };
 }
 
-export function useFetchCampaignMember() {
-  const [fetchCampaignMember, { loading, data, error }] = useLazyQuery(FETCH_CAMPAIGN_MEMBER);
+export function useFetchCampaignMember(id: string) {
+  const { loading, data, error } = useQuery(FETCH_CAMPAIGN_MEMBER, { variables: { data: { id } } });
 
-  return { loading, campaignMember: data?.emailRecipientById, error, fetchCampaignMember };
+  return { loading, campaignMember: data?.emailRecipientById, error };
 }

@@ -16,14 +16,9 @@ interface Props {
   currentMember?: Member | null;
 }
 
-export default function SearchMiner({
-  currentMember,
-  setMemberId,
-  filter,
-  label = 'Miner',
-}: Props) {
-  const [username, setUsername] = useState<string>();
-  const [debouncedUsername, setDebouncedUsername] = useState<string>();
+export function SearchMiner({ currentMember, setMemberId, filter, label = 'Miner' }: Props) {
+  const [username, setUsername] = useState<string>('');
+  const [debouncedUsername, setDebouncedUsername] = useState<string>('');
 
   const { loading, members, fetchMemberSearch } = useFetchMemberSearch();
 
@@ -39,6 +34,8 @@ export default function SearchMiner({
               { fullName: { contains: debouncedUsername ?? '', mode: 'insensitive' } },
             ],
           },
+          page: '1,10',
+          sort: 'username',
         },
       });
     }

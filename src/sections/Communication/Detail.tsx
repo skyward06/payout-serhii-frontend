@@ -1,8 +1,7 @@
 import type { UseBooleanReturn } from 'src/hooks/useBoolean';
 
-import { useEffect } from 'react';
-
 import Stack from '@mui/material/Stack';
+import { Skeleton } from '@mui/material';
 import Drawer from '@mui/material/Drawer';
 import Typography from '@mui/material/Typography';
 
@@ -12,21 +11,13 @@ import { useFetchCampaignMember } from './useApollo';
 
 interface Props {
   open: UseBooleanReturn;
-  subject: string;
   id: any;
 }
 
-export default function Detail({ open, subject, id }: Props) {
+export function CommunicationDetail({ open, id }: Props) {
   /* eslint-disable react/no-danger */
 
-  const { campaignMember, fetchCampaignMember } = useFetchCampaignMember();
-
-  useEffect(() => {
-    if (id && open.value) {
-      fetchCampaignMember({ variables: { data: { id } } });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, open]);
+  const { loading, campaignMember } = useFetchCampaignMember(id);
 
   return (
     <Drawer
@@ -43,11 +34,15 @@ export default function Detail({ open, subject, id }: Props) {
         }}
       >
         <Stack direction="row" sx={{ py: 2 }} spacing={2}>
-          <Typography variant="subtitle1">Subject:</Typography>
-          <Typography>{subject}</Typography>
+          <Typography variant="subtitle1">Subject</Typography>
+          {loading ? <Skeleton width="100%" /> : <Typography>{campaignMember?.subject}</Typography>}
         </Stack>
 
-        <div dangerouslySetInnerHTML={{ __html: campaignMember?.body ?? '' }} />
+        {loading ? (
+          <Skeleton />
+        ) : (
+          <div dangerouslySetInnerHTML={{ __html: campaignMember?.body ?? '' }} />
+        )}
       </ScrollBar>
     </Drawer>
   );

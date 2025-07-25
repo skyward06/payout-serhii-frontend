@@ -19,7 +19,7 @@ import { removeSpecialCharacters } from 'src/utils/helper';
 
 import { toast } from 'src/components/SnackBar';
 import { Form, Field } from 'src/components/Form';
-import SearchMiner from 'src/components/SearchMiner';
+import { SearchMiner } from 'src/components/SearchMiner';
 
 import { useFetchPackages } from 'src/sections/Sales/useApollo';
 import { PlacementSelector } from 'src/sections/Sponsor/Create/placementSelector';
@@ -71,6 +71,11 @@ export default function AddMiner() {
     try {
       if (!packageId) {
         toast.error('Package is required');
+        return;
+      }
+
+      if (!sponsorId) {
+        toast.error('Sponsor is required');
         return;
       }
 
@@ -186,7 +191,7 @@ export default function AddMiner() {
         <Field.Text name="uname" label="Affiliate ID" placeholder="5 characters or more" required />
 
         {(user?.isTexitRanger || user?.peerAcceptable) && (
-          <SearchMiner label="Sponsor" setMemberId={setSponsorId} currentMember={user} />
+          <SearchMiner label="Sponsor" setMemberId={setSponsorId} />
         )}
 
         <Field.Select

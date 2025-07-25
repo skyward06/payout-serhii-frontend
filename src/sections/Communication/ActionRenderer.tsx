@@ -9,7 +9,7 @@ import { useBoolean } from 'src/hooks/useBoolean';
 
 import { Iconify } from 'src/components/Iconify';
 
-import Detail from './Detail';
+import { CommunicationDetail } from './Detail';
 
 import type { EmailRecipient } from './type';
 
@@ -25,7 +25,7 @@ export const ActionRender = memo(
           </IconButton>
         </Tooltip>
 
-        <Detail open={open} subject={data?.subject!} id={data?.id} />
+        {data?.id && open.value && <CommunicationDetail open={open} id={data?.id} />}
       </>
     );
   },
