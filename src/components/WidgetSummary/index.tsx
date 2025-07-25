@@ -1,6 +1,8 @@
 import type { CardProps } from '@mui/material/Card';
 import type { ChartOptions } from 'src/components/chart';
 
+import { useMemo } from 'react';
+
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Skeleton from '@mui/material/Skeleton';
@@ -10,8 +12,6 @@ import { fNumber } from 'src/utils/formatNumber';
 
 import { Iconify } from 'src/components/Iconify';
 import { Chart, useChart } from 'src/components/chart';
-
-import { useSettingsContext } from '../settings';
 
 // ----------------------------------------------------------------------
 
@@ -40,9 +40,10 @@ export default function WidgetSummary({
   ...other
 }: Props) {
   const theme = useTheme();
-  const { colorScheme } = useSettingsContext();
 
   const chartColors = chart.colors ?? [theme.palette.primary.main];
+
+  const series = useMemo(() => [{ data: chart.series }], [chart]);
 
   const chartOptions = useChart({
     chart: { sparkline: { enabled: true } },
@@ -50,21 +51,7 @@ export default function WidgetSummary({
     stroke: { width: 0 },
     xaxis: { categories: chart.categories },
     tooltip: {
-      custom: ({ seriesIndex, dataPointIndex, w }) => {
-        const data = w.globals.initialSeries[seriesIndex].data[dataPointIndex];
-        const category = w.globals.categoryLabels.length
-          ? w.globals.categoryLabels[dataPointIndex]
-          : w.globals.labels[dataPointIndex];
-        const color = w.globals.colors[seriesIndex];
-
-        return `<div style="background: ${colorScheme === 'dark' ? '#141A21' : '#ffffff'}; color: ${colorScheme === 'dark' ? '#ffffff' : '#6a7987'};">
-          <div style="background: ${colorScheme === 'dark' ? '#28323D' : '#f4f6f8'}; color: ${colorScheme === 'dark' ? '#ffffff' : '#637381'}; font-weight: bold; padding: 5px 10px;">${category}</div>
-          <div style="display: flex; padding: 10px;">
-          <div style="margin-right: 8px; width: 12px; height: 12px; border-radius: 50%; background-color: ${color}; margin-top: 4px;">
-          </div>
-          <div><span style="font-weight: bold;">${data}</span></div></div>
-        </div>`;
-      },
+      y: { formatter: (val) => fNumber(val), title: { formatter: () => '' } },
     },
     plotOptions: { bar: { borderRadius: 1.5, columnWidth: '64%' } },
     ...chart.options,
@@ -122,7 +109,8 @@ export default function WidgetSummary({
       ) : (
         <Chart
           type="bar"
-          series={[{ data: chart.series }]}
+          loading={loading}
+          series={series}
           options={chartOptions}
           width={60}
           height={40}
