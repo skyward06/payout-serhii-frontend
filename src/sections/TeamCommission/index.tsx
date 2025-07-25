@@ -2,10 +2,6 @@ import type { Member } from 'src/__generated__/graphql';
 
 import Typography from '@mui/material/Typography';
 
-import { paths } from 'src/routes/paths';
-
-import { Breadcrumbs } from 'src/components/Breadcrumbs';
-
 import Table from './table';
 
 interface Props {
@@ -15,13 +11,6 @@ interface Props {
 export default function TeamCommissionListView({ me }: Props) {
   return (
     <>
-      <Breadcrumbs
-        heading="Team"
-        links={[{ name: 'Team', href: paths.dashboard.team.root }, { name: 'List' }]}
-        sx={{
-          mb: { xs: 1, md: 2 },
-        }}
-      />
       {me.teamReport.length === 0 ? (
         <Typography variant="subtitle1" textAlign="center">
           Please contact the office to enable TEAM reporting!
