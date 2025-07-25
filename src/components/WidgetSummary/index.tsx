@@ -73,7 +73,7 @@ export default function WidgetSummary({
   const renderTrending = (
     <Box sx={{ gap: 0.5, display: 'flex', alignItems: 'center' }}>
       {loading ? (
-        <Skeleton variant="text" sx={{ width: '100%', height: 30 }} />
+        <Skeleton variant="text" sx={{ width: '100%', height: 24 }} />
       ) : (
         <>
           <Iconify
@@ -112,7 +112,7 @@ export default function WidgetSummary({
       <Box sx={{ flexGrow: 1 }}>
         <Box sx={{ typography: 'subtitle2' }}>{title}</Box>
         <Box sx={{ mt: 1.5, mb: 1, typography: 'h3' }}>
-          {loading ? <Skeleton variant="text" sx={{ width: '40%', height: 60 }} /> : fNumber(total)}
+          {loading ? <Skeleton variant="text" sx={{ width: '40%', height: 48 }} /> : fNumber(total)}
         </Box>
         {renderTrending}
       </Box>
