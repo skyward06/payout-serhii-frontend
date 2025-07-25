@@ -8,11 +8,9 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 
-import { paths } from 'src/routes/paths';
 import { useQuery } from 'src/routes/hooks';
 
 import { ScrollBar } from 'src/components/ScrollBar';
-import { Breadcrumbs } from 'src/components/Breadcrumbs';
 import {
   useTable,
   TableNoData,
@@ -95,81 +93,71 @@ export default function Commission({ me }: Props) {
   const notFound = (canReset && !weeklyCommissions?.length) || !weeklyCommissions?.length;
 
   return (
-    <>
-      <Breadcrumbs
-        heading="Commission"
-        links={[{ name: 'Commission', href: paths.dashboard.commission.root }, { name: 'List' }]}
-        sx={{
-          mb: { xs: 1, md: 2 },
+    <Card>
+      <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
+        <ScrollBar>
+          <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
+            <TableHeadCustom
+              order={sort && sort[Object.keys(sort)[0]]}
+              orderBy={sort && Object.keys(sort)[0]}
+              headLabel={TABLE_HEAD}
+              rowCount={loading ? 0 : weeklyCommissions!.length}
+              onSort={(id) => {
+                if (
+                  id !== 'action' &&
+                  id !== 'begLR' &&
+                  id !== 'newLR' &&
+                  id !== 'maxLR' &&
+                  id !== 'pkgLR' &&
+                  id !== 'endLR' &&
+                  id !== 'proofNote'
+                ) {
+                  const isAsc = sort && sort[id] === 'asc';
+                  const newSort = { [id]: isAsc ? 'desc' : ('asc' as SortOrder) };
+                  setQuery({ ...query, sort: newSort });
+                }
+              }}
+            />
+            {loading ? (
+              <>
+                <TableSkeleton height={26} />
+                <TableSkeleton height={26} />
+                <TableSkeleton height={26} />
+                <TableSkeleton height={26} />
+                <TableSkeleton height={26} />
+                <TableSkeleton height={26} />
+                <TableSkeleton height={26} />
+                <TableSkeleton height={26} />
+                <TableSkeleton height={26} />
+                <TableSkeleton height={26} />
+              </>
+            ) : (
+              <TableBody>
+                {weeklyCommissions!.map((row: any) => (
+                  <ProductTableRow key={row!.id} row={row!} />
+                ))}
+
+                <TableNoData notFound={notFound} />
+              </TableBody>
+            )}
+          </Table>
+        </ScrollBar>
+      </TableContainer>
+
+      <TablePaginationCustom
+        count={loading ? 0 : rowCount!}
+        page={loading ? 0 : page!.page - 1}
+        rowsPerPage={page?.pageSize}
+        onPageChange={(_, curPage) => {
+          setPage(curPage + 1);
         }}
+        onRowsPerPageChange={(event) => {
+          setPageSize(parseInt(event.target.value, 10));
+        }}
+        //
+        dense={table.dense}
+        onChangeDense={table.onChangeDense}
       />
-
-      <Card>
-        <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
-          <ScrollBar>
-            <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
-              <TableHeadCustom
-                order={sort && sort[Object.keys(sort)[0]]}
-                orderBy={sort && Object.keys(sort)[0]}
-                headLabel={TABLE_HEAD}
-                rowCount={loading ? 0 : weeklyCommissions!.length}
-                onSort={(id) => {
-                  if (
-                    id !== 'action' &&
-                    id !== 'begLR' &&
-                    id !== 'newLR' &&
-                    id !== 'maxLR' &&
-                    id !== 'pkgLR' &&
-                    id !== 'endLR' &&
-                    id !== 'proofNote'
-                  ) {
-                    const isAsc = sort && sort[id] === 'asc';
-                    const newSort = { [id]: isAsc ? 'desc' : ('asc' as SortOrder) };
-                    setQuery({ ...query, sort: newSort });
-                  }
-                }}
-              />
-              {loading ? (
-                <>
-                  <TableSkeleton height={26} />
-                  <TableSkeleton height={26} />
-                  <TableSkeleton height={26} />
-                  <TableSkeleton height={26} />
-                  <TableSkeleton height={26} />
-                  <TableSkeleton height={26} />
-                  <TableSkeleton height={26} />
-                  <TableSkeleton height={26} />
-                  <TableSkeleton height={26} />
-                  <TableSkeleton height={26} />
-                </>
-              ) : (
-                <TableBody>
-                  {weeklyCommissions!.map((row: any) => (
-                    <ProductTableRow key={row!.id} row={row!} />
-                  ))}
-
-                  <TableNoData notFound={notFound} />
-                </TableBody>
-              )}
-            </Table>
-          </ScrollBar>
-        </TableContainer>
-
-        <TablePaginationCustom
-          count={loading ? 0 : rowCount!}
-          page={loading ? 0 : page!.page - 1}
-          rowsPerPage={page?.pageSize}
-          onPageChange={(_, curPage) => {
-            setPage(curPage + 1);
-          }}
-          onRowsPerPageChange={(event) => {
-            setPageSize(parseInt(event.target.value, 10));
-          }}
-          //
-          dense={table.dense}
-          onChangeDense={table.onChangeDense}
-        />
-      </Card>
-    </>
+    </Card>
   );
 }

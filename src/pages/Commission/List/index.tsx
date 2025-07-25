@@ -5,6 +5,7 @@ import { paths } from 'src/routes/paths';
 
 import { CONFIG } from 'src/config';
 
+import { Breadcrumbs } from 'src/components/Breadcrumbs';
 import { LoadingScreen } from 'src/components/loading-screen';
 
 import CommissionList from 'src/sections/Commission/List';
@@ -27,8 +28,16 @@ export default function Page() {
   return (
     <>
       <Helmet>
-        <title>{`${CONFIG.site.name} / Commission`}</title>
+        <title>{`${CONFIG.site.name} - Commission`}</title>
       </Helmet>
+
+      <Breadcrumbs
+        heading="Commission"
+        links={[{ name: 'Commission', href: paths.dashboard.commission.root }, { name: 'List' }]}
+        sx={{
+          mb: { xs: 1, md: 2 },
+        }}
+      />
 
       <CommissionList me={user} />
     </>
