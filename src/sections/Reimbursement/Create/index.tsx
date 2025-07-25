@@ -11,8 +11,6 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 
-import { DashboardContent } from 'src/layouts/dashboard';
-
 import { toast } from 'src/components/SnackBar';
 import { Form, Field } from 'src/components/Form';
 import { Breadcrumbs } from 'src/components/Breadcrumbs';
@@ -87,7 +85,7 @@ export function CreateForm() {
   };
 
   return (
-    <DashboardContent>
+    <>
       <Breadcrumbs
         heading="Reimbursement"
         links={[{ name: 'Reimbursement', href: paths.dashboard.reimbursement.root }]}
@@ -128,6 +126,6 @@ export function CreateForm() {
           </Grid>
         </Grid>
       </Form>
-    </DashboardContent>
+    </>
   );
 }

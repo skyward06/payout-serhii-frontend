@@ -11,7 +11,6 @@ import { useTabs } from 'src/hooks/use-tabs';
 import { useBoolean } from 'src/hooks/useBoolean';
 
 import { CONFIG } from 'src/config';
-import { DashboardContent } from 'src/layouts/dashboard';
 
 import { Iconify } from 'src/components/Iconify';
 import { Breadcrumbs } from 'src/components/Breadcrumbs';
@@ -68,7 +67,7 @@ export default function Profile() {
         <title>{`${CONFIG.site.name}: My account`}</title>
       </Helmet>
 
-      <DashboardContent>
+      <>
         <Breadcrumbs
           heading="My account"
           sx={{
@@ -85,7 +84,7 @@ export default function Profile() {
         {tabs.value === 'edit' && <General me={user} />}
 
         {tabs.value === 'history' && <History />}
-      </DashboardContent>
+      </>
 
       <VerifyModal open={open} tabs={tabs} event={tabEvent} />
     </>

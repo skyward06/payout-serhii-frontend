@@ -8,8 +8,6 @@ import Button from '@mui/material/Button';
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 
-import { DashboardContent } from 'src/layouts/dashboard';
-
 import { Iconify } from 'src/components/Iconify';
 import { Breadcrumbs } from 'src/components/Breadcrumbs';
 
@@ -40,7 +38,7 @@ export default function Sponsor({ children }: Props) {
   };
 
   return (
-    <DashboardContent>
+    <>
       <Breadcrumbs
         heading="Sponsorships"
         sx={{
@@ -66,6 +64,6 @@ export default function Sponsor({ children }: Props) {
         ))}
       </Tabs>
       {children}
-    </DashboardContent>
+    </>
   );
 }

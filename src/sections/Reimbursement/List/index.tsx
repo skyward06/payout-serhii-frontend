@@ -19,7 +19,6 @@ import { formatDate } from 'src/utils/format-time';
 import { fCurrency } from 'src/utils/formatNumber';
 
 import { REIMBURSEMENT_STATUS } from 'src/consts';
-import { DashboardContent } from 'src/layouts/dashboard';
 import { ReimbursementStatus } from 'src/__generated__/graphql';
 
 import { AgGrid } from 'src/components/AgGrid';
@@ -115,7 +114,7 @@ export function ReimbursementList() {
   );
 
   return (
-    <DashboardContent>
+    <>
       <Breadcrumbs
         heading="Reimbursement"
         links={[
@@ -147,6 +146,6 @@ export function ReimbursementList() {
           totalRowCount={rowCount}
         />
       </Card>
-    </DashboardContent>
+    </>
   );
 }

@@ -12,7 +12,6 @@ import { formatDateTime } from 'src/utils/format-time';
 import { parseFilterModel } from 'src/utils/parseFilter';
 
 import { NOTIFICATION_LEVEL } from 'src/consts';
-import { DashboardContent } from 'src/layouts/dashboard';
 
 import { Label } from 'src/components/Label';
 import { AgGrid } from 'src/components/AgGrid';
@@ -88,7 +87,7 @@ export default function NotificationTable() {
   );
 
   return (
-    <DashboardContent>
+    <>
       <Breadcrumbs
         heading="Notifications"
         links={[
@@ -115,6 +114,6 @@ export default function NotificationTable() {
           totalRowCount={rowCount}
         />
       </Card>
-    </DashboardContent>
+    </>
   );
 }

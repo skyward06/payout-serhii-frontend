@@ -3,8 +3,6 @@ import Tabs from '@mui/material/Tabs';
 
 import { useTabs } from 'src/hooks/use-tabs';
 
-import { DashboardContent } from 'src/layouts/dashboard';
-
 import { Iconify } from 'src/components/Iconify';
 import { Breadcrumbs } from 'src/components/Breadcrumbs';
 
@@ -24,7 +22,7 @@ export default function RewardListView() {
   const tabs = useTabs('daily');
 
   return (
-    <DashboardContent>
+    <>
       <Breadcrumbs
         heading="Reward"
         links={[{ name: 'Reward', href: '#' }, { name: 'List' }]}
@@ -42,6 +40,6 @@ export default function RewardListView() {
       {tabs.value === 'daily' && <StatisticsTable />}
 
       {tabs.value === 'wallets' && <Wallets />}
-    </DashboardContent>
+    </>
   );
 }

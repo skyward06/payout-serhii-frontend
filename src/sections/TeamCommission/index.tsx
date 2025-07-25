@@ -4,8 +4,6 @@ import Typography from '@mui/material/Typography';
 
 import { paths } from 'src/routes/paths';
 
-import { DashboardContent } from 'src/layouts/dashboard';
-
 import { Breadcrumbs } from 'src/components/Breadcrumbs';
 
 import Table from './table';
@@ -16,7 +14,7 @@ interface Props {
 
 export default function TeamCommissionListView({ me }: Props) {
   return (
-    <DashboardContent>
+    <>
       <Breadcrumbs
         heading="Team"
         links={[{ name: 'Team', href: paths.dashboard.team.root }, { name: 'List' }]}
@@ -31,6 +29,6 @@ export default function TeamCommissionListView({ me }: Props) {
       ) : (
         <Table />
       )}
-    </DashboardContent>
+    </>
   );
 }

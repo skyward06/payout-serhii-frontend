@@ -16,7 +16,6 @@ import { useAgQuery as useQueryString } from 'src/routes/hooks';
 import { formatDate } from 'src/utils/format-time';
 import { parseFilterModel } from 'src/utils/parseFilter';
 
-import { DashboardContent } from 'src/layouts/dashboard';
 import { InvoiceStatusEnum } from 'src/__generated__/graphql';
 
 import { Label } from 'src/components/Label';
@@ -161,7 +160,7 @@ export default function InvoiceListView() {
   );
 
   return (
-    <DashboardContent>
+    <>
       <Breadcrumbs
         heading="Invoice"
         links={[{ name: 'Invoice', href: paths.dashboard.invoice.root }, { name: 'List' }]}
@@ -185,6 +184,6 @@ export default function InvoiceListView() {
           totalRowCount={rowCount}
         />
       </Card>
-    </DashboardContent>
+    </>
   );
 }

@@ -1,7 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { Outlet, Navigate } from 'react-router-dom';
 
-import { DashboardLayout } from 'src/layouts/dashboard';
+import { DashboardLayout, DashboardContent } from 'src/layouts/dashboard';
 
 import { LoadingScreen } from 'src/components/loading-screen';
 
@@ -82,9 +82,11 @@ export const dashboardRoutes = [
     element: (
       <AuthGuard>
         <DashboardLayout>
-          <Suspense fallback={<LoadingScreen />}>
-            <Outlet />
-          </Suspense>
+          <DashboardContent>
+            <Suspense fallback={<LoadingScreen />}>
+              <Outlet />
+            </Suspense>
+          </DashboardContent>
         </DashboardLayout>
       </AuthGuard>
     ),

@@ -7,8 +7,6 @@ import { paths } from 'src/routes/paths';
 
 import { fDateTime } from 'src/utils/format-time';
 
-import { DashboardContent } from 'src/layouts/dashboard';
-
 import { Breadcrumbs } from 'src/components/Breadcrumbs';
 
 import Table from './Table';
@@ -25,7 +23,7 @@ export default function DetailView() {
   const current = statistics[0];
 
   return (
-    <DashboardContent>
+    <>
       <Breadcrumbs
         heading="Statistics"
         links={[
@@ -45,6 +43,6 @@ export default function DetailView() {
           <Table id={id!} />
         </Grid>
       </Grid>
-    </DashboardContent>
+    </>
   );
 }

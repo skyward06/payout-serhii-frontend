@@ -11,7 +11,6 @@ import { useTabs } from 'src/hooks/use-tabs';
 import { client } from 'src/utils/sanity/client';
 
 import { CONFIG } from 'src/config';
-import { DashboardContent } from 'src/layouts/dashboard';
 
 import { Breadcrumbs } from 'src/components/Breadcrumbs';
 
@@ -50,7 +49,7 @@ export default function Resource() {
         <title>{`${CONFIG.site.name} / resources`}</title>
       </Helmet>
 
-      <DashboardContent>
+      <>
         <Breadcrumbs
           heading="Resources"
           links={[{ name: 'Resources', href: paths.dashboard.resource.root }, { name: 'list' }]}
@@ -69,7 +68,7 @@ export default function Resource() {
         {tabs.value === 'mission' && <Mission />}
 
         {!initial.some((tab) => tab.value === tabs.value) && <Item title={tabs.value} />}
-      </DashboardContent>
+      </>
     </>
   );
 }

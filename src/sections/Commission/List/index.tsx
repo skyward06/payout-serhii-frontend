@@ -11,8 +11,6 @@ import TableContainer from '@mui/material/TableContainer';
 import { paths } from 'src/routes/paths';
 import { useQuery } from 'src/routes/hooks';
 
-import { DashboardContent } from 'src/layouts/dashboard';
-
 import { ScrollBar } from 'src/components/ScrollBar';
 import { Breadcrumbs } from 'src/components/Breadcrumbs';
 import {
@@ -97,7 +95,7 @@ export default function Commission({ me }: Props) {
   const notFound = (canReset && !weeklyCommissions?.length) || !weeklyCommissions?.length;
 
   return (
-    <DashboardContent sx={{ overflowX: 'hidden' }}>
+    <>
       <Breadcrumbs
         heading="Commission"
         links={[{ name: 'Commission', href: paths.dashboard.commission.root }, { name: 'List' }]}
@@ -105,6 +103,7 @@ export default function Commission({ me }: Props) {
           mb: { xs: 1, md: 2 },
         }}
       />
+
       <Card>
         <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
           <ScrollBar>
@@ -171,6 +170,6 @@ export default function Commission({ me }: Props) {
           onChangeDense={table.onChangeDense}
         />
       </Card>
-    </DashboardContent>
+    </>
   );
 }

@@ -16,7 +16,6 @@ import { client } from 'src/utils/sanity/client';
 
 import { CONFIG } from 'src/config';
 import { maxLine } from 'src/theme/styles';
-import { DashboardContent } from 'src/layouts/dashboard';
 
 import { BackToTop } from 'src/components/animate';
 import { Breadcrumbs } from 'src/components/Breadcrumbs';
@@ -49,7 +48,7 @@ export default function Detail() {
   const renderLoading = <LoadingScreen />;
 
   const renderContent = (
-    <DashboardContent>
+    <>
       <Breadcrumbs
         heading="Resources"
         links={[{ name: 'Resources', href: '#' }, { name: current.title }]}
@@ -89,7 +88,7 @@ export default function Detail() {
           ))}
         </Stack>
       </Stack>
-    </DashboardContent>
+    </>
   );
 
   return (

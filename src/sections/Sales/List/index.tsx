@@ -15,8 +15,6 @@ import { useBoolean } from 'src/hooks/useBoolean';
 import { formatID } from 'src/utils/helper';
 import { formatDate } from 'src/utils/format-time';
 
-import { DashboardContent } from 'src/layouts/dashboard';
-
 import { AgGrid } from 'src/components/AgGrid';
 import { Iconify } from 'src/components/Iconify';
 import { Breadcrumbs } from 'src/components/Breadcrumbs';
@@ -118,7 +116,7 @@ export default function SaleListView() {
   );
 
   return (
-    <DashboardContent>
+    <>
       <Breadcrumbs
         heading="Order"
         sx={{
@@ -164,6 +162,6 @@ export default function SaleListView() {
       </Card>
 
       <Packages open={open} available={available} />
-    </DashboardContent>
+    </>
   );
 }

@@ -23,7 +23,6 @@ import { fNumber } from 'src/utils/formatNumber';
 import { formatDate } from 'src/utils/format-time';
 
 import { TXC_REQUEST_STATUS } from 'src/consts';
-import { DashboardContent } from 'src/layouts/dashboard';
 import { TxcRequestStatus } from 'src/__generated__/graphql';
 
 import { AgGrid } from 'src/components/AgGrid';
@@ -128,7 +127,7 @@ export default function TXCRequestList() {
   );
 
   return (
-    <DashboardContent>
+    <>
       <Breadcrumbs
         heading="TXC Request"
         links={[{ name: 'TXC Request', href: paths.dashboard.txcRequest.root }, { name: 'list' }]}
@@ -163,6 +162,6 @@ export default function TXCRequestList() {
           totalRowCount={rowCount}
         />
       </Card>
-    </DashboardContent>
+    </>
   );
 }

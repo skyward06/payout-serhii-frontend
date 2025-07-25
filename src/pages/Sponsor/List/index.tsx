@@ -8,8 +8,6 @@ interface Props {
   allowState: string;
 }
 
-// ----------------------------------------------------------------------
-
 export default function Page({ allowState }: Props) {
   return (
     <>

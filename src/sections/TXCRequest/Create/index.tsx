@@ -17,7 +17,6 @@ import { RouterLink } from 'src/routes/components';
 import { explorerService } from 'src/utils/axios/api-service';
 
 import { DEX_TRADE_TXC_URL } from 'src/consts';
-import { DashboardContent } from 'src/layouts/dashboard';
 
 import { toast } from 'src/components/SnackBar';
 import { Iconify } from 'src/components/Iconify';
@@ -91,7 +90,7 @@ export default function TXCRequest() {
   }, []);
 
   return (
-    <DashboardContent>
+    <>
       <Breadcrumbs
         heading="TXC Request"
         links={[{ name: 'TXC Request', href: paths.dashboard.txcRequest.root }]}
@@ -143,7 +142,7 @@ export default function TXCRequest() {
           <Iconify icon="flowbite:info-circle-outline" />
         </Tooltip>
       </Stack>
-    </DashboardContent>
+    </>
   );
 }
 
