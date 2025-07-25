@@ -25,7 +25,11 @@ export function RHFTextField({ name, helperText, type, ...other }: Props) {
           value={type === 'number' && field.value === 0 ? 0 : field.value}
           onChange={(event) => {
             if (type === 'number') {
-              field.onChange(Number(event.target.value));
+              if (event.target.value) {
+                field.onChange(Number(event.target.value));
+              } else {
+                field.onChange(null);
+              }
             } else {
               field.onChange(event.target.value);
             }
