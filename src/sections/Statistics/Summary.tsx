@@ -22,7 +22,7 @@ export default function Summary() {
   }, []);
 
   return (
-    <Grid container spacing={3} sx={{ mb: 1 }}>
+    <>
       <Grid xs={12} md={4}>
         <WidgetSummary
           loading={loading}
@@ -70,6 +70,6 @@ export default function Summary() {
           }}
         />
       </Grid>
-    </Grid>
+    </>
   );
 }

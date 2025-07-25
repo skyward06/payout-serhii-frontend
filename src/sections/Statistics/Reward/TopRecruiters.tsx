@@ -19,7 +19,7 @@ import { ScrollBar } from 'src/components/ScrollBar';
 import { useFetchTopRecruiters } from '../useApollo';
 
 export default function Latest() {
-  const { loading, topRecruiteres, fetchTopRecruiters } = useFetchTopRecruiters();
+  const { loading, topRecruiters, fetchTopRecruiters } = useFetchTopRecruiters();
 
   useEffect(() => {
     fetchTopRecruiters();
@@ -27,7 +27,7 @@ export default function Latest() {
   }, []);
 
   return (
-    <Card sx={{ mt: 2 }}>
+    <Card>
       <CardHeader title="Top Recruiters" />
 
       <ScrollBar sx={{ minHeight: 260 }}>
@@ -47,7 +47,7 @@ export default function Latest() {
             </Paper>
           ) : (
             <Stack sx={{ mt: 2 }}>
-              {topRecruiteres.map((item, index) => (
+              {topRecruiters.map((item, index) => (
                 <Stack
                   sx={{
                     gap: 1,

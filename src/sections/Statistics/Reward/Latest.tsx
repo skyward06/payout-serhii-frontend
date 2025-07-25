@@ -29,7 +29,7 @@ export default function Latest() {
   }, []);
 
   return (
-    <Card sx={{ mt: 2 }}>
+    <Card>
       <CardHeader title="Latest Reward" />
 
       <ScrollBar sx={{ minHeight: 260 }}>

@@ -1,3 +1,4 @@
+import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 
 import { customizeFullName } from 'src/utils/helper';
@@ -17,8 +18,10 @@ export default function Dashboard() {
         {`Welcome, ${customizeFullName(user?.fullName)} !`}
       </Typography>
 
-      <Chart />
-      <Reward />
+      <Grid container spacing={3}>
+        <Chart />
+        <Reward />
+      </Grid>
     </DashboardContent>
   );
 }

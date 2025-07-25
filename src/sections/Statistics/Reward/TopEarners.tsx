@@ -27,7 +27,7 @@ export default function Latest() {
   }, []);
 
   return (
-    <Card sx={{ mt: 2 }}>
+    <Card>
       <CardHeader title="Top Earners" />
 
       <ScrollBar sx={{ minHeight: 260 }}>

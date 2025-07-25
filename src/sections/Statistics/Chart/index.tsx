@@ -11,7 +11,7 @@ import MemberByCountry from './MemberByCountry';
 
 export default function Chart() {
   return (
-    <Grid container spacing={3}>
+    <>
       <Grid xs={12} md={6}>
         <HashRate />
       </Grid>
@@ -36,6 +36,6 @@ export default function Chart() {
       <Grid xs={12} md={4}>
         <MemberByCountry />
       </Grid>
-    </Grid>
+    </>
   );
 }
