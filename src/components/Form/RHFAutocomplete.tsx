@@ -55,3 +55,42 @@ export function RHFAutocomplete({
     />
   );
 }
+
+export function RHFCustomAutocomplete({
+  name,
+  label,
+  helperText,
+  hiddenLabel,
+  placeholder,
+  ...other
+}: RHFAutocompleteProps) {
+  const { control, setValue } = useFormContext();
+
+  return (
+    <Controller
+      name={name}
+      control={control}
+      render={({ field, fieldState: { error } }) => (
+        <Autocomplete
+          {...field}
+          id={`rhf-autocomplete-${name}`}
+          onChange={(event, newValue) => setValue(name, newValue, { shouldValidate: true })}
+          onInputChange={(event, newInputValue) =>
+            setValue(name, newInputValue, { shouldValidate: true })
+          }
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label={label}
+              placeholder={placeholder}
+              error={!!error}
+              helperText={error ? error?.message : helperText}
+              inputProps={{ ...params.inputProps, autoComplete: 'new-password' }}
+            />
+          )}
+          {...other}
+        />
+      )}
+    />
+  );
+}
