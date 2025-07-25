@@ -23,6 +23,8 @@ import General from './General';
 import History from './History';
 import VerifyModal from './Verify';
 
+// ----------------------------------------------------------------------
+
 const TABS = [
   {
     value: 'history',
@@ -32,7 +34,6 @@ const TABS = [
   { value: 'edit', label: 'Edit', icon: <Iconify icon="solar:pen-2-bold" width={24} /> },
 ];
 
-// ----------------------------------------------------------------------
 export default function Profile() {
   const tabs = useTabs('history');
   const [tabEvent, setTabEvent] = useState<any>(null);
@@ -83,7 +84,7 @@ export default function Profile() {
 
         {tabs.value === 'edit' && <General me={user} />}
 
-        {tabs.value === 'history' && <History me={user} />}
+        {tabs.value === 'history' && <History />}
       </DashboardContent>
 
       <VerifyModal open={open} tabs={tabs} event={tabEvent} />

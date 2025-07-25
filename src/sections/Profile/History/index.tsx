@@ -1,5 +1,4 @@
-import type { Member } from 'src/__generated__/graphql';
-
+import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import Table from './Table';
@@ -7,20 +6,20 @@ import Reward from './Reward';
 import OverView from './OverView';
 import Personal from './Personal';
 
-interface Props {
-  me: Member;
-}
-
-export default function HistoryView({ me }: Props) {
+export default function HistoryView() {
   return (
     <Grid container spacing={2}>
       <Grid md={12} xl={8}>
-        <Reward me={me} />
-        <Table />
+        <Box display="grid" gap={2}>
+          <Reward />
+          <Table />
+        </Box>
       </Grid>
       <Grid md={12} xl={4}>
-        <OverView me={me} />
-        <Personal me={me} />
+        <Box display="grid" gap={2}>
+          <OverView />
+          <Personal />
+        </Box>
       </Grid>
     </Grid>
   );

@@ -1,5 +1,4 @@
 import type { UseBooleanReturn } from 'src/hooks/useBoolean';
-import type { Setting as SettingType } from 'src/__generated__/graphql';
 
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
@@ -15,23 +14,27 @@ import DialogActions from '@mui/material/DialogActions';
 import { toast } from 'src/components/SnackBar';
 import { Form, Field } from 'src/components/Form';
 
+import { useAuthContext } from 'src/auth/hooks';
+
 import { Schema, type SchemaType } from './schema';
 import { useUpdateSettingMember } from '../useApollo';
 
 interface Props {
   open: UseBooleanReturn;
-  setting: SettingType;
 }
 
-export default function Setting({ open, setting }: Props) {
+export default function Setting({ open }: Props) {
+  const { user } = useAuthContext();
+
   const defaultValues: SchemaType = useMemo(
     () =>
-      setting
-        ? Schema.safeParse({ communication: setting.communication })?.data ?? ({} as SchemaType)
+      user?.setting
+        ? Schema.safeParse({ communication: user?.setting.communication })?.data ??
+          ({} as SchemaType)
         : {
             communication: true,
           },
-    [setting]
+    [user?.setting]
   );
 
   const { loading, updateSettingMember } = useUpdateSettingMember();

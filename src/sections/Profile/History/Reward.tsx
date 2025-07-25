@@ -1,5 +1,3 @@
-import type { Member } from 'src/__generated__/graphql';
-
 import { useMemo } from 'react';
 
 import Box from '@mui/material/Box';
@@ -9,14 +7,13 @@ import { formatDate } from 'src/utils/format-time';
 
 import { Chart, useChart } from 'src/components/chart';
 
+import { useAuthContext } from 'src/auth/hooks';
+
 import { useFetchMemberStatistics } from '../useApollo';
 
-interface Props {
-  me: Member;
-}
-
-export default function Reward({ me }: Props) {
-  const { loading, statistics } = useFetchMemberStatistics({ memberId: me.id });
+export default function Reward() {
+  const { user } = useAuthContext();
+  const { loading, statistics } = useFetchMemberStatistics({ memberId: user?.id! });
 
   const series = useMemo(
     () => [

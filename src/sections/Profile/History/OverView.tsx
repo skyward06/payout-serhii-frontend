@@ -1,5 +1,3 @@
-import type { Member } from 'src/__generated__/graphql';
-
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -11,14 +9,14 @@ import { CASH_POTENTIAL_URL } from 'src/consts';
 
 import { Iconify } from 'src/components/Iconify';
 
+import { useAuthContext } from 'src/auth/hooks';
+
 import { useFetchMemberOverview } from '../useApollo';
 
-interface Props {
-  me: Member;
-}
+export default function OverView() {
+  const { user } = useAuthContext();
 
-export default function OverView({ me }: Props) {
-  const { overview } = useFetchMemberOverview(me.id);
+  const { overview } = useFetchMemberOverview(user?.id!);
 
   return (
     <Card sx={{ py: 3, textAlign: 'center', typography: 'h4' }}>
@@ -39,7 +37,7 @@ export default function OverView({ me }: Props) {
             <Box component="span" sx={{ color: 'text.secondary', typography: 'body2' }}>
               Cash Potential
             </Box>
-            {me?.isTexitRanger && (
+            {user?.isTexitRanger && (
               <Iconify
                 icon="emojione:star"
                 cursor="pointer"
