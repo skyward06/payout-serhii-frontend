@@ -1,5 +1,7 @@
 import { useMutation, useLazyQuery, useQuery as useGraphQuery } from '@apollo/client';
 
+import { useQuery } from 'src/routes/hooks';
+
 import {
   DISABLE_2FA,
   GENERATE_2FA,
@@ -13,6 +15,7 @@ import {
   UPDATE_SETTING_MEMBER,
   MEMBER_EXCHANGE_LOGIN,
   UPDATE_MEMBER_PASSWORD,
+  FETCH_MEMBER_STATISTICS,
   FETCH_MEMBER_STATS_QUERY,
   FETCH_MEMBER_SEARCH_QUERY,
   FETCH_PLACEMENT_MEMBERS_QUERY,
@@ -77,6 +80,25 @@ export function useGenerate2FA() {
   const [generate2FA, { loading, data, error }] = useLazyQuery(GENERATE_2FA);
 
   return { loading, qrString: data?.generate2FA, error, generate2FA };
+}
+
+export function useFetchMemberStatistics(filter: any) {
+  const [query] = useQuery();
+  const { page = { page: 1, pageSize: 10 } } = query;
+
+  const { loading, data } = useGraphQuery(FETCH_MEMBER_STATISTICS, {
+    variables: {
+      page: page && `${page.page},${page.pageSize}`,
+      filter,
+      sort: 'issuedAt',
+    },
+  });
+
+  return {
+    loading,
+    rowCount: data?.memberStatistics.total ?? 0,
+    statistics: data?.memberStatistics.memberStatistics ?? [],
+  };
 }
 
 export function useVerify2FAAndEnable() {

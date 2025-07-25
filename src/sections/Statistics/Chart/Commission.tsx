@@ -1,13 +1,14 @@
 import dayjs from 'dayjs';
-import { useState, useCallback } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 
+import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
+import { useTheme, alpha as hexAlpha } from '@mui/material/styles';
 
+import { formatNumber } from 'src/utils/formatNumber';
 import { formatWeekNumber } from 'src/utils/format-time';
 
-import { ChartSelect } from 'src/components/chart';
-import { ChartMixed } from 'src/components/CustomChart';
+import { Chart, useChart, ChartSelect } from 'src/components/chart';
 
 import { useFetchCommissionByPeriod } from '../useApollo';
 
@@ -20,6 +21,7 @@ const select = [
 ];
 
 export default function MemberReward() {
+  const theme = useTheme();
   const [selectedSeries, setSelectedSeries] = useState('Week');
 
   const handleChangeSeries = useCallback((newValue: string) => {
@@ -30,51 +32,63 @@ export default function MemberReward() {
 
   const { loading, commission } = useFetchCommissionByPeriod(currentSelect?.value!);
 
+  const chartColors = [hexAlpha(theme.palette.primary.dark, 0.8), theme.palette.warning.main];
+
+  const series = useMemo(
+    () => [
+      {
+        name: 'Commission',
+        type: 'column',
+        data: commission.map((item) => item.commission).reverse(),
+      },
+      {
+        name: 'Revenue',
+        type: 'area',
+        data: commission.map((item) => item.revenue).reverse(),
+      },
+    ],
+    [commission]
+  );
+
+  const chartOptions = useChart({
+    colors: chartColors,
+    stroke: { width: [0, 2] },
+    fill: { type: ['solid', 'gradient'] },
+    xaxis: {
+      labels: { show: false },
+      tooltip: { enabled: false },
+      tickAmount: 10,
+      categories: commission!
+        .map((item) =>
+          currentSelect?.value === 'week'
+            ? `#${formatWeekNumber(item.baseDate)} (${dayjs(item.baseDate).utc().format('MM/DD')} - ${dayjs(item.baseDate).utc().add(6, 'day').format('MM/DD')})`
+            : item.base
+        )
+        .reverse(),
+    },
+    tooltip: {
+      y: {
+        formatter(val) {
+          return formatNumber(val);
+        },
+      },
+    },
+  });
+
   return (
     <Card>
-      <CardHeader
-        title="Revenue & Commission"
-        action={
-          <ChartSelect
-            options={select.map((item) => item.label)}
-            value={selectedSeries}
-            onChange={handleChangeSeries}
-          />
-        }
-      />
+      <Box display="flex" justifyContent="space-between" typography="h6" p="24px 16px 0 24px">
+        Revenue & Commission
+        <ChartSelect
+          options={select.map((item) => item.label)}
+          value={selectedSeries}
+          onChange={handleChangeSeries}
+        />
+      </Box>
 
-      <ChartMixed
-        loading={loading}
-        chart={{
-          categories: commission!.map((item) => item.base).reverse(),
-          series: [
-            {
-              name: 'Commission',
-              type: 'column',
-              data: commission.map((item) => item.commission).reverse(),
-            },
-            {
-              name: 'Revenue',
-              type: 'area',
-              data: commission.map((item) => item.revenue).reverse(),
-            },
-          ],
-          options: {
-            xaxis: {
-              labels: { show: false },
-              tooltip: { enabled: false },
-              tickAmount: 10,
-              categories: commission!
-                .map((item) =>
-                  currentSelect?.value === 'week'
-                    ? `#${formatWeekNumber(item.baseDate)} (${dayjs(item.baseDate).utc().format('MM/DD')} - ${dayjs(item.baseDate).utc().add(6, 'day').format('MM/DD')})`
-                    : item.base
-                )
-                .reverse(),
-            },
-          },
-        }}
-      />
+      <Box p={2}>
+        <Chart type="line" loading={loading} series={series} options={chartOptions} height={300} />
+      </Box>
     </Card>
   );
 }

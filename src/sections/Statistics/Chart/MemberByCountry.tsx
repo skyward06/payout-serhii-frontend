@@ -1,21 +1,19 @@
+import { useMemo } from 'react';
+
+import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import Paper from '@mui/material/Paper';
-import Skeleton from '@mui/material/Skeleton';
-import CardHeader from '@mui/material/CardHeader';
 
 import { Chart, useChart } from 'src/components/chart';
-import { useSettingsContext } from 'src/components/settings';
 
 import { useFetchMemberByCountry } from '../useApollo';
 
 export default function MemberByCountry() {
-  const { colorScheme } = useSettingsContext();
-
   const { loading, members } = useFetchMemberByCountry();
+
+  const series = useMemo(() => members.map((item) => item?.memberCount ?? 0), [members]);
 
   const chartOptions = useChart({
     chart: { sparkline: { enabled: true } },
-    // colors: chartColors,
     labels: members.map((item) => item?.country ?? ''),
     stroke: { width: 0 },
     plotOptions: {
@@ -23,18 +21,6 @@ export default function MemberByCountry() {
         donut: {
           size: '60%',
         },
-      },
-    },
-    tooltip: {
-      custom: ({ seriesIndex, w }) => {
-        const data = w.globals.series[seriesIndex];
-        const legend = w.globals.seriesNames[seriesIndex];
-        const color = w.globals.colors[seriesIndex];
-
-        return `<div style="background: ${colorScheme === 'dark' ? '#141A21' : '#ffffff'} ; color: ${colorScheme === 'dark' ? '#ffffff' : '#6a7987'};"><div style="display: flex; padding: 10px;">
-        <div style="margin-right: 8px; width: 12px; height: 12px; border-radius: 50%; background-color: ${color}; margin-top: 4px;">
-        </div>
-        <div><span style="color: ${colorScheme === 'dark' ? '#ffffff' : '#637381'}; margin-right: 5px;">${legend}:</span> <span style="font-weight: bold;">${data}</span></div></div></div>`;
       },
     },
     dataLabels: {
@@ -47,31 +33,19 @@ export default function MemberByCountry() {
 
   return (
     <Card>
-      <CardHeader title="Miners by Country" />
+      <Box typography="h6" p="24px 16px 0 24px">
+        Miners By Country
+      </Box>
 
-      {loading ? (
-        <Paper sx={{ p: 3 }}>
-          <Skeleton variant="text" sx={{ fontSize: 26 }} />
-          <Skeleton variant="text" sx={{ fontSize: 26 }} />
-          <Skeleton variant="text" sx={{ fontSize: 26 }} />
-          <Skeleton variant="text" sx={{ fontSize: 26 }} />
-          <Skeleton variant="text" sx={{ fontSize: 26 }} />
-          <Skeleton variant="text" sx={{ fontSize: 26 }} />
-          <Skeleton variant="text" sx={{ fontSize: 26 }} />
-        </Paper>
-      ) : (
+      <Box p={2}>
         <Chart
           type="donut"
-          series={members.map((item) => item?.memberCount ?? 0)}
+          loading={loading}
+          series={series}
           options={chartOptions}
-          width={274}
-          height={274}
-          sx={{
-            my: 3,
-            mx: 'auto',
-          }}
+          sx={{ mx: 'auto', width: 306, height: 306 }}
         />
-      )}
+      </Box>
     </Card>
   );
 }

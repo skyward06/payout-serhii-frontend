@@ -21,7 +21,7 @@ export default function OverView({ me }: Props) {
   const { overview } = useFetchMemberOverview(me.id);
 
   return (
-    <Card sx={{ mt: 2, py: 3, textAlign: 'center', typography: 'h4' }}>
+    <Card sx={{ py: 3, textAlign: 'center', typography: 'h4' }}>
       <Stack
         direction="row"
         divider={<Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed' }} />}

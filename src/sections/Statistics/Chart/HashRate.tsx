@@ -1,24 +1,20 @@
 import type { ApexOptions } from 'apexcharts';
 
 import dayjs from 'dayjs';
-import ReactApexChart from 'react-apexcharts';
-import { useState, useCallback } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 
+import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import Paper from '@mui/material/Paper';
-import Skeleton from '@mui/material/Skeleton';
-import CardHeader from '@mui/material/CardHeader';
 
 import { formatWeekNumber } from 'src/utils/format-time';
 
-import { ChartSelect } from 'src/components/chart';
-import { useSettingsContext } from 'src/components/settings';
+import { Chart, ChartSelect } from 'src/components/chart';
 
 import { useFetchBlocks } from '../useApollo';
 
 // ----------------------------------------------------------------------
 
-const series = [
+const select = [
   { value: 'block', label: 'Block' },
   { value: 'day', label: 'Day' },
   { value: 'week', label: 'Week' },
@@ -27,28 +23,32 @@ const series = [
 
 export default function HashRate() {
   const [selectedSeries, setSelectedSeries] = useState('Block');
-  const { colorScheme } = useSettingsContext();
 
   const handleChangeSeries = useCallback((newValue: string) => {
     setSelectedSeries(newValue);
   }, []);
 
-  const currentSeries = series.find((i) => i.label === selectedSeries);
+  const currentSelect = select.find((i) => i.label === selectedSeries);
 
-  const { loading: blocksLoading, blocks } = useFetchBlocks(currentSeries?.value!);
+  const { loading, blocks } = useFetchBlocks(currentSelect?.value!);
 
-  const chartSeries = [
-    {
-      name: 'Hashrate',
-      data: blocks!.map((item) => Number(((item?.hashRate! || 1) / 10 ** 9).toFixed(2))).reverse(),
-      type: 'area',
-    },
-    {
-      name: 'Sold HashPower',
-      data: blocks!.map((item) => item.soldHashPower / 1000).reverse(),
-      type: 'line',
-    },
-  ];
+  const series = useMemo(
+    () => [
+      {
+        name: 'Hashrate',
+        data: blocks!
+          .map((item) => Number(((item?.hashRate! || 1) / 10 ** 9).toFixed(2)))
+          .reverse(),
+        type: 'area',
+      },
+      {
+        name: 'Sold HashPower',
+        data: blocks!.map((item) => item.soldHashPower / 1000).reverse(),
+        type: 'line',
+      },
+    ],
+    [blocks]
+  );
 
   const chartOptions: ApexOptions = {
     chart: {
@@ -67,7 +67,7 @@ export default function HashRate() {
       tickAmount: 30,
       categories: blocks!
         .map((item) =>
-          currentSeries?.value === 'week'
+          currentSelect?.value === 'week'
             ? `#${formatWeekNumber(item.baseDate)} (${dayjs(item.baseDate).utc().format('MM/DD')} - ${dayjs(item.baseDate).utc().add(6, 'day').format('MM/DD')})`
             : item.base
         )
@@ -97,57 +97,23 @@ export default function HashRate() {
     fill: {
       opacity: 0.6,
     },
-    tooltip: {
-      shared: true,
-      intersect: false,
-      custom: ({ dataPointIndex, w }) => {
-        const category = w.globals.categoryLabels.length
-          ? w.globals.categoryLabels[dataPointIndex]
-          : w.globals.labels[dataPointIndex];
-        const data = w.globals.initialSeries.map((item: any) => item.data[dataPointIndex]);
-
-        const chartData = data.reduce(
-          (
-            prev: any,
-            item: any,
-            index: number
-          ) => `${prev}<div style="display: flex; padding: 10px;"><div style="margin-right: 8px; width: 12px; height: 12px; border-radius: 50%; background-color: ${w.globals.colors[index]}; margin-top: 4px;">
-          </div><div><span style="color: ${colorScheme === 'dark' ? '#ffffff' : '#637381'}; margin-right: 5px;">${w.globals.seriesNames[index]}:</span> <span style="font-weight: bold;">${item} GH/s</span></div></div>`,
-          ''
-        );
-
-        return `<div style="background: ${colorScheme === 'dark' ? '#141A21' : '#ffffff'}; color: ${colorScheme === 'dark' ? '#ffffff' : '#6a7987'};"><div style="background: ${colorScheme === 'dark' ? '#28323D' : '#f4f6f8'}; color: ${colorScheme === 'dark' ? '#ffffff' : '#637381'}; font-weight: bold; padding: 5px 10px;">${category}</div>${chartData}</div>`;
-      },
-    },
     legend: { show: false },
   };
 
   return (
     <Card>
-      <CardHeader
-        title="Hash Rate"
-        action={
-          <ChartSelect
-            options={series.map((item) => item.label)}
-            value={selectedSeries}
-            onChange={handleChangeSeries}
-          />
-        }
-      />
+      <Box display="flex" justifyContent="space-between" typography="h6" p="24px 16px 0 24px">
+        Hash Rate
+        <ChartSelect
+          options={select.map((item) => item.label)}
+          value={selectedSeries}
+          onChange={handleChangeSeries}
+        />
+      </Box>
 
-      {blocksLoading ? (
-        <Paper sx={{ p: 3 }}>
-          <Skeleton variant="text" sx={{ fontSize: 26 }} />
-          <Skeleton variant="text" sx={{ fontSize: 26 }} />
-          <Skeleton variant="text" sx={{ fontSize: 26 }} />
-          <Skeleton variant="text" sx={{ fontSize: 26 }} />
-          <Skeleton variant="text" sx={{ fontSize: 26 }} />
-          <Skeleton variant="text" sx={{ fontSize: 26 }} />
-          <Skeleton variant="text" sx={{ fontSize: 26 }} />
-        </Paper>
-      ) : (
-        <ReactApexChart options={chartOptions} series={chartSeries} type="line" height={305} />
-      )}
+      <Box p={2}>
+        <Chart type="line" loading={loading} series={series} options={chartOptions} height={300} />
+      </Box>
     </Card>
   );
 }

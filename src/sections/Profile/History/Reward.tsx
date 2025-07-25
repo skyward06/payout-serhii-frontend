@@ -1,76 +1,64 @@
 import type { Member } from 'src/__generated__/graphql';
 
-import { useQuery as useGraphQuery } from '@apollo/client';
+import { useMemo } from 'react';
 
+import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import Grid from '@mui/material/Unstable_Grid2';
-import CardHeader from '@mui/material/CardHeader';
-
-import { useQuery } from 'src/routes/hooks';
 
 import { formatDate } from 'src/utils/format-time';
 
-import { ChartWidget } from 'src/components/CustomChart';
+import { Chart, useChart } from 'src/components/chart';
 
-import { FETCH_MEMBER_STATISTICS } from '../query';
+import { useFetchMemberStatistics } from '../useApollo';
 
 interface Props {
   me: Member;
 }
 
 export default function Reward({ me }: Props) {
-  const [query] = useQuery();
+  const { loading, statistics } = useFetchMemberStatistics({ memberId: me.id });
 
-  const { page = { page: 1, pageSize: 10 } } = query;
+  const series = useMemo(
+    () => [
+      {
+        name: 'TXC Shared',
+        data: statistics.map((item) => (item?.txcShared ?? 0) / 10 ** 8).reverse(),
+      },
+      {
+        name: 'Hash Power',
+        data: statistics.map((item) => item?.hashPower ?? 0).reverse(),
+      },
+    ],
+    [statistics]
+  );
 
-  const { loading, data } = useGraphQuery(FETCH_MEMBER_STATISTICS, {
-    variables: {
-      page: page && `${page.page},${page.pageSize}`,
-      filter: { memberId: me.id },
-      sort: 'issuedAt',
+  const chartOptions = useChart({
+    plotOptions: {
+      bar: {
+        columnWidth: '80%',
+      },
+    },
+    xaxis: {
+      categories: statistics.map((item) => `${formatDate(item?.issuedAt!, 'MM/DD')}`).reverse(),
+    },
+    yaxis: {
+      labels: {
+        formatter(val) {
+          return `${Math.floor(val)}`;
+        },
+      },
     },
   });
 
-  const memberStatistics = data?.memberStatistics.memberStatistics ?? [];
-
   return (
-    <Grid sx={{ mr: 2, mt: 2 }}>
-      <Card>
-        <CardHeader title="Reward" />
-        <ChartWidget
-          loading={loading}
-          chart={{
-            categories: memberStatistics.map((item) => `${formatDate(item?.issuedAt!)}`).reverse(),
-            series: [
-              {
-                name: 'TXC Shared',
-                data: memberStatistics.map((item) => (item?.txcShared ?? 0) / 10 ** 8).reverse(),
-              },
-              {
-                name: 'Hash Power',
-                data: memberStatistics.map((item) => item?.hashPower ?? 0).reverse(),
-              },
-            ],
-            options: {
-              plotOptions: {
-                bar: {
-                  columnWidth: '80%',
-                },
-              },
-              yaxis: {
-                labels: {
-                  formatter(val) {
-                    return `${Math.floor(val)}`;
-                  },
-                },
-              },
-            },
-          }}
-          height={492}
-          type="bar"
-          card
-        />
-      </Card>
-    </Grid>
+    <Card>
+      <Box typography="h6" px={3} pt={3}>
+        Reward
+      </Box>
+
+      <Box p={2}>
+        <Chart type="bar" loading={loading} series={series} options={chartOptions} height={480} />
+      </Box>
+    </Card>
   );
 }

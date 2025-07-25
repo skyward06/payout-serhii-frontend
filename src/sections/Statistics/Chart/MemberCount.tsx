@@ -1,20 +1,19 @@
 import dayjs from 'dayjs';
-import { useState, useCallback } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 
+import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
 import { alpha, useTheme } from '@mui/material/styles';
 
 import { formatWeekNumber } from 'src/utils/format-time';
 
-import { ChartSelect } from 'src/components/chart';
-import { ChartWidget } from 'src/components/CustomChart';
+import { Chart, useChart, ChartSelect } from 'src/components/chart';
 
 import { useFetchMemberCounts } from '../useApollo';
 
 // ----------------------------------------------------------------------
 
-const series = [
+const select = [
   { value: 'day', label: 'Day' },
   { value: 'week', label: 'Week' },
   { value: 'month', label: 'Month' },
@@ -29,63 +28,61 @@ export default function MemberCount() {
     setSelectedSeries(newValue);
   }, []);
 
-  const currentSeries = series.find((i) => i.label === selectedSeries);
+  const currentSelect = select.find((i) => i.label === selectedSeries);
 
-  const { loading, memberCount } = useFetchMemberCounts(currentSeries?.value!);
+  const { loading, memberCount } = useFetchMemberCounts(currentSelect?.value!);
+
+  const series = useMemo(
+    () => [
+      {
+        name: 'Miners',
+        data: memberCount.map((item) => item.minerCount).reverse(),
+      },
+    ],
+    [memberCount]
+  );
+
+  const chartOptions = useChart({
+    stroke: { width: 0 },
+    plotOptions: {
+      bar: { columnWidth: '80%' },
+    },
+    xaxis: {
+      labels: { show: false },
+      tooltip: { enabled: false },
+      tickAmount: 10,
+      categories: memberCount!
+        .map((item) =>
+          currentSelect?.value === 'week'
+            ? `#${formatWeekNumber(item.baseDate)} (${dayjs(item.baseDate).utc().format('MM/DD')} - ${dayjs(item.baseDate).utc().add(6, 'day').format('MM/DD')})`
+            : item.base
+        )
+        .reverse(),
+    },
+    yaxis: {
+      labels: {
+        formatter(val) {
+          return `${Math.floor(val)}`;
+        },
+      },
+    },
+    colors: [alpha(theme.palette.success.darker, 0.8)],
+  });
 
   return (
     <Card>
-      <CardHeader
-        title="New Miners"
-        action={
-          <ChartSelect
-            options={series.map((item) => item.label)}
-            value={selectedSeries}
-            onChange={handleChangeSeries}
-          />
-        }
-      />
+      <Box display="flex" justifyContent="space-between" typography="h6" p="24px 16px 0 24px">
+        New Miners
+        <ChartSelect
+          options={select.map((item) => item.label)}
+          value={selectedSeries}
+          onChange={handleChangeSeries}
+        />
+      </Box>
 
-      <ChartWidget
-        loading={loading}
-        chart={{
-          categories: memberCount!.map((item) => item.base).reverse(),
-          series: [
-            {
-              name: 'Miners',
-              data: memberCount.map((item) => item.minerCount).reverse(),
-            },
-          ],
-          options: {
-            stroke: { width: 0 },
-            plotOptions: {
-              bar: { columnWidth: '80%' },
-            },
-            xaxis: {
-              labels: { show: false },
-              tooltip: { enabled: false },
-              tickAmount: 10,
-              categories: memberCount!
-                .map((item) =>
-                  currentSeries?.value === 'week'
-                    ? `#${formatWeekNumber(item.baseDate)} (${dayjs(item.baseDate).utc().format('MM/DD')} - ${dayjs(item.baseDate).utc().add(6, 'day').format('MM/DD')})`
-                    : item.base
-                )
-                .reverse(),
-            },
-            yaxis: {
-              labels: {
-                formatter(val) {
-                  return `${Math.floor(val)}`;
-                },
-              },
-            },
-          },
-          colors: [alpha(theme.palette.success.darker, 0.8)],
-        }}
-        type="bar"
-        card
-      />
+      <Box p={2}>
+        <Chart type="bar" loading={loading} series={series} options={chartOptions} height={300} />
+      </Box>
     </Card>
   );
 }
