@@ -13,7 +13,6 @@ import { useRouter } from 'src/routes/hooks';
 
 import { toast } from 'src/components/SnackBar';
 import { Form, Field } from 'src/components/Form';
-import { Breadcrumbs } from 'src/components/Breadcrumbs';
 
 import { FileRecentItem } from 'src/sections/BugReport/FileRecentItem';
 
@@ -85,47 +84,32 @@ export function CreateForm() {
   };
 
   return (
-    <>
-      <Breadcrumbs
-        heading="Reimbursement"
-        links={[{ name: 'Reimbursement', href: paths.dashboard.reimbursement.root }]}
-        sx={{
-          mb: { xs: 1, md: 2 },
-        }}
-      />
+    <Form methods={methods} onSubmit={onSubmit}>
+      <Grid container columnSpacing={2}>
+        <Grid xs={12} md={8}>
+          <Box display="grid" gap={2}>
+            <Field.Text type="number" name="amountInCent" label="Amount" required />
 
-      <Form methods={methods} onSubmit={onSubmit}>
-        <Grid container columnSpacing={2}>
-          <Grid xs={12} md={8}>
-            <Box display="grid" gap={2}>
-              <Field.Text type="number" name="amountInCent" label="Amount" required />
+            <Field.Text name="description" label="Description" multiline rows={3} required />
+          </Box>
 
-              <Field.Text name="description" label="Description" multiline rows={3} required />
-            </Box>
-
-            <Stack direction="row" justifyContent="flex-end" mt={2}>
-              <LoadingButton
-                type="submit"
-                variant="contained"
-                color="primary"
-                loading={isSubmitting}
-              >
-                Submit
-              </LoadingButton>
-            </Stack>
-          </Grid>
-          <Grid xs={12} md={4}>
-            <Box mb={2}>
-              <FileManagerNewFolderDialog handleUpdate={handleUpdate} />
-            </Box>
-            <Box gap={1} display="flex" flexDirection="column">
-              {files?.map((file: any) => (
-                <FileRecentItem key={file.id} file={file} onDelete={onDelete} />
-              ))}
-            </Box>
-          </Grid>
+          <Stack direction="row" justifyContent="flex-end" mt={2}>
+            <LoadingButton type="submit" variant="contained" color="primary" loading={isSubmitting}>
+              Submit
+            </LoadingButton>
+          </Stack>
         </Grid>
-      </Form>
-    </>
+        <Grid xs={12} md={4}>
+          <Box mb={2}>
+            <FileManagerNewFolderDialog handleUpdate={handleUpdate} />
+          </Box>
+          <Box gap={1} display="flex" flexDirection="column">
+            {files?.map((file: any) => (
+              <FileRecentItem key={file.id} file={file} onDelete={onDelete} />
+            ))}
+          </Box>
+        </Grid>
+      </Grid>
+    </Form>
   );
 }

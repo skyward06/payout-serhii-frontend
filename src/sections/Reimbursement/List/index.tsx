@@ -9,10 +9,6 @@ import type {
 import { useMemo } from 'react';
 
 import Card from '@mui/material/Card';
-import Button from '@mui/material/Button';
-
-import { paths } from 'src/routes/paths';
-import { RouterLink } from 'src/routes/components';
 
 import { formatID } from 'src/utils/helper';
 import { formatDate } from 'src/utils/format-time';
@@ -22,8 +18,6 @@ import { REIMBURSEMENT_STATUS } from 'src/consts';
 import { ReimbursementStatus } from 'src/__generated__/graphql';
 
 import { AgGrid } from 'src/components/AgGrid';
-import { Iconify } from 'src/components/Iconify';
-import { Breadcrumbs } from 'src/components/Breadcrumbs';
 
 import { parseType } from './parseType';
 import { FileRenderer } from './FileRender';
@@ -114,38 +108,14 @@ export function ReimbursementList() {
   );
 
   return (
-    <>
-      <Breadcrumbs
-        heading="Reimbursement"
-        links={[
-          { name: 'Reimbursement', href: paths.dashboard.reimbursement.root },
-          { name: 'List' },
-        ]}
-        sx={{
-          mb: { xs: 1, md: 2 },
-        }}
-        action={
-          <Button
-            component={RouterLink}
-            variant="contained"
-            color="primary"
-            startIcon={<Iconify icon="mingcute:add-line" />}
-            href="new"
-          >
-            New
-          </Button>
-        }
+    <Card sx={{ flexGrow: 1, display: 'flex', overflow: 'hidden' }}>
+      <AgGrid<BasicReimbursement>
+        gridKey="reimbursement-list"
+        loading={loading}
+        rowData={reimbursements}
+        columnDefs={colDefs}
+        totalRowCount={rowCount}
       />
-
-      <Card sx={{ flexGrow: 1, display: 'flex', overflow: 'hidden' }}>
-        <AgGrid<BasicReimbursement>
-          gridKey="reimbursement-list"
-          loading={loading}
-          rowData={reimbursements}
-          columnDefs={colDefs}
-          totalRowCount={rowCount}
-        />
-      </Card>
-    </>
+    </Card>
   );
 }
