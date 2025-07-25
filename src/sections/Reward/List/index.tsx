@@ -4,7 +4,6 @@ import Tabs from '@mui/material/Tabs';
 import { useTabs } from 'src/hooks/use-tabs';
 
 import { Iconify } from 'src/components/Iconify';
-import { Breadcrumbs } from 'src/components/Breadcrumbs';
 
 import Wallets from './Wallets';
 import StatisticsTable from './Daily';
@@ -23,14 +22,6 @@ export default function RewardListView() {
 
   return (
     <>
-      <Breadcrumbs
-        heading="Reward"
-        links={[{ name: 'Reward', href: '#' }, { name: 'List' }]}
-        sx={{
-          mb: { xs: 1, md: 2 },
-        }}
-      />
-
       <Tabs value={tabs.value} onChange={tabs.onChange} sx={{ mb: { xs: 2, md: 3 } }}>
         {TABS.map((tab) => (
           <Tab key={tab.value} label={tab.label} icon={tab.icon} value={tab.value} />
