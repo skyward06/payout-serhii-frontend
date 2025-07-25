@@ -4,7 +4,7 @@ import { ApolloError } from '@apollo/client';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import Box from '@mui/material/Box';
-import { Link } from '@mui/material';
+import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
@@ -16,7 +16,7 @@ import { RouterLink } from 'src/routes/components';
 
 import { explorerService } from 'src/utils/axios/api-service';
 
-import { DEX_TRADE_TXC_URL } from 'src/consts';
+import { COIN_MARKET_CAP } from 'src/consts';
 
 import { toast } from 'src/components/SnackBar';
 import { Iconify } from 'src/components/Iconify';
@@ -149,8 +149,8 @@ export default function TXCRequest() {
 const TOOLTIP_TEXT = (
   <Typography variant="caption">
     This is the price of TXC from{' '}
-    <Link component={RouterLink} href={DEX_TRADE_TXC_URL}>
-      Dex-Trade
+    <Link component={RouterLink} href={COIN_MARKET_CAP} target="_blank">
+      CoinMarketCap
     </Link>
   </Typography>
 );
