@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Helmet } from 'react-helmet-async';
 import { Navigate } from 'react-router-dom';
 
 import Tab from '@mui/material/Tab';
@@ -10,10 +9,7 @@ import { paths } from 'src/routes/paths';
 import { useTabs } from 'src/hooks/use-tabs';
 import { useBoolean } from 'src/hooks/useBoolean';
 
-import { CONFIG } from 'src/config';
-
 import { Iconify } from 'src/components/Iconify';
-import { Breadcrumbs } from 'src/components/Breadcrumbs';
 import { LoadingScreen } from 'src/components/loading-screen';
 
 import { useAuthContext } from 'src/auth/hooks';
@@ -63,28 +59,15 @@ export default function Profile() {
 
   return (
     <>
-      <Helmet>
-        <title>{`${CONFIG.site.name}: My account`}</title>
-      </Helmet>
+      <Tabs value={tabs.value} onChange={onTabChange} sx={{ mb: { xs: 2, md: 3 } }}>
+        {TABS.map((tab) => (
+          <Tab key={tab.value} label={tab.label} icon={tab.icon} value={tab.value} />
+        ))}
+      </Tabs>
 
-      <>
-        <Breadcrumbs
-          heading="My account"
-          sx={{
-            mb: { xs: 2, md: 3 },
-          }}
-        />
+      {tabs.value === 'edit' && <General me={user} />}
 
-        <Tabs value={tabs.value} onChange={onTabChange} sx={{ mb: { xs: 2, md: 3 } }}>
-          {TABS.map((tab) => (
-            <Tab key={tab.value} label={tab.label} icon={tab.icon} value={tab.value} />
-          ))}
-        </Tabs>
-
-        {tabs.value === 'edit' && <General me={user} />}
-
-        {tabs.value === 'history' && <History />}
-      </>
+      {tabs.value === 'history' && <History />}
 
       <VerifyModal open={open} tabs={tabs} event={tabEvent} />
     </>
