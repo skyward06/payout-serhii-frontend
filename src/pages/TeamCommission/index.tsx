@@ -12,8 +12,6 @@ import TeamCommission from 'src/sections/TeamCommission';
 
 import { useAuthContext } from 'src/auth/hooks';
 
-// ----------------------------------------------------------------------
-
 export default function TeamPage() {
   const { user, loading } = useAuthContext();
 
@@ -33,7 +31,6 @@ export default function TeamPage() {
 
       <Breadcrumbs
         heading="Team"
-        links={[{ name: 'Team', href: paths.dashboard.team.root }, { name: 'List' }]}
         sx={{
           mb: { xs: 1, md: 2 },
         }}
