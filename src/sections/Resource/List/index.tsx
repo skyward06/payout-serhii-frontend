@@ -1,18 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
 
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 
-import { paths } from 'src/routes/paths';
-
 import { useTabs } from 'src/hooks/use-tabs';
 
 import { client } from 'src/utils/sanity/client';
-
-import { CONFIG } from 'src/config';
-
-import { Breadcrumbs } from 'src/components/Breadcrumbs';
 
 import Item from './item';
 import HowTo from './HowTo';
@@ -45,30 +38,16 @@ export default function Resource() {
 
   return (
     <>
-      <Helmet>
-        <title>{`${CONFIG.site.name} / resources`}</title>
-      </Helmet>
+      <Tabs value={tabs.value} onChange={tabs.onChange} sx={{ mb: { xs: 2, md: 3 } }}>
+        {[...initial, ...TABS].map((tab) => (
+          <Tab key={tab.value} label={tab.label} value={tab.value} />
+        ))}
+      </Tabs>
 
-      <>
-        <Breadcrumbs
-          heading="Resources"
-          links={[{ name: 'Resources', href: paths.dashboard.resource.root }, { name: 'list' }]}
-          sx={{
-            mb: { xs: 2, md: 3 },
-          }}
-        />
+      {tabs.value === 'howTo' && <HowTo />}
+      {tabs.value === 'mission' && <Mission />}
 
-        <Tabs value={tabs.value} onChange={tabs.onChange} sx={{ mb: { xs: 2, md: 3 } }}>
-          {[...initial, ...TABS].map((tab) => (
-            <Tab key={tab.value} label={tab.label} value={tab.value} />
-          ))}
-        </Tabs>
-
-        {tabs.value === 'howTo' && <HowTo />}
-        {tabs.value === 'mission' && <Mission />}
-
-        {!initial.some((tab) => tab.value === tabs.value) && <Item title={tabs.value} />}
-      </>
+      {!initial.some((tab) => tab.value === tabs.value) && <Item title={tabs.value} />}
     </>
   );
 }

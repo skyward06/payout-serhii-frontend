@@ -14,7 +14,7 @@ import { useAuthContext } from 'src/auth/hooks';
 
 // ----------------------------------------------------------------------
 
-export default function Page() {
+export default function CommissionPage() {
   const { user, loading } = useAuthContext();
 
   if (loading) {

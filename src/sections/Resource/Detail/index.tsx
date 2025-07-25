@@ -4,7 +4,6 @@
 import MediaPlayer from 'react-player';
 import { useParams } from 'react-router';
 import { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
 import BlockContent from '@sanity/block-content-to-react';
 
 import Stack from '@mui/material/Stack';
@@ -14,11 +13,9 @@ import Typography from '@mui/material/Typography';
 
 import { client } from 'src/utils/sanity/client';
 
-import { CONFIG } from 'src/config';
 import { maxLine } from 'src/theme/styles';
 
 import { BackToTop } from 'src/components/animate';
-import { Breadcrumbs } from 'src/components/Breadcrumbs';
 import { LoadingScreen } from 'src/components/loading-screen';
 
 export default function Detail() {
@@ -49,14 +46,6 @@ export default function Detail() {
 
   const renderContent = (
     <>
-      <Breadcrumbs
-        heading="Resources"
-        links={[{ name: 'Resources', href: '#' }, { name: current.title }]}
-        sx={{
-          mb: { xs: 2, md: 3 },
-        }}
-      />
-
       <BackToTop />
 
       <Stack>
@@ -91,13 +80,5 @@ export default function Detail() {
     </>
   );
 
-  return (
-    <>
-      <Helmet>
-        <title>{`${CONFIG.site.name} / resources`}</title>
-      </Helmet>
-
-      {loading ? renderLoading : renderContent}
-    </>
-  );
+  return <>{loading ? renderLoading : renderContent}</>;
 }

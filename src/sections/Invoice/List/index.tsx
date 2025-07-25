@@ -10,7 +10,6 @@ import { useMemo, useEffect } from 'react';
 
 import Card from '@mui/material/Card';
 
-import { paths } from 'src/routes/paths';
 import { useAgQuery as useQueryString } from 'src/routes/hooks';
 
 import { formatDate } from 'src/utils/format-time';
@@ -20,7 +19,6 @@ import { InvoiceStatusEnum } from 'src/__generated__/graphql';
 
 import { Label } from 'src/components/Label';
 import { AgGrid } from 'src/components/AgGrid';
-import { Breadcrumbs } from 'src/components/Breadcrumbs';
 
 import { parseType } from '../parseType';
 import { FileRenderer } from './FileRenderer';
@@ -160,30 +158,20 @@ export default function InvoiceListView() {
   );
 
   return (
-    <>
-      <Breadcrumbs
-        heading="Invoice"
-        links={[{ name: 'Invoice', href: paths.dashboard.invoice.root }, { name: 'List' }]}
-        sx={{
-          mb: { xs: 1, md: 2 },
-        }}
+    <Card
+      sx={{
+        flexGrow: 1,
+        display: 'flex',
+        overflow: 'hidden',
+      }}
+    >
+      <AgGrid<Invoice>
+        gridKey="invoice-list"
+        loading={loading}
+        rowData={invoices}
+        columnDefs={colDefs}
+        totalRowCount={rowCount}
       />
-
-      <Card
-        sx={{
-          flexGrow: 1,
-          display: 'flex',
-          overflow: 'hidden',
-        }}
-      >
-        <AgGrid<Invoice>
-          gridKey="invoice-list"
-          loading={loading}
-          rowData={invoices}
-          columnDefs={colDefs}
-          totalRowCount={rowCount}
-        />
-      </Card>
-    </>
+    </Card>
   );
 }
