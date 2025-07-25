@@ -4,20 +4,25 @@ import { ApolloError } from '@apollo/client';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import Box from '@mui/material/Box';
+import { Link } from '@mui/material';
 import Stack from '@mui/material/Stack';
-import { Typography } from '@mui/material';
+import Tooltip from '@mui/material/Tooltip';
 import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Autocomplete from '@mui/material/Autocomplete';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
+import { RouterLink } from 'src/routes/components';
 
 import { explorerService } from 'src/utils/axios/api-service';
 
+import { DEX_TRADE_TXC_URL } from 'src/consts';
 import { DashboardContent } from 'src/layouts/dashboard';
 
 import { toast } from 'src/components/SnackBar';
+import { Iconify } from 'src/components/Iconify';
 import { Form, Field } from 'src/components/Form';
 import { Breadcrumbs } from 'src/components/Breadcrumbs';
 
@@ -148,7 +153,19 @@ export default function TXCRequest() {
       <Stack direction="row" spacing={2} alignItems="center">
         <Typography variant="subtitle1">TXC Price</Typography>
         <Typography variant="body1">{price}</Typography>
+        <Tooltip title={TOOLTIP_TEXT} placement="right" arrow>
+          <Iconify icon="flowbite:info-circle-outline" />
+        </Tooltip>
       </Stack>
     </DashboardContent>
   );
 }
+
+const TOOLTIP_TEXT = (
+  <Typography variant="caption">
+    This is the price of TXC from{' '}
+    <Link component={RouterLink} href={DEX_TRADE_TXC_URL}>
+      Dex-Trade
+    </Link>
+  </Typography>
+);

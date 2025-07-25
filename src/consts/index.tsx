@@ -178,3 +178,4 @@ export const ORDER_STATUS = {
 
 export const HELP_MINETXC = 'https://help.minetxc.com/';
 export const CASH_POTENTIAL_URL = 'https://help.minetxc.com/understanding-cash-potential/';
+export const DEX_TRADE_TXC_URL = 'https://dex-trade.com/spot/trading/TXCUSDT?interface=classic';
