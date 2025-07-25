@@ -7,10 +7,8 @@ import Box from '@mui/material/Box';
 import { Link } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
-import Autocomplete from '@mui/material/Autocomplete';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
@@ -36,7 +34,6 @@ export default function TXCRequest() {
   const { user } = useAuthContext();
 
   const [price, setPrice] = useState<number>(0);
-  const [walletAddress, setWalletAddress] = useState<string>();
 
   const { createBuyTXCOrder } = useCreateBuyTXCOrder();
 
@@ -58,12 +55,7 @@ export default function TXCRequest() {
 
   const onSubmit = handleSubmit(async (newData) => {
     try {
-      if (!walletAddress) {
-        toast.error('Wallet address is required');
-        return;
-      }
-
-      const { data } = await createBuyTXCOrder({ ...newData, walletAddress });
+      const { data } = await createBuyTXCOrder(newData);
 
       if (data) {
         reset();
@@ -120,26 +112,20 @@ export default function TXCRequest() {
         >
           <Field.Text type="number" name="amount" label="Amount" required />
 
-          <Autocomplete
+          <Field.CustomAutocomplete
             freeSolo
             fullWidth
-            options={user?.memberWallets ?? []}
-            getOptionLabel={(option: any) => option.address}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                name="walletAddress"
-                label="Wallet address to receive"
-                margin="none"
-              />
-            )}
+            name="walletAddress"
+            label="Wallet address to receive"
+            placeholder="Select or type wallet address"
+            options={user?.memberWallets?.map((item) => item.address) ?? []}
+            getOptionLabel={(option: any) => option}
+            isOptionEqualToValue={(option, value) => option === value}
             renderOption={(props, option) => (
-              <li {...props} key={option!.address}>
-                {option.address}
+              <li {...props} key={option}>
+                {option}
               </li>
             )}
-            onChange={(_, value: any) => setWalletAddress(value.address)}
-            onInputChange={(_, value: any) => setWalletAddress(value)}
           />
         </Box>
 

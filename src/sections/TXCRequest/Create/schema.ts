@@ -4,4 +4,5 @@ export type SchemaType = zod.infer<typeof Schema>;
 
 export const Schema = zod.object({
   amount: zod.number({ required_error: 'Amount is required' }).min(1),
+  walletAddress: zod.string({ required_error: 'Wallet address is required' }),
 });
