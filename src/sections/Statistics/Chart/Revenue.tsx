@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import Card from '@mui/material/Card';
 import Paper from '@mui/material/Paper';
 import Skeleton from '@mui/material/Skeleton';
@@ -32,7 +30,7 @@ export default function RevenueOverview() {
     theme.palette.secondary.light,
   ];
 
-  const { loading, revenue, fetchRevenue } = useFetchRevenue();
+  const { loading, revenue } = useFetchRevenue();
 
   const chartOptions = useChart({
     chart: { sparkline: { enabled: true } },
@@ -89,11 +87,6 @@ export default function RevenueOverview() {
       },
     },
   });
-
-  useEffect(() => {
-    fetchRevenue({});
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <Card>

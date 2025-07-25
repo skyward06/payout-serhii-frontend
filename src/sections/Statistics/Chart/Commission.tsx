@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -13,7 +13,7 @@ import { useFetchCommissionByPeriod } from '../useApollo';
 
 // ----------------------------------------------------------------------
 
-const series = [
+const select = [
   { value: 'week', label: 'Week' },
   { value: 'month', label: 'Month' },
   { value: 'quarter', label: 'Quarter' },
@@ -26,21 +26,17 @@ export default function MemberReward() {
     setSelectedSeries(newValue);
   }, []);
 
-  const currentSeries = series.find((i) => i.label === selectedSeries);
+  const currentSelect = select.find((i) => i.label === selectedSeries);
 
-  const { loading, commission, fetchCommissionByPeriod } = useFetchCommissionByPeriod();
+  const { loading, commission } = useFetchCommissionByPeriod(currentSelect?.value!);
 
-  useEffect(() => {
-    fetchCommissionByPeriod({ variables: { data: { type: currentSeries?.value ?? '' } } });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentSeries]);
   return (
     <Card>
       <CardHeader
         title="Revenue & Commission"
         action={
           <ChartSelect
-            options={series.map((item) => item.label)}
+            options={select.map((item) => item.label)}
             value={selectedSeries}
             onChange={handleChangeSeries}
           />
@@ -70,7 +66,7 @@ export default function MemberReward() {
               tickAmount: 10,
               categories: commission!
                 .map((item) =>
-                  currentSeries?.value === 'week'
+                  currentSelect?.value === 'week'
                     ? `#${formatWeekNumber(item.baseDate)} (${dayjs(item.baseDate).utc().format('MM/DD')} - ${dayjs(item.baseDate).utc().add(6, 'day').format('MM/DD')})`
                     : item.base
                 )

@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -31,12 +31,7 @@ export default function MemberReward() {
 
   const currentSeries = series.find((i) => i.label === selectedSeries);
 
-  const { loading, memberReward, fetchMemberReward } = useFetchMemberReward();
-
-  useEffect(() => {
-    fetchMemberReward({ variables: { data: { type: currentSeries?.value ?? '' } } });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentSeries]);
+  const { loading, memberReward } = useFetchMemberReward(currentSeries?.value!);
 
   return (
     <Card>

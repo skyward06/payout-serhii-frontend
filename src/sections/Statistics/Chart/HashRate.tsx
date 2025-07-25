@@ -2,7 +2,7 @@ import type { ApexOptions } from 'apexcharts';
 
 import dayjs from 'dayjs';
 import ReactApexChart from 'react-apexcharts';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 
 import Card from '@mui/material/Card';
 import Paper from '@mui/material/Paper';
@@ -35,12 +35,7 @@ export default function HashRate() {
 
   const currentSeries = series.find((i) => i.label === selectedSeries);
 
-  const { loading: blocksLoading, blocks, fetchBlocks } = useFetchBlocks();
-
-  useEffect(() => {
-    fetchBlocks({ variables: { data: { type: currentSeries?.value ?? '' } } });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentSeries]);
+  const { loading: blocksLoading, blocks } = useFetchBlocks(currentSeries?.value!);
 
   const chartSeries = [
     {

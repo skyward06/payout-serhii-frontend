@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import Card from '@mui/material/Card';
 import Paper from '@mui/material/Paper';
 import Skeleton from '@mui/material/Skeleton';
@@ -13,7 +11,7 @@ import { useFetchMemberByCountry } from '../useApollo';
 export default function MemberByCountry() {
   const { colorScheme } = useSettingsContext();
 
-  const { loading, members, fetchMembersByCountry } = useFetchMemberByCountry();
+  const { loading, members } = useFetchMemberByCountry();
 
   const chartOptions = useChart({
     chart: { sparkline: { enabled: true } },
@@ -46,11 +44,6 @@ export default function MemberByCountry() {
       },
     },
   });
-
-  useEffect(() => {
-    fetchMembersByCountry();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <Card>

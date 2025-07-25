@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -21,12 +19,7 @@ import { ScrollBar } from 'src/components/ScrollBar';
 import { useFetchLatestReward } from '../useApollo';
 
 export default function Latest() {
-  const { loading, latest, fetchReward } = useFetchLatestReward();
-
-  useEffect(() => {
-    fetchReward();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { loading, latest } = useFetchLatestReward();
 
   return (
     <Card>

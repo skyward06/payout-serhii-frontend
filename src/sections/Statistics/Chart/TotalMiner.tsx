@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -31,12 +31,7 @@ export default function MemberCount() {
 
   const currentSeries = series.find((i) => i.label === selectedSeries);
 
-  const { loading, totalMiner, fetchTotalMiner } = useFetchTotalMiner();
-
-  useEffect(() => {
-    fetchTotalMiner({ variables: { data: { type: currentSeries?.value ?? '' } } });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentSeries]);
+  const { loading, totalMiner } = useFetchTotalMiner(currentSeries?.value!);
 
   return (
     <Card>

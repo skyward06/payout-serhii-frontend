@@ -29,24 +29,6 @@ export const GENERAL_QUERY = gql(/* GraphQL */ `
   }
 `);
 
-export const FETCH_BLOCKS_QUERY = gql(/* GraphQL */ `
-  query Blocks($page: String, $filter: JSONObject, $sort: String) {
-    blocks(page: $page, filter: $filter, sort: $sort) {
-      blocks {
-        id
-        blockNo
-        hashRate
-        difficulty
-        issuedAt
-        createdAt
-        updatedAt
-        deletedAt
-      }
-      total
-    }
-  }
-`);
-
 export const FETCH_STATISTICS_QUERY = gql(/* GraphQL */ `
   query Statistics($page: String, $filter: JSONObject, $sort: String) {
     statistics(page: $page, filter: $filter, sort: $sort) {
