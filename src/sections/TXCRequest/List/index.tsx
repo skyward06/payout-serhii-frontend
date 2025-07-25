@@ -10,11 +10,7 @@ import { useMemo } from 'react';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-
-import { paths } from 'src/routes/paths';
-import { RouterLink } from 'src/routes/components';
 
 import { useCopyToClipboard } from 'src/hooks/use-copy-to-clipboard';
 
@@ -28,7 +24,6 @@ import { TxcRequestStatus } from 'src/__generated__/graphql';
 import { AgGrid } from 'src/components/AgGrid';
 import { toast } from 'src/components/SnackBar';
 import { Iconify } from 'src/components/Iconify';
-import { Breadcrumbs } from 'src/components/Breadcrumbs';
 
 import { parseType } from './parseType';
 import { useFetchTXCRequestList } from '../useApollo';
@@ -127,41 +122,20 @@ export default function TXCRequestList() {
   );
 
   return (
-    <>
-      <Breadcrumbs
-        heading="TXC Request"
-        links={[{ name: 'TXC Request', href: paths.dashboard.txcRequest.root }, { name: 'list' }]}
-        sx={{
-          mb: { xs: 1, md: 2 },
-        }}
-        action={
-          <Button
-            component={RouterLink}
-            variant="contained"
-            color="primary"
-            startIcon={<Iconify icon="mingcute:add-line" />}
-            href="new"
-          >
-            New
-          </Button>
-        }
+    <Card
+      sx={{
+        flexGrow: 1,
+        display: 'flex',
+        overflow: 'hidden',
+      }}
+    >
+      <AgGrid<BasicTXCRequest>
+        gridKey="txc-request-list"
+        loading={loading}
+        rowData={txcRequests}
+        columnDefs={colDefs}
+        totalRowCount={rowCount}
       />
-
-      <Card
-        sx={{
-          flexGrow: 1,
-          display: 'flex',
-          overflow: 'hidden',
-        }}
-      >
-        <AgGrid<BasicTXCRequest>
-          gridKey="txc-request-list"
-          loading={loading}
-          rowData={txcRequests}
-          columnDefs={colDefs}
-          totalRowCount={rowCount}
-        />
-      </Card>
-    </>
+    </Card>
   );
 }

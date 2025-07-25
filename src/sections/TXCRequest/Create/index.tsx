@@ -21,7 +21,6 @@ import { COIN_MARKET_CAP } from 'src/consts';
 import { toast } from 'src/components/SnackBar';
 import { Iconify } from 'src/components/Iconify';
 import { Form, Field } from 'src/components/Form';
-import { Breadcrumbs } from 'src/components/Breadcrumbs';
 
 import { useAuthContext } from 'src/auth/hooks';
 
@@ -91,14 +90,6 @@ export default function TXCRequest() {
 
   return (
     <>
-      <Breadcrumbs
-        heading="TXC Request"
-        links={[{ name: 'TXC Request', href: paths.dashboard.txcRequest.root }]}
-        sx={{
-          mb: { xs: 1, md: 2 },
-        }}
-      />
-
       <Form methods={methods} onSubmit={onSubmit}>
         <Box
           rowGap={2}
