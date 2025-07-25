@@ -135,7 +135,7 @@ export default function TXCRequest() {
         </Stack>
       </Form>
 
-      <Stack direction="row" spacing={2} alignItems="center">
+      <Stack direction="row" spacing={2} alignItems="center" color="text.secondary">
         <Typography variant="subtitle1">TXC Price</Typography>
         <Typography variant="body1">{price}</Typography>
         <Tooltip title={TOOLTIP_TEXT} placement="right" arrow>

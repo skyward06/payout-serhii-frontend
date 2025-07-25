@@ -5,28 +5,15 @@ import type { ColDef, IDateFilterParams, ITextFilterParams } from '@ag-grid-comm
 import { useMemo } from 'react';
 
 import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-
-import { paths } from 'src/routes/paths';
-
-import { useBoolean } from 'src/hooks/useBoolean';
 
 import { formatID } from 'src/utils/helper';
 import { formatDate } from 'src/utils/format-time';
 
 import { AgGrid } from 'src/components/AgGrid';
-import { Iconify } from 'src/components/Iconify';
-import { Breadcrumbs } from 'src/components/Breadcrumbs';
 
-import { useFetchSales, useOrderAvailablePoint } from 'src/sections/Sales/useApollo';
-
-import Packages from './Packages';
+import { useFetchSales } from 'src/sections/Sales/useApollo';
 
 export default function SaleListView() {
-  const open = useBoolean();
-
-  const { available } = useOrderAvailablePoint();
   const { loading, rowCount, sales } = useFetchSales();
 
   const colDefs = useMemo<ColDef<BasicSale>[]>(
@@ -116,52 +103,20 @@ export default function SaleListView() {
   );
 
   return (
-    <>
-      <Breadcrumbs
-        heading="Order"
-        sx={{
-          mb: { xs: 1, md: 2 },
-        }}
-        action={
-          <Stack direction="row" spacing={2}>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<Iconify icon="mingcute:add-line" />}
-              href={paths.dashboard.txcRequest.new}
-            >
-              Buy TXC
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<Iconify icon="mingcute:add-line" />}
-              onClick={open.onTrue}
-              disabled={available === 0}
-            >
-              Add Hash
-            </Button>
-          </Stack>
-        }
+    <Card
+      sx={{
+        flexGrow: 1,
+        display: 'flex',
+        overflow: 'hidden',
+      }}
+    >
+      <AgGrid<BasicSale>
+        gridKey="sale-list"
+        loading={loading}
+        rowData={sales}
+        columnDefs={colDefs}
+        totalRowCount={rowCount}
       />
-
-      <Card
-        sx={{
-          flexGrow: 1,
-          display: 'flex',
-          overflow: 'hidden',
-        }}
-      >
-        <AgGrid<BasicSale>
-          gridKey="sale-list"
-          loading={loading}
-          rowData={sales}
-          columnDefs={colDefs}
-          totalRowCount={rowCount}
-        />
-      </Card>
-
-      <Packages open={open} available={available} />
-    </>
+    </Card>
   );
 }
