@@ -74,7 +74,7 @@ export default function AddMiner() {
         return;
       }
 
-      if (!sponsorId) {
+      if ((user?.isTexitRanger || user?.peerAcceptable) && !sponsorId) {
         toast.error('Sponsor is required');
         return;
       }
