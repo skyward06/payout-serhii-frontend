@@ -5,7 +5,6 @@ import { useMemo, useEffect } from 'react';
 
 import Card from '@mui/material/Card';
 
-import { paths } from 'src/routes/paths';
 import { useAgQuery as useQueryString } from 'src/routes/hooks';
 
 import { formatDateTime } from 'src/utils/format-time';
@@ -15,7 +14,6 @@ import { NOTIFICATION_LEVEL } from 'src/consts';
 
 import { Label } from 'src/components/Label';
 import { AgGrid } from 'src/components/AgGrid';
-import { Breadcrumbs } from 'src/components/Breadcrumbs';
 import { BooleanFormatter } from 'src/components/AgGrid/Renderers/BooleanFormatter';
 
 import { useFetchNotifications, useReadAllNotifications } from './useApollo';
@@ -87,33 +85,20 @@ export default function NotificationTable() {
   );
 
   return (
-    <>
-      <Breadcrumbs
-        heading="Notifications"
-        links={[
-          { name: 'Notifications', href: paths.dashboard.notifications.root },
-          { name: 'List' },
-        ]}
-        sx={{
-          mb: { xs: 1, md: 2 },
-        }}
+    <Card
+      sx={{
+        flexGrow: 1,
+        display: 'flex',
+        overflow: 'hidden',
+      }}
+    >
+      <AgGrid<Omit<NotificationClient, 'members'>>
+        gridKey="notification-list"
+        loading={loading}
+        rowData={notifications}
+        columnDefs={colDefs}
+        totalRowCount={rowCount}
       />
-
-      <Card
-        sx={{
-          flexGrow: 1,
-          display: 'flex',
-          overflow: 'hidden',
-        }}
-      >
-        <AgGrid<Omit<NotificationClient, 'members'>>
-          gridKey="notification-list"
-          loading={loading}
-          rowData={notifications}
-          columnDefs={colDefs}
-          totalRowCount={rowCount}
-        />
-      </Card>
-    </>
+    </Card>
   );
 }
