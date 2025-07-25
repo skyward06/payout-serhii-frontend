@@ -8,7 +8,7 @@ import { Breadcrumbs } from 'src/components/Breadcrumbs';
 
 import RewardList from 'src/sections/Reward/List';
 
-export default function Page() {
+export default function RewardPage() {
   return (
     <>
       <Helmet>

@@ -6,9 +6,9 @@ import { CONFIG } from 'src/config';
 
 import { Breadcrumbs } from 'src/components/Breadcrumbs';
 
-import ResourceDetailPage from 'src/sections/Resource/Detail';
+import ResourceDetail from 'src/sections/Resource/Detail';
 
-export default function Page() {
+export default function ResourceDetailPage() {
   return (
     <>
       <Helmet>
@@ -23,7 +23,7 @@ export default function Page() {
         }}
       />
 
-      <ResourceDetailPage />
+      <ResourceDetail />
     </>
   );
 }

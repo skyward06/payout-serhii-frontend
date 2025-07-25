@@ -8,7 +8,7 @@ import { Breadcrumbs } from 'src/components/Breadcrumbs';
 
 import ResourceList from 'src/sections/Resource/List';
 
-export default function Page() {
+export default function ResourceListPage() {
   return (
     <>
       <Helmet>
