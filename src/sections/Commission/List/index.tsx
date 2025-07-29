@@ -38,7 +38,7 @@ const TABLE_HEAD = [
   { id: 'commission', label: 'Commissions', width: 200, sortable: true },
   { id: 'paymentMethod', label: 'Method', width: 100, sortable: true },
   { id: 'status', label: 'Status', width: 120, sortable: true },
-  { id: 'proofNote', label: 'Note', width: 300, sortable: true },
+  { id: 'note', label: 'Note', width: 300, sortable: true },
 ];
 
 const defaultFilter: ICommissionTableFilters = {
@@ -110,7 +110,7 @@ export default function Commission({ me }: Props) {
                   id !== 'maxLR' &&
                   id !== 'pkgLR' &&
                   id !== 'endLR' &&
-                  id !== 'proofNote'
+                  id !== 'note'
                 ) {
                   const isAsc = sort && sort[id] === 'asc';
                   const newSort = { [id]: isAsc ? 'desc' : ('asc' as SortOrder) };

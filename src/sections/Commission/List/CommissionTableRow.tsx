@@ -32,7 +32,7 @@ export default function CommissionTableRow({ row }: Props) {
     pkgL,
     pkgR,
     status,
-    proofNote,
+    note,
     commission,
     paymentMethod,
     weekStartDate,
@@ -74,7 +74,7 @@ export default function CommissionTableRow({ row }: Props) {
         </Label>
       </TableCell>
       <TableCell align="left" sx={{ whiteSpace: 'nowrap' }}>
-        {truncateMiddle(proofNote ?? '', 30, false)}
+        {truncateMiddle(note ?? '', 30, false)}
       </TableCell>
     </TableRow>
   );
