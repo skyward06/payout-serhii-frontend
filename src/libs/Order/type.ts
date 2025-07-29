@@ -1,4 +1,9 @@
-import type { OrderStatus, PaymentChain, PaymentToken } from 'src/__generated__/graphql';
+import type {
+  OrderStatus,
+  PaymentChain,
+  PaymentToken,
+  OrderPaymentMethod,
+} from 'src/__generated__/graphql';
 
 export type OrderContextValue = {
   order: {
@@ -12,5 +17,6 @@ export type OrderContextValue = {
     requiredBalance?: number | null;
     paymentToken?: PaymentToken | null;
     paymentChain?: PaymentChain | null;
+    availablePaymentMethods: Array<OrderPaymentMethod>;
   };
 };
