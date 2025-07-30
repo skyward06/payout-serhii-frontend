@@ -25,8 +25,8 @@ const DarkLogo = forwardRef<HTMLDivElement, DarkLogoProps>(
         component="img"
         src={`${CONFIG.site.basePath}/assets/images/dark-logo.png`}
         sx={{
-          width: 70,
-          height: 70,
+          width: 60,
+          height: 60,
           cursor: 'pointer',
           ...(colorScheme === 'dark' && {
             background: '#ffffff',

@@ -9,7 +9,6 @@ import { usePathname } from 'src/routes/hooks';
 
 import { ScrollBar } from 'src/components/ScrollBar';
 import DarkLogo from 'src/components/logo/dark-logo';
-import { useSettingsContext } from 'src/components/settings';
 import { NavSectionVertical } from 'src/components/nav-section';
 
 // ----------------------------------------------------------------------
@@ -25,7 +24,6 @@ type NavMobileProps = NavSectionProps & {
 
 export function NavMobile({ data, open, onClose, slots, sx, ...other }: NavMobileProps) {
   const pathname = usePathname();
-  const { navColor } = useSettingsContext();
 
   useEffect(() => {
     if (open) {
@@ -49,11 +47,7 @@ export function NavMobile({ data, open, onClose, slots, sx, ...other }: NavMobil
     >
       {slots?.topArea ?? (
         <Box sx={{ pl: 3.5, pt: 2.5, pb: 1 }}>
-          {navColor === 'apparent' ? (
-            <DarkLogo sx={{ background: '#ffffff', borderRadius: 50 }} />
-          ) : (
-            <DarkLogo />
-          )}
+          <DarkLogo />
         </Box>
       )}
 

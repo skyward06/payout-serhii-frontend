@@ -8,7 +8,6 @@ import { varAlpha, hideScrollY } from 'src/theme/styles';
 
 import { ScrollBar } from 'src/components/ScrollBar';
 import DarkLogo from 'src/components/logo/dark-logo';
-import { useSettingsContext } from 'src/components/settings';
 import { NavSectionMini, NavSectionVertical } from 'src/components/nav-section';
 
 import { NavToggleButton } from '../components/nav-toggle-button';
@@ -35,17 +34,12 @@ export function NavVertical({
   ...other
 }: NavVerticalProps) {
   const theme = useTheme();
-  const { navColor } = useSettingsContext();
 
   const renderNavVertical = (
     <>
       {slots?.topArea ?? (
         <Box sx={{ pt: 2.5, pb: 1 }} textAlign="center">
-          {navColor === 'apparent' ? (
-            <DarkLogo sx={{ background: '#ffffff', borderRadius: 50 }} />
-          ) : (
-            <DarkLogo />
-          )}
+          <DarkLogo />
         </Box>
       )}
 
@@ -59,11 +53,7 @@ export function NavVertical({
     <>
       {slots?.topArea ?? (
         <Box sx={{ display: 'flex', justifyContent: 'center', py: 2.5 }}>
-          {navColor === 'apparent' ? (
-            <DarkLogo sx={{ background: '#ffffff', borderRadius: 50 }} />
-          ) : (
-            <DarkLogo />
-          )}
+          <DarkLogo />
         </Box>
       )}
 

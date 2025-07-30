@@ -72,7 +72,7 @@ export function NavBasic() {
         <Iconify icon="heroicons-solid:menu-alt-1" />
       </IconButton>
 
-      <DarkLogo sx={{ width: { xs: 40, md: 70 }, height: { xs: 40, md: 70 } }} />
+      <DarkLogo sx={{ width: { xs: 40, md: 60 }, height: { xs: 40, md: 60 } }} />
 
       <Stack direction="row" alignItems="center" spacing={6}>
         <NavBasicDesktop

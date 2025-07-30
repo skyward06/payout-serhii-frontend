@@ -39,7 +39,7 @@ export function AnimateLogo1({ logo, sx, ...other }: AnimateLogoProps) {
         }}
         sx={{ display: 'inline-flex' }}
       >
-        {logo ?? <DarkLogo width={64} height={64} />}
+        {logo ?? <DarkLogo width={60} height={60} />}
       </Box>
 
       <Box
