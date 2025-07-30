@@ -6,8 +6,12 @@ export type SchemaType = zod.infer<typeof Schema>;
 
 export const Schema = zod
   .object({
-    firstName: zod.string({ required_error: 'First Name is required' }),
-    lastName: zod.string({ required_error: 'Last Name is required' }),
+    firstName: zod
+      .string({ required_error: 'First Name is required' })
+      .min(1, { message: 'First Name is required' }),
+    lastName: zod
+      .string({ required_error: 'Last Name is required' })
+      .min(1, { message: 'Last Name is required' }),
     uname: zod.string({ required_error: 'Username is required' }),
     email: zod
       .string({ required_error: 'Email is required' })
