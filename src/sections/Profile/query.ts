@@ -38,6 +38,7 @@ export const FETCH_ME_QUERY = gql(/* GraphQL */ `
       placementPosition
       cmnCalculatedWeeks
       placementRequested
+      shareIsTexitRanger
       preferredContactDetail
       groupSetting {
         id
@@ -79,6 +80,7 @@ export const FETCH_ME_QUERY = gql(/* GraphQL */ `
         placementPosition
         placementRequested
         cmnCalculatedWeeks
+        shareIsTexitRanger
         preferredContactDetail
       }
       placementParent {
@@ -109,6 +111,7 @@ export const FETCH_ME_QUERY = gql(/* GraphQL */ `
         placementPosition
         placementRequested
         cmnCalculatedWeeks
+        shareIsTexitRanger
         preferredContactDetail
       }
       placementChildren {
@@ -137,6 +140,7 @@ export const FETCH_ME_QUERY = gql(/* GraphQL */ `
         placementPosition
         placementRequested
         cmnCalculatedWeeks
+        shareIsTexitRanger
         preferredContactDetail
       }
       sales {

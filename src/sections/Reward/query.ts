@@ -67,6 +67,7 @@ export const FETCH_MEMBERSTATISTICS_QUERY = gql(/* GraphQL */ `
           placementPosition
           cmnCalculatedWeeks
           placementRequested
+          shareIsTexitRanger
           preferredContactDetail
           commission {
             begL
