@@ -11,12 +11,13 @@ import { useMemo } from 'react';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import ListItemText from '@mui/material/ListItemText';
 
 import { useCopyToClipboard } from 'src/hooks/use-copy-to-clipboard';
 
 import { formatID } from 'src/utils/helper';
 import { fNumber } from 'src/utils/formatNumber';
-import { formatDate } from 'src/utils/format-time';
+import { formatDate, formatTime } from 'src/utils/format-time';
 
 import { TXC_REQUEST_STATUS } from 'src/consts';
 import { TxcRequestStatus } from 'src/__generated__/graphql';
@@ -24,11 +25,12 @@ import { TxcRequestStatus } from 'src/__generated__/graphql';
 import { AgGrid } from 'src/components/AgGrid';
 import { toast } from 'src/components/SnackBar';
 import { Iconify } from 'src/components/Iconify';
+import { Label, type LabelColor } from 'src/components/Label';
 
 import { parseType } from './parseType';
 import { useFetchTXCRequestList } from '../useApollo';
 
-import type { BasicTXCRequest } from './type';
+import type { TXCRequest } from './type';
 
 export default function TXCRequestList() {
   const { loading, rowCount, txcRequests } = useFetchTXCRequestList();
@@ -42,7 +44,7 @@ export default function TXCRequestList() {
     }
   };
 
-  const colDefs = useMemo<ColDef<BasicTXCRequest>[]>(
+  const colDefs = useMemo<ColDef<TXCRequest>[]>(
     () => [
       {
         field: 'ID',
@@ -51,39 +53,52 @@ export default function TXCRequestList() {
         filter: 'agNumberColumnFilter',
         resizable: true,
         editable: false,
-        cellClass: 'tabular-nums',
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicTXCRequest>) =>
+        cellClass: 'tabular-nums ag-cell-center',
+        cellRenderer: ({ data }: CustomCellRendererProps<TXCRequest>) =>
           formatID(data?.ID ?? '', 'T'),
       },
       {
-        field: 'walletAddress',
+        field: 'outputAddress',
         headerName: 'Wallet Address',
         flex: 1,
         minWidth: 500,
         filter: 'agTextColumnFilter',
         resizable: true,
         editable: false,
+        cellClass: 'ag-cell-center',
         filterParams: { buttons: ['reset'] } as ITextFilterParams,
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicTXCRequest>) => (
+        cellRenderer: ({ data }: CustomCellRendererProps<TXCRequest>) => (
           <Stack direction="row" spacing={2} alignItems="center" mt={0.5}>
-            <Typography variant="body1">{data?.walletAddress}</Typography>
+            <Typography variant="body1">{data?.outputAddress}</Typography>
             <Iconify
               icon="stash:copy-light"
               sx={{ cursor: 'pointer' }}
-              onClick={() => onCopy(data?.walletAddress ?? '')}
+              onClick={() => onCopy(data?.outputAddress ?? '')}
             />
           </Stack>
         ),
       },
       {
-        field: 'amount',
+        field: 'paidBalance',
         headerName: 'Amount',
         width: 150,
         filter: 'agNumberColumnFilter',
         resizable: true,
         editable: false,
-        cellClass: 'tabular-nums ag-right-aligned-cell',
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicTXCRequest>) => fNumber(data?.amount),
+        cellClass: 'tabular-nums ag-right-aligned-cell ag-cell-center',
+        cellRenderer: ({ data }: CustomCellRendererProps<TXCRequest>) =>
+          fNumber(Number(data?.paidBalance) / 10 ** 6),
+      },
+      {
+        field: 'txcPrice',
+        headerName: 'TXC Price',
+        width: 150,
+        filter: 'agNumberColumnFilter',
+        resizable: true,
+        editable: false,
+        cellClass: 'tabular-nums ag-right-aligned-cell ag-cell-center',
+        cellRenderer: ({ data }: CustomCellRendererProps<TXCRequest>) =>
+          fNumber(data?.txcPrice, { minimumFractionDigits: 4, maximumFractionDigits: 4 }),
       },
       {
         field: 'status',
@@ -94,15 +109,19 @@ export default function TXCRequestList() {
           values: Object.values(TxcRequestStatus),
           valueFormatter: (params: any) => parseType(params.value),
           defaultToNothingSelected: true,
-        } as ISetFilterParams<BasicTXCRequest>,
+        } as ISetFilterParams<TXCRequest>,
         resizable: true,
         editable: false,
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicTXCRequest>) =>
-          data ? TXC_REQUEST_STATUS[data.status] : '',
+        cellClass: 'ag-cell-center',
+        cellRenderer: ({ data }: CustomCellRendererProps<TXCRequest>) => (
+          <Label color={TXC_REQUEST_STATUS[data?.status!].color as LabelColor}>
+            {TXC_REQUEST_STATUS[data?.status!].label}
+          </Label>
+        ),
       },
       {
-        field: 'createdAt',
-        headerName: 'Created At',
+        field: 'paidAt',
+        headerName: 'Paid At',
         width: 200,
         filter: 'agDateColumnFilter',
         filterParams: {
@@ -113,8 +132,17 @@ export default function TXCRequestList() {
         resizable: true,
         editable: false,
         cellClass: 'tabular-nums',
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicTXCRequest>) =>
-          formatDate(data?.createdAt),
+        cellRenderer: ({ data }: CustomCellRendererProps<TXCRequest>) => (
+          <ListItemText
+            primary={formatDate(data?.paidAt)}
+            secondary={formatTime(data?.paidAt)}
+            primaryTypographyProps={{ typography: 'body2' }}
+            secondaryTypographyProps={{
+              component: 'span',
+              color: 'text.disabled',
+            }}
+          />
+        ),
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -129,12 +157,13 @@ export default function TXCRequestList() {
         overflow: 'hidden',
       }}
     >
-      <AgGrid<BasicTXCRequest>
+      <AgGrid<TXCRequest>
         gridKey="txc-request-list"
         loading={loading}
         rowData={txcRequests}
         columnDefs={colDefs}
         totalRowCount={rowCount}
+        rowHeight={50}
       />
     </Card>
   );

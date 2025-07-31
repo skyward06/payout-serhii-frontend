@@ -4,39 +4,44 @@ import { ApolloError } from '@apollo/client';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
-import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
-import { RouterLink } from 'src/routes/components';
+
+import { useBoolean } from 'src/hooks/useBoolean';
 
 import { explorerService } from 'src/utils/axios/api-service';
 
-import { COIN_MARKET_CAP } from 'src/consts';
-
 import { toast } from 'src/components/SnackBar';
-import { Iconify } from 'src/components/Iconify';
 import { Form, Field } from 'src/components/Form';
 
 import { useAuthContext } from 'src/auth/hooks';
 
+import { Helper } from './Helper';
+import { Estimator } from './Estimator';
+import { PriceViewer } from './PriceViewer';
 import { Schema, type SchemaType } from './schema';
-import { useCreateBuyTXCOrder } from '../useApollo';
+import { useCreateBuyTXCOrder, useCreateBuyWTXCOrder } from '../useApollo';
 
 export default function TXCRequest() {
   const router = useRouter();
+  const isTXC = useBoolean();
+  const loading = useBoolean();
+
   const { user } = useAuthContext();
 
   const [price, setPrice] = useState<number>(0);
 
   const { createBuyTXCOrder } = useCreateBuyTXCOrder();
+  const { createBuyWTXCOrder } = useCreateBuyWTXCOrder();
 
   const defaultValues = {
-    amount: 0,
+    payment: 'TXC',
+    address: '',
+    buy: 1,
+    pay: 1,
   };
 
   const methods = useForm<SchemaType>({
@@ -51,20 +56,29 @@ export default function TXCRequest() {
     formState: { isSubmitting },
   } = methods;
 
-  const onSubmit = handleSubmit(async (newData) => {
+  const onSubmit = handleSubmit(async ({ address }) => {
     try {
-      const { data } = await createBuyTXCOrder(newData);
+      if (isTXC.value) {
+        const { data } = await createBuyTXCOrder({ address });
 
-      if (data) {
-        reset();
-        router.push(`${paths.pages.order.root}/${data.createBuyTXCOrder.id}`);
+        if (data) {
+          router.push(`${paths.pages.order.root}/${data.createBuyTXCOrder.id}`);
+        }
+      } else {
+        const { data } = await createBuyWTXCOrder({ address });
+
+        if (data) {
+          router.push(`${paths.pages.order.root}/${data.createBuyWTXCOrder.id}`);
+        }
       }
+
+      reset();
     } catch (err) {
       if (err instanceof ApolloError) {
         const [error] = err.graphQLErrors;
 
-        if (error.path?.includes('amount')) {
-          setError('amount', { type: 'manual', message: error?.message || '' });
+        if (error.path?.includes('address')) {
+          setError('address', { type: 'manual', message: error?.message || '' });
         }
 
         toast.error(error?.message);
@@ -74,74 +88,66 @@ export default function TXCRequest() {
     }
   });
 
-  useEffect(() => {
-    async function getPrice() {
-      try {
-        const data = await explorerService.getCurrentPrice();
+  const getPrice = async () => {
+    try {
+      loading.onTrue();
 
+      const data = await explorerService.getCurrentPrice();
+      if (typeof data === 'number') {
         setPrice(data);
-      } catch (error) {
-        toast.error(error.message);
+      } else {
+        setPrice(0);
       }
-    }
 
+      loading.onFalse();
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  useEffect(() => {
     getPrice();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <>
+    <Box sx={{ width: { md: 800, sm: 500, xs: 300 }, mx: 'auto' }}>
       <Form methods={methods} onSubmit={onSubmit}>
-        <Box
+        <Estimator isTXC={isTXC} price={price} />
+
+        <Field.CustomAutocomplete
+          freeSolo
+          fullWidth
+          name="address"
+          label={`${isTXC.value ? 'TXC' : 'ETH'} address`}
+          placeholder={`Your ${isTXC.value ? 'TXC' : 'ETH'} address to receive`}
+          options={user?.memberWallets?.map((item) => item.address) ?? []}
+          getOptionLabel={(option: any) => option}
+          isOptionEqualToValue={(option, value) => option === value}
+          renderOption={(props, option) => (
+            <li {...props} key={option}>
+              {option}
+            </li>
+          )}
+        />
+
+        <Stack
+          direction={{ md: 'row', sm: 'column' }}
+          justifyContent="space-between"
+          alignItems="center"
+          spacing={2}
           rowGap={2}
-          columnGap={2}
-          display="grid"
-          gridTemplateColumns={{
-            xs: 'repeat(1, 1fr)',
-            sm: 'repeat(2, 1fr)',
-          }}
+          mt={2}
         >
-          <Field.Text type="number" name="amount" label="Amount" required />
+          <PriceViewer price={price} loading={loading} getPrice={getPrice} />
 
-          <Field.CustomAutocomplete
-            freeSolo
-            fullWidth
-            name="walletAddress"
-            label="Wallet address to receive"
-            placeholder="Select or type wallet address"
-            options={user?.memberWallets?.map((item) => item.address) ?? []}
-            getOptionLabel={(option: any) => option}
-            isOptionEqualToValue={(option, value) => option === value}
-            renderOption={(props, option) => (
-              <li {...props} key={option}>
-                {option}
-              </li>
-            )}
-          />
-        </Box>
-
-        <Stack direction="row" justifyContent="flex-end" mt={2}>
           <LoadingButton type="submit" variant="contained" color="primary" loading={isSubmitting}>
             Submit
           </LoadingButton>
         </Stack>
-      </Form>
 
-      <Stack direction="row" spacing={2} alignItems="center" color="text.secondary">
-        <Typography variant="subtitle1">TXC Price</Typography>
-        <Typography variant="body1">{price}</Typography>
-        <Tooltip title={TOOLTIP_TEXT} placement="right" arrow>
-          <Iconify icon="flowbite:info-circle-outline" />
-        </Tooltip>
-      </Stack>
-    </>
+        <Helper />
+      </Form>
+    </Box>
   );
 }
-
-const TOOLTIP_TEXT = (
-  <Typography variant="caption">
-    This is the price of TXC from{' '}
-    <Link component={RouterLink} href={COIN_MARKET_CAP} target="_blank">
-      CoinMarketCap
-    </Link>
-  </Typography>
-);

@@ -6,8 +6,10 @@ export const parseType = (txcRequestStatus: TxcRequestStatus): string => {
       return 'Sent';
     case TxcRequestStatus.Pending:
       return 'Pending';
-    case TxcRequestStatus.Declined:
-      return 'Declined';
+    case TxcRequestStatus.Confirming:
+      return 'Confirming';
+    case TxcRequestStatus.Failed:
+      return 'Failed';
     default:
       return txcRequestStatus;
   }
