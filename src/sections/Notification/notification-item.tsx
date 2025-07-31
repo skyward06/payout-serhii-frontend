@@ -25,7 +25,7 @@ export function NotificationItem({ notification }: Props) {
   const { readNotifications } = useReadNotifications();
 
   const levelColor =
-    level === NotificationLevel.Teamleader
+    level === NotificationLevel.TeamLeader
       ? 'success'
       : NotificationLevel.Individual
         ? 'primary'

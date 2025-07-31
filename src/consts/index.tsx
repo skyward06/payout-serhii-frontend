@@ -104,7 +104,7 @@ export const NOTIFICATION_LEVEL = {
   ALL: 'All',
   ADMIN: 'Admin',
   INDIVIDUAL: 'Individual',
-  TEAMLEADER: 'Team Leader',
+  TEAM_LEADER: 'Team Leader',
 };
 
 export enum State {
@@ -156,9 +156,10 @@ export const CHAIN_UNIT = {
 };
 
 export const TXC_REQUEST_STATUS = {
-  SENT: 'Sent',
-  PENDING: 'Pending',
-  DECLINED: 'Declined',
+  SENT: { label: 'Sent', color: 'success' },
+  PENDING: { label: 'Pending', color: 'warning' },
+  CONFIRMING: { label: 'Confirming', color: 'info' },
+  FAILED: { label: 'Failed', color: 'error' },
 };
 
 export const REIMBURSEMENT_STATUS = {
