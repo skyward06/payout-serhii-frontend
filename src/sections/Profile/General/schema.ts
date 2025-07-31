@@ -21,7 +21,6 @@ export const Schema = zod.object({
   ethAssetId: zod.string().optional().nullable(),
   preferredContact: zod.string().optional().nullable(),
   preferredContactDetail: zod.string().optional().nullable(),
-  syncWithSendy: zod.boolean().default(true),
   txcWallets: zod.array(
     zod.object({
       payoutId: zod.string({ required_error: 'Payout is required' }),

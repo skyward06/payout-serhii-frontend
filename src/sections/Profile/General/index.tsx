@@ -121,7 +121,6 @@ export default function MemberGeneral({ me }: Props) {
               city: newMember.city,
               state: newMember.state,
               country,
-              syncWithSendy: newMember.syncWithSendy,
               preferredContact: newMember.preferredContact,
               preferredContactDetail: newMember.preferredContactDetail,
               zipCode: newMember.zipCode,
