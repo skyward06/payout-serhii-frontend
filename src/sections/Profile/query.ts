@@ -24,7 +24,6 @@ export const FETCH_ME_QUERY = gql(/* GraphQL */ `
       teamReport
       OTPEnabled
       teamStrategy
-      syncWithSendy
       emailVerified
       isTexitRanger
       peerAcceptable
@@ -69,7 +68,6 @@ export const FETCH_ME_QUERY = gql(/* GraphQL */ `
         teamStrategy
         emailVerified
         emailVerified
-        syncWithSendy
         isTexitRanger
         peerAcceptable
         primaryAddress
@@ -101,7 +99,6 @@ export const FETCH_ME_QUERY = gql(/* GraphQL */ `
         teamStrategy
         isTexitRanger
         emailVerified
-        syncWithSendy
         peerAcceptable
         primaryAddress
         secondaryAddress
@@ -129,7 +126,6 @@ export const FETCH_ME_QUERY = gql(/* GraphQL */ `
         OTPEnabled
         teamStrategy
         emailVerified
-        syncWithSendy
         isTexitRanger
         peerAcceptable
         primaryAddress

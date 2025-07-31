@@ -1,4 +1,4 @@
-import type { CreateBuyTxcInput } from 'src/__generated__/graphql';
+import type { CreateBuyTxcInput, CreateBuyWtxcInput } from 'src/__generated__/graphql';
 
 import { useRef, useMemo, useCallback } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
@@ -7,7 +7,7 @@ import { useAgQuery as useQueryString } from 'src/routes/hooks';
 
 import { parseFilterModel } from 'src/utils/parseFilter';
 
-import { TXC_REQUEST_LIST, CREATE_BUY_TXC_ORDER } from './query';
+import { TXC_REQUEST_LIST, CREATE_BUY_TXC_ORDER, CREATE_BUY_WTXC_ORDER } from './query';
 
 export function useFetchTXCRequestList() {
   const [{ page = '1,50', sort = 'createdAt', filter }] = useQueryString();
@@ -42,4 +42,15 @@ export function useCreateBuyTXCOrder() {
   );
 
   return { loading, data, error, createBuyTXCOrder };
+}
+
+export function useCreateBuyWTXCOrder() {
+  const [submit, { loading, data, error }] = useMutation(CREATE_BUY_WTXC_ORDER);
+
+  const createBuyWTXCOrder = useCallback(
+    (newData: CreateBuyWtxcInput) => submit({ variables: { data: newData } }),
+    [submit]
+  );
+
+  return { loading, data, error, createBuyWTXCOrder };
 }

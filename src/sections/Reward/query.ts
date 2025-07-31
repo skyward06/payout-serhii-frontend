@@ -56,7 +56,6 @@ export const FETCH_MEMBERSTATISTICS_QUERY = gql(/* GraphQL */ `
           OTPEnabled
           teamStrategy
           emailVerified
-          syncWithSendy
           isTexitRanger
           peerAcceptable
           primaryAddress

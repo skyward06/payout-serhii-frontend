@@ -6,13 +6,18 @@ export const TXC_REQUEST_LIST = gql(/* GraphQL */ `
       txcRequests {
         id
         ID
-        amount
+        type
         status
+        paidAt
+        sentAt
         memberId
-        username
-        fullName
-        createdAt
-        walletAddress
+        txcPrice
+        paidBalance
+        sentBalance
+        inputAddress
+        outputAddress
+        paidTransactionHash
+        sentTransactionHash
       }
       total
     }
@@ -22,6 +27,14 @@ export const TXC_REQUEST_LIST = gql(/* GraphQL */ `
 export const CREATE_BUY_TXC_ORDER = gql(/* GraphQL */ `
   mutation CreateBuyTXCOrder($data: CreateBuyTXCInput!) {
     createBuyTXCOrder(data: $data) {
+      id
+    }
+  }
+`);
+
+export const CREATE_BUY_WTXC_ORDER = gql(/* GraphQL */ `
+  mutation CreateBuyWTXCOrder($data: CreateBuyWTXCInput!) {
+    createBuyWTXCOrder(data: $data) {
       id
     }
   }
