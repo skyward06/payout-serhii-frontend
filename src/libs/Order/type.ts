@@ -13,6 +13,7 @@ export type OrderContextValue = {
     expiredAt: any;
     status: OrderStatus;
     paidBalance: number;
+    acceptFirstTx: boolean;
     paymentAddress?: string | null;
     requiredBalance?: number | null;
     paymentToken?: PaymentToken | null;

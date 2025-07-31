@@ -51,16 +51,19 @@ export default function PaymentWaiting() {
         icon: 'entypo:wallet',
         copy: true,
       },
-      {
+    ];
+
+    if (!current.acceptFirstTx) {
+      items.push({
         label: fNumber((current?.requiredBalance ?? 0) / balanceUnit, {
           minimumFractionDigits: fractionDigits,
           maximumFractionDigits: fractionDigits,
         }),
-        value: (current?.requiredBalance ?? 0) / balanceUnit,
+        value: `${(current?.requiredBalance ?? 0) / balanceUnit}`,
         icon: `${CONFIG.site.basePath}/assets/${current?.paymentToken}.png`,
         copy: true,
-      },
-    ];
+      });
+    }
 
     if (current?.paidBalance) {
       items.push({
@@ -68,7 +71,7 @@ export default function PaymentWaiting() {
           minimumFractionDigits: fractionDigits,
           maximumFractionDigits: fractionDigits,
         }),
-        value: (current?.paidBalance ?? 0) / balanceUnit,
+        value: `${(current?.paidBalance ?? 0) / balanceUnit}`,
         icon: `${CONFIG.site.basePath}/assets/${current?.paymentToken}.png`,
         copy: false,
       });
