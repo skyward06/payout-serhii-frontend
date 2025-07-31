@@ -10,7 +10,6 @@ import { useMemo } from 'react';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 import ListItemText from '@mui/material/ListItemText';
 
 import { useCopyToClipboard } from 'src/hooks/use-copy-to-clipboard';
@@ -68,8 +67,8 @@ export default function TXCRequestList() {
         cellClass: 'ag-cell-center',
         filterParams: { buttons: ['reset'] } as ITextFilterParams,
         cellRenderer: ({ data }: CustomCellRendererProps<TXCRequest>) => (
-          <Stack direction="row" spacing={2} alignItems="center" mt={0.5}>
-            <Typography variant="body1">{data?.outputAddress}</Typography>
+          <Stack direction="row" spacing={2} alignItems="center">
+            {data?.outputAddress}
             <Iconify
               icon="stash:copy-light"
               sx={{ cursor: 'pointer' }}
