@@ -8,6 +8,7 @@ import Card from '@mui/material/Card';
 
 import { formatID } from 'src/utils/helper';
 import { formatDate } from 'src/utils/format-time';
+import { fCurrency } from 'src/utils/formatNumber';
 
 import { AgGrid } from 'src/components/AgGrid';
 
@@ -63,7 +64,8 @@ export default function SaleListView() {
         filter: 'agNumberColumnFilter',
         resizable: true,
         editable: false,
-        cellClass: 'ag-number-cell',
+        cellClass: 'ag-number-cell ag-right-aligned-cell',
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicSale>) => fCurrency(data?.amount),
       },
       {
         field: 'token',
@@ -72,6 +74,7 @@ export default function SaleListView() {
         filter: 'agNumberColumnFilter',
         resizable: true,
         editable: false,
+        cellClass: 'ag-number-cell ag-right-aligned-cell',
       },
       {
         field: 'point',
@@ -80,7 +83,7 @@ export default function SaleListView() {
         filter: 'agNumberColumnFilter',
         resizable: true,
         editable: false,
-        cellClass: 'ag-number-cell',
+        cellClass: 'ag-number-cell ag-right-aligned-cell',
       },
       {
         field: 'orderedAt',
@@ -95,6 +98,7 @@ export default function SaleListView() {
         resizable: true,
         editable: false,
         initialSort: 'desc',
+        cellClass: 'ag-number-cell',
         cellRenderer: ({ data }: CustomCellRendererProps<BasicSale>) => formatDate(data?.createdAt),
       },
     ],
@@ -111,7 +115,7 @@ export default function SaleListView() {
       }}
     >
       <AgGrid<BasicSale>
-        gridKey="sale-list"
+        gridKey="user-sale-list"
         loading={loading}
         rowData={sales}
         columnDefs={colDefs}
