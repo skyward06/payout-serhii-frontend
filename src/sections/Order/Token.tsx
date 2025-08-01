@@ -83,7 +83,9 @@ export function Token({ paymentType, setPaymentType }: Props) {
             ) : (
               <Avatar src={payment.icon} />
             )}
-            <Typography fontWeight={500}>{payment.label}</Typography>
+            <Typography
+              fontWeight={500}
+            >{`${payment.label} ${payment.label === PaymentToken.Pyusd ? '( PayPal )' : ''}`}</Typography>
           </Stack>
 
           <Iconify
