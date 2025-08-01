@@ -13,6 +13,7 @@ import Card from '@mui/material/Card';
 import { useAgQuery as useQueryString } from 'src/routes/hooks';
 
 import { formatDate } from 'src/utils/format-time';
+import { fCurrency } from 'src/utils/formatNumber';
 import { parseFilterModel } from 'src/utils/parseFilter';
 
 import { InvoiceStatusEnum } from 'src/__generated__/graphql';
@@ -22,7 +23,6 @@ import { AgGrid } from 'src/components/AgGrid';
 
 import { parseType } from '../parseType';
 import { FileRenderer } from './FileRenderer';
-import { ActionRender } from './ActionRender';
 import { useFetchInvoices } from '../useApollo';
 
 import type { Invoice } from './type';
@@ -44,7 +44,7 @@ export default function InvoiceListView() {
       {
         field: 'ID',
         headerName: 'Invoice No',
-        width: 100,
+        width: 120,
         resizable: true,
         editable: false,
         cellClass: 'ag-number-cell',
@@ -54,7 +54,8 @@ export default function InvoiceListView() {
       {
         field: 'name',
         headerName: 'Name',
-        width: 250,
+        flex: 1,
+        minWidth: 250,
         filter: 'agTextColumnFilter',
         resizable: true,
         editable: false,
@@ -63,10 +64,11 @@ export default function InvoiceListView() {
       {
         field: 'description',
         headerName: 'Description',
-        width: 500,
+        width: 250,
         filter: 'agTextColumnFilter',
         resizable: true,
         editable: false,
+        cellClass: 'ag-number-cell',
         filterParams: { buttons: ['reset'] } as ITextFilterParams,
       },
       {
@@ -75,9 +77,9 @@ export default function InvoiceListView() {
         width: 150,
         resizable: true,
         editable: false,
-        cellClass: 'ag-number-cell',
+        cellClass: 'ag-number-cell ag-right-aligned-cell',
         cellRenderer: ({ data }: CustomCellRendererProps<Invoice>) =>
-          (data?.amountInCents ?? 0) / 100,
+          fCurrency((data?.amountInCents ?? 0) / 100),
       },
       {
         field: 'status',
@@ -125,6 +127,7 @@ export default function InvoiceListView() {
         resizable: true,
         editable: false,
         initialSort: 'desc',
+        cellClass: 'ag-number-cell',
         cellRenderer: ({ data }: CustomCellRendererProps<Invoice>) => formatDate(data?.dueDate),
       },
       {
@@ -140,17 +143,8 @@ export default function InvoiceListView() {
         resizable: true,
         editable: false,
         initialSort: 'desc',
+        cellClass: 'ag-number-cell',
         cellRenderer: ({ data }: CustomCellRendererProps<Invoice>) => formatDate(data?.createdAt),
-      },
-      {
-        colId: 'action',
-        width: 50,
-        pinned: 'right',
-        resizable: false,
-        editable: false,
-        sortable: false,
-        cellClass: 'ag-action-cell',
-        cellRenderer: ActionRender,
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -166,7 +160,7 @@ export default function InvoiceListView() {
       }}
     >
       <AgGrid<Invoice>
-        gridKey="invoice-list"
+        gridKey="miner-invoice-list"
         loading={loading}
         rowData={invoices}
         columnDefs={colDefs}

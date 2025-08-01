@@ -115,7 +115,7 @@ export default function SaleListView() {
       }}
     >
       <AgGrid<BasicSale>
-        gridKey="user-sale-list"
+        gridKey="miner-sale-list"
         loading={loading}
         rowData={sales}
         columnDefs={colDefs}
