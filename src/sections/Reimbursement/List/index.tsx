@@ -110,7 +110,7 @@ export function ReimbursementList() {
   return (
     <Card sx={{ flexGrow: 1, display: 'flex', overflow: 'hidden' }}>
       <AgGrid<BasicReimbursement>
-        gridKey="reimbursement-list"
+        gridKey="miner-reimbursement-list"
         loading={loading}
         rowData={reimbursements}
         columnDefs={colDefs}

@@ -90,7 +90,7 @@ export default function Contact() {
 
   return (
     <AgGrid<Introducer>
-      gridKey="team-commission-contact-list"
+      gridKey="miner-team-commission-contact-list"
       loading={loading}
       rowData={introducers}
       columnDefs={colDefs}

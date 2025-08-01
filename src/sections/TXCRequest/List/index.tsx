@@ -157,7 +157,7 @@ export default function TXCRequestList() {
       }}
     >
       <AgGrid<TXCRequest>
-        gridKey="txc-request-list"
+        gridKey="miner-txc-request-list"
         loading={loading}
         rowData={txcRequests}
         columnDefs={colDefs}

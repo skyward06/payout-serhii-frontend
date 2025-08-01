@@ -137,7 +137,7 @@ export default function Report({ teamReport }: Props) {
 
   return (
     <AgGrid<WeeklyCommission>
-      gridKey="team-commission-report-list"
+      gridKey="miner-team-commission-report-list"
       loading={loading}
       rowData={commissions}
       columnDefs={colDefs}

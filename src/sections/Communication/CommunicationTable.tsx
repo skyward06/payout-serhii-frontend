@@ -131,7 +131,7 @@ export default function CommunicationTable() {
     >
       <AgGrid<EmailRecipient>
         loading={loading}
-        gridKey="member-communication-list"
+        gridKey="miner-communication-list"
         rowData={emailRecipients}
         columnDefs={colDefs}
         totalRowCount={rowCount}
