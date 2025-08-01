@@ -47,7 +47,7 @@ export default function Report({ teamReport }: Props) {
       {
         field: 'fullName',
         headerName: 'Name',
-        width: 140,
+        width: 200,
         filter: 'agTextColumnFilter',
         resizable: true,
         editable: false,
@@ -56,7 +56,7 @@ export default function Report({ teamReport }: Props) {
       {
         field: 'username',
         headerName: 'Username',
-        width: 110,
+        width: 200,
         filter: 'agTextColumnFilter',
         resizable: true,
         editable: false,
@@ -124,7 +124,7 @@ export default function Report({ teamReport }: Props) {
       {
         field: 'shortNote',
         headerName: 'Note',
-        flex: 1,
+        width: 300,
         filter: 'agTextColumnFilter',
         resizable: true,
         editable: false,
