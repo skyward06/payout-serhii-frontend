@@ -178,7 +178,7 @@ export type BasicCartonAddress = {
 
 export type BasicGroupSetting = {
   __typename?: 'BasicGroupSetting';
-  commissionDefaults: Array<CommissionDefaultEnum>;
+  commissionDefaults: Array<CommissionDefault>;
   id: Scalars['String']['output'];
   name: Scalars['String']['output'];
 };
@@ -331,7 +331,7 @@ export type BasicWeeklyCommission = {
   newL: Scalars['Int']['output'];
   newR: Scalars['Int']['output'];
   note?: Maybe<Scalars['String']['output']>;
-  paymentMethod: CommissionDefaultEnum;
+  paymentMethod: CommissionDefault;
   pkgL: Scalars['Int']['output'];
   pkgR: Scalars['Int']['output'];
   qualified: Scalars['Boolean']['output'];
@@ -493,7 +493,7 @@ export type CollectAddressResponse = {
   total?: Maybe<Scalars['Int']['output']>;
 };
 
-export enum CommissionDefaultEnum {
+export enum CommissionDefault {
   Hash = 'HASH',
   Txc = 'TXC',
   Usdc = 'USDC'
@@ -670,7 +670,7 @@ export type CreateMemberInput = {
   assetId: Scalars['String']['input'];
   avatar?: InputMaybe<Scalars['String']['input']>;
   city?: InputMaybe<Scalars['String']['input']>;
-  commissionDefault?: InputMaybe<CommissionDefaultEnum>;
+  commissionDefault?: InputMaybe<CommissionDefault>;
   country?: InputMaybe<Scalars['String']['input']>;
   email: Scalars['String']['input'];
   ethAssetId?: InputMaybe<Scalars['String']['input']>;
@@ -963,7 +963,7 @@ export type GenerateWeeklyReportInput = {
 
 export type GroupSetting = {
   __typename?: 'GroupSetting';
-  commissionDefaults: Array<CommissionDefaultEnum>;
+  commissionDefaults: Array<CommissionDefault>;
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   frontActions?: Maybe<Array<FrontAction>>;
@@ -1059,7 +1059,7 @@ export type Invoice = {
   member?: Maybe<Member>;
   name: Scalars['String']['output'];
   proof?: Maybe<Proof>;
-  status: InvoiceStatusEnum;
+  status: InvoiceStatus;
   updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
 };
 
@@ -1069,7 +1069,7 @@ export type InvoiceResponse = {
   total?: Maybe<Scalars['Int']['output']>;
 };
 
-export enum InvoiceStatusEnum {
+export enum InvoiceStatus {
   Paid = 'PAID',
   Pending = 'PENDING'
 }
@@ -1130,7 +1130,7 @@ export type Member = {
   city?: Maybe<Scalars['String']['output']>;
   cmnCalculatedWeeks: Scalars['Int']['output'];
   commission?: Maybe<CommissionStatus>;
-  commissionDefault: CommissionDefaultEnum;
+  commissionDefault: CommissionDefault;
   country?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
@@ -2420,8 +2420,7 @@ export enum ProofType {
   Promotion = 'PROMOTION',
   Reimbursement = 'REIMBURSEMENT',
   Sale = 'SALE',
-  Transactionprocessing = 'TRANSACTIONPROCESSING',
-  Txcrequest = 'TXCREQUEST'
+  Transactionprocessing = 'TRANSACTIONPROCESSING'
 }
 
 export type Query = {
@@ -3550,14 +3549,14 @@ export type UpdateInvoiceInput = {
   name?: InputMaybe<Scalars['String']['input']>;
   note?: InputMaybe<Scalars['String']['input']>;
   reflinks?: InputMaybe<Array<LinkInput>>;
-  status?: InputMaybe<InvoiceStatusEnum>;
+  status?: InputMaybe<InvoiceStatus>;
 };
 
 export type UpdateMemberInput = {
   assetId?: InputMaybe<Scalars['String']['input']>;
   avatar?: InputMaybe<Scalars['String']['input']>;
   city?: InputMaybe<Scalars['String']['input']>;
-  commissionDefault?: InputMaybe<CommissionDefaultEnum>;
+  commissionDefault?: InputMaybe<CommissionDefault>;
   country?: InputMaybe<Scalars['String']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   ethAssetId?: InputMaybe<Scalars['String']['input']>;
@@ -3809,7 +3808,7 @@ export type WeeklyCommission = {
   memberId: Scalars['ID']['output'];
   newL: Scalars['Float']['output'];
   newR: Scalars['Float']['output'];
-  paymentMethod: CommissionDefaultEnum;
+  paymentMethod: CommissionDefault;
   pkgL: Scalars['Float']['output'];
   pkgR: Scalars['Float']['output'];
   proof?: Maybe<Proof>;
@@ -3872,7 +3871,7 @@ export type WeeklyCommissionsQueryVariables = Exact<{
 }>;
 
 
-export type WeeklyCommissionsQuery = { __typename?: 'Query', weeklyCommissions: { __typename?: 'BasicWeeklyCommissionResponse', total?: number | null, weeklyCommissions: Array<{ __typename?: 'BasicWeeklyCommission', id: string, ID: number, begL: number, begR: number, newL: number, newR: number, maxL: number, maxR: number, endL: number, endR: number, pkgL: number, pkgR: number, note?: string | null, status: ConfirmationStatus, username: string, fullName: string, memberId: string, createdAt: any, shortNote?: string | null, commission: number, weekStartDate: any, paymentMethod: CommissionDefaultEnum }> } };
+export type WeeklyCommissionsQuery = { __typename?: 'Query', weeklyCommissions: { __typename?: 'BasicWeeklyCommissionResponse', total?: number | null, weeklyCommissions: Array<{ __typename?: 'BasicWeeklyCommission', id: string, ID: number, begL: number, begR: number, newL: number, newR: number, maxL: number, maxR: number, endL: number, endR: number, pkgL: number, pkgR: number, note?: string | null, status: ConfirmationStatus, username: string, fullName: string, memberId: string, createdAt: any, shortNote?: string | null, commission: number, weekStartDate: any, paymentMethod: CommissionDefault }> } };
 
 export type FetchCommissionStatsQueryVariables = Exact<{
   allFilter?: InputMaybe<Scalars['JSONObject']['input']>;
@@ -3907,7 +3906,7 @@ export type InvoicesQueryVariables = Exact<{
 }>;
 
 
-export type InvoicesQuery = { __typename?: 'Query', invoices: { __typename?: 'InvoiceResponse', total?: number | null, invoices?: Array<{ __typename?: 'Invoice', id: string, ID: number, name: string, status: InvoiceStatusEnum, dueDate: any, createdAt?: any | null, description: string, amountInCents: number, invoiceFile?: { __typename?: 'PFile', id: string, url: string, size: number, mimeType: string, originalName: string } | null }> | null } };
+export type InvoicesQuery = { __typename?: 'Query', invoices: { __typename?: 'InvoiceResponse', total?: number | null, invoices?: Array<{ __typename?: 'Invoice', id: string, ID: number, name: string, status: InvoiceStatus, dueDate: any, createdAt?: any | null, description: string, amountInCents: number, invoiceFile?: { __typename?: 'PFile', id: string, url: string, size: number, mimeType: string, originalName: string } | null }> | null } };
 
 export type NotificationsQueryVariables = Exact<{
   sort?: InputMaybe<Scalars['String']['input']>;
@@ -4026,7 +4025,7 @@ export type PlacementSearchMembersQuery = { __typename?: 'Query', placementSearc
 export type FetchMeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FetchMeQuery = { __typename?: 'Query', memberMe: { __typename?: 'Member', id: string, ID?: number | null, city?: string | null, email: string, point: number, state?: string | null, avatar?: string | null, mobile: string, status: boolean, assetId?: string | null, country?: string | null, zipCode?: string | null, peerCode?: string | null, username: string, fullName: string, sponsorId?: string | null, allowState: MemberState, ethAssetId?: string | null, teamReport: Array<TeamReport>, OTPEnabled: boolean, teamStrategy: TeamStrategy, emailVerified: boolean, isTexitRanger: boolean, peerAcceptable: boolean, peerETHAddress?: string | null, primaryAddress: string, secondaryAddress?: string | null, totalIntroducers: number, preferredContact?: string | null, commissionDefault: CommissionDefaultEnum, placementParentId?: string | null, placementPosition: PlacementPosition, cmnCalculatedWeeks: number, placementRequested: boolean, shareIsTexitRanger: boolean, preferredContactDetail?: string | null, createdAt?: any | null, updatedAt?: any | null, deletedAt?: any | null, groupSetting?: { __typename?: 'BasicGroupSetting', id: string, name: string, commissionDefaults: Array<CommissionDefaultEnum> } | null, commission?: { __typename?: 'CommissionStatus', begL: number, begR: number, newL: number, newR: number } | null, sponsor?: { __typename?: 'Member', id: string, ID?: number | null, email: string, point: number, state?: string | null, status: boolean, mobile: string, assetId?: string | null, country?: string | null, username: string, fullName: string, allowState: MemberState, teamReport: Array<TeamReport>, OTPEnabled: boolean, teamStrategy: TeamStrategy, emailVerified: boolean, isTexitRanger: boolean, peerAcceptable: boolean, primaryAddress: string, secondaryAddress?: string | null, totalIntroducers: number, preferredContact?: string | null, commissionDefault: CommissionDefaultEnum, placementPosition: PlacementPosition, placementRequested: boolean, cmnCalculatedWeeks: number, shareIsTexitRanger: boolean, preferredContactDetail?: string | null } | null, placementParent?: { __typename?: 'Member', id: string, ID?: number | null, email: string, point: number, state?: string | null, status: boolean, mobile: string, assetId?: string | null, country?: string | null, username: string, fullName: string, allowState: MemberState, teamReport: Array<TeamReport>, OTPEnabled: boolean, teamStrategy: TeamStrategy, isTexitRanger: boolean, emailVerified: boolean, peerAcceptable: boolean, primaryAddress: string, secondaryAddress?: string | null, totalIntroducers: number, preferredContact?: string | null, commissionDefault: CommissionDefaultEnum, placementPosition: PlacementPosition, placementRequested: boolean, cmnCalculatedWeeks: number, shareIsTexitRanger: boolean, preferredContactDetail?: string | null } | null, placementChildren?: Array<{ __typename?: 'Member', id: string, ID?: number | null, email: string, point: number, mobile: string, status: boolean, assetId?: string | null, username: string, fullName: string, allowState: MemberState, teamReport: Array<TeamReport>, OTPEnabled: boolean, teamStrategy: TeamStrategy, emailVerified: boolean, isTexitRanger: boolean, peerAcceptable: boolean, primaryAddress: string, secondaryAddress?: string | null, preferredContact?: string | null, totalIntroducers: number, commissionDefault: CommissionDefaultEnum, placementPosition: PlacementPosition, placementRequested: boolean, cmnCalculatedWeeks: number, shareIsTexitRanger: boolean, preferredContactDetail?: string | null }> | null, sales?: Array<{ __typename?: 'Sale', id: string, ID: number, status: boolean, isMetal: boolean, memberId: string, packageId: string, orderedAt: any, sponsorCnt: number, paymentMethod: string }> | null, memberWallets?: Array<{ __typename?: 'MemberWallet', id: string, note?: string | null, address: string, percent: number, memberId: string, payoutId: string, isDefault: boolean, payout?: { __typename?: 'Payout', id: string, method: string, status: boolean, name: string, display: string } | null }> | null, setting?: { __typename?: 'Setting', id: string, memberId: string, communication: boolean } | null } };
+export type FetchMeQuery = { __typename?: 'Query', memberMe: { __typename?: 'Member', id: string, ID?: number | null, city?: string | null, email: string, point: number, state?: string | null, avatar?: string | null, mobile: string, status: boolean, assetId?: string | null, country?: string | null, zipCode?: string | null, peerCode?: string | null, username: string, fullName: string, sponsorId?: string | null, allowState: MemberState, ethAssetId?: string | null, teamReport: Array<TeamReport>, OTPEnabled: boolean, teamStrategy: TeamStrategy, emailVerified: boolean, isTexitRanger: boolean, peerAcceptable: boolean, peerETHAddress?: string | null, primaryAddress: string, secondaryAddress?: string | null, totalIntroducers: number, preferredContact?: string | null, commissionDefault: CommissionDefault, placementParentId?: string | null, placementPosition: PlacementPosition, cmnCalculatedWeeks: number, placementRequested: boolean, shareIsTexitRanger: boolean, preferredContactDetail?: string | null, createdAt?: any | null, updatedAt?: any | null, deletedAt?: any | null, groupSetting?: { __typename?: 'BasicGroupSetting', id: string, name: string, commissionDefaults: Array<CommissionDefault> } | null, commission?: { __typename?: 'CommissionStatus', begL: number, begR: number, newL: number, newR: number } | null, sponsor?: { __typename?: 'Member', id: string, ID?: number | null, email: string, point: number, state?: string | null, status: boolean, mobile: string, assetId?: string | null, country?: string | null, username: string, fullName: string, allowState: MemberState, teamReport: Array<TeamReport>, OTPEnabled: boolean, teamStrategy: TeamStrategy, emailVerified: boolean, isTexitRanger: boolean, peerAcceptable: boolean, primaryAddress: string, secondaryAddress?: string | null, totalIntroducers: number, preferredContact?: string | null, commissionDefault: CommissionDefault, placementPosition: PlacementPosition, placementRequested: boolean, cmnCalculatedWeeks: number, shareIsTexitRanger: boolean, preferredContactDetail?: string | null } | null, placementParent?: { __typename?: 'Member', id: string, ID?: number | null, email: string, point: number, state?: string | null, status: boolean, mobile: string, assetId?: string | null, country?: string | null, username: string, fullName: string, allowState: MemberState, teamReport: Array<TeamReport>, OTPEnabled: boolean, teamStrategy: TeamStrategy, isTexitRanger: boolean, emailVerified: boolean, peerAcceptable: boolean, primaryAddress: string, secondaryAddress?: string | null, totalIntroducers: number, preferredContact?: string | null, commissionDefault: CommissionDefault, placementPosition: PlacementPosition, placementRequested: boolean, cmnCalculatedWeeks: number, shareIsTexitRanger: boolean, preferredContactDetail?: string | null } | null, placementChildren?: Array<{ __typename?: 'Member', id: string, ID?: number | null, email: string, point: number, mobile: string, status: boolean, assetId?: string | null, username: string, fullName: string, allowState: MemberState, teamReport: Array<TeamReport>, OTPEnabled: boolean, teamStrategy: TeamStrategy, emailVerified: boolean, isTexitRanger: boolean, peerAcceptable: boolean, primaryAddress: string, secondaryAddress?: string | null, preferredContact?: string | null, totalIntroducers: number, commissionDefault: CommissionDefault, placementPosition: PlacementPosition, placementRequested: boolean, cmnCalculatedWeeks: number, shareIsTexitRanger: boolean, preferredContactDetail?: string | null }> | null, sales?: Array<{ __typename?: 'Sale', id: string, ID: number, status: boolean, isMetal: boolean, memberId: string, packageId: string, orderedAt: any, sponsorCnt: number, paymentMethod: string }> | null, memberWallets?: Array<{ __typename?: 'MemberWallet', id: string, note?: string | null, address: string, percent: number, memberId: string, payoutId: string, isDefault: boolean, payout?: { __typename?: 'Payout', id: string, method: string, status: boolean, name: string, display: string } | null }> | null, setting?: { __typename?: 'Setting', id: string, memberId: string, communication: boolean } | null } };
 
 export type FetchMemberStatsQueryVariables = Exact<{
   inactiveFilter?: InputMaybe<Scalars['JSONObject']['input']>;
@@ -4182,7 +4181,7 @@ export type FetchMemberStatisticsQueryVariables = Exact<{
 }>;
 
 
-export type FetchMemberStatisticsQuery = { __typename?: 'Query', memberStatistics: { __typename?: 'MemberStatisticsResponse', total?: number | null, memberStatistics?: Array<{ __typename?: 'MemberStatistics', id: string, percent: number, issuedAt: any, memberId: string, txcShared: any, hashPower: number, createdAt?: any | null, updatedAt?: any | null, deletedAt?: any | null, statisticsId: string, member?: { __typename?: 'Member', id: string, ID?: number | null, email: string, state?: string | null, point: number, mobile: string, status: boolean, assetId?: string | null, username: string, fullName: string, allowState: MemberState, teamReport: Array<TeamReport>, OTPEnabled: boolean, teamStrategy: TeamStrategy, emailVerified: boolean, isTexitRanger: boolean, peerAcceptable: boolean, primaryAddress: string, secondaryAddress?: string | null, totalIntroducers: number, preferredContact?: string | null, commissionDefault: CommissionDefaultEnum, placementPosition: PlacementPosition, cmnCalculatedWeeks: number, placementRequested: boolean, shareIsTexitRanger: boolean, preferredContactDetail?: string | null, commission?: { __typename?: 'CommissionStatus', begL: number, begR: number, newL: number, newR: number } | null, memberWallets?: Array<{ __typename?: 'MemberWallet', id: string, address: string, percent: number, memberId: string, payoutId: string, isDefault: boolean, payout?: { __typename?: 'Payout', id: string, name: string, method: string, status: boolean, display: string } | null }> | null } | null, statistics?: { __typename?: 'Statistics', id: string, to: any, from: any, status: boolean, issuedAt: any, txcShared: any, newBlocks: number, totalBlocks: number, totalMembers: number, totalHashPower: number } | null }> | null } };
+export type FetchMemberStatisticsQuery = { __typename?: 'Query', memberStatistics: { __typename?: 'MemberStatisticsResponse', total?: number | null, memberStatistics?: Array<{ __typename?: 'MemberStatistics', id: string, percent: number, issuedAt: any, memberId: string, txcShared: any, hashPower: number, createdAt?: any | null, updatedAt?: any | null, deletedAt?: any | null, statisticsId: string, member?: { __typename?: 'Member', id: string, ID?: number | null, email: string, state?: string | null, point: number, mobile: string, status: boolean, assetId?: string | null, username: string, fullName: string, allowState: MemberState, teamReport: Array<TeamReport>, OTPEnabled: boolean, teamStrategy: TeamStrategy, emailVerified: boolean, isTexitRanger: boolean, peerAcceptable: boolean, primaryAddress: string, secondaryAddress?: string | null, totalIntroducers: number, preferredContact?: string | null, commissionDefault: CommissionDefault, placementPosition: PlacementPosition, cmnCalculatedWeeks: number, placementRequested: boolean, shareIsTexitRanger: boolean, preferredContactDetail?: string | null, commission?: { __typename?: 'CommissionStatus', begL: number, begR: number, newL: number, newR: number } | null, memberWallets?: Array<{ __typename?: 'MemberWallet', id: string, address: string, percent: number, memberId: string, payoutId: string, isDefault: boolean, payout?: { __typename?: 'Payout', id: string, name: string, method: string, status: boolean, display: string } | null }> | null } | null, statistics?: { __typename?: 'Statistics', id: string, to: any, from: any, status: boolean, issuedAt: any, txcShared: any, newBlocks: number, totalBlocks: number, totalMembers: number, totalHashPower: number } | null }> | null } };
 
 export type CreateStatisticsMutationVariables = Exact<{
   data: CreateStatisticsInput;
@@ -4458,7 +4457,7 @@ export type TeamCommissionsQueryVariables = Exact<{
 }>;
 
 
-export type TeamCommissionsQuery = { __typename?: 'Query', teamCommissions: { __typename?: 'BasicWeeklyCommissionResponse', total?: number | null, weeklyCommissions: Array<{ __typename?: 'BasicWeeklyCommission', id: string, ID: number, begL: number, begR: number, newL: number, newR: number, maxL: number, maxR: number, endL: number, endR: number, pkgL: number, pkgR: number, note?: string | null, status: ConfirmationStatus, username: string, fullName: string, memberId: string, createdAt: any, shortNote?: string | null, commission: number, weekStartDate: any, paymentMethod: CommissionDefaultEnum }> } };
+export type TeamCommissionsQuery = { __typename?: 'Query', teamCommissions: { __typename?: 'BasicWeeklyCommissionResponse', total?: number | null, weeklyCommissions: Array<{ __typename?: 'BasicWeeklyCommission', id: string, ID: number, begL: number, begR: number, newL: number, newR: number, maxL: number, maxR: number, endL: number, endR: number, pkgL: number, pkgR: number, note?: string | null, status: ConfirmationStatus, username: string, fullName: string, memberId: string, createdAt: any, shortNote?: string | null, commission: number, weekStartDate: any, paymentMethod: CommissionDefault }> } };
 
 export type IntroducersQueryVariables = Exact<{
   sort?: InputMaybe<Scalars['String']['input']>;

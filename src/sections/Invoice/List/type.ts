@@ -1,4 +1,4 @@
-import type { PFile, InvoiceStatusEnum } from 'src/__generated__/graphql';
+import type { PFile, InvoiceStatus } from 'src/__generated__/graphql';
 
 export type Invoice = {
   __typename?: 'Invoice';
@@ -8,7 +8,7 @@ export type Invoice = {
   dueDate: any;
   description: string;
   amountInCents: number;
-  status: InvoiceStatusEnum;
+  status: InvoiceStatus;
   invoiceFile?: PFile | null;
   createdAt?: any | null;
   updatedAt?: any | null;

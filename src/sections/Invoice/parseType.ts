@@ -1,10 +1,10 @@
-import { InvoiceStatusEnum } from 'src/__generated__/graphql';
+import { InvoiceStatus } from 'src/__generated__/graphql';
 
-export const parseType = (invoiceType: InvoiceStatusEnum): string => {
+export const parseType = (invoiceType: InvoiceStatus): string => {
   switch (invoiceType) {
-    case InvoiceStatusEnum.Paid:
+    case InvoiceStatus.Paid:
       return 'Paid';
-    case InvoiceStatusEnum.Pending:
+    case InvoiceStatus.Pending:
       return 'Pending';
     default:
       return invoiceType;

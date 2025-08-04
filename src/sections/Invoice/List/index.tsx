@@ -16,7 +16,7 @@ import { formatDate } from 'src/utils/format-time';
 import { fCurrency } from 'src/utils/formatNumber';
 import { parseFilterModel } from 'src/utils/parseFilter';
 
-import { InvoiceStatusEnum } from 'src/__generated__/graphql';
+import { InvoiceStatus } from 'src/__generated__/graphql';
 
 import { Label } from 'src/components/Label';
 import { AgGrid } from 'src/components/AgGrid';
@@ -89,12 +89,12 @@ export default function InvoiceListView() {
         resizable: true,
         editable: false,
         filterParams: {
-          values: Object.values(InvoiceStatusEnum),
+          values: Object.values(InvoiceStatus),
           valueFormatter: (params: any) => parseType(params.value),
           defaultToNothingSelected: true,
         } as ISetFilterParams<Invoice>,
         cellRenderer: ({ data }: CustomCellRendererProps<Invoice>) =>
-          data?.status === InvoiceStatusEnum.Paid ? (
+          data?.status === InvoiceStatus.Paid ? (
             <Label variant="soft" color="success">
               Paid
             </Label>

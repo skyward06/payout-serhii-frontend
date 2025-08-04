@@ -25,7 +25,7 @@ import { uploadService } from 'src/utils/axios/api-service';
 
 import { CONFIG } from 'src/config';
 import { CONTACT } from 'src/consts';
-import { type Member, TeamStrategy, CommissionDefaultEnum } from 'src/__generated__/graphql';
+import { type Member, TeamStrategy, CommissionDefault } from 'src/__generated__/graphql';
 
 import { toast } from 'src/components/SnackBar';
 import { Form, Field } from 'src/components/Form';
@@ -125,7 +125,7 @@ export default function MemberGeneral({ me }: Props) {
               preferredContactDetail: newMember.preferredContactDetail,
               zipCode: newMember.zipCode,
               teamStrategy: newMember.teamStrategy as TeamStrategy,
-              commissionDefault: newMember.commissionDefault as CommissionDefaultEnum,
+              commissionDefault: newMember.commissionDefault as CommissionDefault,
               wallets: [...newMember.txcWallets, ...newMember.otherWallets].map(
                 ({ percent, ...rest }) => ({
                   percent: percent * 100,
@@ -286,7 +286,7 @@ export default function MemberGeneral({ me }: Props) {
                   {Object.values(
                     me.groupSetting?.commissionDefaults.length
                       ? me.groupSetting.commissionDefaults
-                      : CommissionDefaultEnum
+                      : CommissionDefault
                   ).map((option) => (
                     <MenuItem key={option} value={option}>
                       {option}
