@@ -8,7 +8,7 @@ export type EmailRecipient = {
   senderName: string;
   status: EmailStatus;
   sentAt?: any | null;
-  body: string | null;
+  body?: string | null;
   openedAt?: any | null;
   subject?: string | null;
 };
