@@ -843,7 +843,7 @@ export type EmailInput = {
 
 export type EmailRecipient = {
   __typename?: 'EmailRecipient';
-  body: Scalars['String']['output'];
+  body?: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['DateTimeISO']['output'];
   email: Scalars['String']['output'];
   id: Scalars['ID']['output'];
@@ -3891,14 +3891,14 @@ export type EmailRecipientsQueryVariables = Exact<{
 }>;
 
 
-export type EmailRecipientsQuery = { __typename?: 'Query', emailRecipients: { __typename?: 'EmailRecipientResponse', total?: number | null, emailRecipients?: Array<{ __typename?: 'EmailRecipient', id: string, body: string, email: string, sender: string, status: EmailStatus, sentAt?: any | null, subject: string, openedAt?: any | null, senderName: string }> | null } };
+export type EmailRecipientsQuery = { __typename?: 'Query', emailRecipients: { __typename?: 'EmailRecipientResponse', total?: number | null, emailRecipients?: Array<{ __typename?: 'EmailRecipient', id: string, body?: string | null, email: string, sender: string, status: EmailStatus, sentAt?: any | null, subject: string, openedAt?: any | null, senderName: string }> | null } };
 
 export type EmailRecipientByIdQueryVariables = Exact<{
   data: IdInput;
 }>;
 
 
-export type EmailRecipientByIdQuery = { __typename?: 'Query', emailRecipientById: { __typename?: 'EmailRecipient', id: string, body: string, email: string, sender: string, status: EmailStatus, sentAt?: any | null, subject: string, openedAt?: any | null, senderName: string } };
+export type EmailRecipientByIdQuery = { __typename?: 'Query', emailRecipientById: { __typename?: 'EmailRecipient', id: string, body?: string | null, email: string, sender: string, status: EmailStatus, sentAt?: any | null, subject: string, openedAt?: any | null, senderName: string } };
 
 export type InvoicesQueryVariables = Exact<{
   sort?: InputMaybe<Scalars['String']['input']>;

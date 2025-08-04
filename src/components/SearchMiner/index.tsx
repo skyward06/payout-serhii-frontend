@@ -34,7 +34,7 @@ export function SearchMiner({ currentMember, setMemberId, filter, label = 'Miner
               { fullName: { contains: debouncedUsername ?? '', mode: 'insensitive' } },
             ],
           },
-          page: '1,10',
+          page: '1,15',
           sort: 'username',
         },
       });
