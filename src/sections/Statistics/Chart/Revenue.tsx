@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
+import { useTheme, alpha as hexAlpha } from '@mui/material/styles';
 
 import { formatCurrency } from 'src/utils/formatCurrency';
 
@@ -12,7 +13,33 @@ import { useFetchRevenue } from '../useApollo';
 // ----------------------------------------------------------------------
 
 export default function RevenueOverview() {
+  const theme = useTheme();
   const { loading, revenue } = useFetchRevenue();
+
+  const baseColors = [
+    theme.palette.info.main,
+    theme.palette.error.main,
+    theme.palette.warning.main,
+    theme.palette.primary.main,
+    theme.palette.success.main,
+    theme.palette.secondary.main,
+  ];
+
+  const darkColors = [
+    theme.palette.info.darker,
+    theme.palette.error.darker,
+    theme.palette.primary.darker,
+    theme.palette.success.darker,
+    theme.palette.warning.darker,
+    theme.palette.secondary.darker,
+  ];
+
+  const colors = [
+    ...baseColors,
+    ...darkColors,
+    ...darkColors.map((color) => hexAlpha(color, 0.7)),
+    ...darkColors.map((color) => hexAlpha(color, 0.9)),
+  ];
 
   const series = useMemo(
     () => [
@@ -26,6 +53,7 @@ export default function RevenueOverview() {
     chart: { sparkline: { enabled: true } },
     labels: ['Income', ...revenue.spent.map((item) => item?.label ?? '')],
     stroke: { width: 0 },
+    colors,
     plotOptions: {
       pie: {
         donut: {
