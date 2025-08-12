@@ -143,7 +143,13 @@ export const customizeFullName = (fullName: string | null | undefined) => {
 export const removeSpecialCharacters = (input: string): string =>
   input.replace(/[^a-zA-Z0-9\s]/g, '');
 
-export const truncateMiddle = (text: string, maxLength: number, middle = true): string => {
+export const truncateMiddle = (
+  text: string | null | undefined,
+  maxLength: number,
+  middle = true
+): string => {
+  if (text == null) return '';
+
   if (text.length <= maxLength) return text;
   const half = Math.floor((maxLength - 3) / 2);
   return middle
