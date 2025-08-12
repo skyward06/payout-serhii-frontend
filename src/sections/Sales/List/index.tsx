@@ -26,9 +26,9 @@ export default function SaleListView() {
         filter: 'agNumberColumnFilter',
         resizable: true,
         editable: false,
+        cellClass: 'ag-number-cell',
         cellRenderer: ({ data }: CustomCellRendererProps<BasicSale>) =>
           formatID(data?.ID ?? '', 'S'),
-        cellClass: 'ag-number-cell',
       },
       {
         field: 'assetId',
