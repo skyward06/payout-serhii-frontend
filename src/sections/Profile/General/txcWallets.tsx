@@ -31,16 +31,6 @@ export default function TXCWallets({ wallets }: Props) {
   const { control, setValue } = useFormContext();
   const { fields, append, remove } = useFieldArray({ control, name: 'txcWallets' });
 
-  // const forms: Wallet[] = fields?.length
-  //   ? fields
-  //   : wallets.map(({ id, payoutId, address, percent, isDefault }) => ({
-  //       id,
-  //       payoutId,
-  //       address,
-  //       percent,
-  //       isDefault,
-  //     }));
-
   const forms = fields as Wallet[];
 
   useEffect(() => {

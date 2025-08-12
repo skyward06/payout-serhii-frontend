@@ -61,17 +61,14 @@ export function useFetchMemberOverview(id: string) {
 export function useUpdateMember() {
   const [updateMember, { loading }] = useMutation(UPDATE_MEMBER, {
     awaitRefetchQueries: true,
-    refetchQueries: ['FetchMembers'],
+    refetchQueries: ['fetchMe'],
   });
 
   return { loading, updateMember };
 }
 
 export function useUpdatePassword() {
-  const [updatePassword, { loading, data, error }] = useMutation(UPDATE_MEMBER_PASSWORD, {
-    awaitRefetchQueries: true,
-    refetchQueries: ['FetchMembers'],
-  });
+  const [updatePassword, { loading, data, error }] = useMutation(UPDATE_MEMBER_PASSWORD);
 
   return { loading, data, error, updatePassword };
 }
