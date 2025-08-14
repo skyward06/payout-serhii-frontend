@@ -4,6 +4,8 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import { useTheme, alpha as hexAlpha } from '@mui/material/styles';
 
+import { fNumber } from 'src/utils/formatNumber';
+
 import { Chart, useChart } from 'src/components/chart';
 
 import { useFetchMemberByCountry } from '../useApollo';
@@ -48,6 +50,22 @@ export default function MemberByCountry() {
       pie: {
         donut: {
           size: '60%',
+          labels: {
+            total: {
+              formatter(w) {
+                return fNumber(
+                  w.globals.seriesTotals.reduce((prev: any, save: any) => prev + save, 0)
+                );
+              },
+            },
+          },
+        },
+      },
+    },
+    yaxis: {
+      labels: {
+        formatter(value) {
+          return fNumber(value);
         },
       },
     },
