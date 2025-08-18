@@ -94,7 +94,7 @@ export default function TXCRequest() {
 
       const data = await explorerService.getCurrentPrice();
       if (typeof data === 'number') {
-        setPrice(data);
+        setPrice(data * 1.05);
       } else {
         setPrice(0);
       }

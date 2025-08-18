@@ -33,7 +33,7 @@ export function PriceViewer({ loading, price, getPrice }: Props) {
         <Typography variant="subtitle1">TXC Price</Typography>
         <Iconify icon="lucide:equal-approximately" />
         <Typography variant="body1">
-          {fNumber(price * 1.05, { minimumFractionDigits: 4, maximumFractionDigits: 4 })}
+          {fNumber(price, { minimumFractionDigits: 4, maximumFractionDigits: 4 })}
         </Typography>
       </Box>
       <Box display="flex" alignItems="center" gap={2}>
