@@ -25,6 +25,7 @@ const IntroductionPage = lazy(() => import('src/pages/Introduction'));
 const RapidRewardsPage = lazy(() => import('src/pages/RapidRewards'));
 const SilverGuaranteePage = lazy(() => import('src/pages/SilverGuarantee'));
 const RewardDetailPage = lazy(() => import('src/pages/MemberStatistics/List'));
+const CommissionConfirmationPage = lazy(() => import('src/pages/Commission/Confirmation'));
 // ----------------------------------------------------------------------
 
 export const statisticsRoutes: RouteObject[] = [
@@ -96,5 +97,13 @@ export const statisticsRoutes: RouteObject[] = [
         ],
       },
     ],
+  },
+  {
+    path: 'commission/confirmation',
+    element: (
+      <AuthCenteredLayout>
+        <CommissionConfirmationPage />
+      </AuthCenteredLayout>
+    ),
   },
 ];

@@ -102,7 +102,11 @@ export const paths = {
     },
     sponsor: { root: ROOTS.SPONSOR, tabMatch: `${ROOTS.SPONSOR}/:tab` },
     placement: { root: ROOTS.PLACEMENT },
-    commission: { root: ROOTS.COMMISSION, action: `${ROOTS.COMMISSION}/action` },
+    commission: {
+      root: ROOTS.COMMISSION,
+      action: `${ROOTS.COMMISSION}/action`,
+      confirmation: `${ROOTS.COMMISSION}/confirmation`,
+    },
     resource: { root: ROOTS.RESOURCE, view: (slug: string) => `${ROOTS.RESOURCE}/${slug}` },
     profile: {
       root: ROOTS.PROFILE,
