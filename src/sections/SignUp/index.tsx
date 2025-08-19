@@ -282,7 +282,7 @@ export function SignUpView() {
 
       <Stack direction={{ xs: 'column', sm: 'row' }} alignItems="center" spacing={2}>
         <Stack width={1}>
-          <Typography>This will be your affiliate ID: </Typography>
+          <Typography>This will be your affiliate ID </Typography>
         </Stack>
         <Stack width={1}>
           <Field.Text
@@ -332,7 +332,11 @@ export function SignUpView() {
 
       <Stack direction={{ xs: 'column', sm: 'row' }} alignItems="center" spacing={2}>
         <Stack width={1}>
-          <Typography>Have a Cold Storage Coin?</Typography>
+          <Typography>
+            {country === 'United States of America'
+              ? 'Have a Cold Storage Coin?'
+              : 'Your TXC Wallet is REQUIRED'}
+          </Typography>
         </Stack>
         <Stack width={1}>
           {country === 'United States of America' ? (
