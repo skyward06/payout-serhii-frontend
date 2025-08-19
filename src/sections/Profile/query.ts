@@ -139,17 +139,6 @@ export const FETCH_ME_QUERY = gql(/* GraphQL */ `
         shareIsTexitRanger
         preferredContactDetail
       }
-      sales {
-        id
-        ID
-        status
-        isMetal
-        memberId
-        packageId
-        orderedAt
-        sponsorCnt
-        paymentMethod
-      }
       memberWallets {
         id
         note

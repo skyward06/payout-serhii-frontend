@@ -7,7 +7,7 @@ import ListItemText from '@mui/material/ListItemText';
 
 import { formatID, truncateMiddle } from 'src/utils/helper';
 
-import { ConfirmationStatus, type BasicWeeklyCommission } from 'src/__generated__/graphql';
+import { CommissionStatus, type BasicWeeklyCommission } from 'src/__generated__/graphql';
 
 import { Label } from 'src/components/Label';
 
@@ -63,9 +63,9 @@ export default function CommissionTableRow({ row }: Props) {
         <Label
           variant="soft"
           color={
-            status === ConfirmationStatus.Approved
+            status === CommissionStatus.Approved
               ? 'success'
-              : ConfirmationStatus.Pending
+              : CommissionStatus.Pending
                 ? 'warning'
                 : 'error'
           }
