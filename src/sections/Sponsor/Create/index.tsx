@@ -34,7 +34,6 @@ export default function AddMiner() {
   const { user } = useAuthContext();
 
   const [state, setState] = useState<string>();
-  const [country, setCountry] = useState<string>();
   const [packageId, setPackageId] = useState<string>();
   const [sponsorId, setSponsorId] = useState<string | null>(null);
   const [placementParentId, setPlacementParentId] = useState<string | null>(null);
@@ -48,6 +47,7 @@ export default function AddMiner() {
     uname: '',
     primaryAddress: '',
     secondaryAddress: '',
+    country: 'United States of America',
     state: '',
     zipCode: '',
     city: '',
@@ -59,15 +59,23 @@ export default function AddMiner() {
   });
 
   const {
+    watch,
     setError,
+    setValue,
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
 
+  const country = watch('country');
+
   const { packages, fetchPackages } = useFetchPackages();
   const { createAddMemberOrder } = useCreateAddMemberOrder();
 
-  const onSubmit = handleSubmit(async ({ firstName, lastName, uname, ...rest }) => {
+  const handlePackageChange = (value: string) => {
+    setPackageId(value);
+  };
+
+  const onSubmit = handleSubmit(async ({ firstName, lastName, uname, txcAddress, ...rest }) => {
     try {
       if (!packageId) {
         toast.error('Package is required');
@@ -84,13 +92,15 @@ export default function AddMiner() {
           data: {
             ...rest,
             username: removeSpecialCharacters(uname),
-            state,
-            country,
+            state: country === 'United States of America' ? state : '',
             packageId,
             placementParentId,
             fullName: `${firstName} ${lastName}`,
             ...((user?.isTexitRanger || user?.peerAcceptable) && {
               sponsorId: sponsorId || user.id,
+              ...(country !== 'United States of America' && {
+                txcAddress,
+              }),
             }),
           },
         },
@@ -122,9 +132,11 @@ export default function AddMiner() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handlePackageChange = (value: string) => {
-    setPackageId(value);
-  };
+  useEffect(() => {
+    setValue('assetId', '');
+    setValue('txcAddress', '');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [country]);
 
   const renderForm = (
     <>
@@ -150,6 +162,7 @@ export default function AddMiner() {
           fullWidth
           options={states}
           getOptionLabel={(option: any) => option.name}
+          disabled={country !== 'United States of America'}
           renderInput={(params) => (
             <TextField {...params} name="state" label="States" margin="none" />
           )}
@@ -162,31 +175,35 @@ export default function AddMiner() {
           onInputChange={(_, value: any) => setState(value)}
         />
 
-        <Autocomplete
-          freeSolo
+        <Field.Autocomplete
+          name="country"
+          label="Country"
           fullWidth
           options={countries.getNames()}
           getOptionLabel={(option: any) => option}
-          defaultValue="United States of America"
-          renderInput={(params) => (
-            <TextField {...params} name="country" label="Country" margin="none" />
-          )}
           renderOption={(props, option) => (
             <li {...props} key={option}>
               {option}
             </li>
           )}
-          onChange={(_, value: any) => setCountry(value)}
-          onInputChange={(_, value: any) => setCountry(value)}
         />
 
         <Field.Text name="zipCode" label="Zip Code" />
 
-        <Field.Text
-          name="assetId"
-          label="Coin ID"
-          placeholder="Do you have a Coin ID? Enter the ID here"
-        />
+        {country === 'United States of America' ? (
+          <Field.Text
+            name="assetId"
+            label="Coin ID"
+            placeholder="Do you have a Coin ID? Enter the ID here"
+          />
+        ) : (
+          <Field.Text
+            name="txcAddress"
+            label="Wallet address"
+            InputLabelProps={{ shrink: true }}
+            placeholder="Input your TXC wallet address"
+          />
+        )}
 
         <Field.Text name="uname" label="Affiliate ID" placeholder="5 characters or more" required />
 

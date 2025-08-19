@@ -550,7 +550,7 @@ export enum ConfirmationStatus {
 export type CreateAddMemberOrderInput = {
   assetId?: InputMaybe<Scalars['String']['input']>;
   city?: InputMaybe<Scalars['String']['input']>;
-  country?: InputMaybe<Scalars['String']['input']>;
+  country: Scalars['String']['input'];
   email: Scalars['String']['input'];
   fullName: Scalars['String']['input'];
   mobile: Scalars['String']['input'];
@@ -562,6 +562,7 @@ export type CreateAddMemberOrderInput = {
   secondaryAddress?: InputMaybe<Scalars['String']['input']>;
   sponsorId?: InputMaybe<Scalars['String']['input']>;
   state?: InputMaybe<Scalars['String']['input']>;
+  txcAddress?: InputMaybe<Scalars['String']['input']>;
   username: Scalars['String']['input'];
   zipCode?: InputMaybe<Scalars['String']['input']>;
 };
@@ -644,7 +645,7 @@ export type CreateMemberInput = {
   avatar?: InputMaybe<Scalars['String']['input']>;
   city?: InputMaybe<Scalars['String']['input']>;
   commissionDefault?: InputMaybe<CommissionDefault>;
-  country?: InputMaybe<Scalars['String']['input']>;
+  country: Scalars['String']['input'];
   email: Scalars['String']['input'];
   ethAssetId?: InputMaybe<Scalars['String']['input']>;
   fullName: Scalars['String']['input'];
@@ -3233,7 +3234,7 @@ export type ShareMemberInput = {
 export type SignupFormInput = {
   assetId?: InputMaybe<Scalars['String']['input']>;
   city?: InputMaybe<Scalars['String']['input']>;
-  country?: InputMaybe<Scalars['String']['input']>;
+  country: Scalars['String']['input'];
   email: Scalars['String']['input'];
   fullName: Scalars['String']['input'];
   mobile: Scalars['String']['input'];
@@ -3247,6 +3248,7 @@ export type SignupFormInput = {
   secondaryAddress?: InputMaybe<Scalars['String']['input']>;
   sponsorUsername?: InputMaybe<Scalars['String']['input']>;
   state?: InputMaybe<Scalars['String']['input']>;
+  txcAddress?: InputMaybe<Scalars['String']['input']>;
   username: Scalars['String']['input'];
   zipCode?: InputMaybe<Scalars['String']['input']>;
 };

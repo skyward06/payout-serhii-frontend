@@ -78,10 +78,12 @@ export function SignUpView() {
   const {
     watch,
     setError,
+    setValue,
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
 
+  const country = watch('country');
   const paymentMethod = watch('paymentMethod');
 
   const isPeerCode = paymentMethod?.split('::')[0] === PAYMENT_METHOD_IDS[1];
@@ -93,7 +95,7 @@ export function SignUpView() {
   const { packages, fetchPackages } = useFetchPackages();
 
   const onSubmit = handleSubmit(
-    async ({ firstName, lastName, sponsorUsername, uname, ...rest }) => {
+    async ({ firstName, lastName, sponsorUsername, uname, txcAddress, ...rest }) => {
       try {
         if (user) {
           await handleSignOut();
@@ -105,10 +107,13 @@ export function SignUpView() {
               ...rest,
               paymentMethod: rest.paymentMethod.split('::')[1],
               paymentPeerCode: isPeerCode ? rest.paymentPeerCode : null,
-              state: watch('country') === 'United States of America' ? state : '',
+              state: country === 'United States of America' ? state : '',
               username: removeSpecialCharacters(uname),
               fullName: `${firstName} ${lastName}`,
               sponsorUsername,
+              ...(country !== 'United States of America' && {
+                txcAddress,
+              }),
             },
           },
         });
@@ -162,6 +167,12 @@ export function SignUpView() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.state]);
 
+  useEffect(() => {
+    setValue('assetId', '');
+    setValue('txcAddress', '');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [country]);
+
   const handleSignOut = useCallback(async () => {
     try {
       signOut();
@@ -214,7 +225,7 @@ export function SignUpView() {
           fullWidth
           options={states}
           getOptionLabel={(option: any) => option.name}
-          disabled={watch('country') !== 'United States of America'}
+          disabled={country !== 'United States of America'}
           renderInput={(params) => (
             <TextField {...params} name="state" label="State" margin="none" />
           )}
@@ -324,12 +335,21 @@ export function SignUpView() {
           <Typography>Have a Cold Storage Coin?</Typography>
         </Stack>
         <Stack width={1}>
-          <Field.Text
-            name="assetId"
-            label="Coin ID"
-            InputLabelProps={{ shrink: true }}
-            placeholder="Do you have a coin? Enter the ID here"
-          />
+          {country === 'United States of America' ? (
+            <Field.Text
+              name="assetId"
+              label="Coin ID"
+              InputLabelProps={{ shrink: true }}
+              placeholder="Do you have a coin? Enter the ID here"
+            />
+          ) : (
+            <Field.Text
+              name="txcAddress"
+              label="Wallet address"
+              InputLabelProps={{ shrink: true }}
+              placeholder="Input your TXC wallet address"
+            />
+          )}
         </Stack>
       </Stack>
 

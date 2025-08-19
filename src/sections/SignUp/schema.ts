@@ -20,7 +20,7 @@ export const Schema = zod
     city: zod.string(),
     zipCode: zod.string(),
     state: zod.string(),
-    country: zod.string(),
+    country: zod.string({ required_error: 'Country is required' }),
     primaryAddress: zod.string(),
     sponsorUsername: zod.string(),
     secondaryAddress: zod.string(),
@@ -28,6 +28,7 @@ export const Schema = zod
     paymentMethod: zod.string({ required_error: 'Payment Method is required' }),
     assetId: zod.string().optional().nullable(),
     note: zod.string().optional().nullable(),
+    txcAddress: zod.string().optional().nullable(),
     paymentPeerCode: zod
       .string()
       .optional()
@@ -50,4 +51,13 @@ export const Schema = zod
       message: 'Peer Code must be exactly 6 digits when Peer Acceptable is enabled',
       path: ['peerCode'],
     }
-  );
+  )
+  .superRefine((data, ctx) => {
+    if (data.country !== 'United States of America' && !data.txcAddress) {
+      ctx.addIssue({
+        path: ['txcAddress'],
+        code: zod.ZodIssueCode.custom,
+        message: 'TXC Address is required',
+      });
+    }
+  });
