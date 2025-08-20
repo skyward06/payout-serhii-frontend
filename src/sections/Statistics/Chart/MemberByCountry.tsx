@@ -58,6 +58,12 @@ export default function MemberByCountry() {
                 );
               },
             },
+            value: {
+              show: true,
+              formatter(val) {
+                return fNumber(+val);
+              },
+            },
           },
         },
       },

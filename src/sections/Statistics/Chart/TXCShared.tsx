@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import { alpha, useTheme } from '@mui/material/styles';
 
+import { formatNumber } from 'src/utils/formatNumber';
 import { formatWeekNumber } from 'src/utils/format-time';
 
 import { Chart, useChart, ChartSelect } from 'src/components/chart';
@@ -55,13 +56,7 @@ export default function TXCShared() {
         )
         .reverse(),
     },
-    yaxis: {
-      labels: {
-        formatter(val) {
-          return `${Math.floor(val)}`;
-        },
-      },
-    },
+    yaxis: { labels: { formatter: (val) => formatNumber(val) } },
     colors: [alpha(theme.palette.warning.main, 0.8)],
   });
 

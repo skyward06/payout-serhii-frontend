@@ -66,6 +66,7 @@ export default function MemberReward() {
         )
         .reverse(),
     },
+    yaxis: { labels: { formatter: (val) => formatNumber(val) } },
     tooltip: {
       y: {
         formatter(val) {
