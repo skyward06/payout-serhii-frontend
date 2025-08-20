@@ -95,6 +95,7 @@ export default function AddMiner() {
             state: country === 'United States of America' ? state : '',
             packageId,
             placementParentId,
+            assetId: rest.assetId === '' ? null : rest.assetId,
             fullName: `${firstName} ${lastName}`,
             ...((user?.isTexitRanger || user?.peerAcceptable) && {
               sponsorId: sponsorId || user.id,
