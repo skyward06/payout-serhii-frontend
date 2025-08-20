@@ -98,9 +98,9 @@ export default function AddMiner() {
             fullName: `${firstName} ${lastName}`,
             ...((user?.isTexitRanger || user?.peerAcceptable) && {
               sponsorId: sponsorId || user.id,
-              ...(country !== 'United States of America' && {
-                txcAddress,
-              }),
+            }),
+            ...(country !== 'United States of America' && {
+              txcAddress,
             }),
           },
         },
