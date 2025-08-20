@@ -14,10 +14,11 @@ export const PASSWORD_REGEXP =
   /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+\\|[\]{};:/?.>])[A-Za-z\d!@#$%^&*()\-_=+\\|[\]{};:/?.>]{8,}$/;
 
 export const COMMISSION_TYPE = {
-  PENDING: 'PENDING',
-  CONFIRM: 'CONFIRM',
-  BLOCK: 'BLOCK',
-  NONE: 'NONE',
+  NONE: { label: 'NONE', value: 'None' },
+  PREVIEW: { label: 'PREVIEW', value: 'Preview' },
+  PENDING: { label: 'PENDING', value: 'Pending' },
+  APPROVED: { label: 'APPROVED', value: 'Approved' },
+  SUSPENDED: { label: 'SUSPENDED', value: 'Suspended' },
 };
 
 export const PAYMENT_TYPE = [

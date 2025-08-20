@@ -14,6 +14,7 @@ export type WeeklyCommission = {
   newR: number;
   pkgL: number;
   pkgR: number;
+  hasUSDC: boolean;
   memberId: string;
   username: string;
   fullName: string;

@@ -1,6 +1,8 @@
 import { Helmet } from 'react-helmet-async';
 import { Navigate } from 'react-router-dom';
 
+import Card from '@mui/material/Card';
+
 import { paths } from 'src/routes/paths';
 
 import { CONFIG } from 'src/config';
@@ -39,7 +41,15 @@ export default function CommissionPage() {
         }}
       />
 
-      <CommissionList me={user} />
+      <Card
+        sx={{
+          flexGrow: 1,
+          display: 'flex',
+          overflow: 'hidden',
+        }}
+      >
+        <CommissionList />
+      </Card>
     </>
   );
 }

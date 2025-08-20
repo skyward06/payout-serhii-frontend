@@ -159,5 +159,7 @@ input[type='number']::-webkit-inner-spin-button {
 }
 
 .ag-cell-center {
-  padding-top: 7px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }

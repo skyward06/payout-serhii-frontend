@@ -1,163 +1,193 @@
-import type { Member } from 'src/__generated__/graphql';
-import type { SortOrder } from 'src/routes/hooks/useQuery';
+import type { CustomCellRendererProps } from '@ag-grid-community/react';
+import type { ColDef, ISetFilterParams, ITextFilterParams } from '@ag-grid-community/core';
 
-import { useMemo, useEffect } from 'react';
+import dayjs from 'dayjs';
+import React, { useMemo } from 'react';
 
-import Card from '@mui/material/Card';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableContainer from '@mui/material/TableContainer';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
 
-import { useQuery } from 'src/routes/hooks';
+import { useCopyToClipboard } from 'src/hooks/use-copy-to-clipboard';
 
-import { ScrollBar } from 'src/components/ScrollBar';
-import {
-  useTable,
-  TableNoData,
-  TableSkeleton,
-  TableHeadCustom,
-  TablePaginationCustom,
-} from 'src/components/Table';
+import { formatID } from 'src/utils/helper';
+import { formatWeekNumber } from 'src/utils/format-time';
 
-import { useFetchCommissions } from 'src/sections/Commission/useApollo';
+import { COMMISSION_TYPE } from 'src/consts';
+import { CommissionDefault } from 'src/__generated__/graphql';
 
-import ProductTableRow from './CommissionTableRow';
+import { AgGrid } from 'src/components/AgGrid';
+import { toast } from 'src/components/SnackBar';
+import { Iconify } from 'src/components/Iconify';
 
-import type { ICommissionPrismaFilter, ICommissionTableFilters } from './types';
+import { parseType } from './parseType';
+import { useFetchCommissions } from '../useApollo';
 
-// ----------------------------------------------------------------------
+import type { WeeklyCommission } from '../type';
 
-const TABLE_HEAD = [
-  { id: 'ID', label: 'ID', width: 120, sortable: true },
-  { id: 'weekStartDate', label: 'Week', sortable: true },
-  { id: 'begLR', label: 'BegLR', width: 100, sortable: false },
-  { id: 'newLR', label: 'NewLR', width: 100, sortable: false },
-  { id: 'maxLR', label: 'MaxLR', width: 100, sortable: false },
-  { id: 'pkgLR', label: 'Package', width: 100, sortable: true },
-  { id: 'endLR', label: 'EndLR', width: 100, sortable: true },
-  { id: 'commission', label: 'Commissions', width: 200, sortable: true },
-  { id: 'paymentMethod', label: 'Method', width: 100, sortable: true },
-  { id: 'status', label: 'Status', width: 120, sortable: true },
-  { id: 'note', label: 'Note', width: 300, sortable: true },
-];
+type BasicWeeklyCommission = Omit<WeeklyCommission, 'hasUSDC'>;
 
-const defaultFilter: ICommissionTableFilters = {
-  search: '',
-  status: 'pending',
-};
+export default function CommissionTable() {
+  const { copy } = useCopyToClipboard();
 
-interface Props {
-  me: Member;
-}
+  const { loading, rowCount, weeklyCommissions } = useFetchCommissions();
 
-export default function Commission({ me }: Props) {
-  const table = useTable({ defaultDense: true });
+  const onCopy = (value: string) => {
+    toast.success('Copied!');
+    copy(value);
+  };
 
-  const { fetchCommissions, loading, rowCount, weeklyCommissions } = useFetchCommissions();
-
-  const [query, { setQueryParams: setQuery, setPage, setPageSize }] =
-    useQuery<ICommissionTableFilters>();
-
-  const { page = { page: 1, pageSize: 10 }, sort = { ID: 'asc' }, filter = defaultFilter } = query;
-
-  const graphQueryFilter = useMemo(() => {
-    const filterObj: ICommissionPrismaFilter = {};
-    if (filter.search) {
-      filterObj.OR = [{ member: { username: { contains: filter.search, mode: 'insensitive' } } }];
-    }
-
-    return filterObj;
-  }, [filter]);
-
-  const graphQuerySort = useMemo(() => {
-    if (!sort) return undefined;
-
-    return Object.entries(sort)
-      .map(([key, value]) => `${value === 'asc' ? '' : '-'}${key}`)
-      .join(',');
-  }, [sort]);
-
-  const canReset = !!filter.search;
-
-  useEffect(() => {
-    fetchCommissions({
-      variables: {
-        page: page && `${page.page},${page.pageSize}`,
-        filter: graphQueryFilter,
-        sort: graphQuerySort,
+  const colDefs = useMemo<ColDef<BasicWeeklyCommission>[]>(() => {
+    const baseColDef: ColDef<BasicWeeklyCommission>[] = [
+      {
+        field: 'ID',
+        headerName: 'ID',
+        width: 150,
+        resizable: true,
+        editable: false,
+        initialSort: 'asc',
+        cellClass: 'ag-cell-center tabular-nums',
+        filter: 'agNumberColumnFilter',
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
+          <Stack direction="row" justifyContent="space-between" alignItems="center">
+            {formatID(data?.ID, 'C')}
+            <IconButton onClick={() => onCopy(`${formatID(data?.ID, 'C')}`)}>
+              <Iconify icon="iconamoon:copy-fill" />
+            </IconButton>
+          </Stack>
+        ),
       },
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query]);
+      {
+        field: 'weekStartDate',
+        headerName: 'Week',
+        width: 150,
+        resizable: true,
+        editable: false,
+        sortable: false,
+        filterParams: { buttons: ['reset'] } as ITextFilterParams,
+        cellClass: 'ag-cell-center',
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
+          <>
+            <Typography
+              variant="body2"
+              fontWeight={600}
+            >{`week #${formatWeekNumber(data?.weekStartDate)}`}</Typography>
+            <Typography variant="body2">{`${dayjs(data?.weekStartDate).utc().format('MM/DD')} - ${dayjs(data?.weekStartDate).utc().add(6, 'day').format('MM/DD')}`}</Typography>
+          </>
+        ),
+      },
+      {
+        headerName: 'BegLR',
+        width: 120,
+        resizable: true,
+        editable: false,
+        sortable: false,
+        cellClass: 'ag-cell-center tabular-nums',
+        filterParams: { buttons: ['reset'] } as ITextFilterParams,
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) =>
+          `L${data?.begL}, R${data?.begR}`,
+      },
+      {
+        headerName: 'NewLR',
+        width: 120,
+        resizable: true,
+        editable: false,
+        sortable: false,
+        cellClass: 'ag-cell-center tabular-nums',
+        filterParams: { buttons: ['reset'] } as ITextFilterParams,
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) =>
+          `L${data?.newL}, R${data?.newR}`,
+      },
+      {
+        headerName: 'MaxLR',
+        width: 120,
+        resizable: true,
+        editable: false,
+        sortable: false,
+        cellClass: 'ag-cell-center tabular-nums',
+        filterParams: { buttons: ['reset'] } as ITextFilterParams,
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) =>
+          `L${data?.maxL}, R${data?.maxR}`,
+      },
+      {
+        headerName: 'Package',
+        width: 120,
+        resizable: true,
+        editable: false,
+        sortable: false,
+        cellClass: 'ag-cell-center tabular-nums',
+        filterParams: { buttons: ['reset'] } as ITextFilterParams,
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) =>
+          data?.status !== COMMISSION_TYPE.NONE.label ? `L${data?.pkgL}, R${data?.pkgR}` : 'None',
+      },
+      {
+        headerName: 'EndLR',
+        width: 120,
+        resizable: true,
+        editable: false,
+        sortable: false,
+        cellClass: 'ag-cell-center tabular-nums',
+        filterParams: { buttons: ['reset'] } as ITextFilterParams,
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) =>
+          `L${data?.endL}, R${data?.endR}`,
+      },
+      {
+        field: 'commission',
+        headerName: 'Commissions',
+        width: 160,
+        resizable: true,
+        editable: false,
+        cellClass: 'ag-cell-center tabular-nums ag-right-aligned-cell',
+        filter: 'agNumberColumnFilter',
+      },
+      {
+        field: 'paymentMethod',
+        headerName: 'Method',
+        width: 180,
+        filter: 'agMultiColumnFilter',
+        resizable: true,
+        editable: false,
+        cellClass: 'ag-cell-center',
+        filterParams: {
+          values: Object.values(CommissionDefault),
+          valueFormatter: (params: any) => parseType(params.value),
+          defaultToNothingSelected: true,
+        } as ISetFilterParams<WeeklyCommission>,
+        cellRenderer: ({ data }: CustomCellRendererProps<WeeklyCommission>) => (
+          <Stack direction="row" alignItems="center" spacing={2}>
+            {data?.paymentMethod}
 
-  const notFound = (canReset && !weeklyCommissions?.length) || !weeklyCommissions?.length;
+            {data?.hasUSDC && data.paymentMethod === CommissionDefault.Usdc && (
+              <Iconify icon="ic:twotone-check-box" color="green" />
+            )}
+          </Stack>
+        ),
+      },
+      {
+        field: 'note',
+        headerName: 'Note',
+        flex: 1,
+        minWidth: 200,
+        resizable: true,
+        editable: false,
+        cellClass: 'ag-cell-center',
+        filter: 'agTextColumnFilter',
+        filterParams: { buttons: ['reset'] } as ITextFilterParams,
+      },
+    ];
+
+    return baseColDef;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
-    <Card>
-      <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
-        <ScrollBar>
-          <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
-            <TableHeadCustom
-              order={sort && sort[Object.keys(sort)[0]]}
-              orderBy={sort && Object.keys(sort)[0]}
-              headLabel={TABLE_HEAD}
-              rowCount={loading ? 0 : weeklyCommissions!.length}
-              onSort={(id) => {
-                if (
-                  id !== 'action' &&
-                  id !== 'begLR' &&
-                  id !== 'newLR' &&
-                  id !== 'maxLR' &&
-                  id !== 'pkgLR' &&
-                  id !== 'endLR' &&
-                  id !== 'note'
-                ) {
-                  const isAsc = sort && sort[id] === 'asc';
-                  const newSort = { [id]: isAsc ? 'desc' : ('asc' as SortOrder) };
-                  setQuery({ ...query, sort: newSort });
-                }
-              }}
-            />
-            {loading ? (
-              <>
-                <TableSkeleton height={26} />
-                <TableSkeleton height={26} />
-                <TableSkeleton height={26} />
-                <TableSkeleton height={26} />
-                <TableSkeleton height={26} />
-                <TableSkeleton height={26} />
-                <TableSkeleton height={26} />
-                <TableSkeleton height={26} />
-                <TableSkeleton height={26} />
-                <TableSkeleton height={26} />
-              </>
-            ) : (
-              <TableBody>
-                {weeklyCommissions!.map((row: any) => (
-                  <ProductTableRow key={row!.id} row={row!} />
-                ))}
-
-                <TableNoData notFound={notFound} />
-              </TableBody>
-            )}
-          </Table>
-        </ScrollBar>
-      </TableContainer>
-
-      <TablePaginationCustom
-        count={loading ? 0 : rowCount!}
-        page={loading ? 0 : page!.page - 1}
-        rowsPerPage={page?.pageSize}
-        onPageChange={(_, curPage) => {
-          setPage(curPage + 1);
-        }}
-        onRowsPerPageChange={(event) => {
-          setPageSize(parseInt(event.target.value, 10));
-        }}
-        //
-        dense={table.dense}
-        onChangeDense={table.onChangeDense}
-      />
-    </Card>
+    <AgGrid<BasicWeeklyCommission>
+      gridKey="miner-commission-member-list"
+      loading={loading}
+      rowData={weeklyCommissions}
+      columnDefs={colDefs}
+      totalRowCount={rowCount}
+      rowHeight={45}
+    />
   );
 }

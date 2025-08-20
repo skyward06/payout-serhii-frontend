@@ -16,6 +16,8 @@ import { useFetchTeamCommission } from './useApollo';
 
 import type { WeeklyCommission } from '../Commission/type';
 
+type BasicWeeklyCommission = Omit<WeeklyCommission, 'hasUSDC'>;
+
 interface Props {
   teamReport: TeamReportSection;
 }
@@ -34,7 +36,7 @@ export default function Report({ teamReport }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [graphQueryFilter, page, sort, teamReport]);
 
-  const colDefs = useMemo<ColDef<WeeklyCommission>[]>(
+  const colDefs = useMemo<ColDef<BasicWeeklyCommission>[]>(
     () => [
       {
         field: 'weekStartDate',
@@ -69,7 +71,7 @@ export default function Report({ teamReport }: Props) {
         resizable: true,
         editable: false,
         cellClass: 'ag-number-cell',
-        cellRenderer: ({ data }: CustomCellRendererProps<WeeklyCommission>) =>
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) =>
           `L${data?.begL}, R${data?.begR}`,
       },
       {
@@ -79,7 +81,7 @@ export default function Report({ teamReport }: Props) {
         resizable: true,
         editable: false,
         cellClass: 'ag-number-cell',
-        cellRenderer: ({ data }: CustomCellRendererProps<WeeklyCommission>) =>
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) =>
           `L${data?.newL}, R${data?.newR}`,
       },
       {
@@ -89,7 +91,7 @@ export default function Report({ teamReport }: Props) {
         resizable: true,
         editable: false,
         cellClass: 'ag-number-cell',
-        cellRenderer: ({ data }: CustomCellRendererProps<WeeklyCommission>) =>
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) =>
           `L${data?.maxL}, R${data?.maxR}`,
       },
       {
@@ -99,7 +101,7 @@ export default function Report({ teamReport }: Props) {
         resizable: true,
         editable: false,
         cellClass: 'ag-number-cell',
-        cellRenderer: ({ data }: CustomCellRendererProps<WeeklyCommission>) =>
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) =>
           `L${data?.pkgL}, R${data?.pkgR}`,
       },
       {
@@ -109,7 +111,7 @@ export default function Report({ teamReport }: Props) {
         resizable: true,
         editable: false,
         cellClass: 'ag-number-cell',
-        cellRenderer: ({ data }: CustomCellRendererProps<WeeklyCommission>) =>
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) =>
           `L${data?.endL}, R${data?.endR}`,
       },
       {
@@ -136,7 +138,7 @@ export default function Report({ teamReport }: Props) {
   );
 
   return (
-    <AgGrid<WeeklyCommission>
+    <AgGrid<BasicWeeklyCommission>
       gridKey="miner-team-commission-report-list"
       loading={loading}
       rowData={commissions}

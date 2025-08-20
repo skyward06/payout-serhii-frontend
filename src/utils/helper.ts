@@ -3,6 +3,8 @@
  * https://github.com/you-dont-need-x/you-dont-need-lodash
  */
 
+import type { InputNumberValue } from './formatNumber';
+
 // ----------------------------------------------------------------------
 
 export function flattenArray<T>(list: T[], key = 'children'): T[] {
@@ -129,8 +131,12 @@ export const merge = (target: any, ...sources: any[]): any => {
   return merge(target, ...sources);
 };
 
-export const formatID = (id: string | number, format: string = 'M') =>
-  `${format}-${id.toString().padStart(7, '0')}`;
+export const formatID = (id: InputNumberValue, prefix: string = 'M', length = 7) => {
+  if (id === null || id === undefined || Number.isNaN(id)) {
+    return '';
+  }
+  return `${prefix}-${id.toString().padStart(length, '0')}`;
+};
 
 export const customizeFullName = (fullName: string | null | undefined) => {
   if (fullName === null) return '';
