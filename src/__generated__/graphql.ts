@@ -1203,6 +1203,7 @@ export type MemberOverview = {
 export enum MemberState {
   Added = 'ADDED',
   Approved = 'APPROVED',
+  Ban = 'BAN',
   Blocked = 'BLOCKED',
   Graveyard = 'GRAVEYARD',
   Paid = 'PAID',
@@ -1349,6 +1350,7 @@ export type Mutation = {
   memberLogout: SuccessResponse;
   moveInvoicePaid: SuccessResponse;
   movePlacementChild: SuccessResponse;
+  moveToBan: Member;
   moveToBlocked: SuccessResponse;
   moveToGraveyard: SuccessResponse;
   moveToPaid: SuccessResponse;
@@ -1667,6 +1669,11 @@ export type MutationMoveInvoicePaidArgs = {
 
 export type MutationMovePlacementChildArgs = {
   data: PlacementMemberInput;
+};
+
+
+export type MutationMoveToBanArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
