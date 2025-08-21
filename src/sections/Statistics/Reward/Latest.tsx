@@ -62,13 +62,23 @@ export default function Latest() {
                     <Tooltip title="New Blocks" arrow placement="top">
                       <Iconify icon="clarity:block-line" width={18} />
                     </Tooltip>
-                    <Typography variant="body1">{item.newBlocks}</Typography>
+                    <Typography
+                      variant="body1"
+                      sx={{ fontVariantNumeric: 'tabular-nums', letterSpacing: -1 }}
+                    >
+                      {item.newBlocks}
+                    </Typography>
                   </Stack>
                   <Stack width={0.3} direction="row" columnGap={1} sx={{ alignItems: 'center' }}>
                     <Tooltip title="Total Miners" arrow placement="top">
                       <Iconify icon="stash:user-group" width={18} />
                     </Tooltip>
-                    <Typography variant="body1">{item.totalMembers}</Typography>
+                    <Typography
+                      variant="body1"
+                      sx={{ fontVariantNumeric: 'tabular-nums', letterSpacing: -1 }}
+                    >
+                      {item.totalMembers}
+                    </Typography>
                   </Stack>
                   <Stack width={0.5} direction="row" columnGap={1} sx={{ alignItems: 'center' }}>
                     <Tooltip title="TXC Shared" arrow placement="top">
@@ -77,13 +87,23 @@ export default function Latest() {
                         sx={{ width: 15, height: 15 }}
                       />
                     </Tooltip>
-                    <Typography variant="body1">{item.txcShared}</Typography>
+                    <Typography
+                      variant="body1"
+                      sx={{ fontVariantNumeric: 'tabular-nums', letterSpacing: -1 }}
+                    >
+                      {item.txcShared}
+                    </Typography>
                   </Stack>
                   <Stack width={0.3} direction="row" columnGap={1} sx={{ alignItems: 'center' }}>
                     <Tooltip title="Issued At" arrow placement="top">
                       <Iconify icon="stash:data-date-duotone" width={18} />
                     </Tooltip>
-                    <Typography variant="body1">{formatDate(item.issuedAt)}</Typography>
+                    <Typography
+                      variant="body1"
+                      sx={{ fontVariantNumeric: 'tabular-nums', letterSpacing: -1 }}
+                    >
+                      {formatDate(item.issuedAt)}
+                    </Typography>
                   </Stack>
                 </Stack>
               ))}

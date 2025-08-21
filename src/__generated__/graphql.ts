@@ -641,7 +641,7 @@ export type CreateManyMemberStatisticsInput = {
 };
 
 export type CreateMemberInput = {
-  assetId: Scalars['String']['input'];
+  assetId?: InputMaybe<Scalars['String']['input']>;
   avatar?: InputMaybe<Scalars['String']['input']>;
   city?: InputMaybe<Scalars['String']['input']>;
   commissionDefault?: InputMaybe<CommissionDefault>;
@@ -1380,6 +1380,7 @@ export type Mutation = {
   reopenOrder: Order;
   reopenSwap: WtxcSwap;
   requestResetPassword: SuccessResponse;
+  rerunDailyReward: SuccessResponse;
   resetAdminPasswordByToken: SuccessResponse;
   resetAdminPasswordRequest: SuccessResponse;
   resetBonusClock: SuccessResponse;
