@@ -110,6 +110,7 @@ export function SignUpView() {
               state: country === 'United States of America' ? state : '',
               username: removeSpecialCharacters(uname),
               fullName: `${firstName} ${lastName}`,
+              assetId: rest.assetId === '' ? null : rest.assetId,
               sponsorUsername,
               ...(country !== 'United States of America' && {
                 txcAddress,
