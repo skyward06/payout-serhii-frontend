@@ -21,6 +21,7 @@ import { AgGrid } from 'src/components/AgGrid';
 
 import { parseType } from './parseType';
 import { FileRenderer } from './FileRender';
+import { ActionRender } from '../ActionRender';
 import { useFetchReimbursement } from '../useApollo';
 
 import type { BasicReimbursement } from './type';
@@ -101,6 +102,15 @@ export function ReimbursementList() {
         cellClass: 'tabular-nums',
         cellRenderer: ({ data }: CustomCellRendererProps<BasicReimbursement>) =>
           formatDate(data?.createdAt),
+      },
+      {
+        colId: 'action',
+        width: 50,
+        pinned: 'right',
+        resizable: false,
+        editable: false,
+        sortable: false,
+        cellRenderer: ActionRender,
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps

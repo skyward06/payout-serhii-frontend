@@ -53,8 +53,10 @@ const TXCRequestCreatePage = lazy(() => import('src/pages/TXCRequest/Create'));
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
+const ReimbursementProvider = lazy(() => import('src/libs/Reimbursement'));
 const ReimbursementListPage = lazy(() => import('src/pages/Reimbursement/List'));
 const ReimbursementCreatePage = lazy(() => import('src/pages/Reimbursement/Create'));
+const ReimbursementEditPage = lazy(() => import('src/pages/Reimbursement/Edit'));
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
@@ -176,6 +178,14 @@ export const dashboardRoutes = [
         children: [
           { index: true, element: <ReimbursementListPage /> },
           { path: 'new', element: <ReimbursementCreatePage /> },
+          {
+            path: ':id',
+            element: (
+              <ReimbursementProvider>
+                <ReimbursementEditPage />
+              </ReimbursementProvider>
+            ),
+          },
         ],
       },
       {

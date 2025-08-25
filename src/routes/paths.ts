@@ -14,7 +14,7 @@ const ROOTS = {
   INTRO: '/intro',
   CALCULATOR: '/calculator',
   STATISTICS: '/statistics',
-  RAPIDREWARDS: '/rapid-rewards',
+  RAPID_REWARDS: '/rapid-rewards',
   CONTACT: '/contact',
   ORDER: '/order',
   MAINTENANCE: '/maintenance',
@@ -67,7 +67,7 @@ export const paths = {
     intro: { root: ROOTS.INTRO },
 
     // RAPID REWARDS
-    rapidRewards: { root: ROOTS.RAPIDREWARDS },
+    rapidRewards: { root: ROOTS.RAPID_REWARDS },
 
     // SILVER GUARANTEE
     silverGuarantee: { root: ROOTS.SILVER_GUARANTEE },
@@ -123,7 +123,11 @@ export const paths = {
     invoice: { root: ROOTS.INVOICE },
     calculator: { root: ROOTS.CALCULATOR },
     txcRequest: { root: ROOTS.TXC_REQUEST, new: `${ROOTS.TXC_REQUEST}/new` },
-    reimbursement: { root: ROOTS.REIMBURSEMENT, new: `${ROOTS.REIMBURSEMENT}/new` },
+    reimbursement: {
+      root: ROOTS.REIMBURSEMENT,
+      new: `${ROOTS.REIMBURSEMENT}/new`,
+      edit: (id: string) => `${ROOTS.REIMBURSEMENT}/${id}`,
+    },
   },
   page403: '/403',
   notFound: '/404',

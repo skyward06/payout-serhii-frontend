@@ -3,9 +3,9 @@ import type { PFile, ReimbursementStatus } from 'src/__generated__/graphql';
 export type BasicReimbursement = {
   __typename?: 'BasicReimbursement';
   id: number;
-  amountInCent: number;
   createdAt: any;
   memberId: string;
+  amountInCent: number;
   username?: string | null;
   fullName?: string | null;
   status: ReimbursementStatus;
