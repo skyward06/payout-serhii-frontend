@@ -62,13 +62,7 @@ export function EditForm({ current }: Props) {
       const formData = {
         ...newData,
         amountInCent: newData.amountInCent * 100,
-        ...(current
-          ? {
-              attachments: files.map((file) => file.id),
-            }
-          : {
-              fileIds: files.map((file) => file.id),
-            }),
+        attachments: files.map((file) => file.id),
       };
       const { data } = current
         ? await updateReimbursement({ id: current.id, ...formData })
