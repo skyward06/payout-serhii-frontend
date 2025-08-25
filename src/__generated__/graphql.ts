@@ -3640,7 +3640,7 @@ export type UpdateProofByIdInput = {
 };
 
 export type UpdateReimbursementInput = {
-  amountInCent: Scalars['Int']['input'];
+  amountInCent?: InputMaybe<Scalars['Int']['input']>;
   attachments?: InputMaybe<Array<Scalars['ID']['input']>>;
   description?: InputMaybe<Scalars['String']['input']>;
   fileIds?: InputMaybe<Array<Scalars['ID']['input']>>;
