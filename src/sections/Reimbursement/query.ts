@@ -25,9 +25,36 @@ export const FETCH_REIMBURSEMENT = gql(/* GraphQL */ `
   }
 `);
 
+export const FETCH_REIMBURSEMENT_BY_ID = gql(/* GraphQL */ `
+  query ReimbursementById($id: Int!) {
+    reimbursementById(ID: $id) {
+      id
+      status
+      memberId
+      description
+      amountInCent
+      attachments {
+        id
+        url
+        size
+        mimeType
+        originalName
+      }
+    }
+  }
+`);
+
 export const CREATE_REIMBURSEMENT = gql(/* GraphQL */ `
   mutation CreateReimbursement($data: CreateReimbursementInput!) {
     createReimbursement(data: $data) {
+      id
+    }
+  }
+`);
+
+export const UPDATE_REIMBURSEMENT = gql(/* GraphQL */ `
+  mutation UpdateReimbursement($data: UpdateReimbursementInput!) {
+    updateReimbursement(data: $data) {
       id
     }
   }

@@ -1,13 +1,18 @@
-import type { CreateReimbursementInput } from 'src/__generated__/graphql';
+import type { CreateReimbursementInput, UpdateReimbursementInput } from 'src/__generated__/graphql';
 
 import { useRef, useMemo, useCallback } from 'react';
-import { useQuery, useMutation } from '@apollo/client';
+import { useQuery, useMutation, useSuspenseQuery } from '@apollo/client';
 
 import { useAgQuery as useQueryString } from 'src/routes/hooks';
 
 import { parseFilterModel } from 'src/utils/parseFilter';
 
-import { FETCH_REIMBURSEMENT, CREATE_REIMBURSEMENT } from './query';
+import {
+  FETCH_REIMBURSEMENT,
+  CREATE_REIMBURSEMENT,
+  UPDATE_REIMBURSEMENT,
+  FETCH_REIMBURSEMENT_BY_ID,
+} from './query';
 
 export function useFetchReimbursement() {
   const [{ page = '1,50', sort = 'createdAt', filter }] = useQueryString();
@@ -32,6 +37,12 @@ export function useFetchReimbursement() {
   return { loading, rowCount, reimbursements: data?.reimbursements.reimbursements ?? [] };
 }
 
+export function useFetchReimbursementById(id: number) {
+  const { data } = useSuspenseQuery(FETCH_REIMBURSEMENT_BY_ID, { variables: { id } });
+
+  return { reimbursement: data.reimbursementById };
+}
+
 export function useCreteReimbursement() {
   const [submit, { loading, error }] = useMutation(CREATE_REIMBURSEMENT);
 
@@ -41,4 +52,15 @@ export function useCreteReimbursement() {
   );
 
   return { loading, error, createReimbursement };
+}
+
+export function useUpdateReimbursement() {
+  const [submit, { loading, error }] = useMutation(UPDATE_REIMBURSEMENT);
+
+  const updateReimbursement = useCallback(
+    (data: UpdateReimbursementInput) => submit({ variables: { data } }),
+    [submit]
+  );
+
+  return { loading, error, updateReimbursement };
 }

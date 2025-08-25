@@ -53,7 +53,9 @@ const documents = {
     "\n  mutation MemberExchangeLogin($data: MemberLoginInput!) {\n    memberExchangeLogin(data: $data) {\n      status\n      accessToken\n      passwordExpired\n    }\n  }\n": types.MemberExchangeLoginDocument,
     "\n  mutation VerifyEmailCode($data: VerificationCodeInput!) {\n    verifyEmailCode(data: $data) {\n      accessToken\n    }\n  }\n": types.VerifyEmailCodeDocument,
     "\n  query Reimbursements($sort: String, $page: String, $filter: JSONObject) {\n    reimbursements(sort: $sort, page: $page, filter: $filter) {\n      reimbursements {\n        id\n        amountInCent\n        status\n        username\n        fullName\n        memberId\n        createdAt\n        description\n        attachments {\n          id\n          url\n          size\n          mimeType\n          originalName\n        }\n      }\n      total\n    }\n  }\n": types.ReimbursementsDocument,
+    "\n  query ReimbursementById($id: Int!) {\n    reimbursementById(ID: $id) {\n      id\n      status\n      memberId\n      description\n      amountInCent\n      attachments {\n        id\n        url\n        size\n        mimeType\n        originalName\n      }\n    }\n  }\n": types.ReimbursementByIdDocument,
     "\n  mutation CreateReimbursement($data: CreateReimbursementInput!) {\n    createReimbursement(data: $data) {\n      id\n    }\n  }\n": types.CreateReimbursementDocument,
+    "\n  mutation UpdateReimbursement($data: UpdateReimbursementInput!) {\n    updateReimbursement(data: $data) {\n      id\n    }\n  }\n": types.UpdateReimbursementDocument,
     "\n  mutation RequestResetPassword($data: EmailInput!) {\n    requestResetPassword(data: $data) {\n      result\n      message\n    }\n  }\n": types.RequestResetPasswordDocument,
     "\n  mutation ResetPasswordByToken($data: ResetPasswordTokenInput!) {\n    resetPasswordByToken(data: $data) {\n      message\n      result\n    }\n  }\n": types.ResetPasswordByTokenDocument,
     "\n  mutation VerifyResetPasswordToken($data: TokenInput!) {\n    verifyResetPasswordToken(data: $data) {\n      token\n    }\n  }\n": types.VerifyResetPasswordTokenDocument,
@@ -279,7 +281,15 @@ export function gql(source: "\n  query Reimbursements($sort: String, $page: Stri
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function gql(source: "\n  query ReimbursementById($id: Int!) {\n    reimbursementById(ID: $id) {\n      id\n      status\n      memberId\n      description\n      amountInCent\n      attachments {\n        id\n        url\n        size\n        mimeType\n        originalName\n      }\n    }\n  }\n"): (typeof documents)["\n  query ReimbursementById($id: Int!) {\n    reimbursementById(ID: $id) {\n      id\n      status\n      memberId\n      description\n      amountInCent\n      attachments {\n        id\n        url\n        size\n        mimeType\n        originalName\n      }\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function gql(source: "\n  mutation CreateReimbursement($data: CreateReimbursementInput!) {\n    createReimbursement(data: $data) {\n      id\n    }\n  }\n"): (typeof documents)["\n  mutation CreateReimbursement($data: CreateReimbursementInput!) {\n    createReimbursement(data: $data) {\n      id\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation UpdateReimbursement($data: UpdateReimbursementInput!) {\n    updateReimbursement(data: $data) {\n      id\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateReimbursement($data: UpdateReimbursementInput!) {\n    updateReimbursement(data: $data) {\n      id\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
