@@ -38,6 +38,7 @@ const ROOTS = {
 
   // Widget
   WIDGET: '/widget',
+  PEER: '/peer',
 };
 
 // ----------------------------------------------------------------------
@@ -131,6 +132,7 @@ export const paths = {
       new: `${ROOTS.REIMBURSEMENT}/new`,
       edit: (id: string) => `${ROOTS.REIMBURSEMENT}/${id}`,
     },
+    peer: { confirmation: `${ROOTS.PEER}/confirmation` },
   },
 
   widget: {

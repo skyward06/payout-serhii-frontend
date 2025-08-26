@@ -14,6 +14,7 @@ import { LoadingScreen } from 'src/components/loading-screen';
 import { paths } from '../paths';
 
 // ----------------------------------------------------------------------
+const PeerConfirmationPage = lazy(() => import('src/pages/Peer/Confirmation'));
 const PaymentStatus = lazy(() => import('src/pages/Order/PaymentStatus'));
 const PaymentWaiting = lazy(() => import('src/pages/Order/PaymentWaiting'));
 const PaymentSelector = lazy(() => import('src/pages/Order/PaymentSelector'));
@@ -103,6 +104,14 @@ export const statisticsRoutes: RouteObject[] = [
     element: (
       <AuthCenteredLayout>
         <CommissionConfirmationPage />
+      </AuthCenteredLayout>
+    ),
+  },
+  {
+    path: 'peer/confirmation',
+    element: (
+      <AuthCenteredLayout>
+        <PeerConfirmationPage />
       </AuthCenteredLayout>
     ),
   },
