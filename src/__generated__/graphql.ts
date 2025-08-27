@@ -2236,7 +2236,8 @@ export enum PermissionType {
   RoleView = 'ROLE_VIEW',
   SaleEdit = 'SALE_EDIT',
   SalePastEdit = 'SALE_PAST_EDIT',
-  SaleView = 'SALE_VIEW'
+  SaleView = 'SALE_VIEW',
+  ShippingView = 'SHIPPING_VIEW'
 }
 
 export type PlacementMember = {
@@ -2479,6 +2480,7 @@ export type Query = {
   settingByMemberId: Setting;
   shareAccountById: ShareAccount;
   shareAccounts: ShareAccountResponse;
+  shippingMemberInfos: Array<ShippingMemberInfo>;
   sponsorMembers: Array<SponsorMember>;
   statistics: StatisticsResponse;
   teamCommissions: BasicWeeklyCommissionResponse;
@@ -2929,6 +2931,11 @@ export type QueryShareAccountsArgs = {
 };
 
 
+export type QueryShippingMemberInfosArgs = {
+  assetId: Scalars['String']['input'];
+};
+
+
 export type QueryStatisticsArgs = {
   filter?: InputMaybe<Scalars['JSONObject']['input']>;
   page?: InputMaybe<Scalars['String']['input']>;
@@ -3241,6 +3248,21 @@ export type ShareAccountResponse = {
 
 export type ShareMemberInput = {
   memberIds: Array<Scalars['ID']['input']>;
+};
+
+export type ShippingMemberInfo = {
+  __typename?: 'ShippingMemberInfo';
+  assetId?: Maybe<Scalars['String']['output']>;
+  city?: Maybe<Scalars['String']['output']>;
+  country: Scalars['String']['output'];
+  email: Scalars['String']['output'];
+  fullName: Scalars['String']['output'];
+  mobile: Scalars['String']['output'];
+  primaryAddress: Scalars['String']['output'];
+  relatedAssets: Array<Scalars['String']['output']>;
+  secondaryAddress?: Maybe<Scalars['String']['output']>;
+  state?: Maybe<Scalars['String']['output']>;
+  zipCode?: Maybe<Scalars['String']['output']>;
 };
 
 export type SignupFormInput = {
