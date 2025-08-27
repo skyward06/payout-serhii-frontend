@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import { useTheme, alpha as hexAlpha } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 
 import { fNumber } from 'src/utils/formatNumber';
 
@@ -10,40 +10,47 @@ import { Chart, useChart } from 'src/components/chart';
 
 import { useFetchMemberByCountry } from '../useApollo';
 
+const mainCountries = ['United States of America', 'Texas', 'Australia', 'New Zealand', 'Canada'];
+
 export default function MemberByCountry() {
   const theme = useTheme();
   const { loading, members } = useFetchMemberByCountry();
 
-  const series = useMemo(() => members.map((item) => item?.memberCount ?? 0), [members]);
+  const grouped = useMemo(() => {
+    const result: { country: string; memberCount: number }[] = [];
+    let otherCount = 0;
+
+    members.forEach((item) => {
+      const country = item?.country ?? '';
+      const count = item?.memberCount ?? 0;
+      if (mainCountries.includes(country)) {
+        result.push({ country, memberCount: count });
+      } else {
+        otherCount += count;
+      }
+    });
+
+    result.push({ country: 'Other', memberCount: otherCount });
+
+    return result;
+  }, [members]);
+
+  const series = useMemo(() => grouped.map((item) => item?.memberCount ?? 0), [grouped]);
 
   const baseColors = [
+    theme.palette.success.main,
     theme.palette.info.main,
-    theme.palette.error.main,
     theme.palette.warning.main,
     theme.palette.primary.main,
-    theme.palette.success.main,
+    theme.palette.error.main,
     theme.palette.secondary.main,
   ];
 
-  const darkColors = [
-    theme.palette.info.darker,
-    theme.palette.error.darker,
-    theme.palette.primary.darker,
-    theme.palette.success.darker,
-    theme.palette.warning.darker,
-    theme.palette.secondary.darker,
-  ];
-
-  const colors = [
-    ...baseColors,
-    ...darkColors,
-    ...darkColors.map((color) => hexAlpha(color, 0.7)),
-    ...darkColors.map((color) => hexAlpha(color, 0.9)),
-  ];
+  const colors = [...baseColors];
 
   const chartOptions = useChart({
     chart: { sparkline: { enabled: true } },
-    labels: members.map((item) => item?.country ?? ''),
+    labels: grouped.map((item) => item?.country ?? ''),
     stroke: { width: 0 },
     colors,
     plotOptions: {
