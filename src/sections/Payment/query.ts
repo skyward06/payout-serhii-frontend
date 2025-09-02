@@ -6,7 +6,8 @@ export const FETCH_PAYMENT_QUERY = gql(/* GraphQL */ `
       paymentMethods {
         id
         name
-        visible
+        adminVisible
+        enrollmentVisible
         createdAt
       }
       total

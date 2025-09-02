@@ -20,7 +20,8 @@ export type PaymentMethod = {
   __typename?: 'PaymentMethod';
   id: string;
   name: string;
-  visible: boolean;
+  adminVisible: boolean;
+  enrollmentVisible: boolean;
   defaultLink?: string | null;
   createdAt?: any | null;
   deletedAt?: any | null;

@@ -11,7 +11,7 @@ export function useFetchPayments() {
   const [{ page = '1,25', sort = 'createdAt', filter }] = useQueryString();
 
   const graphQueryFilter = useMemo(
-    () => parseFilterModel({}, { ...filter, visible: true }),
+    () => parseFilterModel({}, { ...filter, enrollmentVisible: true }),
     [filter]
   );
 
