@@ -148,11 +148,8 @@ export const FETCH_COMMISSION_BY_PERIOD = gql(/* GraphQL */ `
 export const FETCH_REVENUE_QUERY = gql(/* GraphQL */ `
   query RevenueOverview {
     revenueOverview {
-      revenue
-      spent {
-        label
-        value
-      }
+      type
+      total
     }
   }
 `);

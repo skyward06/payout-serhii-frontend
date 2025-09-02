@@ -32,7 +32,7 @@ export type Proof = {
   note?: string | null;
   orderedAt: any;
   refId: string;
-  reflinks?: Array<RefLink> | null;
+  refLinks?: Array<RefLink> | null;
   type: ProofType;
   updatedAt?: any | null;
 };

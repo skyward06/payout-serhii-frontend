@@ -719,7 +719,7 @@ export type CreateProofInput = {
   note?: InputMaybe<Scalars['String']['input']>;
   orderedAt?: InputMaybe<Scalars['DateTimeISO']['input']>;
   refId: Scalars['ID']['input'];
-  reflinks?: InputMaybe<Array<LinkInput>>;
+  refLinks?: InputMaybe<Array<LinkInput>>;
   type: ProofType;
   vendor?: InputMaybe<Scalars['String']['input']>;
 };
@@ -744,7 +744,7 @@ export type CreateSaleInput = {
   orderedAt: Scalars['DateTimeISO']['input'];
   packageId: Scalars['ID']['input'];
   paymentMethod: Scalars['String']['input'];
-  reflinks?: InputMaybe<Array<LinkInput>>;
+  refLinks?: InputMaybe<Array<LinkInput>>;
   sponsorCnt?: InputMaybe<Scalars['Float']['input']>;
   status: Scalars['Boolean']['input'];
   toMemberId?: InputMaybe<Scalars['ID']['input']>;
@@ -1367,16 +1367,16 @@ export type Mutation = {
   removeGroupSetting: GroupSetting;
   removeManyMemberStatistics: ManySuccessResponse;
   removeManyStatistics: ManySuccessResponse;
-  removeMember: SuccessResponse;
+  removeMember: Member;
   removeMemberFromPlacementTree: SuccessResponse;
   removeMemberList: SuccessResponse;
   removeMemberStatisticsByStaitisId: ManySuccessResponse;
   removePackage: SuccessResponse;
   removePaymentMethod: PaymentMethod;
   removePromo: SuccessResponse;
-  removeProof: SuccessResponse;
+  removeProof: Proof;
   removeRole: SuccessResponse;
-  removeSale: SuccessResponse;
+  removeSale: Sale;
   removeShareAccount: ShareAccount;
   removeSubtreeFromPlacementTree: SuccessResponse;
   reopenOrder: Order;
@@ -1791,7 +1791,7 @@ export type MutationRemovePromoArgs = {
 
 
 export type MutationRemoveProofArgs = {
-  data: IdInput;
+  id: Scalars['ID']['input'];
 };
 
 
@@ -1801,7 +1801,7 @@ export type MutationRemoveRoleArgs = {
 
 
 export type MutationRemoveSaleArgs = {
-  data: IdInput;
+  id: Scalars['ID']['input'];
 };
 
 
@@ -2219,8 +2219,16 @@ export type Payout = {
   updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
 };
 
+export enum PeriodStateType {
+  Block = 'block',
+  Day = 'day',
+  Month = 'month',
+  Quarter = 'quarter',
+  Week = 'week'
+}
+
 export type PeriodStatsArgs = {
-  type: Scalars['String']['input'];
+  type: PeriodStateType;
 };
 
 export enum PermissionType {
@@ -2368,7 +2376,7 @@ export type Proof = {
   note?: Maybe<Scalars['String']['output']>;
   orderedAt: Scalars['DateTimeISO']['output'];
   refId: Scalars['ID']['output'];
-  reflinks?: Maybe<Array<RefLink>>;
+  refLinks?: Maybe<Array<RefLink>>;
   type: ProofType;
   updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   vendor?: Maybe<Scalars['String']['output']>;
@@ -2381,28 +2389,36 @@ export type ProofResponse = {
 };
 
 export enum ProofType {
-  Administrationsalary = 'ADMINISTRATIONSALARY',
+  AdminSalary = 'ADMIN_SALARY',
+  Apps = 'APPS',
+  Asics = 'ASICS',
+  Bonus = 'BONUS',
   Commission = 'COMMISSION',
-  Developersapps = 'DEVELOPERSAPPS',
-  Developersintegrations = 'DEVELOPERSINTEGRATIONS',
-  Developersprotocol = 'DEVELOPERSPROTOCOL',
-  Developersweb = 'DEVELOPERSWEB',
-  Exchangefee = 'EXCHANGEFEE',
-  Infrastructure = 'INFRASTRUCTURE',
+  Development = 'DEVELOPMENT',
+  Doge = 'DOGE',
+  Electricity = 'ELECTRICITY',
+  Equipment = 'EQUIPMENT',
+  FacilityExpense = 'FACILITY_EXPENSE',
+  FreedomFieldTrip = 'FREEDOM_FIELD_TRIP',
+  FreightAndImportCosts = 'FREIGHT_AND_IMPORT_COSTS',
+  HashUpgrade = 'HASH_UPGRADE',
   Invoice = 'INVOICE',
+  LandAndLeases = 'LAND_AND_LEASES',
   Liquidity = 'LIQUIDITY',
-  Marketingminetxcpromotion = 'MARKETINGMINETXCPROMOTION',
-  Marketingtxcpromotion = 'MARKETINGTXCPROMOTION',
-  Mineelectricity = 'MINEELECTRICITY',
-  Minefacilityrentmortage = 'MINEFACILITYRENTMORTAGE',
-  Minemaintainance = 'MINEMAINTAINANCE',
-  Minenewequipment = 'MINENEWEQUIPMENT',
+  Ltc = 'LTC',
+  MergeMining = 'MERGE_MINING',
+  MtxcMarketing = 'MTXC_MARKETING',
   Overhead = 'OVERHEAD',
+  Payout = 'PAYOUT',
   Profit = 'PROFIT',
   Promotion = 'PROMOTION',
-  Reimbursement = 'REIMBURSEMENT',
-  Sale = 'SALE',
-  Transactionprocessing = 'TRANSACTIONPROCESSING'
+  Protocol = 'PROTOCOL',
+  Reimbursements = 'REIMBURSEMENTS',
+  Seats = 'SEATS',
+  Trading = 'TRADING',
+  TransactionProcessing = 'TRANSACTION_PROCESSING',
+  TxcMarketing = 'TXC_MARKETING',
+  Web = 'WEB'
 }
 
 export type Query = {
@@ -2477,7 +2493,7 @@ export type Query = {
   proofs: ProofResponse;
   reimbursementById: Reimbursement;
   reimbursements: ReimbursementResponse;
-  revenueOverview: RevenueOverviewResponse;
+  revenueOverview: Array<RevenueSpentItem>;
   rewardsByWallets: RewardsByWallets;
   roleById: Role;
   roles: RoleResponse;
@@ -2855,7 +2871,7 @@ export type QueryPromosArgs = {
 
 
 export type QueryProofByIdArgs = {
-  data: IdInput;
+  id: Scalars['ID']['input'];
 };
 
 
@@ -3119,16 +3135,10 @@ export type ResetPasswordTokenInput = {
   token: Scalars['String']['input'];
 };
 
-export type RevenueOverviewResponse = {
-  __typename?: 'RevenueOverviewResponse';
-  revenue: Scalars['Float']['output'];
-  spent?: Maybe<Array<RevenueSpentItem>>;
-};
-
 export type RevenueSpentItem = {
   __typename?: 'RevenueSpentItem';
-  label: Scalars['String']['output'];
-  value: Scalars['Float']['output'];
+  total: Scalars['Float']['output'];
+  type: SummaryType;
 };
 
 export type RewardByWallet = {
@@ -3362,6 +3372,16 @@ export enum SuccessResult {
   Success = 'success'
 }
 
+export enum SummaryType {
+  Commission = 'COMMISSION',
+  Income = 'INCOME',
+  Liquidity = 'LIQUIDITY',
+  Mine = 'MINE',
+  Overhead = 'OVERHEAD',
+  Profit = 'PROFIT',
+  Promotion = 'PROMOTION'
+}
+
 export type TxcPriceInput = {
   txcPrice: Scalars['Float']['input'];
 };
@@ -3584,7 +3604,7 @@ export type UpdateInvoiceInput = {
   id: Scalars['ID']['input'];
   name?: InputMaybe<Scalars['String']['input']>;
   note?: InputMaybe<Scalars['String']['input']>;
-  reflinks?: InputMaybe<Array<LinkInput>>;
+  refLinks?: InputMaybe<Array<LinkInput>>;
   status?: InputMaybe<InvoiceStatus>;
 };
 
@@ -3672,7 +3692,7 @@ export type UpdateProofByIdInput = {
   note?: InputMaybe<Scalars['String']['input']>;
   orderedAt?: InputMaybe<Scalars['DateTimeISO']['input']>;
   refId?: InputMaybe<Scalars['ID']['input']>;
-  reflinks?: InputMaybe<Array<LinkInput>>;
+  refLinks?: InputMaybe<Array<LinkInput>>;
   type?: InputMaybe<ProofType>;
   vendor?: InputMaybe<Scalars['String']['input']>;
 };
@@ -3684,7 +3704,7 @@ export type UpdateReimbursementInput = {
   fileIds?: InputMaybe<Array<Scalars['ID']['input']>>;
   id: Scalars['Int']['input'];
   note?: InputMaybe<Scalars['String']['input']>;
-  reflinks?: InputMaybe<Array<LinkInput>>;
+  refLinks?: InputMaybe<Array<LinkInput>>;
   status?: InputMaybe<ReimbursementStatus>;
 };
 
@@ -3704,7 +3724,7 @@ export type UpdateSaleInput = {
   orderedAt?: InputMaybe<Scalars['DateTimeISO']['input']>;
   packageId?: InputMaybe<Scalars['ID']['input']>;
   paymentMethod?: InputMaybe<Scalars['String']['input']>;
-  reflinks?: InputMaybe<Array<LinkInput>>;
+  refLinks?: InputMaybe<Array<LinkInput>>;
   sponsorCnt?: InputMaybe<Scalars['Float']['input']>;
   status?: InputMaybe<Scalars['Boolean']['input']>;
   toMemberId?: InputMaybe<Scalars['ID']['input']>;
@@ -3848,7 +3868,7 @@ export type WeeklyCommissionUpdateInput = {
   fileIds?: InputMaybe<Array<Scalars['ID']['input']>>;
   id: Scalars['ID']['input'];
   note?: InputMaybe<Scalars['String']['input']>;
-  reflinks?: InputMaybe<Array<LinkInput>>;
+  refLinks?: InputMaybe<Array<LinkInput>>;
   shortNote?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -4420,7 +4440,7 @@ export type CommissionByPeriodQuery = { __typename?: 'Query', commissionByPeriod
 export type RevenueOverviewQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RevenueOverviewQuery = { __typename?: 'Query', revenueOverview: { __typename?: 'RevenueOverviewResponse', revenue: number, spent?: Array<{ __typename?: 'RevenueSpentItem', label: string, value: number }> | null } };
+export type RevenueOverviewQuery = { __typename?: 'Query', revenueOverview: Array<{ __typename?: 'RevenueSpentItem', type: SummaryType, total: number }> };
 
 export type TotalMemberCountsQueryVariables = Exact<{
   data: PeriodStatsArgs;
@@ -4598,7 +4618,7 @@ export const BlocksDataDocument = {"kind":"Document","definitions":[{"kind":"Ope
 export const NewMemberCountsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"NewMemberCounts"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"PeriodStatsArgs"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"newMemberCounts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"base"}},{"kind":"Field","name":{"kind":"Name","value":"baseDate"}},{"kind":"Field","name":{"kind":"Name","value":"minerCount"}}]}}]}}]} as unknown as DocumentNode<NewMemberCountsQuery, NewMemberCountsQueryVariables>;
 export const AverageMemberRewardDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AverageMemberReward"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"PeriodStatsArgs"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"averageMemberReward"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"base"}},{"kind":"Field","name":{"kind":"Name","value":"baseDate"}},{"kind":"Field","name":{"kind":"Name","value":"reward"}}]}}]}}]} as unknown as DocumentNode<AverageMemberRewardQuery, AverageMemberRewardQueryVariables>;
 export const CommissionByPeriodDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CommissionByPeriod"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"PeriodStatsArgs"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"commissionByPeriod"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"base"}},{"kind":"Field","name":{"kind":"Name","value":"baseDate"}},{"kind":"Field","name":{"kind":"Name","value":"commission"}},{"kind":"Field","name":{"kind":"Name","value":"revenue"}}]}}]}}]} as unknown as DocumentNode<CommissionByPeriodQuery, CommissionByPeriodQueryVariables>;
-export const RevenueOverviewDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"RevenueOverview"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"revenueOverview"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"revenue"}},{"kind":"Field","name":{"kind":"Name","value":"spent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"label"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]} as unknown as DocumentNode<RevenueOverviewQuery, RevenueOverviewQueryVariables>;
+export const RevenueOverviewDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"RevenueOverview"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"revenueOverview"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]} as unknown as DocumentNode<RevenueOverviewQuery, RevenueOverviewQueryVariables>;
 export const TotalMemberCountsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"TotalMemberCounts"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"PeriodStatsArgs"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalMemberCounts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"base"}},{"kind":"Field","name":{"kind":"Name","value":"baseDate"}},{"kind":"Field","name":{"kind":"Name","value":"minerCount"}}]}}]}}]} as unknown as DocumentNode<TotalMemberCountsQuery, TotalMemberCountsQueryVariables>;
 export const LatestStatisticsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"LatestStatistics"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"latestStatistics"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"newBlocks"}},{"kind":"Field","name":{"kind":"Name","value":"totalMembers"}},{"kind":"Field","name":{"kind":"Name","value":"txcShared"}},{"kind":"Field","name":{"kind":"Name","value":"issuedAt"}}]}}]}}]} as unknown as DocumentNode<LatestStatisticsQuery, LatestStatisticsQueryVariables>;
 export const TxcSharesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"TxcShares"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"PeriodStatsArgs"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"txcShares"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"base"}},{"kind":"Field","name":{"kind":"Name","value":"baseDate"}},{"kind":"Field","name":{"kind":"Name","value":"txc"}}]}}]}}]} as unknown as DocumentNode<TxcSharesQuery, TxcSharesQueryVariables>;
