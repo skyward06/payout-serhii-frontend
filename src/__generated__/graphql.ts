@@ -2194,7 +2194,7 @@ export type PaymentMethod = {
 
 export type PaymentMethodResponse = {
   __typename?: 'PaymentMethodResponse';
-  paymentMethods?: Maybe<Array<PaymentMethod>>;
+  paymentMethods: Array<PaymentMethod>;
   total?: Maybe<Scalars['Int']['output']>;
 };
 
@@ -2464,6 +2464,7 @@ export type Query = {
   packageById: Package;
   packageBySId: Package;
   packages: PackageResponse;
+  paymentMethodById: PaymentMethod;
   paymentMethods: PaymentMethodResponse;
   placementChildrenById: Array<PlacementMember>;
   placementMembersToBottom: Array<PlacementMember>;
@@ -2804,6 +2805,11 @@ export type QueryPackagesArgs = {
   filter?: InputMaybe<Scalars['JSONObject']['input']>;
   page?: InputMaybe<Scalars['String']['input']>;
   sort?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryPaymentMethodByIdArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -4002,7 +4008,7 @@ export type PaymentMethodsQueryVariables = Exact<{
 }>;
 
 
-export type PaymentMethodsQuery = { __typename?: 'Query', paymentMethods: { __typename?: 'PaymentMethodResponse', total?: number | null, paymentMethods?: Array<{ __typename?: 'PaymentMethod', id: string, name: string, adminVisible: boolean, enrollmentVisible: boolean, createdAt?: any | null }> | null } };
+export type PaymentMethodsQuery = { __typename?: 'Query', paymentMethods: { __typename?: 'PaymentMethodResponse', total?: number | null, paymentMethods: Array<{ __typename?: 'PaymentMethod', id: string, name: string, adminVisible: boolean, enrollmentVisible: boolean, createdAt?: any | null }> } };
 
 export type PlacementMembersWithLevelQueryVariables = Exact<{
   data: PlacementWithLevelInput;
