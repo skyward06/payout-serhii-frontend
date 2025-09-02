@@ -1,3 +1,5 @@
+import type { PeriodStateType } from 'src/__generated__/graphql';
+
 import dayjs from 'dayjs';
 import { useMemo, useState, useCallback } from 'react';
 
@@ -31,7 +33,7 @@ export default function TXCShared() {
 
   const currentSelect = select.find((i) => i.label === selectedSeries);
 
-  const { loading, txcShares } = useFetchTXCShares(currentSelect?.value!);
+  const { loading, txcShares } = useFetchTXCShares(currentSelect?.value as PeriodStateType);
 
   const series = useMemo(
     () => [

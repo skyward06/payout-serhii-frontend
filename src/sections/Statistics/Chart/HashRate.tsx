@@ -1,4 +1,5 @@
 import type { ApexOptions } from 'apexcharts';
+import type { PeriodStateType } from 'src/__generated__/graphql';
 
 import dayjs from 'dayjs';
 import { useMemo, useState, useCallback } from 'react';
@@ -32,7 +33,7 @@ export default function HashRate() {
 
   const currentSelect = select.find((i) => i.label === selectedSeries);
 
-  const { loading, blocks } = useFetchBlocks(currentSelect?.value!);
+  const { loading, blocks } = useFetchBlocks(currentSelect?.value as PeriodStateType);
 
   const series = useMemo(
     () => [

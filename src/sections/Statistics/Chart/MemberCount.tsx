@@ -1,3 +1,5 @@
+import type { PeriodStateType } from 'src/__generated__/graphql';
+
 import dayjs from 'dayjs';
 import { useMemo, useState, useCallback } from 'react';
 
@@ -30,7 +32,7 @@ export default function MemberCount() {
 
   const currentSelect = select.find((i) => i.label === selectedSeries);
 
-  const { loading, memberCount } = useFetchMemberCounts(currentSelect?.value!);
+  const { loading, memberCount } = useFetchMemberCounts(currentSelect?.value as PeriodStateType);
 
   const series = useMemo(
     () => [

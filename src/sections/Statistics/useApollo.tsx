@@ -1,3 +1,5 @@
+import type { PeriodStateType } from 'src/__generated__/graphql';
+
 import { useQuery, useLazyQuery } from '@apollo/client';
 
 import {
@@ -28,31 +30,31 @@ export function useFetchStatistics() {
   return { loading, statistics: data?.statistics.statistics ?? [], fetchStatistics };
 }
 
-export function useFetchBlocks(type: string) {
+export function useFetchBlocks(type: PeriodStateType) {
   const { loading, data } = useQuery(FETCH_BLOCKS_DATA_QUERY, { variables: { data: { type } } });
 
   return { loading, blocks: data?.blocksData ?? [] };
 }
 
-export function useFetchMemberCounts(type: string) {
+export function useFetchMemberCounts(type: PeriodStateType) {
   const { loading, data } = useQuery(FETCH_MEMBER_COUNT, { variables: { data: { type } } });
 
   return { loading, memberCount: data?.newMemberCounts ?? [] };
 }
 
-export function useFetchTotalMiner(type: string) {
+export function useFetchTotalMiner(type: PeriodStateType) {
   const { loading, data } = useQuery(FETCH_TOTAL_MINER_QUERY, { variables: { data: { type } } });
 
   return { loading, totalMiner: data?.totalMemberCounts ?? [] };
 }
 
-export function useFetchMemberReward(type: string) {
+export function useFetchMemberReward(type: PeriodStateType) {
   const { loading, data } = useQuery(FETCH_MEMBER_REWARD, { variables: { data: { type } } });
 
   return { loading, memberReward: data?.averageMemberReward ?? [] };
 }
 
-export function useFetchCommissionByPeriod(type: string) {
+export function useFetchCommissionByPeriod(type: PeriodStateType) {
   const { loading, data } = useQuery(FETCH_COMMISSION_BY_PERIOD, { variables: { data: { type } } });
 
   return { loading, commission: data?.commissionByPeriod ?? [] };
@@ -63,10 +65,7 @@ export function useFetchRevenue() {
 
   return {
     loading,
-    revenue: {
-      spent: data?.revenueOverview.spent ?? [],
-      total: data?.revenueOverview.revenue ?? 0,
-    },
+    revenue: data?.revenueOverview,
   };
 }
 
@@ -76,7 +75,7 @@ export function useFetchLatestReward() {
   return { loading, latest: data?.latestStatistics ?? [] };
 }
 
-export function useFetchTXCShares(type: string) {
+export function useFetchTXCShares(type: PeriodStateType) {
   const { loading, data } = useQuery(FETCH_TXC_SHARES, { variables: { data: { type } } });
 
   return { loading, txcShares: data?.txcShares ?? [] };

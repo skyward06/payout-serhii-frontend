@@ -1,3 +1,5 @@
+import type { PeriodStateType } from 'src/__generated__/graphql';
+
 import dayjs from 'dayjs';
 import { useMemo, useState, useCallback } from 'react';
 
@@ -30,7 +32,7 @@ export default function MemberReward() {
 
   const currentSelect = select.find((i) => i.label === selectedSeries);
 
-  const { loading, memberReward } = useFetchMemberReward(currentSelect?.value!);
+  const { loading, memberReward } = useFetchMemberReward(currentSelect?.value as PeriodStateType);
 
   const series = useMemo(
     () => [

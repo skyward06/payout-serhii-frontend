@@ -16,6 +16,22 @@ export default function RevenueOverview() {
   const theme = useTheme();
   const { loading, revenue } = useFetchRevenue();
 
+  const totalRevenue = revenue?.filter((item) => item.type === 'INCOME')[0].total ?? 0;
+
+  const incomeRevenue =
+    totalRevenue -
+    (revenue
+      ?.filter((item) => item.type !== 'INCOME')
+      .reduce((prev, save) => prev + save.total, 0) ?? 0);
+
+  const series = useMemo(
+    () => [
+      incomeRevenue,
+      ...(revenue?.filter((item) => item.type !== 'INCOME').map((item) => item.total) ?? []),
+    ],
+    [revenue, incomeRevenue]
+  );
+
   const baseColors = [
     theme.palette.info.main,
     theme.palette.error.main,
@@ -34,24 +50,11 @@ export default function RevenueOverview() {
     theme.palette.secondary.darker,
   ];
 
-  const colors = [
-    ...baseColors,
-    ...darkColors,
-    ...darkColors.map((color) => hexAlpha(color, 0.7)),
-    ...darkColors.map((color) => hexAlpha(color, 0.9)),
-  ];
-
-  const series = useMemo(
-    () => [
-      revenue.total - revenue.spent.reduce((prev, cur) => prev + (cur?.value ?? 0), 0),
-      ...revenue.spent.map((spt) => spt?.value ?? 0),
-    ],
-    [revenue]
-  );
+  const colors = [...baseColors, ...darkColors, ...darkColors.map((color) => hexAlpha(color, 0.7))];
 
   const chartOptions = useChart({
     chart: { sparkline: { enabled: true } },
-    labels: ['Income', ...revenue.spent.map((item) => item?.label ?? '')],
+    labels: revenue?.map((item) => item.type),
     stroke: { width: 0 },
     colors,
     plotOptions: {
@@ -59,9 +62,7 @@ export default function RevenueOverview() {
         donut: {
           size: '60%',
           labels: {
-            show: true,
             total: {
-              show: true,
               formatter(w) {
                 return formatCurrency(
                   w.globals.seriesTotals.reduce((prev: any, save: any) => prev + save, 0)
@@ -91,6 +92,7 @@ export default function RevenueOverview() {
         return `${(+val).toFixed(2)}%`;
       },
     },
+    tooltip: { style: { fontSize: '14px' } },
   });
 
   return (
@@ -105,7 +107,9 @@ export default function RevenueOverview() {
           loading={loading}
           series={series}
           options={chartOptions}
-          sx={{ mx: 'auto', width: 306, height: 306 }}
+          width={307}
+          height={307}
+          sx={{ mx: 'auto' }}
         />
       </Box>
     </Card>

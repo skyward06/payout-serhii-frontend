@@ -1,3 +1,5 @@
+import type { PeriodStateType } from 'src/__generated__/graphql';
+
 import dayjs from 'dayjs';
 import { useMemo, useState, useCallback } from 'react';
 
@@ -30,7 +32,9 @@ export default function MemberReward() {
 
   const currentSelect = select.find((i) => i.label === selectedSeries);
 
-  const { loading, commission } = useFetchCommissionByPeriod(currentSelect?.value!);
+  const { loading, commission } = useFetchCommissionByPeriod(
+    currentSelect?.value as PeriodStateType
+  );
 
   const chartColors = [hexAlpha(theme.palette.primary.dark, 0.8), theme.palette.warning.main];
 
