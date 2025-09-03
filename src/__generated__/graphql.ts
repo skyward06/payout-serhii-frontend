@@ -1801,7 +1801,7 @@ export type MutationRemoveRoleArgs = {
 
 
 export type MutationRemoveSaleArgs = {
-  id: Scalars['ID']['input'];
+  data: IdInput;
 };
 
 
@@ -2406,7 +2406,6 @@ export enum ProofType {
   LandAndLeases = 'LAND_AND_LEASES',
   Liquidity = 'LIQUIDITY',
   Ltc = 'LTC',
-  MergeMining = 'MERGE_MINING',
   MtxcMarketing = 'MTXC_MARKETING',
   Overhead = 'OVERHEAD',
   Payout = 'PAYOUT',
