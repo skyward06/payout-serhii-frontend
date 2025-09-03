@@ -18,9 +18,7 @@ export default function TXCRequestCreatePage() {
       <Breadcrumbs
         heading="TXC Request"
         links={[{ name: 'TXC Request', href: paths.dashboard.txcRequest.root }, { name: 'New' }]}
-        sx={{
-          mb: { xs: 1, md: 2 },
-        }}
+        sx={{ mb: 2 }}
       />
 
       <TXCRequestCreate />
