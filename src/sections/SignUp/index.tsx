@@ -42,7 +42,12 @@ import { useCreateSignUpOrder } from '../Order/useApollo';
 
 // ----------------------------------------------------------------------
 
-export function SignUpView() {
+interface Props {
+  isComponent?: boolean;
+}
+
+export function SignUpView({ isComponent = false }: Props) {
+  const router = useRouter();
   const [state, setState] = useState<string>();
 
   const location = useLocation();
@@ -51,8 +56,6 @@ export function SignUpView() {
   const referralID = queryParams.get('sponsor');
   const localStorageReferralID = localStorage.getItem('payout_reference');
   const refID = referralID || localStorageReferralID || '';
-
-  const router = useRouter();
 
   const calculator = useBoolean();
 
@@ -131,8 +134,30 @@ export function SignUpView() {
             });
 
             if (order) {
-              router.push(paths.pages.order.detail(order.createSignUpOrder.id));
+              if (isComponent) {
+                window.parent.postMessage(
+                  {
+                    action: 'redirect',
+                    payload: {
+                      url: paths.pages.order.detail(order.createSignUpOrder.id),
+                    },
+                  },
+                  '*'
+                );
+              } else {
+                router.push(paths.pages.order.detail(order.createSignUpOrder.id));
+              }
             }
+          } else if (isComponent) {
+            window.parent.postMessage(
+              {
+                action: 'redirect',
+                payload: {
+                  url: `${paths.auth.verifyResult}?${searchParams}`,
+                },
+              },
+              '*'
+            );
           } else {
             router.push(`${paths.auth.verifyResult}?${searchParams}`);
           }
@@ -374,9 +399,11 @@ export function SignUpView() {
       </Stack>
 
       <Box display="flex" justifyContent="flex-end" gap={2} alignItems="center">
-        <Link onClick={handleSignOut} variant="subtitle2" sx={{ cursor: 'pointer' }}>
-          Click here to sign out
-        </Link>
+        {!isComponent && (
+          <Link onClick={handleSignOut} variant="subtitle2" sx={{ cursor: 'pointer' }}>
+            Click here to sign out
+          </Link>
+        )}
         <LoadingButton
           color="primary"
           size="large"

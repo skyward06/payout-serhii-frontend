@@ -35,6 +35,9 @@ const ROOTS = {
   REIMBURSEMENT: '/reimbursement',
   SILVER_GUARANTEE: '/silverbugs',
   NOTIFICATIONS: '/notifications',
+
+  // Widget
+  WIDGET: '/widget',
 };
 
 // ----------------------------------------------------------------------
@@ -129,6 +132,11 @@ export const paths = {
       edit: (id: string) => `${ROOTS.REIMBURSEMENT}/${id}`,
     },
   },
+
+  widget: {
+    signUp: `${ROOTS.WIDGET}/sign-up`,
+  },
+
   page403: '/403',
   notFound: '/404',
   maintenance: ROOTS.MAINTENANCE,

@@ -8,14 +8,18 @@ import { SignUpView } from 'src/sections/SignUp';
 
 const metadata = { title: `${CONFIG.site.name} / Sign Up` };
 
-export default function Page() {
+interface Props {
+  isComponent?: boolean;
+}
+
+export default function SignUpPage({ isComponent = false }: Props) {
   return (
     <>
       <Helmet>
         <title> {metadata.title}</title>
       </Helmet>
 
-      <SignUpView />
+      <SignUpView isComponent={isComponent} />
     </>
   );
 }

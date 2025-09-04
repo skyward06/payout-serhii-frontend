@@ -4,6 +4,7 @@ import { CONFIG } from 'src/config';
 
 import { authRoutes } from './auth';
 import { mainRoutes } from './main';
+import { widgetRoutes } from './widget';
 import { statisticsRoutes } from './pages';
 import { dashboardRoutes } from './dashboard';
 
@@ -27,6 +28,9 @@ export function Router() {
 
     // Main
     ...mainRoutes,
+
+    // Widget
+    ...widgetRoutes,
 
     // No match
     { path: '*', element: <Navigate to="/404" replace /> },
