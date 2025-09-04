@@ -21,6 +21,7 @@ import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 
 import { useBoolean } from 'src/hooks/useBoolean';
+import useIframeResizer from 'src/hooks/use-iframe-resizer';
 
 import { removeSpecialCharacters } from 'src/utils/helper';
 
@@ -49,6 +50,8 @@ interface Props {
 export function SignUpView({ isComponent = false }: Props) {
   const router = useRouter();
   const [state, setState] = useState<string>();
+  const [isInitiallyLoaded, setIsInitiallyLoaded] = useState(false);
+  const { sendMessage } = useIframeResizer();
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.hash.split('?')[1]);
@@ -184,6 +187,20 @@ export function SignUpView({ isComponent = false }: Props) {
     });
 
     localStorage.setItem('payout_reference', refID);
+
+    // Mark as initially loaded and trigger initial resize
+    setIsInitiallyLoaded(true);
+
+    // Delay to ensure packages are loaded and DOM is ready
+    setTimeout(() => {
+      if (isComponent) {
+        sendMessage({
+          type: 'initial-resize',
+          message: 'Component fully loaded',
+        });
+      }
+    }, 500);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -199,6 +216,47 @@ export function SignUpView({ isComponent = false }: Props) {
     setValue('txcAddress', '');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [country]);
+
+  useEffect(() => {
+    // Listen for messages from parent
+    const handleMessage = (event: { data: { type: any } }) => {
+      if (event.data && event.data.type) {
+        console.log('Message from parent:', event.data);
+
+        // Handle different message types
+        switch (event.data.type) {
+          case 'init':
+            console.log('Parent is ready');
+            sendMessage({
+              type: 'react-ready',
+              message: 'React app loaded successfully',
+            });
+
+            // Trigger initial resize when parent is ready and component is loaded
+            if (isInitiallyLoaded && isComponent) {
+              setTimeout(() => {
+                sendMessage({
+                  type: 'initial-resize',
+                  message: 'Initial resize after parent ready',
+                });
+              }, 100);
+            }
+            break;
+          case 'config':
+            console.log('Config received:', event.data);
+            break;
+          default:
+            break;
+        }
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+
+    return () => {
+      window.removeEventListener('message', handleMessage);
+    };
+  }, [sendMessage, isInitiallyLoaded, isComponent]);
 
   const handleSignOut = useCallback(async () => {
     try {
