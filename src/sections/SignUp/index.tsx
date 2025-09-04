@@ -53,7 +53,9 @@ export function SignUpView({ isComponent = false }: Props) {
   const { sendMessage } = useIframeResizer();
 
   const location = useLocation();
-  const queryParams = new URLSearchParams(location.hash.split('?')[1]);
+  const queryParams = isComponent
+    ? new URLSearchParams(location.search.split('?')[1])
+    : new URLSearchParams(location.hash.split('?')[1]);
 
   const referralID = queryParams.get('sponsor');
   const localStorageReferralID = localStorage.getItem('payout_reference');
@@ -137,27 +139,23 @@ export function SignUpView({ isComponent = false }: Props) {
 
             if (order) {
               if (isComponent) {
-                sendMessage(
-                  {
-                    action: 'redirect',
-                    payload: {
-                      url: paths.pages.order.detail(order.createSignUpOrder.id),
-                    },
+                sendMessage({
+                  action: 'redirect',
+                  payload: {
+                    url: paths.pages.order.detail(order.createSignUpOrder.id),
                   },
-                );
+                });
               } else {
                 router.push(paths.pages.order.detail(order.createSignUpOrder.id));
               }
             }
           } else if (isComponent) {
-            sendMessage(
-              {
-                action: 'redirect',
-                payload: {
-                  url: `${paths.auth.verifyResult}?${searchParams}`,
-                },
+            sendMessage({
+              action: 'redirect',
+              payload: {
+                url: `${paths.auth.verifyResult}?${searchParams}`,
               },
-            );
+            });
           } else {
             router.push(`${paths.auth.verifyResult}?${searchParams}`);
           }
