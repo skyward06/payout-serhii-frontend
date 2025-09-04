@@ -247,15 +247,16 @@ export type BasicOrderResponse = {
 
 export type BasicReimbursement = {
   __typename?: 'BasicReimbursement';
-  amountInCent: Scalars['Int']['output'];
   attachments: Array<PFile>;
   createdAt: Scalars['DateTimeISO']['output'];
   description?: Maybe<Scalars['String']['output']>;
-  fullName?: Maybe<Scalars['String']['output']>;
+  fullName: Scalars['String']['output'];
   id: Scalars['Int']['output'];
   memberId: Scalars['String']['output'];
+  paidAmountInCent?: Maybe<Scalars['Int']['output']>;
+  requestedAmountInCent: Scalars['Int']['output'];
   status: ReimbursementStatus;
-  username?: Maybe<Scalars['String']['output']>;
+  username: Scalars['String']['output'];
 };
 
 export type BasicSale = {
@@ -720,14 +721,16 @@ export type CreateProofInput = {
   orderedAt?: InputMaybe<Scalars['DateTimeISO']['input']>;
   refId: Scalars['ID']['input'];
   refLinks?: InputMaybe<Array<LinkInput>>;
+  requestedAmount?: InputMaybe<Scalars['Float']['input']>;
   type: ProofType;
   vendor?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CreateReimbursementInput = {
-  amountInCent: Scalars['Int']['input'];
-  attachments?: InputMaybe<Array<Scalars['ID']['input']>>;
+  attachments?: InputMaybe<Array<Scalars['String']['input']>>;
   description?: InputMaybe<Scalars['String']['input']>;
+  payToAddress: Scalars['String']['input'];
+  requestedAmountInCent: Scalars['Int']['input'];
 };
 
 export type CreateRoleInput = {
@@ -1341,8 +1344,6 @@ export type Mutation = {
   duplicateMember: Member;
   duplicateMember2: SuccessResponse;
   forceMemberLogout: SuccessResponse;
-  generateThailandAdventureReport: SuccessResponse;
-  generateWDMSVegasReport: SuccessResponse;
   generateWeekP2PInvoice: SuccessResponse;
   generateWeeklyReport: SuccessResponse;
   linkMembers: SuccessResponse;
@@ -1359,6 +1360,7 @@ export type Mutation = {
   moveToSolve: SuccessResponse;
   moveToSuspend: Array<WeeklyCommission>;
   moveToWIP: SuccessResponse;
+  payReimbursementsWithTxId: Array<Reimbursement>;
   refreshBalance: SuccessResponse;
   regenerateInvoiceById: SuccessResponse;
   removeAdmin: SuccessResponse;
@@ -1712,6 +1714,11 @@ export type MutationMoveToSuspendArgs = {
 
 export type MutationMoveToWipArgs = {
   data: IdInput;
+};
+
+
+export type MutationPayReimbursementsWithTxIdArgs = {
+  data: PayReimbursementWithTxIdInput;
 };
 
 
@@ -2172,6 +2179,15 @@ export type PackageResponse = {
   total?: Maybe<Scalars['Int']['output']>;
 };
 
+export type PayReimbursementWithTxId = {
+  ids: Array<Scalars['Int']['input']>;
+  txID: Scalars['ID']['input'];
+};
+
+export type PayReimbursementWithTxIdInput = {
+  txData: Array<PayReimbursementWithTxId>;
+};
+
 export enum PaymentChain {
   Base = 'BASE',
   Bnb = 'BNB',
@@ -2377,6 +2393,7 @@ export type Proof = {
   orderedAt: Scalars['DateTimeISO']['output'];
   refId: Scalars['ID']['output'];
   refLinks?: Maybe<Array<RefLink>>;
+  requestedAmount?: Maybe<Scalars['Float']['output']>;
   type: ProofType;
   updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   vendor?: Maybe<Scalars['String']['output']>;
@@ -2384,7 +2401,7 @@ export type Proof = {
 
 export type ProofResponse = {
   __typename?: 'ProofResponse';
-  proofs?: Maybe<Array<Proof>>;
+  proofs: Array<Proof>;
   total?: Maybe<Scalars['Int']['output']>;
 };
 
@@ -2413,6 +2430,7 @@ export enum ProofType {
   Promotion = 'PROMOTION',
   Protocol = 'PROTOCOL',
   Reimbursements = 'REIMBURSEMENTS',
+  RentOffice = 'RENT_OFFICE',
   Seats = 'SEATS',
   Trading = 'TRADING',
   TransactionProcessing = 'TRANSACTION_PROCESSING',
@@ -2449,6 +2467,10 @@ export type Query = {
   generate2FA: Scalars['String']['output'];
   generateCommissionTXCSendmany: Array<CommissionSendmany>;
   generateCommissionUSDCSendmany: Array<CommissionSendmany>;
+  generateReimbursementSendmany: Array<ReimbursementSendmany>;
+  generateThailandAdventureReport: SuccessResponse;
+  generateWDMSVegasReport: SuccessResponse;
+  generateWhenLamboGameOverReport: SuccessResponse;
   groupSettings: GroupSettingResponse;
   hashPowerResponse: HashPowerResponse;
   individualMembers: Array<IndividualMember>;
@@ -3088,25 +3110,34 @@ export type RefLinkDuplicationResponse = {
 
 export type Reimbursement = {
   __typename?: 'Reimbursement';
-  amountInCent: Scalars['Int']['output'];
   attachments: Array<PFile>;
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
   member: Member;
   memberId: Scalars['String']['output'];
+  paidAmountInCent?: Maybe<Scalars['Int']['output']>;
+  payToAddress: Scalars['String']['output'];
   proof?: Maybe<Proof>;
+  requestedAmountInCent: Scalars['Int']['output'];
   status: ReimbursementStatus;
 };
 
 export type ReimbursementResponse = {
   __typename?: 'ReimbursementResponse';
-  reimbursements?: Maybe<Array<BasicReimbursement>>;
+  reimbursements: Array<BasicReimbursement>;
   total?: Maybe<Scalars['Int']['output']>;
+};
+
+export type ReimbursementSendmany = {
+  __typename?: 'ReimbursementSendmany';
+  command: Scalars['String']['output'];
+  ids: Array<Scalars['Int']['output']>;
 };
 
 export enum ReimbursementStatus {
   Approved = 'APPROVED',
   Declined = 'DECLINED',
+  Paid = 'PAID',
   Pending = 'PENDING'
 }
 
@@ -3692,18 +3723,21 @@ export type UpdateProofByIdInput = {
   orderedAt?: InputMaybe<Scalars['DateTimeISO']['input']>;
   refId?: InputMaybe<Scalars['ID']['input']>;
   refLinks?: InputMaybe<Array<LinkInput>>;
+  requestedAmount?: InputMaybe<Scalars['Float']['input']>;
   type?: InputMaybe<ProofType>;
   vendor?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateReimbursementInput = {
-  amountInCent?: InputMaybe<Scalars['Int']['input']>;
-  attachments?: InputMaybe<Array<Scalars['ID']['input']>>;
+  attachments?: InputMaybe<Array<Scalars['String']['input']>>;
   description?: InputMaybe<Scalars['String']['input']>;
   fileIds?: InputMaybe<Array<Scalars['ID']['input']>>;
   id: Scalars['Int']['input'];
   note?: InputMaybe<Scalars['String']['input']>;
+  paidAmountInCent?: InputMaybe<Scalars['Int']['input']>;
+  payToAddress?: InputMaybe<Scalars['String']['input']>;
   refLinks?: InputMaybe<Array<LinkInput>>;
+  requestedAmountInCent?: InputMaybe<Scalars['Int']['input']>;
   status?: InputMaybe<ReimbursementStatus>;
 };
 
@@ -4179,14 +4213,14 @@ export type ReimbursementsQueryVariables = Exact<{
 }>;
 
 
-export type ReimbursementsQuery = { __typename?: 'Query', reimbursements: { __typename?: 'ReimbursementResponse', total?: number | null, reimbursements?: Array<{ __typename?: 'BasicReimbursement', id: number, amountInCent: number, status: ReimbursementStatus, username?: string | null, fullName?: string | null, memberId: string, createdAt: any, description?: string | null, attachments: Array<{ __typename?: 'PFile', id: string, url: string, size: number, mimeType: string, originalName: string }> }> | null } };
+export type ReimbursementsQuery = { __typename?: 'Query', reimbursements: { __typename?: 'ReimbursementResponse', total?: number | null, reimbursements: Array<{ __typename?: 'BasicReimbursement', id: number, status: ReimbursementStatus, username: string, fullName: string, memberId: string, createdAt: any, description?: string | null, paidAmountInCent?: number | null, requestedAmountInCent: number, attachments: Array<{ __typename?: 'PFile', id: string, url: string, size: number, mimeType: string, originalName: string }> }> } };
 
 export type ReimbursementByIdQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type ReimbursementByIdQuery = { __typename?: 'Query', reimbursementById: { __typename?: 'Reimbursement', id: number, status: ReimbursementStatus, memberId: string, description?: string | null, amountInCent: number, attachments: Array<{ __typename?: 'PFile', id: string, url: string, size: number, mimeType: string, originalName: string }> } };
+export type ReimbursementByIdQuery = { __typename?: 'Query', reimbursementById: { __typename?: 'Reimbursement', id: number, status: ReimbursementStatus, memberId: string, description?: string | null, payToAddress: string, paidAmountInCent?: number | null, requestedAmountInCent: number, attachments: Array<{ __typename?: 'PFile', id: string, url: string, size: number, mimeType: string, originalName: string }> } };
 
 export type CreateReimbursementMutationVariables = Exact<{
   data: CreateReimbursementInput;
@@ -4582,8 +4616,8 @@ export const UpsertSettingByMemberIdDocument = {"kind":"Document","definitions":
 export const MemberLogoutDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"MemberLogout"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"memberLogout"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"result"}},{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}}]} as unknown as DocumentNode<MemberLogoutMutation, MemberLogoutMutationVariables>;
 export const MemberExchangeLoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"MemberExchangeLogin"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MemberLoginInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"memberExchangeLogin"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"accessToken"}},{"kind":"Field","name":{"kind":"Name","value":"passwordExpired"}}]}}]}}]} as unknown as DocumentNode<MemberExchangeLoginMutation, MemberExchangeLoginMutationVariables>;
 export const VerifyEmailCodeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"VerifyEmailCode"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"VerificationCodeInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"verifyEmailCode"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"accessToken"}}]}}]}}]} as unknown as DocumentNode<VerifyEmailCodeMutation, VerifyEmailCodeMutationVariables>;
-export const ReimbursementsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Reimbursements"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sort"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"page"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"JSONObject"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"reimbursements"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"sort"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sort"}}},{"kind":"Argument","name":{"kind":"Name","value":"page"},"value":{"kind":"Variable","name":{"kind":"Name","value":"page"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"reimbursements"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"amountInCent"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"attachments"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"size"}},{"kind":"Field","name":{"kind":"Name","value":"mimeType"}},{"kind":"Field","name":{"kind":"Name","value":"originalName"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]} as unknown as DocumentNode<ReimbursementsQuery, ReimbursementsQueryVariables>;
-export const ReimbursementByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ReimbursementById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"reimbursementById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"ID"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"amountInCent"}},{"kind":"Field","name":{"kind":"Name","value":"attachments"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"size"}},{"kind":"Field","name":{"kind":"Name","value":"mimeType"}},{"kind":"Field","name":{"kind":"Name","value":"originalName"}}]}}]}}]}}]} as unknown as DocumentNode<ReimbursementByIdQuery, ReimbursementByIdQueryVariables>;
+export const ReimbursementsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Reimbursements"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sort"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"page"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"JSONObject"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"reimbursements"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"sort"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sort"}}},{"kind":"Argument","name":{"kind":"Name","value":"page"},"value":{"kind":"Variable","name":{"kind":"Name","value":"page"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"reimbursements"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"paidAmountInCent"}},{"kind":"Field","name":{"kind":"Name","value":"requestedAmountInCent"}},{"kind":"Field","name":{"kind":"Name","value":"attachments"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"size"}},{"kind":"Field","name":{"kind":"Name","value":"mimeType"}},{"kind":"Field","name":{"kind":"Name","value":"originalName"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]} as unknown as DocumentNode<ReimbursementsQuery, ReimbursementsQueryVariables>;
+export const ReimbursementByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ReimbursementById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"reimbursementById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"ID"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"payToAddress"}},{"kind":"Field","name":{"kind":"Name","value":"paidAmountInCent"}},{"kind":"Field","name":{"kind":"Name","value":"requestedAmountInCent"}},{"kind":"Field","name":{"kind":"Name","value":"attachments"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"size"}},{"kind":"Field","name":{"kind":"Name","value":"mimeType"}},{"kind":"Field","name":{"kind":"Name","value":"originalName"}}]}}]}}]}}]} as unknown as DocumentNode<ReimbursementByIdQuery, ReimbursementByIdQueryVariables>;
 export const CreateReimbursementDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateReimbursement"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateReimbursementInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createReimbursement"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateReimbursementMutation, CreateReimbursementMutationVariables>;
 export const UpdateReimbursementDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateReimbursement"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateReimbursementInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateReimbursement"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<UpdateReimbursementMutation, UpdateReimbursementMutationVariables>;
 export const RequestResetPasswordDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RequestResetPassword"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"EmailInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"requestResetPassword"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"result"}},{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}}]} as unknown as DocumentNode<RequestResetPasswordMutation, RequestResetPasswordMutationVariables>;

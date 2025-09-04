@@ -5,13 +5,14 @@ export const FETCH_REIMBURSEMENT = gql(/* GraphQL */ `
     reimbursements(sort: $sort, page: $page, filter: $filter) {
       reimbursements {
         id
-        amountInCent
         status
         username
         fullName
         memberId
         createdAt
         description
+        paidAmountInCent
+        requestedAmountInCent
         attachments {
           id
           url
@@ -32,7 +33,9 @@ export const FETCH_REIMBURSEMENT_BY_ID = gql(/* GraphQL */ `
       status
       memberId
       description
-      amountInCent
+      payToAddress
+      paidAmountInCent
+      requestedAmountInCent
       attachments {
         id
         url
