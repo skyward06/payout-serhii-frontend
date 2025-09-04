@@ -112,7 +112,13 @@ export function EditForm({ current }: Props) {
       <Grid container columnSpacing={2}>
         <Grid xs={12} md={8}>
           <Box display="grid" gap={2}>
-            <Field.Text type="text" name="payToAddress" label="Address to pay" required />
+            <Field.Text
+              type="text"
+              name="payToAddress"
+              label="Address to pay"
+              placeholder="Input ETH address"
+              required
+            />
 
             <Field.Text type="number" name="requestedAmountInCent" label="Amount" required />
 
