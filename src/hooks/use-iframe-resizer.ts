@@ -1,46 +1,51 @@
-import { useEffect } from 'react';
+import 'iframe-resizer/js/iframeResizer.contentWindow';
 
 declare global {
   interface Window {
     parentIFrame?: {
       sendMessage: (message: any) => void;
       size: () => void;
+      getId: () => string;
+      getPageInfo: () => any;
+      close: () => void;
     };
   }
 }
 
 const useIframeResizer = () => {
-  useEffect(() => {
-    // Dynamically import the content window script
-    const script = document.createElement('script');
-    script.src =
-      'https://cdn.jsdelivr.net/npm/iframe-resizer@4.3.7/js/iframeResizer.contentWindow.min.js';
-    script.async = true;
-    document.head.appendChild(script);
-
-    // Cleanup
-    return () => {
-      if (document.head.contains(script)) {
-        document.head.removeChild(script);
-      }
-    };
-  }, []);
-
   // Function to send messages to parent
   const sendMessage = (message: any) => {
-    if (window.parentIFrame) {
+    if (window.parentIFrame && window.parentIFrame.sendMessage) {
       window.parentIFrame.sendMessage(message);
+    } else {
+      console.warn('parentIFrame not available');
     }
   };
 
   // Function to trigger manual resize
   const triggerResize = () => {
-    if (window.parentIFrame) {
+    if (window.parentIFrame && window.parentIFrame.size) {
       window.parentIFrame.size();
     }
   };
 
-  return { sendMessage, triggerResize };
+  // Function to get iframe ID
+  const getIframeId = () => window.parentIFrame?.getId?.() || null;
+
+  // Function to close iframe (if parent supports it)
+  const closeIframe = () => {
+    if (window.parentIFrame && window.parentIFrame.close) {
+      window.parentIFrame.close();
+    }
+  };
+
+  return {
+    sendMessage,
+    triggerResize,
+    getIframeId,
+    closeIframe,
+    isAvailable: !!window.parentIFrame,
+  };
 };
 
 export default useIframeResizer;
