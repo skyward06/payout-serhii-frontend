@@ -10,6 +10,8 @@ import IconButton from '@mui/material/IconButton';
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 
+import { ReimbursementStatus } from 'src/__generated__/graphql';
+
 import { Iconify } from 'src/components/Iconify';
 import { usePopover, CustomPopover } from 'src/components/custom-popover';
 
@@ -40,6 +42,7 @@ export const ActionRender = memo(
                 popover.onClose();
                 router.push(paths.dashboard.reimbursement.edit(`${data?.id}`));
               }}
+              disabled={!ReimbursementStatus.Pending}
             >
               <Iconify icon="solar:pen-2-bold" />
               Edit

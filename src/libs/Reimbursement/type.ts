@@ -4,9 +4,11 @@ export type Reimbursement = {
   __typename?: 'Reimbursement';
   id: number;
   memberId: string;
-  amountInCent: number;
+  payToAddress: string;
   status: ReimbursementStatus;
   description?: string | null;
+  requestedAmountInCent: number;
+  paidAmountInCent?: number | null;
   attachments?: Array<PFile> | null;
 };
 

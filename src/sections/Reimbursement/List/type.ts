@@ -5,10 +5,11 @@ export type BasicReimbursement = {
   id: number;
   createdAt: any;
   memberId: string;
-  amountInCent: number;
   username?: string | null;
   fullName?: string | null;
   status: ReimbursementStatus;
   description?: string | null;
+  requestedAmountInCent: number;
+  paidAmountInCent?: number | null;
   attachments?: Array<PFile> | null;
 };

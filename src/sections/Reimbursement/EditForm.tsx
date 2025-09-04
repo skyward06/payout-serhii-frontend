@@ -36,11 +36,14 @@ export function EditForm({ current }: Props) {
   const defaultValues = useMemo<SchemaType>(
     () =>
       current
-        ? Schema.safeParse({ ...current, amountInCent: current.amountInCent / 100 })?.data ??
-          ({} as SchemaType)
+        ? Schema.safeParse({
+            ...current,
+            requestedAmountInCent: current.requestedAmountInCent / 100,
+          })?.data ?? ({} as SchemaType)
         : {
-            amountInCent: 0,
             description: '',
+            payToAddress: '',
+            requestedAmountInCent: 0,
           },
     [current]
   );
@@ -61,7 +64,7 @@ export function EditForm({ current }: Props) {
     try {
       const formData = {
         ...newData,
-        amountInCent: newData.amountInCent * 100,
+        requestedAmountInCent: newData.requestedAmountInCent * 100,
         attachments: files.map((file) => file.id),
       };
       const { data } = current
@@ -77,8 +80,8 @@ export function EditForm({ current }: Props) {
       if (err instanceof ApolloError) {
         const [error] = err.graphQLErrors;
 
-        if (error.path?.includes('amountInCent')) {
-          setError('amountInCent', { type: 'manual', message: error?.message || '' });
+        if (error.path?.includes('requestedAmountInCent')) {
+          setError('requestedAmountInCent', { type: 'manual', message: error?.message || '' });
         }
 
         if (error.path?.includes('description')) {
@@ -109,9 +112,11 @@ export function EditForm({ current }: Props) {
       <Grid container columnSpacing={2}>
         <Grid xs={12} md={8}>
           <Box display="grid" gap={2}>
-            <Field.Text type="number" name="amountInCent" label="Amount" required />
+            <Field.Text type="text" name="payToAddress" label="Address to pay" required />
 
-            <Field.Text name="description" label="Description" multiline rows={3} required />
+            <Field.Text type="number" name="requestedAmountInCent" label="Amount" required />
+
+            <Field.Text name="description" label="Description" multiline rows={3} />
           </Box>
 
           <Stack direction="row" justifyContent="flex-end" mt={2}>

@@ -43,7 +43,7 @@ export function ReimbursementList() {
           formatID(data?.id ?? '', 'R'),
       },
       {
-        field: 'amountInCent',
+        field: 'requestedAmountInCent',
         headerName: 'Amount',
         width: 150,
         filter: 'agNumberColumnFilter',
@@ -51,7 +51,7 @@ export function ReimbursementList() {
         editable: false,
         cellClass: 'tabular-nums ag-right-aligned-cell',
         cellRenderer: ({ data }: CustomCellRendererProps<BasicReimbursement>) =>
-          fCurrency((data?.amountInCent ?? 0) / 100, { minimumFractionDigits: 2 }),
+          fCurrency((data?.requestedAmountInCent ?? 0) / 100, { minimumFractionDigits: 2 }),
       },
       {
         field: 'description',
@@ -70,6 +70,7 @@ export function ReimbursementList() {
         filter: 'agNumberColumnFilter',
         resizable: true,
         editable: false,
+        cellClass: 'ag-cell-center',
         cellRenderer: FileRenderer,
       },
       {
