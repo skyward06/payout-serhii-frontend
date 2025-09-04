@@ -56,9 +56,9 @@ export default function Info() {
             sx={{
               cursor: 'pointer',
             }}
-            href="mailto:mine@minetxc.com"
+            href="mailto:help@minetxc.com"
           >
-            mine@minetxc.com
+            help@minetxc.com
           </Link>
         </Typography>
 
