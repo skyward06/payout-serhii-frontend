@@ -330,13 +330,12 @@ export type BasicWeeklyCommissionResponse = {
 
 export type Block = {
   __typename?: 'Block';
-  blockNo: Scalars['Float']['output'];
+  blockNo: Scalars['ID']['output'];
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   difficulty: Scalars['Float']['output'];
   frontActions?: Maybe<Array<FrontAction>>;
   hashRate: Scalars['Float']['output'];
-  id: Scalars['ID']['output'];
   issuedAt: Scalars['DateTimeISO']['output'];
   updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
 };
@@ -352,7 +351,7 @@ export type BlockStatsResponse = {
 
 export type BlocksResponse = {
   __typename?: 'BlocksResponse';
-  blocks?: Maybe<Array<Block>>;
+  blocks: Array<Block>;
   total?: Maybe<Scalars['Int']['output']>;
 };
 
@@ -470,7 +469,7 @@ export type CollectAddressInput = {
 
 export type CollectAddressResponse = {
   __typename?: 'CollectAddressResponse';
-  collectAddresses?: Maybe<Array<CollectAddress>>;
+  collectAddresses: Array<CollectAddress>;
   total?: Maybe<Scalars['Int']['output']>;
 };
 
@@ -1377,7 +1376,7 @@ export type Mutation = {
   removePaymentMethod: PaymentMethod;
   removePromo: SuccessResponse;
   removeProof: Proof;
-  removeRole: SuccessResponse;
+  removeRole: Role;
   removeSale: Sale;
   removeShareAccount: ShareAccount;
   removeSubtreeFromPlacementTree: SuccessResponse;
@@ -1391,7 +1390,7 @@ export type Mutation = {
   resetPasswordByToken: SuccessResponse;
   sendEmailVerificationCode: SuccessResponse;
   sendWelcomeEmail: SuccessResponse;
-  setCollectAddress: SuccessResponse;
+  setCollectAddress: CollectAddress;
   setOrderPayment: Order;
   setReadAllNotifications: ManySuccessResponse;
   setReadNotification: SuccessResponse;
@@ -1803,7 +1802,7 @@ export type MutationRemoveProofArgs = {
 
 
 export type MutationRemoveRoleArgs = {
-  data: IdInput;
+  id: Scalars['ID']['input'];
 };
 
 
@@ -2248,7 +2247,6 @@ export type PeriodStatsArgs = {
 };
 
 export enum PermissionType {
-  AdminCollectAddressSet = 'ADMIN_COLLECT_ADDRESS_SET',
   AdminEdit = 'ADMIN_EDIT',
   AdminView = 'ADMIN_VIEW',
   CommissionApprove = 'COMMISSION_APPROVE',
@@ -2269,7 +2267,9 @@ export enum PermissionType {
   SaleEdit = 'SALE_EDIT',
   SalePastEdit = 'SALE_PAST_EDIT',
   SaleView = 'SALE_VIEW',
-  ShippingView = 'SHIPPING_VIEW'
+  ShippingView = 'SHIPPING_VIEW',
+  WalletEdit = 'WALLET_EDIT',
+  WalletView = 'WALLET_VIEW'
 }
 
 export type PlacementMember = {
@@ -2923,7 +2923,7 @@ export type QueryRewardsByWalletsArgs = {
 
 
 export type QueryRoleByIdArgs = {
-  data: IdInput;
+  id: Scalars['ID']['input'];
 };
 
 
@@ -3196,7 +3196,7 @@ export type Role = {
 
 export type RoleResponse = {
   __typename?: 'RoleResponse';
-  roles?: Maybe<Array<Role>>;
+  roles: Array<Role>;
   total?: Maybe<Scalars['Int']['output']>;
 };
 
