@@ -252,6 +252,7 @@ export type BasicReimbursement = {
   description?: Maybe<Scalars['String']['output']>;
   fullName: Scalars['String']['output'];
   id: Scalars['Int']['output'];
+  isTexitRanger: Scalars['Boolean']['output'];
   memberId: Scalars['String']['output'];
   paidAmountInCent?: Maybe<Scalars['Int']['output']>;
   requestedAmountInCent: Scalars['Int']['output'];
@@ -862,7 +863,7 @@ export type EmailTemplate = {
 
 export type EmailTemplateResponse = {
   __typename?: 'EmailTemplateResponse';
-  templates?: Maybe<Array<EmailTemplate>>;
+  templates: Array<EmailTemplate>;
   total?: Maybe<Scalars['Int']['output']>;
 };
 
@@ -1417,6 +1418,7 @@ export type Mutation = {
   updatePromo: Promo;
   updateProof: Proof;
   updateReimbursement: Reimbursement;
+  updateReimbursementsStatus: Array<Reimbursement>;
   updateRole: Role;
   updateSale: Sale;
   updateShareAccount: ShareAccount;
@@ -1917,6 +1919,7 @@ export type MutationUpdateCommissionsStatusArgs = {
 
 
 export type MutationUpdateEmailTemplateArgs = {
+  ID: Scalars['Int']['input'];
   data: UpdateEmailTemplateInput;
 };
 
@@ -1983,6 +1986,11 @@ export type MutationUpdateProofArgs = {
 
 export type MutationUpdateReimbursementArgs = {
   data: UpdateReimbursementInput;
+};
+
+
+export type MutationUpdateReimbursementsStatusArgs = {
+  data: ReimbursementsStatusInput;
 };
 
 
@@ -2698,6 +2706,11 @@ export type QueryGenerateCommissionTxcSendmanyArgs = {
 };
 
 
+export type QueryGenerateReimbursementSendmanyArgs = {
+  IDs: Array<Scalars['Int']['input']>;
+};
+
+
 export type QueryGroupSettingsArgs = {
   filter?: InputMaybe<Scalars['JSONObject']['input']>;
   page?: InputMaybe<Scalars['String']['input']>;
@@ -3140,6 +3153,11 @@ export enum ReimbursementStatus {
   Paid = 'PAID',
   Pending = 'PENDING'
 }
+
+export type ReimbursementsStatusInput = {
+  ids: Array<Scalars['Int']['input']>;
+  status: ReimbursementStatus;
+};
 
 export type ReportMember = {
   __typename?: 'ReportMember';
@@ -3610,7 +3628,7 @@ export type UpdateBugReportInput = {
 export type UpdateEmailTemplateInput = {
   body?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
-  id: Scalars['Int']['input'];
+  id?: InputMaybe<Scalars['Int']['input']>;
   sender?: InputMaybe<Scalars['String']['input']>;
   senderName?: InputMaybe<Scalars['String']['input']>;
   subject?: InputMaybe<Scalars['String']['input']>;
