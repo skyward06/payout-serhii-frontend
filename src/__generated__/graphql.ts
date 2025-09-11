@@ -719,7 +719,7 @@ export type CreateProofInput = {
   mineLocation?: InputMaybe<Scalars['String']['input']>;
   note?: InputMaybe<Scalars['String']['input']>;
   orderedAt?: InputMaybe<Scalars['DateTimeISO']['input']>;
-  refId: Scalars['ID']['input'];
+  refId?: InputMaybe<Scalars['ID']['input']>;
   refLinks?: InputMaybe<Array<LinkInput>>;
   requestedAmount?: InputMaybe<Scalars['Float']['input']>;
   type: ProofType;
@@ -2399,7 +2399,7 @@ export type Proof = {
   mineLocation?: Maybe<Scalars['String']['output']>;
   note?: Maybe<Scalars['String']['output']>;
   orderedAt: Scalars['DateTimeISO']['output'];
-  refId: Scalars['ID']['output'];
+  refId?: Maybe<Scalars['ID']['output']>;
   refLinks?: Maybe<Array<RefLink>>;
   requestedAmount?: Maybe<Scalars['Float']['output']>;
   type: ProofType;
@@ -2423,6 +2423,7 @@ export enum ProofType {
   Doge = 'DOGE',
   Electricity = 'ELECTRICITY',
   Equipment = 'EQUIPMENT',
+  ExchangeFee = 'EXCHANGE_FEE',
   FacilityExpense = 'FACILITY_EXPENSE',
   FreedomFieldTrip = 'FREEDOM_FIELD_TRIP',
   FreightAndImportCosts = 'FREIGHT_AND_IMPORT_COSTS',
