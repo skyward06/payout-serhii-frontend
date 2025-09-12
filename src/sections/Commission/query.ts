@@ -25,6 +25,7 @@ export const FETCH_COMMISSION_QUERY = gql(/* GraphQL */ `
         createdAt
         shortNote
         commission
+        commissionType
         weekStartDate
         paymentMethod
       }
