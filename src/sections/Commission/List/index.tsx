@@ -1,9 +1,11 @@
+import type { LabelColor } from 'src/components/Label';
 import type { CustomCellRendererProps } from '@ag-grid-community/react';
 import type { ColDef, ISetFilterParams, ITextFilterParams } from '@ag-grid-community/core';
 
 import dayjs from 'dayjs';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 
+import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
@@ -13,15 +15,16 @@ import { useCopyToClipboard } from 'src/hooks/use-copy-to-clipboard';
 import { formatID } from 'src/utils/helper';
 import { formatWeekNumber } from 'src/utils/format-time';
 
-import { COMMISSION_TYPE } from 'src/consts';
-import { CommissionDefault } from 'src/__generated__/graphql';
+import { COMMISSION_TYPE, COMMISSION_STATUS } from 'src/consts';
+import { CommissionType, CommissionDefault } from 'src/__generated__/graphql';
 
+import { Label } from 'src/components/Label';
 import { AgGrid } from 'src/components/AgGrid';
 import { toast } from 'src/components/SnackBar';
 import { Iconify } from 'src/components/Iconify';
 
-import { parseType } from './parseType';
 import { useFetchCommissions } from '../useApollo';
+import { parseType, commissionParseType } from './parseType';
 
 import type { WeeklyCommission } from '../type';
 
@@ -118,7 +121,7 @@ export default function CommissionTable() {
         cellClass: 'ag-cell-center tabular-nums',
         filterParams: { buttons: ['reset'] } as ITextFilterParams,
         cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) =>
-          data?.status !== COMMISSION_TYPE.NONE.label ? `L${data?.pkgL}, R${data?.pkgR}` : 'None',
+          data?.status !== COMMISSION_STATUS.NONE.label ? `L${data?.pkgL}, R${data?.pkgR}` : 'None',
       },
       {
         headerName: 'EndLR',
@@ -161,6 +164,30 @@ export default function CommissionTable() {
               <Iconify icon="ic:twotone-check-box" color="green" />
             )}
           </Stack>
+        ),
+      },
+      {
+        field: 'commissionType',
+        headerName: 'Type',
+        width: 180,
+        filter: 'agMultiColumnFilter',
+        resizable: true,
+        editable: false,
+        cellClass: 'ag-cell-center',
+        filterParams: {
+          values: Object.values(CommissionType),
+          valueFormatter: (params: any) => commissionParseType(params.value),
+          defaultToNothingSelected: true,
+        } as ISetFilterParams<WeeklyCommission>,
+        cellRenderer: ({ data }: CustomCellRendererProps<WeeklyCommission>) => (
+          <Box>
+            <Label
+              variant="soft"
+              color={COMMISSION_TYPE[data?.commissionType!].color as LabelColor}
+            >
+              {COMMISSION_TYPE[data?.commissionType!].value}
+            </Label>
+          </Box>
         ),
       },
       {

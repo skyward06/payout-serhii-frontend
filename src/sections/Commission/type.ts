@@ -1,4 +1,8 @@
-import type { CommissionStatus, CommissionDefault } from 'src/__generated__/graphql';
+import type {
+  CommissionType,
+  CommissionStatus,
+  CommissionDefault,
+} from 'src/__generated__/graphql';
 
 export type WeeklyCommission = {
   __typename?: 'BasicWeeklyCommission';
@@ -24,7 +28,8 @@ export type WeeklyCommission = {
   createdAt?: any | null;
   updatedAt?: any | null;
   deletedAt?: any | null;
-  shortNote?: string | null;
   status: CommissionStatus;
+  shortNote?: string | null;
+  commissionType: CommissionType;
   paymentMethod: CommissionDefault;
 };

@@ -14,6 +14,11 @@ export const PASSWORD_REGEXP =
   /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+\\|[\]{};:/?.>])[A-Za-z\d!@#$%^&*()\-_=+\\|[\]{};:/?.>]{8,}$/;
 
 export const COMMISSION_TYPE = {
+  NORMAL: { value: 'Normal', color: 'primary' },
+  SUPERNOVA: { value: 'Supernova', color: 'secondary' },
+};
+
+export const COMMISSION_STATUS = {
   NONE: { label: 'NONE', value: 'None' },
   PREVIEW: { label: 'PREVIEW', value: 'Preview' },
   PENDING: { label: 'PENDING', value: 'Pending' },

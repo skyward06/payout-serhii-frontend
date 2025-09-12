@@ -1,4 +1,4 @@
-import { CommissionDefault } from 'src/__generated__/graphql';
+import { CommissionType, CommissionDefault } from 'src/__generated__/graphql';
 
 export const parseType = (orderStatus: CommissionDefault): string => {
   switch (orderStatus) {
@@ -10,5 +10,16 @@ export const parseType = (orderStatus: CommissionDefault): string => {
       return 'TXC';
     default:
       return orderStatus;
+  }
+};
+
+export const commissionParseType = (commissionType: CommissionType): string => {
+  switch (commissionType) {
+    case CommissionType.Normal:
+      return 'Normal';
+    case CommissionType.Supernova:
+      return 'Supernova';
+    default:
+      return commissionType;
   }
 };
