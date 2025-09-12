@@ -298,6 +298,7 @@ export type BasicWeeklyCommission = {
   begR: Scalars['Int']['output'];
   cash: Scalars['Int']['output'];
   commission: Scalars['Int']['output'];
+  commissionType: CommissionType;
   createdAt: Scalars['DateTimeISO']['output'];
   email: Scalars['String']['output'];
   endL: Scalars['Int']['output'];
@@ -528,6 +529,11 @@ export enum CommissionStatus {
   Pending = 'PENDING',
   Preview = 'PREVIEW',
   Suspended = 'SUSPENDED'
+}
+
+export enum CommissionType {
+  Normal = 'NORMAL',
+  Supernova = 'SUPERNOVA'
 }
 
 export type CompleteSwapInput = {
@@ -3892,6 +3898,7 @@ export type WeeklyCommission = {
   begR: Scalars['Float']['output'];
   cash: Scalars['Int']['output'];
   commission: Scalars['Float']['output'];
+  commissionType: CommissionType;
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   endL: Scalars['Float']['output'];
