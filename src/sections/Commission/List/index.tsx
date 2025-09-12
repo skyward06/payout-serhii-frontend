@@ -181,12 +181,14 @@ export default function CommissionTable() {
         } as ISetFilterParams<WeeklyCommission>,
         cellRenderer: ({ data }: CustomCellRendererProps<WeeklyCommission>) => (
           <Box>
-            <Label
-              variant="soft"
-              color={COMMISSION_TYPE[data?.commissionType!].color as LabelColor}
-            >
-              {COMMISSION_TYPE[data?.commissionType!].value}
-            </Label>
+            {data?.commissionType === CommissionType.Supernova && (
+              <Label
+                variant="soft"
+                color={COMMISSION_TYPE[data?.commissionType!].color as LabelColor}
+              >
+                {COMMISSION_TYPE[data?.commissionType!].value}
+              </Label>
+            )}
           </Box>
         ),
       },
