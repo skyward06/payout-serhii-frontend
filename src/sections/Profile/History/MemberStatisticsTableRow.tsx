@@ -1,5 +1,3 @@
-import type { MemberStatistics } from 'src/__generated__/graphql';
-
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 
@@ -9,7 +7,7 @@ import { formatDate } from 'src/utils/format-time';
 
 type Props = {
   selected: boolean;
-  row: MemberStatistics;
+  row: any;
 };
 
 export default function MemberStatisticsTableRow({ row, selected }: Props) {

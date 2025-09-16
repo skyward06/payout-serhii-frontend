@@ -19,7 +19,7 @@ import {
   TablePaginationCustom,
 } from 'src/components/Table';
 
-import { FETCH_MEMBERSTATISTICS_QUERY } from 'src/sections/Reward/query';
+import { FETCH_MEMBER_STATISTICS_QUERY } from 'src/sections/Reward/query';
 
 import MemberStatisticsTableRow from './MemberStatisticsTableRow';
 
@@ -42,7 +42,7 @@ export default function MemberStatistics() {
 
   const { page = { page: 1, pageSize: 10 } } = query;
 
-  const { loading, data } = useGraphQuery(FETCH_MEMBERSTATISTICS_QUERY, {
+  const { loading, data } = useGraphQuery(FETCH_MEMBER_STATISTICS_QUERY, {
     variables: {
       page: page && `${page.page},${page.pageSize}`,
       filter: { memberId },

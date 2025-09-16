@@ -52,7 +52,7 @@ export const FETCH_STATISTICS_QUERY = gql(/* GraphQL */ `
   }
 `);
 
-export const FETCH_MEMBERSTATISTICS_QUERY = gql(/* GraphQL */ `
+export const FETCH_MEMBER_STATISTICS_QUERY = gql(/* GraphQL */ `
   query TXCMemberStatistics($page: String, $filter: JSONObject, $sort: String) {
     memberStatistics(page: $page, filter: $filter, sort: $sort) {
       memberStatistics {
@@ -68,10 +68,6 @@ export const FETCH_MEMBERSTATISTICS_QUERY = gql(/* GraphQL */ `
           username
           email
           assetId
-        }
-        statistics {
-          newBlocks
-          status
         }
       }
       total

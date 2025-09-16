@@ -14,19 +14,13 @@ export const FETCH_STATISTICS_QUERY = gql(/* GraphQL */ `
         totalBlocks
         totalMembers
         totalHashPower
-        memberStatistics {
-          txcShared
-          memberStatisticsWallets {
-            id
-          }
-        }
       }
       total
     }
   }
 `);
 
-export const FETCH_MEMBERSTATISTICS_QUERY = gql(/* GraphQL */ `
+export const FETCH_MEMBER_STATISTICS_QUERY = gql(/* GraphQL */ `
   query FetchMemberStatistics($sort: String, $page: String, $filter: JSONObject) {
     memberStatistics(sort: $sort, page: $page, filter: $filter) {
       memberStatistics {
@@ -64,7 +58,6 @@ export const FETCH_MEMBERSTATISTICS_QUERY = gql(/* GraphQL */ `
           preferredContact
           commissionDefault
           placementPosition
-          cmnCalculatedWeeks
           placementRequested
           shareIsTexitRanger
           preferredContactDetail
@@ -74,78 +67,9 @@ export const FETCH_MEMBERSTATISTICS_QUERY = gql(/* GraphQL */ `
             newL
             newR
           }
-          memberWallets {
-            id
-            address
-            percent
-            memberId
-            payoutId
-            isDefault
-            payout {
-              id
-              name
-              method
-              status
-              display
-            }
-          }
-        }
-        statistics {
-          id
-          to
-          from
-          status
-          issuedAt
-          txcShared
-          newBlocks
-          totalBlocks
-          totalMembers
-          totalHashPower
         }
       }
       total
-    }
-  }
-`);
-
-export const CREATE_STATISTICS = gql(/* GraphQL */ `
-  mutation CreateStatistics($data: CreateStatisticsInput!) {
-    createStatistics(data: $data) {
-      id
-      newBlocks
-    }
-  }
-`);
-
-export const CREATE_MANY_MEMBER_STATISTICS = gql(/* GraphQL */ `
-  mutation CreateManyMemberStatistics($data: CreateManyMemberStatisticsInput!) {
-    createManyMemberStatistics(data: $data) {
-      count
-    }
-  }
-`);
-
-export const UPDATE_STATISTICS = gql(/* GraphQL */ `
-  mutation UpdateStatistics($data: UpdateStatisticsInput!) {
-    updateStatistics(data: $data) {
-      status
-      txcShared
-    }
-  }
-`);
-
-export const REMOVE_MEMBER_STATISTICS = gql(/* GraphQL */ `
-  mutation RemoveMemberStatisticsByStaitisId($data: IDInput!) {
-    removeMemberStatisticsByStaitisId(data: $data) {
-      count
-    }
-  }
-`);
-
-export const REMOVE_STATISTICS = gql(/* GraphQL */ `
-  mutation RemoveManyStatistics($data: IDsInput!) {
-    removeManyStatistics(data: $data) {
-      count
     }
   }
 `);
@@ -189,7 +113,7 @@ export const FETCH_DAILY_REWARD = gql(/* GraphQL */ `
   }
 `);
 
-export const FETCH_MEMBERSTATISTICS_WALLETS_QUERY = gql(/* GraphQL */ `
+export const FETCH_MEMBER_STATISTICS_WALLETS_QUERY = gql(/* GraphQL */ `
   query MemberStatisticsWallets($sort: String, $page: String, $filter: JSONObject) {
     memberStatisticsWallets(sort: $sort, page: $page, filter: $filter) {
       memberStatisticsWallets {

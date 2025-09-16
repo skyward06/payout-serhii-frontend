@@ -15,7 +15,7 @@ import { LoadingScreen } from 'src/components/loading-screen';
 import { useTable, TableHeadCustom, TablePaginationCustom } from 'src/components/Table';
 
 import TableRow from './TableRow';
-import { FETCH_MEMBERSTATISTICS_QUERY } from '../query';
+import { FETCH_MEMBER_STATISTICS_QUERY } from '../query';
 
 import type { IMemberStatisticsTableFilters } from './types';
 
@@ -47,7 +47,7 @@ export default function BlocksTable({ id }: Props) {
       .join(',');
   }, [sort]);
 
-  const { loading, data: memberStatisticsData } = useGraphQuery(FETCH_MEMBERSTATISTICS_QUERY, {
+  const { loading, data: memberStatisticsData } = useGraphQuery(FETCH_MEMBER_STATISTICS_QUERY, {
     variables: {
       page: page && `${page.page},${page.pageSize}`,
       filter: { statisticsId: id },

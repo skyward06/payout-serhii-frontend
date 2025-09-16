@@ -1,4 +1,4 @@
-import type { Member } from 'src/__generated__/graphql';
+import type { Member } from 'src/sections/Profile/type';
 
 export type AuthContextValue = {
   user?: Member | null;

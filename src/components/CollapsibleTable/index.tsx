@@ -27,7 +27,7 @@ import { LoadingScreen } from 'src/components/loading-screen';
 
 import {
   FETCH_STATISTICS_QUERY,
-  FETCH_MEMBERSTATISTICS_QUERY,
+  FETCH_MEMBER_STATISTICS_QUERY,
 } from 'src/sections/Statistics/query';
 
 import { TablePaginationCustom } from '../Table';
@@ -110,7 +110,7 @@ function CollapsibleTableRow({ row }: CollapsibleTableRowProps) {
   const { page = { page: 1, pageSize: 10 } } = query;
 
   const [fetchMemberStatistics, { loading, data: memberStatisticsData }] = useLazyQuery(
-    FETCH_MEMBERSTATISTICS_QUERY,
+    FETCH_MEMBER_STATISTICS_QUERY,
     {
       variables: {
         filter: { statisticsId },

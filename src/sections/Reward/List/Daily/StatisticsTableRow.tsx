@@ -21,7 +21,7 @@ import { formatDate } from 'src/utils/format-time';
 import { Iconify } from 'src/components/Iconify';
 import { TableSkeleton } from 'src/components/Table';
 
-import { FETCH_MEMBERSTATISTICS_WALLETS_QUERY } from '../../query';
+import { FETCH_MEMBER_STATISTICS_WALLETS_QUERY } from '../../query';
 
 // ----------------------------------------------------------------------
 
@@ -48,7 +48,7 @@ export default function StatisticsTableRow({ row, selected }: Props) {
   const collapsible = useBoolean();
 
   const [fetchMemberStatistics, { loading, data }] = useLazyQuery(
-    FETCH_MEMBERSTATISTICS_WALLETS_QUERY,
+    FETCH_MEMBER_STATISTICS_WALLETS_QUERY,
     {
       variables: { filter: { issuedAt } },
     }

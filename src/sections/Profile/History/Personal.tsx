@@ -16,7 +16,6 @@ import { Iconify } from 'src/components/Iconify';
 import { useAuthContext } from 'src/auth/hooks';
 
 import Setting from './Setting';
-import { useFetchMemberOverview } from '../useApollo';
 
 export default function Personal() {
   const copy = useBoolean();
@@ -24,8 +23,6 @@ export default function Personal() {
   const [children, setChildren] = useState<any>();
 
   const { user } = useAuthContext();
-
-  const { overview } = useFetchMemberOverview(user?.id!);
 
   const handleCopy = async (addressValue: string) => {
     try {
@@ -229,7 +226,7 @@ export default function Personal() {
               </Typography>
             </Stack>
             <Stack width={1}>
-              <Typography variant="body2">{overview?.orderedAvailablePoint}</Typography>
+              <Typography variant="body2">{user?.orderedAvailablePoint}</Typography>
             </Stack>
           </Stack>
 

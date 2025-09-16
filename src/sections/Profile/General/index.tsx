@@ -25,7 +25,7 @@ import { uploadService } from 'src/utils/axios/api-service';
 
 import { CONFIG } from 'src/config';
 import { CONTACT } from 'src/consts';
-import { type Member, TeamStrategy, CommissionDefault } from 'src/__generated__/graphql';
+import { TeamStrategy, CommissionDefault } from 'src/__generated__/graphql';
 
 import { toast } from 'src/components/SnackBar';
 import { Form, Field } from 'src/components/Form';
@@ -38,6 +38,8 @@ import PasswordModal from './PasswordModal';
 import { Schema, type SchemaType } from './schema';
 import { getWallets, hasDuplicates } from './helper';
 import { useFetchMe, useDisable2FA, useUpdateMember } from '../useApollo';
+
+import type { Member } from '../type';
 
 // ----------------------------------------------------------------------
 

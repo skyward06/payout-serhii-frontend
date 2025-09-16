@@ -1,10 +1,19 @@
 import type { Sale } from 'src/sections/Sales/List/type';
 import type { WeeklyCommission } from 'src/sections/Commission/type';
-import type { Payout, MemberStatisticsWallet } from 'src/sections/MemberStatistics/List/type';
 import type {
-  CommissionStatus,
+  Session,
+  Setting,
+  EntityLog,
+  AdminNotes,
+  TeamReport,
+  MemberState,
+  MemberWallet,
+  TeamStrategy,
+  CommissionInfo,
   MemberStatistics,
+  BasicGroupSetting,
   PlacementPosition,
+  CommissionDefault,
 } from 'src/__generated__/graphql';
 
 export type MemberLog = {
@@ -32,72 +41,86 @@ export type Admin = {
   username: string;
 };
 
-export type AdminNotes = {
-  __typename?: 'AdminNotes';
-  admin?: Admin | null;
-  adminId: string;
-  createdAt?: any | null;
-  deletedAt?: any | null;
-  description?: string | null;
-  id: string;
-  member?: Member | null;
-  memberId: string;
-  updatedAt?: any | null;
-};
-
-export type MemberWallet = {
-  __typename?: 'MemberWallet';
-  address: string;
-  createdAt?: any | null;
-  deletedAt?: any | null;
-  id: string;
-  member?: Member | null;
-  memberId: string;
-  memberStatisticsWallets?: Array<MemberStatisticsWallet> | null;
-  note?: string | null;
-  payout?: Payout | null;
-  payoutId: string;
-  percent: number;
-  updatedAt?: any | null;
-};
-
 export type Member = {
   __typename?: 'Member';
   ID?: number | null;
   adminNotes?: Array<AdminNotes> | null;
+  avatar?: string | null;
   assetId?: string | null;
+  allowState: MemberState;
   city?: string | null;
-  cmnCalculatedWeeks: number;
-  commission?: CommissionStatus | null;
   createdAt?: any | null;
+  country?: string | null;
+  currentHashPower: number;
+  cashCommissionPotential: number;
+  commission?: CommissionInfo | null;
+  commissionDefault: CommissionDefault;
+  teamReport: Array<TeamReport>;
   deletedAt?: any | null;
   email: string;
   emailVerified: boolean;
+  ethAssetId?: string | null;
   fullName: string;
+  groupSetting?: BasicGroupSetting | null;
   id: string;
+  isTexitRanger: boolean;
   introduceMembers?: Array<Member> | null;
-  logs?: Array<MemberLog> | null;
-  memberWallets?: Array<MemberWallet> | null;
+  lastAdminNote?: string | null;
+  logs?: Array<EntityLog> | null;
   mobile: string;
-  placementChildren?: Array<Member> | null;
-  placementParent?: Member | null;
-  placementParentId?: string | null;
-  placementPosition?: PlacementPosition | null;
+  memberWallets?: Array<MemberWallet> | null;
+  OTPEnabled: boolean;
+  orderedAvailablePoint: number;
   point: number;
-  preferredContact?: string | null;
-  preferredContactDetail?: string | null;
   primaryAddress: string;
-  sales?: Array<Sale> | null;
-  secondaryAddress?: string | null;
-  sponsor?: Member | null;
-  sponsorId?: string | null;
-  state?: string | null;
-  statistics?: Array<MemberStatistics> | null;
+  peerAcceptable: boolean;
+  peerCode?: string | null;
+  promoCode?: string | null;
+  placementRequested: boolean;
+  peerETHAddress?: string | null;
+  placementParent?: {
+    __typename?: 'Member';
+    id: string;
+    username: string;
+    fullName: string;
+  } | null;
+  preferredContact?: string | null;
+  placementParentId?: string | null;
+  preferredContactDetail?: string | null;
+  placementChildren?:
+    | {
+        __typename?: 'Member';
+        id: string;
+        username: string;
+        fullName: string;
+        placementPosition: PlacementPosition;
+      }[]
+    | null;
+  placementPosition: PlacementPosition;
   status: boolean;
-  syncWithSendy: boolean;
+  state?: string | null;
+  sponsor?: {
+    __typename?: 'Member';
+    id: string;
+    point: number;
+    mobile: string;
+    username: string;
+    fullName: string;
+    createdAt?: any | null;
+  } | null;
+  session?: Session | null;
+  setting?: Setting | null;
+  sponsorId?: string | null;
+  sales?: Array<Sale> | null;
+  shareIsTexitRanger: boolean;
+  signupFormRequest?: any | null;
+  secondaryAddress?: string | null;
+  statistics?: Array<MemberStatistics> | null;
+  totalTXCShared: bigint;
   totalIntroducers: number;
-  updatedAt?: any | null;
+  teamStrategy: TeamStrategy;
   username: string;
+  updatedAt?: any | null;
   weeklyCommissions?: WeeklyCommission | null;
   zipCode?: string | null;
 };

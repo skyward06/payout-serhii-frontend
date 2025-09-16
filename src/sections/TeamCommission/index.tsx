@@ -1,8 +1,8 @@
-import type { Member } from 'src/__generated__/graphql';
-
 import Typography from '@mui/material/Typography';
 
 import Table from './table';
+
+import type { Member } from '../Profile/type';
 
 interface Props {
   me: Member;

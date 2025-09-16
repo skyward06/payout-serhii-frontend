@@ -12,7 +12,6 @@ export const FETCH_PLACEMENT_MEMBERS_WITH_LEVEL = gql(/* GraphQL */ `
       placementStatus
       placementPosition
       placementParentId
-      cmnCalculatedWeeks
       commission {
         begL
         begR
@@ -35,7 +34,6 @@ export const FETCH_PLACEMENT_CHILDREN_BY_ID = gql(/* GraphQL */ `
       placementStatus
       placementPosition
       placementParentId
-      cmnCalculatedWeeks
       commission {
         begL
         begR
@@ -58,7 +56,6 @@ export const FETCH_PLACEMENT_TO_MEMBERS = gql(/* GraphQL */ `
       placementStatus
       placementPosition
       placementParentId
-      cmnCalculatedWeeks
       commission {
         begL
         begR
@@ -81,7 +78,6 @@ export const FETCH_PLACEMENT_TO_BOTTOM = gql(/* GraphQL */ `
       placementStatus
       placementPosition
       placementParentId
-      cmnCalculatedWeeks
       commission {
         begL
         begR

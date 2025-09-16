@@ -11,12 +11,8 @@ import { Iconify } from 'src/components/Iconify';
 
 import { useAuthContext } from 'src/auth/hooks';
 
-import { useFetchMemberOverview } from '../useApollo';
-
 export default function OverView() {
   const { user } = useAuthContext();
-
-  const { overview } = useFetchMemberOverview(user?.id!);
 
   return (
     <Card sx={{ py: 3, textAlign: 'center', typography: 'h4' }}>
@@ -25,14 +21,14 @@ export default function OverView() {
         divider={<Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed' }} />}
       >
         <Stack width={0.8}>
-          {fNumber(overview?.currentHashPower ?? 0)}
+          {fNumber(user?.currentHashPower ?? 0)}
           <Box component="span" sx={{ color: 'text.secondary', typography: 'body2' }}>
             Hash Power
           </Box>
         </Stack>
 
         <Stack width={0.8}>
-          {fNumber(overview?.cashCommissionPotential ?? 0)}
+          {fNumber(user?.cashCommissionPotential ?? 0)}
           <Stack direction="row" justifyContent="space-around" alignItems="center">
             <Box component="span" sx={{ color: 'text.secondary', typography: 'body2' }}>
               Cash Potential
@@ -50,7 +46,7 @@ export default function OverView() {
         </Stack>
 
         <Stack width={1}>
-          {fNumber((overview?.totalTXCShared ?? 0) / 10 ** 8)}
+          {fNumber((Number(user?.totalTXCShared) ?? 0) / 10 ** 8)}
           <Box component="span" sx={{ color: 'text.secondary', typography: 'body2' }}>
             Total TXC Reward
           </Box>

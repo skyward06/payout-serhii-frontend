@@ -26,19 +26,22 @@ export const FETCH_ME_QUERY = gql(/* GraphQL */ `
       teamStrategy
       emailVerified
       isTexitRanger
+      totalTXCShared
       peerAcceptable
       peerETHAddress
       primaryAddress
+      currentHashPower
       secondaryAddress
       totalIntroducers
       preferredContact
       commissionDefault
       placementParentId
       placementPosition
-      cmnCalculatedWeeks
       placementRequested
       shareIsTexitRanger
+      orderedAvailablePoint
       preferredContactDetail
+      cashCommissionPotential
       groupSetting {
         id
         name
@@ -52,34 +55,11 @@ export const FETCH_ME_QUERY = gql(/* GraphQL */ `
       }
       sponsor {
         id
-        ID
-        email
         point
-        state
-        status
         mobile
-        assetId
-        country
         username
         fullName
-        allowState
-        teamReport
-        OTPEnabled
-        teamStrategy
-        emailVerified
-        emailVerified
-        isTexitRanger
-        peerAcceptable
-        primaryAddress
-        secondaryAddress
-        totalIntroducers
-        preferredContact
-        commissionDefault
-        placementPosition
-        placementRequested
-        cmnCalculatedWeeks
-        shareIsTexitRanger
-        preferredContactDetail
+        createdAt
       }
       placementParent {
         id
@@ -107,7 +87,6 @@ export const FETCH_ME_QUERY = gql(/* GraphQL */ `
         commissionDefault
         placementPosition
         placementRequested
-        cmnCalculatedWeeks
         shareIsTexitRanger
         preferredContactDetail
       }
@@ -135,7 +114,6 @@ export const FETCH_ME_QUERY = gql(/* GraphQL */ `
         commissionDefault
         placementPosition
         placementRequested
-        cmnCalculatedWeeks
         shareIsTexitRanger
         preferredContactDetail
       }
@@ -220,19 +198,6 @@ export const UPDATE_MEMBER = gql(/* GraphQL */ `
         }
       }
       assetId
-    }
-  }
-`);
-
-export const FETCH_MEMBER_HISTORY = gql(/* GraphQL */ `
-  query MemberOverview($data: IDInput!) {
-    memberOverview(data: $data) {
-      point
-      joinDate
-      totalTXCShared
-      currentHashPower
-      orderedAvailablePoint
-      cashCommissionPotential
     }
   }
 `);
