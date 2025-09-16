@@ -18,6 +18,8 @@ import { Form, Field } from 'src/components/Form';
 
 import { FileRecentItem } from 'src/sections/BugReport/FileRecentItem';
 
+import { useAuthContext } from 'src/auth/hooks';
+
 import { Schema, type SchemaType } from './schema';
 import { FileManagerNewFolderDialog } from './Upload';
 import { useCreteReimbursement, useUpdateReimbursement } from './useApollo';
@@ -27,8 +29,10 @@ interface Props {
 }
 
 export function EditForm({ current }: Props) {
-  const router = useRouter();
   const [files, setFiles] = useState<any[]>([]);
+
+  const router = useRouter();
+  const { user } = useAuthContext();
 
   const { createReimbursement } = useCreteReimbursement();
   const { updateReimbursement } = useUpdateReimbursement();
@@ -126,7 +130,13 @@ export function EditForm({ current }: Props) {
           </Box>
 
           <Stack direction="row" justifyContent="flex-end" mt={2}>
-            <LoadingButton type="submit" variant="contained" color="primary" loading={isSubmitting}>
+            <LoadingButton
+              type="submit"
+              variant="contained"
+              color="primary"
+              loading={isSubmitting}
+              disabled={!user?.isTexitRanger}
+            >
               {current ? 'Edit' : 'Submit'}
             </LoadingButton>
           </Stack>
