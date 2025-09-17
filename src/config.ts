@@ -18,6 +18,7 @@ export type ConfigValue = {
   ASSET_URL: string;
   redirectPath: string;
   storageTokenKey: string;
+  IFRAME_RESIZER_LICENSE_KEY: string;
 };
 
 // ----------------------------------------------------------------------
@@ -34,6 +35,7 @@ export const CONFIG: ConfigValue = {
   SERVER_BASE: import.meta.env.VITE_BASE_URL ?? '',
   SERVER_URL: import.meta.env.VITE_SERVER_URL ?? '',
   ASSET_URL: import.meta.env.VITE_ASSET_URL ?? '',
+  IFRAME_RESIZER_LICENSE_KEY: import.meta.env.VITE_IFRAME_RESIZER_LICENSE_KEY ?? '',
   redirectPath: paths.pages.intro.root,
   storageTokenKey: 'token',
 };

@@ -55,7 +55,10 @@ export function RHFSelect({
           fullWidth
           SelectProps={{
             native,
-            MenuProps: { PaperProps: { sx: { maxHeight: 220, ...slotProps?.paper } } },
+            MenuProps: {
+              PaperProps: { sx: { minHeight: 220, ...slotProps?.paper } },
+              disablePortal: true,
+            },
             sx: { textTransform: 'capitalize' },
           }}
           InputLabelProps={{ htmlFor: labelId, ...InputLabelProps }}
