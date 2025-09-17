@@ -408,6 +408,7 @@ export enum CampaignListType {
   Group = 'GROUP',
   PendingManualCommission = 'PENDING_MANUAL_COMMISSION',
   PendingUsdcCommission = 'PENDING_USDC_COMMISSION',
+  SuspendedCommission = 'SUSPENDED_COMMISSION',
   TexasMember = 'TEXAS_MEMBER',
   WeeklySponsor = 'WEEKLY_SPONSOR'
 }

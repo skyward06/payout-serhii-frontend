@@ -56,7 +56,7 @@ export default function StatisticsTableRow({ row, selected }: Props) {
 
   const reward = data?.memberStatisticsWallets.memberStatisticsWallets ?? [];
 
-  const wallets = memberStatistics.length ? memberStatistics[0].memberStatisticsWallets.length : 0;
+  const wallets = memberStatistics?.length ? memberStatistics[0].memberStatisticsWallets.length : 0;
 
   return (
     <>
@@ -85,7 +85,7 @@ export default function StatisticsTableRow({ row, selected }: Props) {
         <TableCell>{totalMembers}</TableCell>
         <TableCell>{txcShared / 10 ** 8}</TableCell>
         <TableCell>
-          {memberStatistics.length ? memberStatistics[0].txcShared / 10 ** 8 : 0}
+          {memberStatistics?.length ? memberStatistics[0].txcShared / 10 ** 8 : 0}
         </TableCell>
 
         <TableCell align="center">
