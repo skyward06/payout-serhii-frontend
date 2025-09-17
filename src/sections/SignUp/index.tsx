@@ -168,9 +168,31 @@ export function SignUpView({ isComponent = false }: Props) {
             setError('uname', { type: 'manual', message: error?.message || '' });
           }
 
-          toast.error(error.message);
+          if (isComponent && window.parent !== window) {
+            window.parent.postMessage(
+              {
+                action: 'showAlert',
+                payload: {
+                  type: 'error',
+                  message: error.message,
+                },
+              },
+              '*'
+            );
+          } else {
+            toast.error(error.message);
+          }
         } else {
-          toast.error(err);
+          window.parent.postMessage(
+            {
+              action: 'showAlert',
+              payload: {
+                type: 'error',
+                message: err,
+              },
+            },
+            '*'
+          );
         }
       }
     }
