@@ -169,10 +169,10 @@ export const TXC_REQUEST_STATUS = {
 };
 
 export const REIMBURSEMENT_STATUS = {
-  APPROVED: 'Approved',
-  DECLINED: 'Declined',
-  PAID: 'Paid',
-  PENDING: 'Pending',
+  APPROVED: { label: 'Approved', color: 'primary' },
+  DECLINED: { label: 'Declined', color: 'error' },
+  PAID: { label: 'Paid', color: 'info' },
+  PENDING: { label: 'Pending', color: 'warning' },
 };
 
 export const ORDER_STATUS = {

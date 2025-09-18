@@ -1,3 +1,4 @@
+import type { LabelColor } from 'src/components/Label';
 import type { CustomCellRendererProps } from '@ag-grid-community/react';
 import type {
   ColDef,
@@ -17,6 +18,7 @@ import { fCurrency } from 'src/utils/formatNumber';
 import { REIMBURSEMENT_STATUS } from 'src/consts';
 import { ReimbursementStatus } from 'src/__generated__/graphql';
 
+import { Label } from 'src/components/Label';
 import { AgGrid } from 'src/components/AgGrid';
 
 import { parseType } from './parseType';
@@ -85,8 +87,11 @@ export function ReimbursementList() {
         } as ISetFilterParams<BasicReimbursement>,
         resizable: true,
         editable: false,
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicReimbursement>) =>
-          data ? REIMBURSEMENT_STATUS[data.status] : '',
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicReimbursement>) => (
+          <Label variant="soft" color={REIMBURSEMENT_STATUS[data?.status!].color as LabelColor}>
+            {REIMBURSEMENT_STATUS[data?.status!].label}
+          </Label>
+        ),
       },
       {
         field: 'createdAt',
