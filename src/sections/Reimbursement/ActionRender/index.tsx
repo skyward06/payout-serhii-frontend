@@ -42,7 +42,12 @@ export const ActionRender = memo(
                 popover.onClose();
                 router.push(paths.dashboard.reimbursement.edit(`${data?.id}`));
               }}
-              disabled={data?.status !== ReimbursementStatus.Pending}
+              disabled={
+                !(
+                  data?.status === ReimbursementStatus.Pending ||
+                  data?.status === ReimbursementStatus.Approved
+                )
+              }
             >
               <Iconify icon="solar:pen-2-bold" />
               Edit
