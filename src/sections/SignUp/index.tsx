@@ -9,7 +9,6 @@ import { useState, useEffect, useCallback } from 'react';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
-import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
@@ -103,7 +102,7 @@ export function SignUpView({ isComponent = false }: Props) {
   const { packages, fetchPackages } = useFetchPackages();
 
   const onSubmit = handleSubmit(
-    async ({ firstName, lastName, sponsorUsername, uname, txcAddress, ...rest }) => {
+    async ({ firstName, lastName, sponsorUsername, uname, txcAddress, packageId, ...rest }) => {
       try {
         if (user) {
           await handleSignOut();
@@ -113,6 +112,7 @@ export function SignUpView({ isComponent = false }: Props) {
           variables: {
             data: {
               ...rest,
+              packageId: packageId.split('::')[0],
               paymentMethod: rest.paymentMethod.split('::')[1],
               paymentPeerCode: isPeerCode ? rest.paymentPeerCode : null,
               state: country === 'United States of America' ? state : '',
@@ -134,7 +134,9 @@ export function SignUpView({ isComponent = false }: Props) {
 
           if (rest.paymentMethod.split('::')[0] === PAYMENT_METHOD_IDS[0]) {
             const { data: order } = await createSignUpOrder({
-              variables: { data: { memberId: data.signUpMember.id, packageId: rest.packageId } },
+              variables: {
+                data: { memberId: data.signUpMember.id, packageId: packageId.split('::')[0] },
+              },
             });
 
             if (order) {
@@ -295,19 +297,20 @@ export function SignUpView({ isComponent = false }: Props) {
 
       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
         <Stack width={1}>
-          <Field.Select
+          <Field.Autocomplete
             name="packageId"
             label="Package"
             fullWidth
-            inputProps={{ sx: { width: 'auto', minWidth: '100%' } }}
-            required
-          >
-            {packages.map((option) => (
-              <MenuItem key={option?.id} value={option?.id}>
-                {`$${option?.amount} @ ${option?.productName}`}
-              </MenuItem>
-            ))}
-          </Field.Select>
+            options={packages.map(
+              (option) => `${option.id}::$${option.amount} @ ${option.productName}`
+            )}
+            getOptionLabel={(option: any) => option.split('::')[1]}
+            renderOption={(props, option) => (
+              <li {...props} key={option.split('::')[0]}>
+                {option.split('::')[1]}
+              </li>
+            )}
+          />
         </Stack>
         <Stack width={1}>
           <Stack direction="row" alignItems="center" spacing={1}>
@@ -367,7 +370,7 @@ export function SignUpView({ isComponent = false }: Props) {
             label="Payment Method"
             fullWidth
             options={payments.map((payment) => `${payment.id}::${payment.name}`)}
-            getOptionLabel={(option: any) => option}
+            getOptionLabel={(option: any) => option.split('::')[1]}
             renderOption={(props, option) => (
               <li {...props} key={option.split('::')[0]}>
                 {option.split('::')[1]}
