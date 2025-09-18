@@ -10,7 +10,6 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import MenuItem from '@mui/material/MenuItem';
-import Grid from '@mui/material/Unstable_Grid2';
 import TextField from '@mui/material/TextField';
 import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
@@ -26,6 +25,7 @@ import { useBoolean } from 'src/hooks/useBoolean';
 import { removeSpecialCharacters } from 'src/utils/helper';
 
 import { PAYMENT_METHOD_IDS } from 'src/consts';
+import { CommissionDefault } from 'src/__generated__/graphql';
 
 import { toast } from 'src/components/SnackBar';
 import { Iconify } from 'src/components/Iconify';
@@ -64,6 +64,7 @@ export function SignUpView() {
     uname: '',
     primaryAddress: '',
     secondaryAddress: '',
+    commissionDefault: CommissionDefault.Usdc,
     state: '',
     country: 'United States of America',
     zipCode: '',
@@ -247,29 +248,43 @@ export function SignUpView() {
       </Stack>
 
       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-        <Grid xs={12} container alignItems="center">
-          <Grid md={11.4} xs={12}>
-            <Field.Select
-              name="packageId"
-              label="Package"
+        <Stack width={1}>
+          <Field.Select
+            name="packageId"
+            label="Package"
+            fullWidth
+            inputProps={{ sx: { width: 'auto', minWidth: '100%' } }}
+            required
+          >
+            {packages.map((option) => (
+              <MenuItem key={option?.id} value={option?.id}>
+                {`$${option?.amount} @ ${option?.productName}`}
+              </MenuItem>
+            ))}
+          </Field.Select>
+        </Stack>
+        <Stack width={1}>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Field.Autocomplete
+              name="commissionDefault"
+              label="Commission Default"
               fullWidth
-              inputProps={{ sx: { width: 'auto', minWidth: '100%' } }}
-              required
-            >
-              {packages.map((option) => (
-                <MenuItem key={option?.id} value={option?.id}>
-                  {`$${option?.amount} @ ${option?.productName}`}
-                </MenuItem>
-              ))}
-            </Field.Select>
-          </Grid>
+              options={Object.values(CommissionDefault)}
+              getOptionLabel={(option: any) => option}
+              renderOption={(props, option) => (
+                <li {...props} key={option}>
+                  {option}
+                </li>
+              )}
+            />
 
-          <Grid md={0.6} xs={12} textAlign="center">
-            <IconButton onClick={calculator.onTrue}>
-              <Iconify icon="system-uicons:calculator" width={30} />
-            </IconButton>
-          </Grid>
-        </Grid>
+            <Box>
+              <IconButton onClick={calculator.onTrue}>
+                <Iconify icon="system-uicons:calculator" width={30} />
+              </IconButton>
+            </Box>
+          </Stack>
+        </Stack>
       </Stack>
 
       <Field.Text

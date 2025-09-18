@@ -3247,6 +3247,7 @@ export type ShippingMemberInfo = {
 export type SignupFormInput = {
   assetId?: InputMaybe<Scalars['String']['input']>;
   city?: InputMaybe<Scalars['String']['input']>;
+  commissionDefault: CommissionDefault;
   country: Scalars['String']['input'];
   email: Scalars['String']['input'];
   fullName: Scalars['String']['input'];

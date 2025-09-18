@@ -1,6 +1,7 @@
 import { z as zod } from 'zod';
 
 import { PAYMENT_METHOD_IDS } from 'src/consts';
+import { CommissionDefault } from 'src/__generated__/graphql';
 
 export type SchemaType = zod.infer<typeof Schema>;
 
@@ -26,6 +27,11 @@ export const Schema = zod
     secondaryAddress: zod.string(),
     packageId: zod.string({ required_error: 'Package is required' }),
     paymentMethod: zod.string({ required_error: 'Payment Method is required' }),
+    commissionDefault: zod.enum([
+      CommissionDefault.Txc,
+      CommissionDefault.Hash,
+      CommissionDefault.Usdc,
+    ]),
     assetId: zod.string().optional().nullable(),
     note: zod.string().optional().nullable(),
     txcAddress: zod.string().optional().nullable(),
