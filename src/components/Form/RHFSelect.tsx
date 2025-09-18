@@ -59,12 +59,17 @@ export function RHFSelect({
               PaperProps: { sx: { maxHeight: 220, ...slotProps?.paper } },
               disablePortal: true,
             },
-            sx: { textTransform: 'capitalize' },
+            sx: { textTransform: 'capitalize', overflowAnchor: 'none' },
           }}
           InputLabelProps={{ htmlFor: labelId, ...InputLabelProps }}
           inputProps={{ id: labelId, ...inputProps }}
           error={!!error}
           helperText={error ? error?.message : helperText}
+          onFocus={(e) => {
+            e.preventDefault();
+            e.target.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+          }}
+          sx={{ overflowAnchor: 'none' }}
           {...other}
         >
           {children}
