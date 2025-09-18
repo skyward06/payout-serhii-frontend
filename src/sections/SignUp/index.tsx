@@ -362,13 +362,18 @@ export function SignUpView({ isComponent = false }: Props) {
           <Typography>How would you like to pay?</Typography>
         </Stack>
         <Stack width={1}>
-          <Field.Select name="paymentMethod" label="Payment Method" required>
-            {payments.map((option) => (
-              <MenuItem key={option.id} value={`${option.id}::${option.name}`}>
-                {option.name}
-              </MenuItem>
-            ))}
-          </Field.Select>
+          <Field.Autocomplete
+            name="paymentMethod"
+            label="Payment Method"
+            fullWidth
+            options={payments.map((payment) => `${payment.id}::${payment.name}`)}
+            getOptionLabel={(option: any) => option}
+            renderOption={(props, option) => (
+              <li {...props} key={option.split('::')[0]}>
+                {option.split('::')[1]}
+              </li>
+            )}
+          />
         </Stack>
       </Stack>
 
