@@ -32,16 +32,8 @@ type Props = {
 };
 
 export default function StatisticsTableRow({ row, selected }: Props) {
-  const {
-    id,
-    issuedAt,
-    newBlocks,
-    totalHashPower,
-    totalMembers,
-    txcShared,
-    status,
-    memberStatistics,
-  } = row;
+  const { id, status, issuedAt, newBlocks, txcShared, rewardedTXC, totalMembers, totalHashPower } =
+    row;
 
   const router = useRouter();
 
@@ -55,8 +47,6 @@ export default function StatisticsTableRow({ row, selected }: Props) {
   );
 
   const reward = data?.memberStatisticsWallets.memberStatisticsWallets ?? [];
-
-  const wallets = memberStatistics?.length ? memberStatistics[0].memberStatisticsWallets.length : 0;
 
   return (
     <>
@@ -84,9 +74,7 @@ export default function StatisticsTableRow({ row, selected }: Props) {
         <TableCell>{totalHashPower}</TableCell>
         <TableCell>{totalMembers}</TableCell>
         <TableCell>{txcShared / 10 ** 8}</TableCell>
-        <TableCell>
-          {memberStatistics?.length ? memberStatistics[0].txcShared / 10 ** 8 : 0}
-        </TableCell>
+        <TableCell>{rewardedTXC !== null ? (rewardedTXC / 10 ** 8).toFixed(8) : '-'}</TableCell>
 
         <TableCell align="center">
           {status && (
@@ -109,12 +97,12 @@ export default function StatisticsTableRow({ row, selected }: Props) {
               variant="outlined"
               sx={{
                 py: 1,
-                mb: 2,
+                my: 2,
                 borderRadius: 1.5,
                 ...(collapsible.value && { boxShadow: (theme) => theme.customShadows.z20 }),
               }}
             >
-              <Typography variant="h6" component="div" sx={{ p: 2 }}>
+              <Typography variant="h6" component="div" sx={{ p: 2, pt: 1 }}>
                 Wallets
               </Typography>
               <Table size="small" aria-label="purchases">
@@ -131,7 +119,7 @@ export default function StatisticsTableRow({ row, selected }: Props) {
                 <TableBody>
                   {loading ? (
                     <>
-                      {new Array(wallets).fill('').map(() => (
+                      {new Array(3).fill('').map(() => (
                         <TableSkeleton height={7} />
                       ))}
                     </>

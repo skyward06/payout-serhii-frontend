@@ -12,6 +12,7 @@ export const FETCH_STATISTICS_QUERY = gql(/* GraphQL */ `
         txcShared
         newBlocks
         totalBlocks
+        rewardedTXC
         totalMembers
         totalHashPower
       }
