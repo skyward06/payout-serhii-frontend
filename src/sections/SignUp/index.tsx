@@ -260,6 +260,7 @@ export function SignUpView({ isComponent = false }: Props) {
         <Field.Autocomplete
           name="country"
           label="Country"
+          required
           fullWidth
           options={countries.getNames()}
           getOptionLabel={(option: any) => option}
@@ -300,6 +301,7 @@ export function SignUpView({ isComponent = false }: Props) {
           <Field.Autocomplete
             name="packageId"
             label="Package"
+            required
             fullWidth
             options={packages.map(
               (option) => `${option.id}::$${option.amount} @ ${option.productName}`
@@ -317,6 +319,7 @@ export function SignUpView({ isComponent = false }: Props) {
             <Field.Autocomplete
               name="commissionDefault"
               label="Commission Default"
+              required
               fullWidth
               options={Object.values(CommissionDefault)}
               getOptionLabel={(option: any) => option}
@@ -368,6 +371,7 @@ export function SignUpView({ isComponent = false }: Props) {
           <Field.Autocomplete
             name="paymentMethod"
             label="Payment Method"
+            required
             fullWidth
             options={payments.map((payment) => `${payment.id}::${payment.name}`)}
             getOptionLabel={(option: any) => option.split('::')[1]}

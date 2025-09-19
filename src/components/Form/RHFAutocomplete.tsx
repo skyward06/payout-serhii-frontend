@@ -15,6 +15,7 @@ export type AutocompleteBaseProps = Omit<
 export type RHFAutocompleteProps = AutocompleteBaseProps & {
   name: string;
   label?: string;
+  required?: boolean;
   placeholder?: string;
   hiddenLabel?: boolean;
   helperText?: React.ReactNode;
@@ -23,6 +24,7 @@ export type RHFAutocompleteProps = AutocompleteBaseProps & {
 export function RHFAutocomplete({
   name,
   label,
+  required,
   helperText,
   hiddenLabel,
   placeholder,
@@ -47,6 +49,7 @@ export function RHFAutocomplete({
               error={!!error}
               helperText={error ? error?.message : helperText}
               inputProps={{ ...params.inputProps, autoComplete: 'new-password' }}
+              required={required}
             />
           )}
           {...other}
