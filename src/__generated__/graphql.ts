@@ -190,6 +190,7 @@ export type BasicMember = {
   paymentMade: Scalars['Boolean']['output'];
   peerETHAddress?: Maybe<Scalars['String']['output']>;
   placementRequested: Scalars['Boolean']['output'];
+  point: Scalars['Int']['output'];
   primaryAddress: Scalars['String']['output'];
   secondaryAddress?: Maybe<Scalars['String']['output']>;
   signUpPaymentType?: Maybe<Scalars['String']['output']>;
@@ -1075,7 +1076,7 @@ export type Member = {
   commission?: Maybe<CommissionInfo>;
   commissionDefault: CommissionDefault;
   country?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
+  createdAt: Scalars['DateTimeISO']['output'];
   currentHashPower: Scalars['Int']['output'];
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   email: Scalars['String']['output'];
@@ -1140,15 +1141,21 @@ export type MemberInOutRevenueResponse = {
 
 export type MemberInfo = {
   __typename?: 'MemberInfo';
+  createdAt: Scalars['DateTimeISO']['output'];
+  email: Scalars['String']['output'];
   fullName: Scalars['String']['output'];
   id: Scalars['ID']['output'];
+  peerETHAddress?: Maybe<Scalars['String']['output']>;
   username: Scalars['String']['output'];
 };
 
 export type MemberInfoWithPlacement = {
   __typename?: 'MemberInfoWithPlacement';
+  createdAt: Scalars['DateTimeISO']['output'];
+  email: Scalars['String']['output'];
   fullName: Scalars['String']['output'];
   id: Scalars['ID']['output'];
+  peerETHAddress?: Maybe<Scalars['String']['output']>;
   placementParentId?: Maybe<Scalars['String']['output']>;
   placementPosition: PlacementPosition;
   username: Scalars['String']['output'];
@@ -4044,7 +4051,7 @@ export type PlacementSearchMembersQuery = { __typename?: 'Query', placementSearc
 export type FetchMeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FetchMeQuery = { __typename?: 'Query', memberMe: { __typename?: 'Member', id: string, ID?: number | null, city?: string | null, email: string, point: number, state?: string | null, avatar?: string | null, mobile: string, status: boolean, assetId?: string | null, country?: string | null, zipCode?: string | null, peerCode?: string | null, username: string, fullName: string, sponsorId?: string | null, allowState: MemberState, ethAssetId?: string | null, teamReport: Array<TeamReport>, OTPEnabled: boolean, teamStrategy: TeamStrategy, emailVerified: boolean, isTexitRanger: boolean, totalTXCShared: any, peerAcceptable: boolean, peerETHAddress?: string | null, primaryAddress: string, currentHashPower: number, secondaryAddress?: string | null, totalIntroducers: number, preferredContact?: string | null, commissionDefault: CommissionDefault, placementParentId?: string | null, placementPosition: PlacementPosition, placementRequested: boolean, shareIsTexitRanger: boolean, orderedAvailablePoint: number, preferredContactDetail?: string | null, cashCommissionPotential: number, createdAt?: any | null, updatedAt?: any | null, deletedAt?: any | null, groupSetting?: { __typename?: 'BasicGroupSetting', id: string, name: string, commissionDefaults: Array<CommissionDefault> } | null, commission?: { __typename?: 'CommissionInfo', begL: number, begR: number, newL: number, newR: number } | null, sponsor?: { __typename?: 'MemberInfo', id: string, username: string, fullName: string } | null, placementParent?: { __typename?: 'MemberInfoWithPlacement', id: string, username: string, fullName: string } | null, placementChildren?: Array<{ __typename?: 'MemberInfoWithPlacement', id: string, username: string, fullName: string, placementPosition: PlacementPosition }> | null, memberWallets?: Array<{ __typename?: 'MemberWallet', id: string, note?: string | null, address: string, percent: number, memberId: string, payoutId: string, isDefault: boolean, payout?: { __typename?: 'Payout', id: string, method: string, status: boolean, name: string, display: string } | null }> | null, setting?: { __typename?: 'Setting', id: string, memberId: string, communication: boolean } | null } };
+export type FetchMeQuery = { __typename?: 'Query', memberMe: { __typename?: 'Member', id: string, ID?: number | null, city?: string | null, email: string, point: number, state?: string | null, avatar?: string | null, mobile: string, status: boolean, assetId?: string | null, country?: string | null, zipCode?: string | null, peerCode?: string | null, username: string, fullName: string, sponsorId?: string | null, allowState: MemberState, ethAssetId?: string | null, teamReport: Array<TeamReport>, OTPEnabled: boolean, teamStrategy: TeamStrategy, emailVerified: boolean, isTexitRanger: boolean, totalTXCShared: any, peerAcceptable: boolean, peerETHAddress?: string | null, primaryAddress: string, currentHashPower: number, secondaryAddress?: string | null, totalIntroducers: number, preferredContact?: string | null, commissionDefault: CommissionDefault, placementParentId?: string | null, placementPosition: PlacementPosition, placementRequested: boolean, shareIsTexitRanger: boolean, orderedAvailablePoint: number, preferredContactDetail?: string | null, cashCommissionPotential: number, createdAt: any, updatedAt?: any | null, deletedAt?: any | null, groupSetting?: { __typename?: 'BasicGroupSetting', id: string, name: string, commissionDefaults: Array<CommissionDefault> } | null, commission?: { __typename?: 'CommissionInfo', begL: number, begR: number, newL: number, newR: number } | null, sponsor?: { __typename?: 'MemberInfo', id: string, username: string, fullName: string } | null, placementParent?: { __typename?: 'MemberInfoWithPlacement', id: string, username: string, fullName: string } | null, placementChildren?: Array<{ __typename?: 'MemberInfoWithPlacement', id: string, username: string, fullName: string, placementPosition: PlacementPosition }> | null, memberWallets?: Array<{ __typename?: 'MemberWallet', id: string, note?: string | null, address: string, percent: number, memberId: string, payoutId: string, isDefault: boolean, payout?: { __typename?: 'Payout', id: string, method: string, status: boolean, name: string, display: string } | null }> | null, setting?: { __typename?: 'Setting', id: string, memberId: string, communication: boolean } | null } };
 
 export type FetchMemberStatsQueryVariables = Exact<{
   inactiveFilter?: InputMaybe<Scalars['JSONObject']['input']>;
