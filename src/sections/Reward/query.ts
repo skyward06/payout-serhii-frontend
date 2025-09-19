@@ -37,37 +37,8 @@ export const FETCH_MEMBER_STATISTICS_QUERY = gql(/* GraphQL */ `
         statisticsId
         member {
           id
-          ID
-          email
-          state
-          point
-          mobile
-          status
-          assetId
           username
           fullName
-          allowState
-          teamReport
-          OTPEnabled
-          teamStrategy
-          emailVerified
-          isTexitRanger
-          peerAcceptable
-          primaryAddress
-          secondaryAddress
-          totalIntroducers
-          preferredContact
-          commissionDefault
-          placementPosition
-          placementRequested
-          shareIsTexitRanger
-          preferredContactDetail
-          commission {
-            begL
-            begR
-            newL
-            newR
-          }
         }
       }
       total

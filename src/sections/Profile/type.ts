@@ -79,7 +79,7 @@ export type Member = {
   placementRequested: boolean;
   peerETHAddress?: string | null;
   placementParent?: {
-    __typename?: 'Member';
+    __typename?: 'MemberInfoWithPlacement';
     id: string;
     username: string;
     fullName: string;
@@ -89,7 +89,7 @@ export type Member = {
   preferredContactDetail?: string | null;
   placementChildren?:
     | {
-        __typename?: 'Member';
+        __typename?: 'MemberInfoWithPlacement';
         id: string;
         username: string;
         fullName: string;
@@ -100,13 +100,10 @@ export type Member = {
   status: boolean;
   state?: string | null;
   sponsor?: {
-    __typename?: 'Member';
+    __typename?: 'MemberInfo';
     id: string;
-    point: number;
-    mobile: string;
     username: string;
     fullName: string;
-    createdAt?: any | null;
   } | null;
   session?: Session | null;
   setting?: Setting | null;

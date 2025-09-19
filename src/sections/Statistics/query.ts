@@ -65,9 +65,9 @@ export const FETCH_MEMBER_STATISTICS_QUERY = gql(/* GraphQL */ `
         updatedAt
         deletedAt
         member {
+          id
           username
-          email
-          assetId
+          fullName
         }
       }
       total

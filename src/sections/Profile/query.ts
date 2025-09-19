@@ -55,67 +55,19 @@ export const FETCH_ME_QUERY = gql(/* GraphQL */ `
       }
       sponsor {
         id
-        point
-        mobile
         username
         fullName
-        createdAt
       }
       placementParent {
         id
-        ID
-        email
-        point
-        state
-        status
-        mobile
-        assetId
-        country
         username
         fullName
-        allowState
-        teamReport
-        OTPEnabled
-        teamStrategy
-        isTexitRanger
-        emailVerified
-        peerAcceptable
-        primaryAddress
-        secondaryAddress
-        totalIntroducers
-        preferredContact
-        commissionDefault
-        placementPosition
-        placementRequested
-        shareIsTexitRanger
-        preferredContactDetail
       }
       placementChildren {
         id
-        ID
-        email
-        point
-        mobile
-        status
-        assetId
         username
         fullName
-        allowState
-        teamReport
-        OTPEnabled
-        teamStrategy
-        emailVerified
-        isTexitRanger
-        peerAcceptable
-        primaryAddress
-        secondaryAddress
-        preferredContact
-        totalIntroducers
-        commissionDefault
         placementPosition
-        placementRequested
-        shareIsTexitRanger
-        preferredContactDetail
       }
       memberWallets {
         id
