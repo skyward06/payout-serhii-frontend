@@ -79,15 +79,14 @@ export default function TXCRequestList() {
         ),
       },
       {
-        field: 'paidBalance',
+        field: 'inputBalanceInCent',
         headerName: 'Amount',
         width: 150,
-        filter: 'agNumberColumnFilter',
         resizable: true,
         editable: false,
         cellClass: 'tabular-nums ag-right-aligned-cell ag-cell-center',
         cellRenderer: ({ data }: CustomCellRendererProps<TXCRequest>) =>
-          fNumber(Number(data?.paidBalance) / 10 ** 6),
+          fNumber(Number(data?.inputBalanceInCent) / 100),
       },
       {
         field: 'txcPrice',

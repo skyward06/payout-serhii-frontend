@@ -12,10 +12,15 @@ export const TXC_REQUEST_LIST = gql(/* GraphQL */ `
         sentAt
         memberId
         txcPrice
+        inputChain
+        inputToken
+        outputChain
+        outputToken
         paidBalance
         sentBalance
         inputAddress
         outputAddress
+        inputBalanceInCent
         paidTransactionHash
         sentTransactionHash
       }

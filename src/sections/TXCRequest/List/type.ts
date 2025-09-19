@@ -1,4 +1,10 @@
-import type { Member, TxcRequestType, TxcRequestStatus } from 'src/__generated__/graphql';
+import type {
+  Member,
+  PaymentChain,
+  PaymentToken,
+  TxcRequestType,
+  TxcRequestStatus,
+} from 'src/__generated__/graphql';
 
 export type TXCRequest = {
   __typename?: 'TXCRequest';
@@ -14,6 +20,11 @@ export type TXCRequest = {
   inputAddress: string;
   outputAddress: string;
   status: TxcRequestStatus;
+  inputChain: PaymentChain;
+  inputToken: PaymentToken;
+  outputChain: PaymentChain;
+  outputToken: PaymentToken;
+  inputBalanceInCent: number;
   paidTransactionHash?: string | null;
   sentTransactionHash?: string | null;
   member?: Member | null;

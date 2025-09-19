@@ -123,30 +123,15 @@ export enum State {
 }
 
 export const PAYMENT_METHOD = {
-  TXC: {
-    label: 'Texitcoin',
-    balance: 10 ** 8,
-    token: null,
-  },
-  USDC: {
-    label: 'ethereum',
-    balance: 10 ** 6,
-    token: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606e48',
-  },
+  TXC: { label: 'Texitcoin', balance: 10 ** 8, token: null },
+  WTXC: { label: 'WTXC', balance: 10 ** 8, token: null },
+  ETH: { label: 'ethereum', balance: 10 ** 18, token: null },
+  PYUSD: { label: 'ethereum', balance: 10 ** 6, token: null },
+  USDC: { label: 'ethereum', balance: 10 ** 6, token: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606e48' },
   USDT: {
     label: 'ethereum',
     balance: 10 ** 6,
     token: '0xdac17f958d2ee523a2206206994597c13d831ec7',
-  },
-  ETH: {
-    label: 'ethereum',
-    balance: 10 ** 18,
-    token: null,
-  },
-  PYUSD: {
-    label: 'ethereum',
-    balance: 10 ** 6,
-    token: null,
   },
 };
 
@@ -154,6 +139,7 @@ export const CHAIN_UNIT = {
   TXC: 8,
   BNB: 18,
   ETH: 18,
+  WTXC: 8,
   USDC: 6,
   USDT: 6,
   PYUSD: 6,
