@@ -6,7 +6,7 @@ import { useBoolean } from 'src/hooks/useBoolean';
 
 import { Iconify } from 'src/components/Iconify';
 
-import ReportModal from 'src/sections/BugReport';
+import { ReportModal } from 'src/sections/BugReport';
 
 // ----------------------------------------------------------------------
 
@@ -14,7 +14,7 @@ export type BackToTopProps = FabProps & {
   value?: number;
 };
 
-export default function Report({ value = 90, sx, ...other }: BackToTopProps) {
+export function Report({ value = 90, sx, ...other }: BackToTopProps) {
   const open = useBoolean();
 
   return (

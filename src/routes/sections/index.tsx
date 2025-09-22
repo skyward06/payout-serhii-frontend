@@ -1,5 +1,7 @@
 import { Navigate, useRoutes } from 'react-router-dom';
 
+import { useZendeskTheme } from 'src/hooks/use-zendesk-theme';
+
 import { CONFIG } from 'src/config';
 
 import { authRoutes } from './auth';
@@ -10,6 +12,8 @@ import { dashboardRoutes } from './dashboard';
 // ----------------------------------------------------------------------
 
 export function Router() {
+  useZendeskTheme('#00a67f');
+
   return useRoutes([
     {
       path: '/',

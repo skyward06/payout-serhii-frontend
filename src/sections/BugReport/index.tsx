@@ -25,7 +25,7 @@ interface Props {
   open: UseBooleanReturn;
 }
 
-export default function ReportModal({ open }: Props) {
+export function ReportModal({ open }: Props) {
   const [files, setFiles] = useState<any[]>([]);
 
   const { loading, createBugReport } = useCreateBugReport();

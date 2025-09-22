@@ -1,6 +1,8 @@
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 
+import { useZendeskTheme } from 'src/hooks/use-zendesk-theme';
+
 import { BackToTop } from 'src/components/animate/back-to-top';
 import { ScrollProgress, useScrollProgress } from 'src/components/animate/scroll-progress';
 
@@ -15,6 +17,9 @@ import { SignUpView } from '../SignUp';
 
 export default function Introduction() {
   const pageProgress = useScrollProgress();
+
+  // Apply theme colors to Zendesk widget when this component loads
+  useZendeskTheme('#262262');
 
   return (
     <Stack>
