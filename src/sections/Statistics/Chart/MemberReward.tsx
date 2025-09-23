@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import { alpha, useTheme } from '@mui/material/styles';
 
+import { fNumber } from 'src/utils/formatNumber';
 import { formatWeekNumber } from 'src/utils/format-time';
 
 import { Chart, useChart, ChartSelect } from 'src/components/chart';
@@ -60,7 +61,7 @@ export default function MemberReward() {
     yaxis: {
       labels: {
         formatter(val) {
-          return `${Math.floor(val)}`;
+          return fNumber(val);
         },
       },
     },
