@@ -39,6 +39,7 @@ export const FETCH_ME_QUERY = gql(/* GraphQL */ `
       placementPosition
       placementRequested
       shareIsTexitRanger
+      reimbursementEnabled
       orderedAvailablePoint
       preferredContactDetail
       cashCommissionPotential

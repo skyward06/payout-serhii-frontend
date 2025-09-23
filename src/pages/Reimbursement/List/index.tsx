@@ -1,3 +1,4 @@
+import { Navigate } from 'react-router';
 import { Helmet } from 'react-helmet-async';
 
 import Button from '@mui/material/Button';
@@ -12,7 +13,16 @@ import { Breadcrumbs } from 'src/components/Breadcrumbs';
 
 import { ReimbursementList } from 'src/sections/Reimbursement/List';
 
+import { useAuthContext } from 'src/auth/hooks';
+
 export default function ReimbursementPage() {
+  const { loading, user } = useAuthContext();
+  const disabled = !user?.reimbursementEnabled && !user?.isTexitRanger;
+
+  if (!loading && disabled) {
+    return <Navigate to={paths.page403} replace />;
+  }
+
   return (
     <>
       <Helmet>
@@ -35,6 +45,7 @@ export default function ReimbursementPage() {
             color="primary"
             startIcon={<Iconify icon="mingcute:add-line" />}
             href="new"
+            disabled={disabled}
           >
             New
           </Button>

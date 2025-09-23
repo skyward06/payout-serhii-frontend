@@ -14,6 +14,8 @@ import { varAlpha, stylesMode } from 'src/theme/styles';
 import { bulletColor } from 'src/components/nav-section';
 import { useSettingsContext } from 'src/components/settings';
 
+import { useAuthContext } from 'src/auth/hooks';
+
 import { Main } from './main';
 import { NavMobile } from './nav-mobile';
 import { layoutClasses } from '../classes';
@@ -37,6 +39,7 @@ export type DashboardLayoutProps = {
 
 export function DashboardLayout({ sx, children, data }: DashboardLayoutProps) {
   const theme = useTheme();
+  const { user } = useAuthContext();
 
   const mobileNavOpen = useBoolean();
 
@@ -46,7 +49,15 @@ export function DashboardLayout({ sx, children, data }: DashboardLayoutProps) {
 
   const layoutQuery: Breakpoint = 'lg';
 
-  const navData = data?.nav ?? dashboardNavData;
+  const dashboardData = dashboardNavData.map((group) => ({
+    subheader: group.subheader,
+    items: group.items.filter(
+      (item) =>
+        !(item.title === 'Reimbursement' && !user?.isTexitRanger && !user?.reimbursementEnabled)
+    ),
+  }));
+
+  const navData = data?.nav ?? dashboardData;
 
   const isNavMini = settings.navLayout === 'mini';
 

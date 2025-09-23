@@ -97,6 +97,7 @@ export type Member = {
       }[]
     | null;
   placementPosition: PlacementPosition;
+  reimbursementEnabled?: boolean | null;
   status: boolean;
   state?: string | null;
   sponsor?: {
