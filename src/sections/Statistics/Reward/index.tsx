@@ -1,8 +1,8 @@
 import Grid from '@mui/material/Unstable_Grid2';
 
 import Latest from './Latest';
-import TopEarners from './TopEarners';
-import TopRecruiters from './TopRecruiters';
+import { TopEarners } from './TopEarners';
+import { TopRecruiters } from './TopRecruiters';
 
 export default function Reward() {
   return (
