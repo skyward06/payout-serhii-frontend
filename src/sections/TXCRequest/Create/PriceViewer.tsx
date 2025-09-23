@@ -54,9 +54,9 @@ export function PriceViewer({ loading, price, getPrice }: Props) {
 
 const TOOLTIP_TEXT = (
   <Typography variant="caption">
-    This is the price of TXC from{' '}
+    This is the live price of TXC from{' '}
     <Link component={RouterLink} href={COIN_MARKET_CAP} target="_blank">
-      CoinMarketCap
+      CoinMarketCap with a 5% convenience fee
     </Link>
   </Typography>
 );
