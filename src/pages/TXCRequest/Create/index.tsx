@@ -12,12 +12,12 @@ export default function TXCRequestCreatePage() {
   return (
     <>
       <Helmet>
-        <title>{`${CONFIG.site.name} - TXC Request`}</title>
+        <title>{`${CONFIG.site.name} - TXC Purchase`}</title>
       </Helmet>
 
       <Breadcrumbs
-        heading="TXC Request"
-        links={[{ name: 'TXC Request', href: paths.dashboard.txcRequest.root }, { name: 'New' }]}
+        heading="TXC Purchase"
+        links={[{ name: 'TXC Purchase', href: paths.dashboard.txcRequest.root }, { name: 'New' }]}
         sx={{ mb: 2 }}
       />
 

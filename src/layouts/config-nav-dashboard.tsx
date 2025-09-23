@@ -70,7 +70,7 @@ export const navData = [
       { title: 'Calculator', path: paths.dashboard.calculator.root, icon: ICONS.calculator },
       { title: 'Team', path: paths.dashboard.team.root, icon: ICONS.team },
       { title: 'Communication', path: paths.dashboard.communication.root, icon: ICONS.send },
-      { title: 'TXC Request', path: paths.dashboard.txcRequest.root, icon: ICONS.txc_buy },
+      { title: 'TXC Purchase', path: paths.dashboard.txcRequest.root, icon: ICONS.txc_buy },
       { title: 'Reimbursement', path: paths.dashboard.reimbursement.root, icon: ICONS.backup },
       { title: 'My account', path: paths.dashboard.profile.root, icon: ICONS.user },
     ],
