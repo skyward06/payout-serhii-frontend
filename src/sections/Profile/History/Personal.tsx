@@ -264,6 +264,24 @@ export default function Personal() {
             </Stack>
           )}
 
+          <Stack direction="row" spacing={2} pb={1}>
+            <Stack width={0.5}>
+              <Typography variant="body2" fontWeight="bold">
+                Reimbursement:
+              </Typography>
+            </Stack>
+            <Stack width={1}>
+              <Iconify
+                icon={
+                  user?.reimbursementEnabled
+                    ? 'ic:twotone-check-box'
+                    : 'iconamoon:sign-times-square-duotone'
+                }
+                color={user?.reimbursementEnabled ? 'green' : 'red'}
+              />
+            </Stack>
+          </Stack>
+
           <Divider sx={{ borderStyle: 'dashed', my: 1 }} />
 
           {/* Group info */}
