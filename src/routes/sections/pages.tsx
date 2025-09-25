@@ -19,6 +19,7 @@ const PaymentWaiting = lazy(() => import('src/pages/Order/PaymentWaiting'));
 const PaymentSelector = lazy(() => import('src/pages/Order/PaymentSelector'));
 const OrderWrapper = lazy(() => import('src/pages/Order/Wrapper'));
 const ContactPage = lazy(() => import('src/pages/Contact'));
+const AchFormPage = lazy(() => import('src/pages/ACH'));
 const StatisticsPage = lazy(() => import('src/pages/Statistics'));
 const ActionPage = lazy(() => import('src/pages/Commission/Action'));
 const IntroductionPage = lazy(() => import('src/pages/Introduction'));
@@ -118,6 +119,16 @@ export const statisticsRoutes: RouteObject[] = [
     element: (
       <AuthCenteredLayout>
         <ConfirmAddressPage />
+      </AuthCenteredLayout>
+    ),
+  },
+  {
+    path: '/ach-form',
+    element: (
+      <AuthCenteredLayout width="860px">
+        <Suspense fallback={<LoadingScreen />}>
+          <AchFormPage />
+        </Suspense>
       </AuthCenteredLayout>
     ),
   },

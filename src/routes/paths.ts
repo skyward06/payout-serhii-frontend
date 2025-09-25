@@ -11,12 +11,14 @@ const ROOTS = {
   VERIFY_RESULT: '/thanks',
 
   // Pages
-  CONTACT: '/contact',
+  ACH: '/ach-form',
   INTRO: '/intro',
+  CALCULATOR: '/calculator',
+  STATISTICS: '/statistics',
+  RAPID_REWARDS: '/rapid-rewards',
+  CONTACT: '/contact',
   MAINTENANCE: '/maintenance',
   ORDER: '/order',
-  RAPID_REWARDS: '/rapid-rewards',
-  STATISTICS: '/statistics',
 
   // Dashboard
   COMMISSION: '/commission',
@@ -87,6 +89,9 @@ export const paths = {
 
     // ORDER
     order: { root: ROOTS.ORDER, detail: (id: string) => `${ROOTS.ORDER}/${id}` },
+
+    // ACH Form
+    ach: { root: ROOTS.ACH },
   },
 
   // DASHBOARD
