@@ -28,6 +28,23 @@ export type Scalars = {
   JSONObject: { input: any; output: any; }
 };
 
+export type Ach = {
+  __typename?: 'ACH';
+  accountNumber: Scalars['String']['output'];
+  amountInCent: Scalars['Int']['output'];
+  bankName: Scalars['String']['output'];
+  checkNumber?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
+  deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
+  frontActions?: Maybe<Array<FrontAction>>;
+  id: Scalars['ID']['output'];
+  member: MemberInfo;
+  name: Scalars['String']['output'];
+  routingNumber: Scalars['String']['output'];
+  sign: Scalars['String']['output'];
+  updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
+};
+
 export type AccessTokenResponse = {
   __typename?: 'AccessTokenResponse';
   accessToken: Scalars['String']['output'];
@@ -160,6 +177,27 @@ export type Balance = {
   balance: Scalars['BigInt']['output'];
   chain: PaymentChain;
   token: PaymentToken;
+};
+
+export type BasicAch = {
+  __typename?: 'BasicACH';
+  accountNumber: Scalars['String']['output'];
+  amountInCent: Scalars['Int']['output'];
+  bankName: Scalars['String']['output'];
+  checkNumber?: Maybe<Scalars['String']['output']>;
+  createdAt: Scalars['DateTimeISO']['output'];
+  fullName: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  routingNumber: Scalars['String']['output'];
+  sign: Scalars['String']['output'];
+  username: Scalars['String']['output'];
+};
+
+export type BasicAchResponse = {
+  __typename?: 'BasicACHResponse';
+  ach: Array<BasicAch>;
+  total?: Maybe<Scalars['Int']['output']>;
 };
 
 export type BasicCartonAddress = {
@@ -524,9 +562,21 @@ export type CompleteTxcRequestInput = {
   transactionHash: Scalars['String']['input'];
 };
 
+<<<<<<< HEAD
 export type CompleteUploadInput = {
   fileType: FileType;
   id: Scalars['ID']['input'];
+=======
+export type CreateAchInput = {
+  accountNumber: Scalars['String']['input'];
+  amountInCent: Scalars['Float']['input'];
+  bankName: Scalars['String']['input'];
+  checkNumber?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  routingNumber: Scalars['String']['input'];
+  sign: Scalars['String']['input'];
+>>>>>>> 7813101 (Add ach query)
 };
 
 export type CreateAddMemberOrderInput = {
@@ -1063,8 +1113,13 @@ export type Member = {
   __typename?: 'Member';
   ID?: Maybe<Scalars['Int']['output']>;
   OTPEnabled: Scalars['Boolean']['output'];
+<<<<<<< HEAD
   activated: Scalars['Boolean']['output'];
   activationTx?: Maybe<Scalars['String']['output']>;
+=======
+  ach: Ach;
+  achInfo: Ach;
+>>>>>>> 7813101 (Add ach query)
   adminNotes: Array<AdminNotes>;
   allowState: MemberState;
   assetId?: Maybe<Scalars['String']['output']>;
@@ -1306,9 +1361,16 @@ export type Mutation = {
   completeOrder: Order;
   completeSwap: WtxcSwap;
   completeTXCRequest: TxcRequest;
+<<<<<<< HEAD
   completeUpload: Array<PFile>;
   confirmEmail5071: SuccessResponse;
+=======
+<<<<<<< HEAD
+>>>>>>> 7813101 (Add ach query)
   confirmPeerPayment: SuccessResponse;
+=======
+  createACH: Ach;
+>>>>>>> 0591efb (Add ach query)
   createAddHashOrder: Order;
   createAddMemberOrder: Order;
   createAdmin: Admin;
@@ -1482,6 +1544,7 @@ export type MutationCompleteTxcRequestArgs = {
 };
 
 
+<<<<<<< HEAD
 export type MutationCompleteUploadArgs = {
   data: Array<CompleteUploadInput>;
 };
@@ -1492,8 +1555,15 @@ export type MutationConfirmEmail5071Args = {
 };
 
 
+=======
+<<<<<<< HEAD
+>>>>>>> 7813101 (Add ach query)
 export type MutationConfirmPeerPaymentArgs = {
   data: PeerConfirmationInput;
+=======
+export type MutationCreateAchArgs = {
+  data: CreateAchInput;
+>>>>>>> 0591efb (Add ach query)
 };
 
 
@@ -2468,6 +2538,8 @@ export enum ProofType {
 
 export type Query = {
   __typename?: 'Query';
+  ach: BasicAchResponse;
+  achByMemberId: Ach;
   addressByAddress: Address;
   addresses: AddressResponse;
   adminMe: Admin;
@@ -2587,6 +2659,18 @@ export type Query = {
   wtxcSwapBackBalance: WtxcSwapBackBalance;
   wtxcSwapById: WtxcSwap;
   wtxcSwaps: WtxcSwapResponse;
+};
+
+
+export type QueryAchArgs = {
+  filter?: InputMaybe<Scalars['JSONObject']['input']>;
+  page?: InputMaybe<Scalars['String']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryAchByMemberIdArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -4086,6 +4170,23 @@ export type WeeklyReportResponse = {
   weeklyReports?: Maybe<Array<WeeklyReport>>;
 };
 
+<<<<<<< HEAD
+=======
+export type CreateAchMutationVariables = Exact<{
+  data: CreateAchInput;
+}>;
+
+
+export type CreateAchMutation = { __typename?: 'Mutation', createACH: { __typename?: 'ACH', id: string } };
+
+export type CreateBugReportMutationVariables = Exact<{
+  data: CreateBugReportInput;
+}>;
+
+
+export type CreateBugReportMutation = { __typename?: 'Mutation', createBugReport: { __typename?: 'SuccessResponse', message?: string | null, result: SuccessResult } };
+
+>>>>>>> 7813101 (Add ach query)
 export type CalculateProfitabilityQueryVariables = Exact<{
   data: ProfitabilityCalculationInput;
 }>;
@@ -4708,6 +4809,11 @@ export type BlocksdataQueryVariables = Exact<{
 export type BlocksdataQuery = { __typename?: 'Query', blocksData: Array<{ __typename?: 'BlockStatsResponse', base: string, difficulty: number, hashRate: number }> };
 
 
+<<<<<<< HEAD
+=======
+export const CreateAchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateACH"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateACHInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createACH"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateAchMutation, CreateAchMutationVariables>;
+export const CreateBugReportDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateBugReport"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateBugReportInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createBugReport"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"result"}}]}}]}}]} as unknown as DocumentNode<CreateBugReportMutation, CreateBugReportMutationVariables>;
+>>>>>>> 7813101 (Add ach query)
 export const CalculateProfitabilityDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CalculateProfitability"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ProfitabilityCalculationInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"calculateProfitability"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"startDate"}},{"kind":"Field","name":{"kind":"Name","value":"target"}},{"kind":"Field","name":{"kind":"Name","value":"init"}},{"kind":"Field","name":{"kind":"Name","value":"period"}},{"kind":"Field","name":{"kind":"Name","value":"txc"}},{"kind":"Field","name":{"kind":"Name","value":"txcCost"}},{"kind":"Field","name":{"kind":"Name","value":"extraTXC"}},{"kind":"Field","name":{"kind":"Name","value":"endDate"}},{"kind":"Field","name":{"kind":"Name","value":"txcPrice"}}]}}]}}]} as unknown as DocumentNode<CalculateProfitabilityQuery, CalculateProfitabilityQueryVariables>;
 export const WeeklyCommissionsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"WeeklyCommissions"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sort"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"page"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"JSONObject"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"weeklyCommissions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"sort"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sort"}}},{"kind":"Argument","name":{"kind":"Name","value":"page"},"value":{"kind":"Variable","name":{"kind":"Name","value":"page"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"weeklyCommissions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"ID"}},{"kind":"Field","name":{"kind":"Name","value":"begL"}},{"kind":"Field","name":{"kind":"Name","value":"begR"}},{"kind":"Field","name":{"kind":"Name","value":"newL"}},{"kind":"Field","name":{"kind":"Name","value":"newR"}},{"kind":"Field","name":{"kind":"Name","value":"maxL"}},{"kind":"Field","name":{"kind":"Name","value":"maxR"}},{"kind":"Field","name":{"kind":"Name","value":"endL"}},{"kind":"Field","name":{"kind":"Name","value":"endR"}},{"kind":"Field","name":{"kind":"Name","value":"pkgL"}},{"kind":"Field","name":{"kind":"Name","value":"pkgR"}},{"kind":"Field","name":{"kind":"Name","value":"note"}},{"kind":"Field","name":{"kind":"Name","value":"paidAs"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"hasUSDC"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"shortNote"}},{"kind":"Field","name":{"kind":"Name","value":"commission"}},{"kind":"Field","name":{"kind":"Name","value":"commissionType"}},{"kind":"Field","name":{"kind":"Name","value":"weekStartDate"}},{"kind":"Field","name":{"kind":"Name","value":"paymentMethod"}}]}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]} as unknown as DocumentNode<WeeklyCommissionsQuery, WeeklyCommissionsQueryVariables>;
 export const FetchCommissionStatsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FetchCommissionStats"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"allFilter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"JSONObject"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pendingFilter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"JSONObject"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"declineFilter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"JSONObject"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sentFilter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"JSONObject"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"all"},"name":{"kind":"Name","value":"weeklyCommissions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"allFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"total"}}]}},{"kind":"Field","alias":{"kind":"Name","value":"pending"},"name":{"kind":"Name","value":"weeklyCommissions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pendingFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"total"}}]}},{"kind":"Field","alias":{"kind":"Name","value":"decline"},"name":{"kind":"Name","value":"weeklyCommissions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"declineFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"total"}}]}},{"kind":"Field","alias":{"kind":"Name","value":"sent"},"name":{"kind":"Name","value":"weeklyCommissions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sentFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]} as unknown as DocumentNode<FetchCommissionStatsQuery, FetchCommissionStatsQueryVariables>;
