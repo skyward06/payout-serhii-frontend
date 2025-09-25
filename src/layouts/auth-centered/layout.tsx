@@ -16,9 +16,10 @@ import { LayoutSection } from '../core/layout-section';
 export type AuthCenteredLayoutProps = {
   sx?: SxProps<Theme>;
   children: React.ReactNode;
+  width?: string;
 };
 
-export function AuthCenteredLayout({ sx, children }: AuthCenteredLayoutProps) {
+export function AuthCenteredLayout({ sx, children, width }: AuthCenteredLayoutProps) {
   const mobileNavOpen = useBoolean();
 
   const layoutQuery: Breakpoint = 'md';
@@ -58,7 +59,7 @@ export function AuthCenteredLayout({ sx, children }: AuthCenteredLayoutProps) {
        * Style
        *************************************** */
       cssVars={{
-        '--layout-auth-content-width': '420px',
+        '--layout-auth-content-width': `${width ?? '420px'}`,
       }}
       sx={{
         '&::before': {
