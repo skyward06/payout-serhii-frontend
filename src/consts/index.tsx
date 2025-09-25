@@ -96,6 +96,7 @@ export const PACKAGES = [
 export const PAYMENT_METHOD_IDS = [
   'c5d87c08-4d4c-4243-acc7-466925791501',
   '65c74bed-4e8f-4be2-8b8c-9495dda3d848',
+  'dafa345e-a666-4830-b2f5-4593d8a57de3',
 ];
 
 export const TARGET = [
