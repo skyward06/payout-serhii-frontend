@@ -146,6 +146,11 @@ export function SignUpView({ isComponent = false }: Props) {
 
           const searchParams = new URLSearchParams({ email: rest.email }).toString();
 
+          if (rest.paymentMethod.split('::')[0] === PAYMENT_METHOD_IDS[2]) {
+            router.push(paths.pages.ach.root, { state: { id: data.signUpMember.id } });
+            return;
+          }
+
           if (rest.paymentMethod.split('::')[0] === PAYMENT_METHOD_IDS[0]) {
             const { data: order } = await createSignUpOrder({
               variables: {
