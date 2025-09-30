@@ -31,7 +31,7 @@ const documents = {
     "\n  mutation CancelOrder($data: IDInput!) {\n    cancelOrder(data: $data) {\n      id\n      status\n    }\n  }\n": types.CancelOrderDocument,
     "\n  mutation SetOrderPayment($data: OrderPaymentSetInput!) {\n    setOrderPayment(data: $data) {\n      id\n      status\n      paymentToken\n      paymentAddress\n      requiredBalance\n    }\n  }\n": types.SetOrderPaymentDocument,
     "\n  query PaymentMethods($sort: String, $page: String, $filter: JSONObject) {\n    paymentMethods(sort: $sort, page: $page, filter: $filter) {\n      paymentMethods {\n        id\n        name\n        adminVisible\n        enrollmentVisible\n        createdAt\n      }\n      total\n    }\n  }\n": types.PaymentMethodsDocument,
-    "\n  mutation ConfirmPeerPayment($confirmPeerPaymentId: ID!) {\n    confirmPeerPayment(id: $confirmPeerPaymentId) {\n      result\n      message\n    }\n  }\n": types.ConfirmPeerPaymentDocument,
+    "\n  mutation ConfirmPeerPayment($data: PeerConfirmationInput!) {\n    confirmPeerPayment(data: $data) {\n      result\n      message\n    }\n  }\n": types.ConfirmPeerPaymentDocument,
     "\n  query PlacementMembersWithLevel($data: PlacementWithLevelInput!) {\n    placementMembersWithLevel(data: $data) {\n      id\n      status\n      username\n      fullName\n      createdAt\n      teamStrategy\n      placementStatus\n      placementPosition\n      placementParentId\n      commission {\n        begL\n        begR\n        newL\n        newR\n      }\n    }\n  }\n": types.PlacementMembersWithLevelDocument,
     "\n  query PlacementChildrenById($data: IDInput!) {\n    placementChildrenById(data: $data) {\n      id\n      status\n      username\n      fullName\n      createdAt\n      teamStrategy\n      placementStatus\n      placementPosition\n      placementParentId\n      commission {\n        begL\n        begR\n        newL\n        newR\n      }\n    }\n  }\n": types.PlacementChildrenByIdDocument,
     "\n  query PlacementMembersToMember($data: IDInput!) {\n    placementMembersToMember(data: $data) {\n      id\n      status\n      username\n      fullName\n      createdAt\n      teamStrategy\n      placementStatus\n      placementPosition\n      placementParentId\n      commission {\n        begL\n        begR\n        newL\n        newR\n      }\n    }\n  }\n": types.PlacementMembersToMemberDocument,
@@ -188,7 +188,7 @@ export function gql(source: "\n  query PaymentMethods($sort: String, $page: Stri
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  mutation ConfirmPeerPayment($confirmPeerPaymentId: ID!) {\n    confirmPeerPayment(id: $confirmPeerPaymentId) {\n      result\n      message\n    }\n  }\n"): (typeof documents)["\n  mutation ConfirmPeerPayment($confirmPeerPaymentId: ID!) {\n    confirmPeerPayment(id: $confirmPeerPaymentId) {\n      result\n      message\n    }\n  }\n"];
+export function gql(source: "\n  mutation ConfirmPeerPayment($data: PeerConfirmationInput!) {\n    confirmPeerPayment(data: $data) {\n      result\n      message\n    }\n  }\n"): (typeof documents)["\n  mutation ConfirmPeerPayment($data: PeerConfirmationInput!) {\n    confirmPeerPayment(data: $data) {\n      result\n      message\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

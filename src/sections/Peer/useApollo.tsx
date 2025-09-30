@@ -1,3 +1,5 @@
+import type { PeerConfirmationInput } from 'src/__generated__/graphql';
+
 import { useCallback } from 'react';
 import { useMutation } from '@apollo/client';
 
@@ -7,7 +9,7 @@ export function useConfirmPeerPayment() {
   const [submit, { loading, error }] = useMutation(CONFIRMATION_PEER_PAYMENT);
 
   const confirmPeerPayment = useCallback(
-    (confirmPeerPaymentId: string) => submit({ variables: { confirmPeerPaymentId } }),
+    (data: PeerConfirmationInput) => submit({ variables: { data } }),
     [submit]
   );
 
