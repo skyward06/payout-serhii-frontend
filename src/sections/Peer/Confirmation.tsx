@@ -11,16 +11,17 @@ import { useConfirmPeerPayment } from './useApollo';
 export function PeerConfirmation() {
   const searchParams = new URLSearchParams(window.location.search);
 
-  const id = searchParams.get('id');
-  const response = searchParams.get('response');
+  const memberId = searchParams.get('id');
+  const response = searchParams.get('res');
+  const peerCode = searchParams.get('peerCode');
 
   const { confirmPeerPayment } = useConfirmPeerPayment();
 
   useEffect(() => {
-    if (id && response === 'yes') {
+    if (memberId && peerCode && response === 'yes') {
       (async () => {
         try {
-          const { data } = await confirmPeerPayment(id);
+          const { data } = await confirmPeerPayment({ memberId, peerCode });
 
           if (data?.confirmPeerPayment.result === 'success') {
             toast.success('Peer payment confirmed');
@@ -32,7 +33,7 @@ export function PeerConfirmation() {
         }
       })();
     }
-  }, [id, response, confirmPeerPayment]);
+  }, [memberId, peerCode, response, confirmPeerPayment]);
 
   return (
     <Box px={4}>
