@@ -21,7 +21,11 @@ export function PeerConfirmation() {
     if (memberId && peerCode && response === 'yes') {
       (async () => {
         try {
-          const { data } = await confirmPeerPayment({ memberId, peerCode });
+          const { data } = await confirmPeerPayment({
+            memberId,
+            peerCode,
+            confirm: response === 'yes',
+          });
 
           if (data?.confirmPeerPayment.result === 'success') {
             toast.success('Peer payment confirmed');

@@ -180,6 +180,7 @@ export type BasicMember = {
   mobile: Scalars['String']['output'];
   paymentMade: Scalars['Boolean']['output'];
   peerETHAddress?: Maybe<Scalars['String']['output']>;
+  peerPaymentConfirm?: Maybe<Scalars['Boolean']['output']>;
   placementRequested: Scalars['Boolean']['output'];
   point: Scalars['Int']['output'];
   primaryAddress: Scalars['String']['output'];
@@ -2189,6 +2190,7 @@ export type Payout = {
 };
 
 export type PeerConfirmationInput = {
+  confirm: Scalars['Boolean']['input'];
   memberId: Scalars['String']['input'];
   peerCode: Scalars['String']['input'];
 };
