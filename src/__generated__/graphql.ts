@@ -162,15 +162,6 @@ export type BasicGroupSetting = {
   name: Scalars['String']['output'];
 };
 
-export type BasicListMember = {
-  __typename?: 'BasicListMember';
-  email: Scalars['String']['output'];
-  fullName: Scalars['String']['output'];
-  id: Scalars['String']['output'];
-  mobile: Scalars['String']['output'];
-  username: Scalars['String']['output'];
-};
-
 export type BasicMember = {
   __typename?: 'BasicMember';
   ID?: Maybe<Scalars['Int']['output']>;
@@ -393,31 +384,27 @@ export type Campaign = {
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['ID']['output'];
-  listExtra?: Maybe<Scalars['JSON']['output']>;
-  listType: CampaignListType;
-  recipients?: Maybe<Array<EmailRecipient>>;
+  listInfo?: Maybe<Scalars['String']['output']>;
+  overview: EmailOverview;
   sender: Scalars['String']['output'];
   senderName: Scalars['String']['output'];
+  status: CampaignStatus;
   subject: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
 };
 
-export enum CampaignListType {
-  All = 'ALL',
-  Custom = 'CUSTOM',
-  Group = 'GROUP',
-  PendingManualCommission = 'PENDING_MANUAL_COMMISSION',
-  PendingUsdcCommission = 'PENDING_USDC_COMMISSION',
-  SuspendedCommission = 'SUSPENDED_COMMISSION',
-  TexasMember = 'TEXAS_MEMBER',
-  WeeklySponsor = 'WEEKLY_SPONSOR'
-}
-
 export type CampaignResponse = {
   __typename?: 'CampaignResponse';
-  campaigns?: Maybe<Array<Campaign>>;
+  campaigns: Array<Campaign>;
   total?: Maybe<Scalars['Int']['output']>;
 };
+
+export enum CampaignStatus {
+  Completed = 'COMPLETED',
+  Failed = 'FAILED',
+  Pending = 'PENDING',
+  Sending = 'SENDING'
+}
 
 export type Carton = {
   __typename?: 'Carton';
@@ -610,8 +597,7 @@ export type CreateBuyWtxcInput = {
 
 export type CreateCampaignInput = {
   emailTemplateId: Scalars['Int']['input'];
-  listExtra?: InputMaybe<Scalars['String']['input']>;
-  listType: CampaignListType;
+  listId: Scalars['ID']['input'];
 };
 
 export type CreateEmailTemplateInput = {
@@ -669,7 +655,9 @@ export type CreateMemberInput = {
 };
 
 export type CreateMemberListInput = {
+  dynamic: Scalars['Boolean']['input'];
   emails: Array<Scalars['String']['input']>;
+  filter?: InputMaybe<Scalars['JSON']['input']>;
   name: Scalars['String']['input'];
 };
 
@@ -744,11 +732,8 @@ export type CreateSaleInput = {
 };
 
 export type CreateScheduleCampaignInput = {
-  listExtra?: InputMaybe<Scalars['String']['input']>;
-  listType: CampaignListType;
-  sender: Scalars['String']['input'];
+  listId: Scalars['String']['input'];
   status: Scalars['Boolean']['input'];
-  subject: Scalars['String']['input'];
   templateId: Scalars['Float']['input'];
   when: Scalars['String']['input'];
 };
@@ -791,6 +776,16 @@ export type EmailInput = {
   email: Scalars['String']['input'];
 };
 
+export type EmailOverview = {
+  __typename?: 'EmailOverview';
+  failed: Scalars['Int']['output'];
+  /** Opened */
+  opened: Scalars['Int']['output'];
+  pending?: Maybe<Scalars['Int']['output']>;
+  /** Sent but not opened */
+  sent: Scalars['Int']['output'];
+};
+
 export type EmailRecipient = {
   __typename?: 'EmailRecipient';
   body?: Maybe<Scalars['String']['output']>;
@@ -807,16 +802,16 @@ export type EmailRecipient = {
 
 export type EmailRecipientResponse = {
   __typename?: 'EmailRecipientResponse';
-  emailRecipients?: Maybe<Array<EmailRecipient>>;
+  emailRecipients: Array<EmailRecipient>;
   total?: Maybe<Scalars['Int']['output']>;
 };
 
 export enum EmailStatus {
-  Bounced = 'BOUNCED',
   Failed = 'FAILED',
   Opened = 'OPENED',
   Pending = 'PENDING',
-  Sent = 'SENT'
+  Sent = 'SENT',
+  Unsubscribed = 'UNSUBSCRIBED'
 }
 
 export type EmailTemplate = {
@@ -1167,10 +1162,11 @@ export type MemberList = {
   __typename?: 'MemberList';
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
+  dynamic: Scalars['Boolean']['output'];
   emails: Array<Scalars['String']['output']>;
+  filter?: Maybe<Scalars['JSON']['output']>;
   frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['ID']['output'];
-  members?: Maybe<Array<BasicListMember>>;
   name: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
 };
@@ -1270,6 +1266,12 @@ export type MembersByCountryItem = {
   memberCount: Scalars['Int']['output'];
 };
 
+export type MembersResponse = {
+  __typename?: 'MembersResponse';
+  members: Array<Member>;
+  total?: Maybe<Scalars['Int']['output']>;
+};
+
 export type MinerCountStatsResponse = {
   __typename?: 'MinerCountStatsResponse';
   base: Scalars['String']['output'];
@@ -1292,6 +1294,7 @@ export type Mutation = {
   completeOrder: Order;
   completeSwap: WtxcSwap;
   completeTXCRequest: TxcRequest;
+  confirmPeerPayment: SuccessResponse;
   createAddHashOrder: Order;
   createAddMemberOrder: Order;
   createAdmin: Admin;
@@ -1345,7 +1348,7 @@ export type Mutation = {
   removeGroupSetting: GroupSetting;
   removeMember: Member;
   removeMemberFromPlacementTree: SuccessResponse;
-  removeMemberList: SuccessResponse;
+  removeMemberList: MemberList;
   removePackage: SuccessResponse;
   removePaymentMethod: PaymentMethod;
   removePromo: SuccessResponse;
@@ -1362,6 +1365,7 @@ export type Mutation = {
   resetAdminPasswordRequest: SuccessResponse;
   resetBonusClock: SuccessResponse;
   resetPasswordByToken: SuccessResponse;
+  scheduleCampaignById: ScheduleCampaign;
   sendEmailVerificationCode: SuccessResponse;
   sendWelcomeEmail: SuccessResponse;
   setCollectAddress: CollectAddress;
@@ -1457,6 +1461,11 @@ export type MutationCompleteSwapArgs = {
 
 export type MutationCompleteTxcRequestArgs = {
   data: CompleteTxcRequestInput;
+};
+
+
+export type MutationConfirmPeerPaymentArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -1696,7 +1705,7 @@ export type MutationRemoveAdminNoteArgs = {
 
 
 export type MutationRemoveCampaignScheduleArgs = {
-  data: IdInput;
+  id: Scalars['ID']['input'];
 };
 
 
@@ -1716,7 +1725,7 @@ export type MutationRemoveMemberFromPlacementTreeArgs = {
 
 
 export type MutationRemoveMemberListArgs = {
-  data: IdInput;
+  id: Scalars['ID']['input'];
 };
 
 
@@ -1792,6 +1801,11 @@ export type MutationResetBonusClockArgs = {
 
 export type MutationResetPasswordByTokenArgs = {
   data: ResetPasswordTokenInput;
+};
+
+
+export type MutationScheduleCampaignByIdArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -2174,6 +2188,18 @@ export type Payout = {
   updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
 };
 
+export type PeriodEmailOverview = {
+  __typename?: 'PeriodEmailOverview';
+  base: Scalars['String']['output'];
+  baseDate: Scalars['DateTimeISO']['output'];
+  failed: Scalars['Int']['output'];
+  /** Opened */
+  opened: Scalars['Int']['output'];
+  pending?: Maybe<Scalars['Int']['output']>;
+  /** Sent but not opened */
+  sent: Scalars['Int']['output'];
+};
+
 export enum PeriodStateType {
   Block = 'block',
   Day = 'day',
@@ -2201,6 +2227,11 @@ export enum PermissionType {
   MemberPeerEdit = 'MEMBER_PEER_EDIT',
   MemberTexitrangerEdit = 'MEMBER_TEXITRANGER_EDIT',
   MemberView = 'MEMBER_VIEW',
+  PlacementEdit = 'PLACEMENT_EDIT',
+  PlacementPastEdit = 'PLACEMENT_PAST_EDIT',
+  PlacementPointChange = 'PLACEMENT_POINT_CHANGE',
+  PlacementPointPreview = 'PLACEMENT_POINT_PREVIEW',
+  PlacementView = 'PLACEMENT_VIEW',
   RoleAssign = 'ROLE_ASSIGN',
   RoleEdit = 'ROLE_EDIT',
   RoleView = 'ROLE_VIEW',
@@ -2218,6 +2249,7 @@ export type PlacementMember = {
   createdAt: Scalars['DateTimeISO']['output'];
   fullName: Scalars['String']['output'];
   id: Scalars['ID']['output'];
+  placementAt?: Maybe<Scalars['DateTimeISO']['output']>;
   placementParentId: Scalars['ID']['output'];
   placementPosition: PlacementPosition;
   placementStatus: PlacementStatus;
@@ -2243,6 +2275,7 @@ export type PlacementSearchMember = {
   createdAt: Scalars['DateTimeISO']['output'];
   fullName: Scalars['String']['output'];
   id: Scalars['ID']['output'];
+  placementAt?: Maybe<Scalars['DateTimeISO']['output']>;
   placementParentId: Scalars['ID']['output'];
   placementPosition: PlacementPosition;
   placementStatus: PlacementStatus;
@@ -2400,8 +2433,10 @@ export type Query = {
   commissionByPeriod: Array<CommissionPeriodResponse>;
   commissionsByWeek: CommissionOverviewResponse;
   dailyRewards: DailyRewards;
+  emailOverviewByPeriod: Array<PeriodEmailOverview>;
   emailRecipientById: EmailRecipient;
   emailRecipients: EmailRecipientResponse;
+  emailSystemOverview: EmailOverview;
   emailTemplateById: EmailTemplate;
   emailTemplates: EmailTemplateResponse;
   generate2FA: Scalars['String']['output'];
@@ -2425,12 +2460,14 @@ export type Query = {
   memberById: Member;
   memberInOutRevenues: MemberInOutRevenueResponse;
   memberListById: MemberList;
+  memberLists: MemberListResponse;
   memberMe: Member;
   memberStatistics: MemberStatisticsResponse;
   memberStatisticsWallets: MemberStatisticsWalletResponse;
-  memberlists: MemberListResponse;
-  members: BasicMemberResponse;
+  members: MembersResponse;
   membersByCountry: Array<MembersByCountryItem>;
+  membersForList: BasicMemberResponse;
+  membersInMemberList: MembersResponse;
   newMemberCounts: Array<MinerCountStatsResponse>;
   notifications: NotificationResponse;
   onePointAwayMembers: ReportMemberResponse;
@@ -2554,7 +2591,7 @@ export type QueryCalculateProfitabilityArgs = {
 
 
 export type QueryCampaignByIdArgs = {
-  data: IdInput;
+  id: Scalars['ID']['input'];
 };
 
 
@@ -2608,8 +2645,13 @@ export type QueryDailyRewardsArgs = {
 };
 
 
+export type QueryEmailOverviewByPeriodArgs = {
+  data: PeriodStatsArgs;
+};
+
+
 export type QueryEmailRecipientByIdArgs = {
-  data: IdInput;
+  id: Scalars['ID']['input'];
 };
 
 
@@ -2709,6 +2751,13 @@ export type QueryMemberListByIdArgs = {
 };
 
 
+export type QueryMemberListsArgs = {
+  filter?: InputMaybe<Scalars['JSONObject']['input']>;
+  page?: InputMaybe<Scalars['String']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+};
+
+
 export type QueryMemberStatisticsArgs = {
   filter?: InputMaybe<Scalars['JSONObject']['input']>;
   page?: InputMaybe<Scalars['String']['input']>;
@@ -2723,15 +2772,22 @@ export type QueryMemberStatisticsWalletsArgs = {
 };
 
 
-export type QueryMemberlistsArgs = {
+export type QueryMembersArgs = {
   filter?: InputMaybe<Scalars['JSONObject']['input']>;
   page?: InputMaybe<Scalars['String']['input']>;
   sort?: InputMaybe<Scalars['String']['input']>;
 };
 
 
-export type QueryMembersArgs = {
+export type QueryMembersForListArgs = {
   filter?: InputMaybe<Scalars['JSONObject']['input']>;
+  page?: InputMaybe<Scalars['String']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryMembersInMemberListArgs = {
+  id: Scalars['String']['input'];
   page?: InputMaybe<Scalars['String']['input']>;
   sort?: InputMaybe<Scalars['String']['input']>;
 };
@@ -3183,14 +3239,13 @@ export type ScheduleCampaign = {
   frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['ID']['output'];
   lastRun?: Maybe<Scalars['DateTime']['output']>;
-  listExtra?: Maybe<Scalars['String']['output']>;
-  listType: CampaignListType;
+  listId: Scalars['String']['output'];
+  memberList: MemberList;
   nextRun: Scalars['DateTime']['output'];
-  sender: Scalars['String']['output'];
+  scheduleType: ScheduleCampaignType;
   status: Scalars['Boolean']['output'];
-  subject: Scalars['String']['output'];
-  template?: Maybe<EmailTemplate>;
-  templateId: Scalars['Float']['output'];
+  template: EmailTemplate;
+  templateId: Scalars['Int']['output'];
   updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   when: Scalars['String']['output'];
 };
@@ -3200,6 +3255,11 @@ export type ScheduleCampaignResponse = {
   scheduleCampaigns?: Maybe<Array<ScheduleCampaign>>;
   total?: Maybe<Scalars['Int']['output']>;
 };
+
+export enum ScheduleCampaignType {
+  CommissionMethod = 'COMMISSION_METHOD',
+  Normal = 'NORMAL'
+}
 
 export type Session = {
   __typename?: 'Session';
@@ -3516,6 +3576,8 @@ export enum TransactionalEmailType {
   InvoiceCreated = 'INVOICE_CREATED',
   MemberApproved = 'MEMBER_APPROVED',
   PasswordChanged = 'PASSWORD_CHANGED',
+  PeerConfirm = 'PEER_CONFIRM',
+  PeerConfirmationInProgress = 'PEER_CONFIRMATION_IN_PROGRESS',
   ProfileUpdated = 'PROFILE_UPDATED',
   ReachedThirdIntroducer = 'REACHED_THIRD_INTRODUCER',
   ResetPasswordRequested = 'RESET_PASSWORD_REQUESTED',
@@ -3627,9 +3689,11 @@ export type UpdateMemberInput = {
 };
 
 export type UpdateMemberListInput = {
-  emails?: InputMaybe<Array<Scalars['String']['input']>>;
+  dynamic: Scalars['Boolean']['input'];
+  emails: Array<Scalars['String']['input']>;
+  filter?: InputMaybe<Scalars['JSON']['input']>;
   id: Scalars['ID']['input'];
-  name?: InputMaybe<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
 };
 
 export type UpdateMemberPasswordInput = {
@@ -3722,13 +3786,10 @@ export type UpdateSaleInput = {
 
 export type UpdateScheduleCampaignInput = {
   id: Scalars['ID']['input'];
-  listExtra?: InputMaybe<Scalars['String']['input']>;
-  listType?: InputMaybe<CampaignListType>;
-  sender?: InputMaybe<Scalars['String']['input']>;
-  status?: InputMaybe<Scalars['Boolean']['input']>;
-  subject?: InputMaybe<Scalars['String']['input']>;
-  templateId?: InputMaybe<Scalars['Float']['input']>;
-  when?: InputMaybe<Scalars['String']['input']>;
+  listId: Scalars['String']['input'];
+  status: Scalars['Boolean']['input'];
+  templateId: Scalars['Float']['input'];
+  when: Scalars['String']['input'];
 };
 
 export type UpdateShareAccountInput = {
@@ -3919,10 +3980,10 @@ export type EmailRecipientsQueryVariables = Exact<{
 }>;
 
 
-export type EmailRecipientsQuery = { __typename?: 'Query', emailRecipients: { __typename?: 'EmailRecipientResponse', total?: number | null, emailRecipients?: Array<{ __typename?: 'EmailRecipient', id: string, body?: string | null, email: string, sender: string, status: EmailStatus, sentAt?: any | null, subject: string, openedAt?: any | null, senderName: string }> | null } };
+export type EmailRecipientsQuery = { __typename?: 'Query', emailRecipients: { __typename?: 'EmailRecipientResponse', total?: number | null, emailRecipients: Array<{ __typename?: 'EmailRecipient', id: string, body?: string | null, email: string, sender: string, status: EmailStatus, sentAt?: any | null, subject: string, openedAt?: any | null, senderName: string }> } };
 
 export type EmailRecipientByIdQueryVariables = Exact<{
-  data: IdInput;
+  emailRecipientByIdId: Scalars['ID']['input'];
 }>;
 
 
@@ -4061,7 +4122,7 @@ export type FetchMemberStatsQueryVariables = Exact<{
 }>;
 
 
-export type FetchMemberStatsQuery = { __typename?: 'Query', all: { __typename?: 'BasicMemberResponse', total?: number | null }, inactive: { __typename?: 'BasicMemberResponse', total?: number | null } };
+export type FetchMemberStatsQuery = { __typename?: 'Query', all: { __typename?: 'MembersResponse', total?: number | null }, inactive: { __typename?: 'MembersResponse', total?: number | null } };
 
 export type SearchMembersQueryVariables = Exact<{
   sort?: InputMaybe<Scalars['String']['input']>;
@@ -4491,7 +4552,7 @@ export const CalculateProfitabilityDocument = {"kind":"Document","definitions":[
 export const WeeklyCommissionsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"WeeklyCommissions"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sort"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"page"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"JSONObject"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"weeklyCommissions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"sort"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sort"}}},{"kind":"Argument","name":{"kind":"Name","value":"page"},"value":{"kind":"Variable","name":{"kind":"Name","value":"page"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"weeklyCommissions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"ID"}},{"kind":"Field","name":{"kind":"Name","value":"begL"}},{"kind":"Field","name":{"kind":"Name","value":"begR"}},{"kind":"Field","name":{"kind":"Name","value":"newL"}},{"kind":"Field","name":{"kind":"Name","value":"newR"}},{"kind":"Field","name":{"kind":"Name","value":"maxL"}},{"kind":"Field","name":{"kind":"Name","value":"maxR"}},{"kind":"Field","name":{"kind":"Name","value":"endL"}},{"kind":"Field","name":{"kind":"Name","value":"endR"}},{"kind":"Field","name":{"kind":"Name","value":"pkgL"}},{"kind":"Field","name":{"kind":"Name","value":"pkgR"}},{"kind":"Field","name":{"kind":"Name","value":"note"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"hasUSDC"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"shortNote"}},{"kind":"Field","name":{"kind":"Name","value":"commission"}},{"kind":"Field","name":{"kind":"Name","value":"commissionType"}},{"kind":"Field","name":{"kind":"Name","value":"weekStartDate"}},{"kind":"Field","name":{"kind":"Name","value":"paymentMethod"}}]}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]} as unknown as DocumentNode<WeeklyCommissionsQuery, WeeklyCommissionsQueryVariables>;
 export const FetchCommissionStatsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FetchCommissionStats"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"allFilter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"JSONObject"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pendingFilter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"JSONObject"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"declineFilter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"JSONObject"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sentFilter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"JSONObject"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"all"},"name":{"kind":"Name","value":"weeklyCommissions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"allFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"total"}}]}},{"kind":"Field","alias":{"kind":"Name","value":"pending"},"name":{"kind":"Name","value":"weeklyCommissions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pendingFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"total"}}]}},{"kind":"Field","alias":{"kind":"Name","value":"decline"},"name":{"kind":"Name","value":"weeklyCommissions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"declineFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"total"}}]}},{"kind":"Field","alias":{"kind":"Name","value":"sent"},"name":{"kind":"Name","value":"weeklyCommissions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sentFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]} as unknown as DocumentNode<FetchCommissionStatsQuery, FetchCommissionStatsQueryVariables>;
 export const EmailRecipientsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"EmailRecipients"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sort"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"page"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"JSONObject"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"emailRecipients"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"sort"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sort"}}},{"kind":"Argument","name":{"kind":"Name","value":"page"},"value":{"kind":"Variable","name":{"kind":"Name","value":"page"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"emailRecipients"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"body"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"sender"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"sentAt"}},{"kind":"Field","name":{"kind":"Name","value":"subject"}},{"kind":"Field","name":{"kind":"Name","value":"openedAt"}},{"kind":"Field","name":{"kind":"Name","value":"senderName"}}]}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]} as unknown as DocumentNode<EmailRecipientsQuery, EmailRecipientsQueryVariables>;
-export const EmailRecipientByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"EmailRecipientById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"IDInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"emailRecipientById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"body"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"sender"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"sentAt"}},{"kind":"Field","name":{"kind":"Name","value":"subject"}},{"kind":"Field","name":{"kind":"Name","value":"openedAt"}},{"kind":"Field","name":{"kind":"Name","value":"senderName"}}]}}]}}]} as unknown as DocumentNode<EmailRecipientByIdQuery, EmailRecipientByIdQueryVariables>;
+export const EmailRecipientByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"EmailRecipientById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"emailRecipientByIdId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"emailRecipientById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"emailRecipientByIdId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"body"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"sender"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"sentAt"}},{"kind":"Field","name":{"kind":"Name","value":"subject"}},{"kind":"Field","name":{"kind":"Name","value":"openedAt"}},{"kind":"Field","name":{"kind":"Name","value":"senderName"}}]}}]}}]} as unknown as DocumentNode<EmailRecipientByIdQuery, EmailRecipientByIdQueryVariables>;
 export const InvoicesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Invoices"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sort"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"page"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"JSONObject"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"invoices"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"sort"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sort"}}},{"kind":"Argument","name":{"kind":"Name","value":"page"},"value":{"kind":"Variable","name":{"kind":"Name","value":"page"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"invoices"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"ID"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"dueDate"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"amountInCents"}},{"kind":"Field","name":{"kind":"Name","value":"invoiceFile"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"size"}},{"kind":"Field","name":{"kind":"Name","value":"mimeType"}},{"kind":"Field","name":{"kind":"Name","value":"originalName"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]} as unknown as DocumentNode<InvoicesQuery, InvoicesQueryVariables>;
 export const NotificationsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Notifications"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sort"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"page"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"JSONObject"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"notifications"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"sort"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sort"}}},{"kind":"Argument","name":{"kind":"Name","value":"page"},"value":{"kind":"Variable","name":{"kind":"Name","value":"page"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"notifications"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"read"}},{"kind":"Field","name":{"kind":"Name","value":"level"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]} as unknown as DocumentNode<NotificationsQuery, NotificationsQueryVariables>;
 export const SetReadNotificationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SetReadNotification"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"IDInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"setReadNotification"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"result"}}]}}]}}]} as unknown as DocumentNode<SetReadNotificationMutation, SetReadNotificationMutationVariables>;

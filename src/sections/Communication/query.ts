@@ -20,8 +20,8 @@ export const FETCH_EMAIL_RECIPIENTS = gql(/* GraphQL */ `
 `);
 
 export const FETCH_CAMPAIGN_MEMBER = gql(/* GraphQL */ `
-  query EmailRecipientById($data: IDInput!) {
-    emailRecipientById(data: $data) {
+  query EmailRecipientById($emailRecipientByIdId: ID!) {
+    emailRecipientById(id: $emailRecipientByIdId) {
       id
       body
       email

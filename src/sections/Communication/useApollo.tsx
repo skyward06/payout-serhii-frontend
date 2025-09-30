@@ -31,8 +31,10 @@ export function useFetchEmailRecipients() {
   return { loading, rowCount, emailRecipients: data?.emailRecipients?.emailRecipients ?? [] };
 }
 
-export function useFetchCampaignMember(id: string) {
-  const { loading, data, error } = useQuery(FETCH_CAMPAIGN_MEMBER, { variables: { data: { id } } });
+export function useFetchCampaignMember(emailRecipientByIdId: string) {
+  const { loading, data, error } = useQuery(FETCH_CAMPAIGN_MEMBER, {
+    variables: { emailRecipientByIdId },
+  });
 
   return { loading, campaignMember: data?.emailRecipientById, error };
 }
