@@ -4,6 +4,8 @@ import type { ColDef, IDateFilterParams, ITextFilterParams } from '@ag-grid-comm
 import { useMemo } from 'react';
 
 import Card from '@mui/material/Card';
+import Stack from '@mui/material/Stack';
+import Tooltip from '@mui/material/Tooltip';
 
 import { formatDate } from 'src/utils/format-time';
 
@@ -37,11 +39,17 @@ export default function CommunicationTable() {
       {
         field: 'email',
         headerName: 'Email',
-        width: 200,
+        width: 300,
         filter: 'agTextColumnFilter',
         resizable: true,
         editable: false,
         filterParams: { buttons: ['reset'] } as ITextFilterParams,
+        cellRenderer: ({ data }: CustomCellRendererProps<EmailRecipient>) => (
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Iconify icon="ic:round-email" color="primary.main" />
+            {data?.email}
+          </Stack>
+        ),
       },
       {
         field: 'sender',
@@ -51,6 +59,12 @@ export default function CommunicationTable() {
         resizable: true,
         editable: false,
         filterParams: { buttons: ['reset'] } as ITextFilterParams,
+        cellRenderer: ({ data }: CustomCellRendererProps<EmailRecipient>) => (
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Iconify icon="lets-icons:user-fill" color="primary.main" />
+            {data?.sender}
+          </Stack>
+        ),
       },
       {
         field: 'senderName',
@@ -73,8 +87,12 @@ export default function CommunicationTable() {
         } as IDateFilterParams,
         resizable: true,
         editable: false,
-        cellRenderer: ({ data }: CustomCellRendererProps<EmailRecipient>) =>
-          formatDate(data?.sentAt),
+        cellRenderer: ({ data }: CustomCellRendererProps<EmailRecipient>) => (
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Iconify icon="cuida:calendar-outline" color="primary.main" />
+            {formatDate(data?.sentAt)}
+          </Stack>
+        ),
       },
       {
         field: 'openedAt',
@@ -92,18 +110,19 @@ export default function CommunicationTable() {
           data?.openedAt ? formatDate(data?.openedAt) : 'Not opened yet',
       },
       {
-        headerName: 'Status',
-        width: 100,
+        width: 50,
         filter: false,
         sortable: false,
         resizable: true,
         editable: false,
         cellRenderer: ({ data }: CustomCellRendererProps<EmailRecipient>) => (
-          <Iconify
-            icon={data?.openedAt ? 'akar-icons:double-check' : 'lucide:check'}
-            color={data?.sentAt ? 'green' : '#999999'}
-            mt={0.8}
-          />
+          <Tooltip title={data?.openedAt ? 'Opened' : data?.sentAt ? 'Sent' : 'Not sent yet'} arrow>
+            <Iconify
+              icon={data?.openedAt ? 'akar-icons:double-check' : 'lucide:check'}
+              color={data?.sentAt ? 'green' : '#999999'}
+              mt={0.8}
+            />
+          </Tooltip>
         ),
       },
       {
@@ -113,7 +132,7 @@ export default function CommunicationTable() {
         editable: false,
         sortable: false,
         pinned: 'right',
-        cellClass: 'ag-action-cell',
+        cellClass: 'ag-cell-center',
         cellRenderer: ActionRender,
       },
     ],

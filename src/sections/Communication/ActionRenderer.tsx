@@ -2,6 +2,7 @@ import type { CustomCellRendererProps } from '@ag-grid-community/react';
 
 import { memo } from 'react';
 
+import Box from '@mui/material/Box';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 
@@ -19,11 +20,13 @@ export const ActionRender = memo(
 
     return (
       <>
-        <Tooltip title="View" arrow placement="left">
-          <IconButton color="default" onClick={open.onTrue}>
-            <Iconify icon="flowbite:eye-outline" />
-          </IconButton>
-        </Tooltip>
+        <Box>
+          <Tooltip title="View" arrow placement="left">
+            <IconButton size="small" color="default" onClick={open.onTrue}>
+              <Iconify icon="flowbite:eye-outline" width={18} />
+            </IconButton>
+          </Tooltip>
+        </Box>
 
         {data?.id && open.value && <CommunicationDetail open={open} id={data?.id} />}
       </>
