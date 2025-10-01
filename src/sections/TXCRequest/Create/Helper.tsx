@@ -1,10 +1,7 @@
 import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
-
-import { RouterLink } from 'src/routes/components';
 
 import { Iconify } from 'src/components/Iconify';
 
@@ -41,11 +38,7 @@ export function Helper() {
         <Stack direction="row" alignItems="start" spacing={2}>
           <Iconify icon="ion:information-circle-outline" sx={{ mt: 0.3 }} color="primary.main" />
           <Typography variant="body2">
-            If you have any issues, please contact us at{' '}
-            <Link component={RouterLink} href="mailto:help@minetxc.com">
-              help@minetxc.com
-            </Link>
-            .
+            If you have any issues, please fill out a ticket in your dashboard.
           </Typography>
         </Stack>
       </Box>
