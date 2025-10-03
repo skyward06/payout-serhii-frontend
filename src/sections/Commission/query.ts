@@ -17,6 +17,7 @@ export const FETCH_COMMISSION_QUERY = gql(/* GraphQL */ `
         pkgL
         pkgR
         note
+        paidAs
         status
         hasUSDC
         username

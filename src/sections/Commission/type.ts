@@ -25,6 +25,7 @@ export type WeeklyCommission = {
   commission: number;
   weekStartDate: any;
   note?: string | null;
+  paidAs?: string | null;
   createdAt?: any | null;
   updatedAt?: any | null;
   deletedAt?: any | null;

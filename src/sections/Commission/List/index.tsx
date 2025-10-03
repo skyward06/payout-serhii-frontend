@@ -193,6 +193,18 @@ export default function CommissionTable() {
         ),
       },
       {
+        field: 'paidAs',
+        headerName: 'Paid as',
+        width: 150,
+        resizable: true,
+        editable: false,
+        sortable: false,
+        cellClass: 'ag-cell-center',
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
+          <>{data?.paidAs ? 'Cash' : 'Hash'}</>
+        ),
+      },
+      {
         field: 'note',
         headerName: 'Note',
         flex: 1,
