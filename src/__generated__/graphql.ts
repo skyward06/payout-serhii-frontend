@@ -541,6 +541,7 @@ export type CompleteTxcRequestInput = {
 export type CreateAddMemberOrderInput = {
   assetId?: InputMaybe<Scalars['String']['input']>;
   city?: InputMaybe<Scalars['String']['input']>;
+  commissionDefault: CommissionDefault;
   country: Scalars['String']['input'];
   email: Scalars['String']['input'];
   fullName: Scalars['String']['input'];
@@ -1375,6 +1376,7 @@ export type Mutation = {
   setReadNotification: SuccessResponse;
   setTransactionalEmail: TransactionalEmail;
   signUpMember: SignupMemberResponse;
+  suspendCommission: SuspendedCommissions;
   updateAdmin: Admin;
   updateAdminNote: AdminNotes;
   updateAssetUsedStatuses: SuccessResponse;
@@ -2225,6 +2227,7 @@ export enum PermissionType {
   CommissionApprove = 'COMMISSION_APPROVE',
   CommissionCalculation = 'COMMISSION_CALCULATION',
   CommissionEdit = 'COMMISSION_EDIT',
+  CommissionSuspend = 'COMMISSION_SUSPEND',
   CommissionView = 'COMMISSION_VIEW',
   InvoiceEdit = 'INVOICE_EDIT',
   InvoiceRegenerate = 'INVOICE_REGENERATE',
@@ -2453,6 +2456,7 @@ export type Query = {
   generateThailandAdventureReport: SuccessResponse;
   generateWDMSVegasReport: SuccessResponse;
   generateWhenLamboGameOverReport: SuccessResponse;
+  generateWhenLamboGameOverReport2: SuccessResponse;
   groupSettings: GroupSettingResponse;
   hashPowerResponse: HashPowerResponse;
   individualMembers: Array<IndividualMember>;
@@ -3428,6 +3432,18 @@ export enum SummaryType {
   Profit = 'PROFIT',
   Promotion = 'PROMOTION'
 }
+
+export type SuspendedCommission = {
+  __typename?: 'SuspendedCommission';
+  commissionID: Scalars['Int']['output'];
+  username: Scalars['String']['output'];
+};
+
+export type SuspendedCommissions = {
+  __typename?: 'SuspendedCommissions';
+  noAddress: Array<SuspendedCommission>;
+  unexpectedChange: Array<SuspendedCommission>;
+};
 
 export type TxcPriceInput = {
   txcPrice: Scalars['Float']['input'];

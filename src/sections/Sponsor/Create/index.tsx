@@ -17,6 +17,8 @@ import { useRouter } from 'src/routes/hooks';
 
 import { removeSpecialCharacters } from 'src/utils/helper';
 
+import { CommissionDefault } from 'src/__generated__/graphql';
+
 import { toast } from 'src/components/SnackBar';
 import { Form, Field } from 'src/components/Form';
 import { SearchMiner } from 'src/components/SearchMiner';
@@ -51,6 +53,7 @@ export default function AddMiner() {
     state: '',
     zipCode: '',
     city: '',
+    commissionDefault: CommissionDefault.Usdc,
   };
 
   const methods = useForm<SchemaType>({
@@ -75,55 +78,58 @@ export default function AddMiner() {
     setPackageId(value);
   };
 
-  const onSubmit = handleSubmit(async ({ firstName, lastName, uname, txcAddress, ...rest }) => {
-    try {
-      if (!packageId) {
-        toast.error('Package is required');
-        return;
-      }
-
-      if ((user?.isTexitRanger || user?.peerAcceptable) && !sponsorId) {
-        toast.error('Sponsor is required');
-        return;
-      }
-
-      const { data } = await createAddMemberOrder({
-        variables: {
-          data: {
-            ...rest,
-            username: removeSpecialCharacters(uname),
-            state: country === 'United States of America' ? state : '',
-            packageId,
-            placementParentId,
-            assetId: rest.assetId === '' ? null : rest.assetId,
-            fullName: `${firstName} ${lastName}`,
-            ...((user?.isTexitRanger || user?.peerAcceptable) && {
-              sponsorId: sponsorId || user.id,
-            }),
-            ...(country !== 'United States of America' && {
-              txcAddress,
-            }),
-          },
-        },
-      });
-
-      if (data) {
-        router.push(paths.pages.order.detail(data.createAddMemberOrder.id));
-      }
-    } catch (err) {
-      if (err instanceof ApolloError) {
-        const [error] = err.graphQLErrors;
-
-        if (error.path?.includes('username')) {
-          setError('uname', { type: 'manual', message: error?.message || '' });
+  const onSubmit = handleSubmit(
+    async ({ firstName, lastName, uname, txcAddress, commissionDefault, ...rest }) => {
+      try {
+        if (!packageId) {
+          toast.error('Package is required');
+          return;
         }
 
-        toast.error(error.message);
-      } else {
-        toast.error(err);
+        if ((user?.isTexitRanger || user?.peerAcceptable) && !sponsorId) {
+          toast.error('Sponsor is required');
+          return;
+        }
+
+        const { data } = await createAddMemberOrder({
+          variables: {
+            data: {
+              ...rest,
+              username: removeSpecialCharacters(uname),
+              state: country === 'United States of America' ? state : '',
+              packageId,
+              placementParentId,
+              assetId: rest.assetId === '' ? null : rest.assetId,
+              commissionDefault: commissionDefault as CommissionDefault,
+              fullName: `${firstName} ${lastName}`,
+              ...((user?.isTexitRanger || user?.peerAcceptable) && {
+                sponsorId: sponsorId || user.id,
+              }),
+              ...(country !== 'United States of America' && {
+                txcAddress,
+              }),
+            },
+          },
+        });
+
+        if (data) {
+          router.push(paths.pages.order.detail(data.createAddMemberOrder.id));
+        }
+      } catch (err) {
+        if (err instanceof ApolloError) {
+          const [error] = err.graphQLErrors;
+
+          if (error.path?.includes('username')) {
+            setError('uname', { type: 'manual', message: error?.message || '' });
+          }
+
+          toast.error(error.message);
+        } else {
+          toast.error(err);
+        }
       }
     }
-  });
+  );
 
   useEffect(() => {
     fetchPackages({
@@ -248,6 +254,20 @@ export default function AddMiner() {
           <MenuItem key="right" value="RIGHT">
             Right
           </MenuItem>
+        </Field.Select>
+
+        <Field.Select
+          name="commissionDefault"
+          label="Commission Default"
+          InputLabelProps={{ shrink: true }}
+          defaultValue={CommissionDefault.Usdc}
+          required
+        >
+          {Object.values(CommissionDefault).map((option) => (
+            <MenuItem key={option} value={option}>
+              {option}
+            </MenuItem>
+          ))}
         </Field.Select>
       </Box>
 
