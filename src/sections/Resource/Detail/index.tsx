@@ -64,7 +64,7 @@ export default function Detail() {
         </Grid>
 
         <Stack sx={{ mb: 3 }}>
-          <BlockContent blocks={current.summaryText} projectId="1s9yly1w" dataset="development" />
+          <BlockContent blocks={current.summaryText} projectId="1s9yly1w" dataset="production" />
         </Stack>
 
         <Divider flexItem sx={{ mb: 2, borderWidth: 2, background: '#000000' }} />
