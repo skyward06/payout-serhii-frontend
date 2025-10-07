@@ -135,7 +135,7 @@ export function EditForm({ current }: Props) {
               variant="contained"
               color="primary"
               loading={isSubmitting}
-              disabled={!user?.isTexitRanger}
+              disabled={!user?.isTexitRanger && !user?.reimbursementEnabled}
             >
               {current ? 'Edit' : 'Submit'}
             </LoadingButton>
