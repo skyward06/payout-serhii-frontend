@@ -149,7 +149,7 @@ export function SignUpView({ isComponent = false }: Props) {
           if (rest.paymentMethod.split('::')[0] === PAYMENT_METHOD_IDS[0]) {
             const { data: order } = await createSignUpOrder({
               variables: {
-                data: { memberId: data.signUpMember.id, packageId: packageId.split('::')[0] },
+                data: { memberId: data.signUpMember.id },
               },
             });
 
