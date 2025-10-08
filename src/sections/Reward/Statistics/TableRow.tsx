@@ -3,6 +3,8 @@ import TableCell from '@mui/material/TableCell';
 
 import { fDate } from 'src/utils/format-time';
 
+import { Label } from 'src/components/Label';
+
 // ----------------------------------------------------------------------
 
 type Props = {
@@ -10,7 +12,7 @@ type Props = {
 };
 
 export default function MemberStatisticsTableRow({ row }: Props) {
-  const { issuedAt, member, hashPower, txcShared, percent } = row;
+  const { issuedAt, member, hashPower, txcShared, percent, sent } = row;
   return (
     <TableRow hover>
       <TableCell>{fDate(issuedAt)}</TableCell>
@@ -18,6 +20,9 @@ export default function MemberStatisticsTableRow({ row }: Props) {
       <TableCell>{hashPower}</TableCell>
       <TableCell>{txcShared / 10 ** 8}</TableCell>
       <TableCell>{percent / 100} %</TableCell>
+      <TableCell>
+        <Label color={sent ? 'success' : 'error'}>{sent ? 'Received' : 'Not Received'}</Label>
+      </TableCell>
     </TableRow>
   );
 }

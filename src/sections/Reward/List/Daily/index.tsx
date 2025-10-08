@@ -42,6 +42,7 @@ const TABLE_HEAD = [
   { id: 'totalMembers', label: 'Total Members', sortable: true },
   { id: 'txcShared', label: 'TXC Shared', sortable: true },
   { id: 'reward', label: 'Your Reward', sortable: true },
+  { id: 'sent', label: 'Received', sortable: true },
   { id: 'action', label: 'View', sortable: true, align: 'center' },
 ];
 

@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async';
 
 import { CONFIG } from 'src/config';
 
-import MemberStatisticsList from 'src/sections/MemberStatistics/List';
+import { MemberStatistics } from 'src/sections/MemberStatistics/List';
 
 // ----------------------------------------------------------------------
 
@@ -13,7 +13,7 @@ export default function Page() {
         <title>{`${CONFIG.site.name} / MemberStatistics`}</title>
       </Helmet>
 
-      <MemberStatisticsList />
+      <MemberStatistics />
     </>
   );
 }

@@ -7,6 +7,7 @@ export const FETCH_STATISTICS_QUERY = gql(/* GraphQL */ `
         id
         to
         from
+        sent
         status
         issuedAt
         txcShared
@@ -26,6 +27,7 @@ export const FETCH_MEMBER_STATISTICS_QUERY = gql(/* GraphQL */ `
     memberStatistics(sort: $sort, page: $page, filter: $filter) {
       memberStatistics {
         id
+        sent
         percent
         issuedAt
         memberId

@@ -18,6 +18,7 @@ import { useBoolean } from 'src/hooks/useBoolean';
 
 import { formatDate } from 'src/utils/format-time';
 
+import { Label } from 'src/components/Label';
 import { Iconify } from 'src/components/Iconify';
 import { TableSkeleton } from 'src/components/Table';
 
@@ -32,8 +33,17 @@ type Props = {
 };
 
 export default function StatisticsTableRow({ row, selected }: Props) {
-  const { id, status, issuedAt, newBlocks, txcShared, rewardedTXC, totalMembers, totalHashPower } =
-    row;
+  const {
+    id,
+    sent,
+    status,
+    issuedAt,
+    newBlocks,
+    txcShared,
+    rewardedTXC,
+    totalMembers,
+    totalHashPower,
+  } = row;
 
   const router = useRouter();
 
@@ -75,6 +85,9 @@ export default function StatisticsTableRow({ row, selected }: Props) {
         <TableCell>{totalMembers}</TableCell>
         <TableCell>{txcShared / 10 ** 8}</TableCell>
         <TableCell>{rewardedTXC !== null ? (rewardedTXC / 10 ** 8).toFixed(8) : '-'}</TableCell>
+        <TableCell>
+          <Label color={sent ? 'success' : 'error'}>{sent ? 'Received' : 'Not Received'}</Label>
+        </TableCell>
 
         <TableCell align="center">
           {status && (
@@ -112,7 +125,6 @@ export default function StatisticsTableRow({ row, selected }: Props) {
                     <TableCell>address</TableCell>
                     <TableCell>hashPower</TableCell>
                     <TableCell>txc</TableCell>
-                    <TableCell>percent</TableCell>
                   </TableRow>
                 </TableHead>
 
@@ -130,7 +142,6 @@ export default function StatisticsTableRow({ row, selected }: Props) {
                         <TableCell>{item?.memberWallet?.address}</TableCell>
                         <TableCell>{item?.memberStatistic?.hashPower}</TableCell>
                         <TableCell>{(item?.txc ?? 0) / 10 ** 8}</TableCell>
-                        <TableCell>{(item?.memberStatistic?.percent ?? 0) / 100}</TableCell>
                       </TableRow>
                     ))
                   )}
