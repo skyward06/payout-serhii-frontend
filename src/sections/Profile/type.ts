@@ -44,10 +44,12 @@ export type Admin = {
 export type Member = {
   __typename?: 'Member';
   ID?: number | null;
-  adminNotes?: Array<AdminNotes> | null;
+  activated: boolean;
   avatar?: string | null;
   assetId?: string | null;
   allowState: MemberState;
+  activationTx?: string | null;
+  adminNotes?: Array<AdminNotes> | null;
   city?: string | null;
   createdAt?: any | null;
   country?: string | null;
@@ -65,6 +67,7 @@ export type Member = {
   id: string;
   isTexitRanger: boolean;
   introduceMembers?: Array<Member> | null;
+  totalTXCNotReceived: bigint;
   lastAdminNote?: string | null;
   logs?: Array<EntityLog> | null;
   mobile: string;

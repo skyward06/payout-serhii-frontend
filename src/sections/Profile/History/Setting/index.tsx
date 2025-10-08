@@ -1,77 +1,75 @@
-import type { UseBooleanReturn } from 'src/hooks/useBoolean';
+import MenuList from '@mui/material/MenuList';
+import MenuItem from '@mui/material/MenuItem';
+import IconButton from '@mui/material/IconButton';
 
-import { useMemo } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import LoadingButton from '@mui/lab/LoadingButton';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
+import { useBoolean } from 'src/hooks/useBoolean';
 
 import { toast } from 'src/components/SnackBar';
-import { Form, Field } from 'src/components/Form';
+import { Iconify } from 'src/components/Iconify';
+import { usePopover, CustomPopover } from 'src/components/custom-popover';
 
 import { useAuthContext } from 'src/auth/hooks';
 
-import { Schema, type SchemaType } from './schema';
-import { useUpdateSettingMember } from '../../useApollo';
+import { SettingModal } from './SettingModal';
+import { ActivateModal } from './ActivateModal';
+import { useActivateMember } from '../../useApollo';
 
-interface Props {
-  open: UseBooleanReturn;
-}
+export function Setting() {
+  const open = useBoolean();
+  const active = useBoolean();
+  const popover = usePopover();
 
-export function SettingModal({ open }: Props) {
   const { user } = useAuthContext();
 
-  const defaultValues: SchemaType = useMemo(
-    () =>
-      user?.setting
-        ? Schema.safeParse({ communication: user?.setting.communication })?.data ??
-          ({} as SchemaType)
-        : {
-            communication: true,
-          },
-    [user?.setting]
-  );
+  const { loading, activateMember } = useActivateMember();
 
-  const { loading, updateSettingMember } = useUpdateSettingMember();
-
-  const methods = useForm<SchemaType>({ resolver: zodResolver(Schema), defaultValues });
-
-  const { handleSubmit } = methods;
-
-  const onSubmit = handleSubmit(async (newData) => {
-    try {
-      const { data } = await updateSettingMember({ variables: { data: newData } });
-
-      if (data) {
-        toast.success('Successfully updated settings!');
-        open.onFalse();
+  const handleActivate = () => {
+    if (user?.memberWallets?.length) {
+      if (user.country === 'United States of America') {
+        active.onTrue();
+        popover.onClose();
+      } else {
+        activateMember({});
       }
-    } catch (error) {
-      toast.error(`Failed to update settings: ${error.message}`);
+    } else {
+      toast.error('Please add a wallet first');
     }
-  });
+  };
 
   return (
-    <Dialog fullWidth maxWidth="xs" open={open.value} onClose={open.onFalse}>
-      <Form methods={methods} onSubmit={onSubmit}>
-        <DialogTitle>Setting</DialogTitle>
-        <DialogContent>
-          <Field.Switch name="communication" label="Communication" />
-        </DialogContent>
-        <DialogActions>
-          <LoadingButton loading={loading} type="submit" variant="contained" color="primary">
-            Save
-          </LoadingButton>
-          <Button variant="outlined" onClick={open.onFalse}>
-            Close
-          </Button>
-        </DialogActions>
-      </Form>
-    </Dialog>
+    <>
+      <IconButton onClick={popover.onOpen}>
+        <Iconify icon="ant-design:setting-twotone" />
+      </IconButton>
+
+      <CustomPopover
+        open={popover.open}
+        anchorEl={popover.anchorEl}
+        onClose={popover.onClose}
+        slotProps={{ arrow: { placement: 'right-top' } }}
+      >
+        <MenuList>
+          <MenuItem
+            onClick={() => {
+              open.onTrue();
+              popover.onClose();
+            }}
+          >
+            <Iconify icon="icon-park-twotone:communication" color="primary.main" />
+            Communication
+          </MenuItem>
+          <MenuItem onClick={handleActivate}>
+            <Iconify
+              icon={loading ? 'eos-icons:bubble-loading' : 'icon-park-solid:check-one'}
+              color="primary.main"
+            />
+            Activate
+          </MenuItem>
+        </MenuList>
+      </CustomPopover>
+
+      <SettingModal open={open} />
+      <ActivateModal open={active} />
+    </>
   );
 }
