@@ -14,7 +14,7 @@ import { useAuthContext } from 'src/auth/hooks';
 // ----------------------------------------------------------------------
 
 export default function ProfilePage() {
-  const { user } = useAuthContext();
+  const { loading, user } = useAuthContext();
 
   return (
     <>
@@ -23,7 +23,7 @@ export default function ProfilePage() {
       </Helmet>
 
       <Stack spacing={2}>
-        {!user?.activated && (
+        {!loading && !user?.activated && (
           <Alert severity="error" variant="outlined">
             Your account is not activate. To received daily reward, please activate your account.
           </Alert>
