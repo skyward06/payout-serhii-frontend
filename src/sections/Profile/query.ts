@@ -18,11 +18,13 @@ export const FETCH_ME_QUERY = gql(/* GraphQL */ `
       peerCode
       username
       fullName
+      activated
       sponsorId
       allowState
       ethAssetId
       teamReport
       OTPEnabled
+      activationTx
       teamStrategy
       emailVerified
       isTexitRanger
@@ -39,6 +41,7 @@ export const FETCH_ME_QUERY = gql(/* GraphQL */ `
       placementPosition
       placementRequested
       shareIsTexitRanger
+      totalTXCNotReceived
       reimbursementEnabled
       orderedAvailablePoint
       preferredContactDetail
@@ -239,6 +242,15 @@ export const EMAIL_VERIFY_CODE = gql(/* GraphQL */ `
   mutation VerifyEmailCode($data: VerificationCodeInput!) {
     verifyEmailCode(data: $data) {
       accessToken
+    }
+  }
+`);
+
+export const ACTIVATE_MEMBER = gql(/* GraphQL */ `
+  mutation ActivateMember($data: ActivateMemberInput!) {
+    activateMember(data: $data) {
+      result
+      message
     }
   }
 `);

@@ -1,3 +1,6 @@
+import type { ActivateMemberInput } from 'src/__generated__/graphql';
+
+import { useCallback } from 'react';
 import { useMutation, useLazyQuery, useQuery as useGraphQuery } from '@apollo/client';
 
 import { useQuery } from 'src/routes/hooks';
@@ -8,6 +11,7 @@ import {
   MEMBER_LOGOUT,
   UPDATE_MEMBER,
   FETCH_ME_QUERY,
+  ACTIVATE_MEMBER,
   VERIFY_2FA_TOKEN,
   VERIFY_2FA_ENABLE,
   EMAIL_VERIFY_CODE,
@@ -132,4 +136,18 @@ export function useEmailVerifyCode() {
   const [emailVerifyCode, { loading, data, error }] = useMutation(EMAIL_VERIFY_CODE);
 
   return { loading, data, error, emailVerifyCode };
+}
+
+export function useActivateMember() {
+  const [submit, { loading, error }] = useMutation(ACTIVATE_MEMBER, {
+    awaitRefetchQueries: true,
+    refetchQueries: ['fetchMe'],
+  });
+
+  const activateMember = useCallback(
+    (data: ActivateMemberInput) => submit({ variables: { data } }),
+    [submit]
+  );
+
+  return { loading, error, activateMember };
 }
