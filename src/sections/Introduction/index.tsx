@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 
@@ -15,6 +17,23 @@ import { SignUpView } from '../SignUp';
 
 export default function Introduction() {
   const pageProgress = useScrollProgress();
+
+  useEffect(() => {
+    const maxAttempts = 20;
+    let attempts = 0;
+
+    const scrollToSignUp = () => {
+      const el = document.getElementById('sign-up');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      } else if (attempts < maxAttempts) {
+        attempts += 1;
+        setTimeout(scrollToSignUp, 100);
+      }
+    };
+
+    scrollToSignUp();
+  }, []);
 
   return (
     <Stack>
