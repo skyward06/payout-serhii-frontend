@@ -1,3 +1,5 @@
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 
@@ -10,11 +12,17 @@ import Reward from '../Statistics/Reward';
 
 export default function Dashboard() {
   const { user } = useAuthContext();
+
   return (
     <>
-      <Typography variant="h4" sx={{ pb: 2 }}>
-        {`Welcome, ${customizeFullName(user?.fullName)} !`}
-      </Typography>
+      <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={3} mb={2}>
+        <Typography variant="h4">{`Welcome, ${customizeFullName(user?.fullName)} !`}</Typography>
+        {!user?.activated && (
+          <Alert severity="error" variant="outlined">
+            {`Verify your account. Missed reward is ${user?.totalTXCNotReceived} TXC`}
+          </Alert>
+        )}
+      </Stack>
 
       <Grid container spacing={3}>
         <Chart />
