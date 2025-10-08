@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useLocation } from 'react-router';
 
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
@@ -16,6 +17,7 @@ import Packages from './Packages';
 import { SignUpView } from '../SignUp';
 
 export default function Introduction() {
+  const { hash } = useLocation();
   const pageProgress = useScrollProgress();
 
   useEffect(() => {
@@ -32,8 +34,10 @@ export default function Introduction() {
       }
     };
 
-    scrollToSignUp();
-  }, []);
+    if (hash.includes('sign-up')) {
+      scrollToSignUp();
+    }
+  }, [hash]);
 
   return (
     <Stack>
