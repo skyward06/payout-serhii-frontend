@@ -23,16 +23,20 @@ export function Setting() {
 
   const { loading, activateMember } = useActivateMember();
 
-  const handleActivate = () => {
-    if (user?.memberWallets?.length) {
-      if (user.country === 'United States of America') {
-        active.onTrue();
-        popover.onClose();
+  const handleActivate = async () => {
+    try {
+      if (user?.memberWallets?.length) {
+        if (user.country === 'United States of America') {
+          active.onTrue();
+          popover.onClose();
+        } else {
+          await activateMember({});
+        }
       } else {
-        activateMember({});
+        toast.error('Please add a wallet first');
       }
-    } else {
-      toast.error('Please add a wallet first');
+    } catch (error) {
+      toast.error((error as Error).message || 'Something went wrong, please try again');
     }
   };
 
@@ -58,7 +62,7 @@ export function Setting() {
             <Iconify icon="icon-park-twotone:communication" color="primary.main" />
             Communication
           </MenuItem>
-          <MenuItem onClick={handleActivate}>
+          <MenuItem onClick={handleActivate} disabled={user?.activated}>
             <Iconify
               icon={loading ? 'eos-icons:bubble-loading' : 'icon-park-solid:check-one'}
               color="primary.main"
