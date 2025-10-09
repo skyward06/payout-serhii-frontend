@@ -6,6 +6,7 @@ import { useMemo, useState, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
+import { useTheme } from '@mui/material/styles';
 
 import { formatWeekNumber } from 'src/utils/format-time';
 
@@ -24,6 +25,7 @@ const select = [
 ];
 
 export default function HashRate() {
+  const theme = useTheme();
   const { colorScheme } = useSettingsContext();
   const [selectedSeries, setSelectedSeries] = useState('Block');
 
@@ -34,6 +36,8 @@ export default function HashRate() {
   const currentSelect = select.find((i) => i.label === selectedSeries);
 
   const { loading, blocks } = useFetchBlocks(currentSelect?.value as PeriodStateType);
+
+  const chartColors = [theme.palette.primary.dark, theme.palette.warning.main];
 
   const series = useMemo(
     () => [
@@ -68,6 +72,7 @@ export default function HashRate() {
       labels: { show: false },
       tooltip: { enabled: false },
       tickAmount: 30,
+      axisTicks: { show: false },
       categories: blocks!
         .map((item) =>
           currentSelect?.value === 'week'
@@ -96,7 +101,7 @@ export default function HashRate() {
         min: 0,
       },
     ],
-    colors: ['#228a7c', '#ca2f31'],
+    colors: chartColors,
     fill: {
       opacity: 0.6,
     },
