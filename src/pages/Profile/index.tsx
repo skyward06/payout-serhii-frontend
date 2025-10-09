@@ -29,11 +29,11 @@ export default function ProfilePage() {
           </Alert>
         )}
 
-        {(user?.totalTXCNotReceived ?? 0) !== 0 && (
+        {!loading && (user?.totalTXCNotReceived ?? 0) !== 0 && (
           <Alert
             severity="warning"
             variant="outlined"
-          >{`You did not received ${user?.totalTXCNotReceived} TXC`}</Alert>
+          >{`You did not received ${Number(user?.totalTXCNotReceived) / 10 ** 8} TXC`}</Alert>
         )}
       </Stack>
 
