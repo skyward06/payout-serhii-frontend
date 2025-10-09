@@ -173,5 +173,6 @@ export const ORDER_STATUS = {
 export const HELP_MINETXC = 'https://help.minetxc.com/';
 export const CASH_POTENTIAL_URL = 'https://help.minetxc.com/understanding-cash-potential/';
 export const COIN_MARKET_CAP = 'https://coinmarketcap.com/currencies/texitcoin/';
+export const MEMPOOL_URL = 'https://mempool.texitcoin.org/';
 
 export const ZENDESK_KEY = '39fe4f12-fb6b-4d14-83c1-3b297fbaf5d4';
