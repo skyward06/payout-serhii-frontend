@@ -51,7 +51,7 @@ const documents = {
     "\n  mutation MemberLogout {\n    memberLogout {\n      result\n      message\n    }\n  }\n": types.MemberLogoutDocument,
     "\n  mutation MemberExchangeLogin($data: MemberLoginInput!) {\n    memberExchangeLogin(data: $data) {\n      status\n      accessToken\n      passwordExpired\n    }\n  }\n": types.MemberExchangeLoginDocument,
     "\n  mutation VerifyEmailCode($data: VerificationCodeInput!) {\n    verifyEmailCode(data: $data) {\n      accessToken\n    }\n  }\n": types.VerifyEmailCodeDocument,
-    "\n  mutation ActivateMember($data: ActivateMemberInput!) {\n    activateMember(data: $data) {\n      result\n      message\n    }\n  }\n": types.ActivateMemberDocument,
+    "\n  mutation ActivateMember($data: ActivateMemberInput!) {\n    activateMember(data: $data) {\n      activationTx\n    }\n  }\n": types.ActivateMemberDocument,
     "\n  query Reimbursements($sort: String, $page: String, $filter: JSONObject) {\n    reimbursements(sort: $sort, page: $page, filter: $filter) {\n      reimbursements {\n        id\n        status\n        username\n        fullName\n        memberId\n        createdAt\n        description\n        paidAmountInCent\n        requestedAmountInCent\n        attachments {\n          id\n          url\n          size\n          mimeType\n          originalName\n        }\n      }\n      total\n    }\n  }\n": types.ReimbursementsDocument,
     "\n  query ReimbursementById($id: Int!) {\n    reimbursementById(ID: $id) {\n      id\n      status\n      memberId\n      description\n      payToAddress\n      paidAmountInCent\n      requestedAmountInCent\n      attachments {\n        id\n        url\n        size\n        mimeType\n        originalName\n      }\n    }\n  }\n": types.ReimbursementByIdDocument,
     "\n  mutation CreateReimbursement($data: CreateReimbursementInput!) {\n    createReimbursement(data: $data) {\n      id\n    }\n  }\n": types.CreateReimbursementDocument,
@@ -267,7 +267,7 @@ export function gql(source: "\n  mutation VerifyEmailCode($data: VerificationCod
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  mutation ActivateMember($data: ActivateMemberInput!) {\n    activateMember(data: $data) {\n      result\n      message\n    }\n  }\n"): (typeof documents)["\n  mutation ActivateMember($data: ActivateMemberInput!) {\n    activateMember(data: $data) {\n      result\n      message\n    }\n  }\n"];
+export function gql(source: "\n  mutation ActivateMember($data: ActivateMemberInput!) {\n    activateMember(data: $data) {\n      activationTx\n    }\n  }\n"): (typeof documents)["\n  mutation ActivateMember($data: ActivateMemberInput!) {\n    activateMember(data: $data) {\n      activationTx\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

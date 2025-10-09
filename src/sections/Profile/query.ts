@@ -249,8 +249,7 @@ export const EMAIL_VERIFY_CODE = gql(/* GraphQL */ `
 export const ACTIVATE_MEMBER = gql(/* GraphQL */ `
   mutation ActivateMember($data: ActivateMemberInput!) {
     activateMember(data: $data) {
-      result
-      message
+      activationTx
     }
   }
 `);

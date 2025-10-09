@@ -141,7 +141,7 @@ export function useEmailVerifyCode() {
 export function useActivateMember() {
   const [submit, { loading, error }] = useMutation(ACTIVATE_MEMBER, {
     awaitRefetchQueries: true,
-    refetchQueries: ['fetchMe'],
+    refetchQueries: ['fetchMe', 'FetchMemberStatistics'],
   });
 
   const activateMember = useCallback(
