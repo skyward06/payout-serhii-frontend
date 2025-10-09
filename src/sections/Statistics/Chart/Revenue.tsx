@@ -107,8 +107,8 @@ export default function RevenueOverview() {
           loading={loading}
           series={series}
           options={chartOptions}
-          width={307}
-          height={307}
+          width={336}
+          height={336}
           sx={{ mx: 'auto' }}
         />
       </Box>

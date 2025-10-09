@@ -8,8 +8,6 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import { useTheme } from '@mui/material/styles';
 
-import { formatWeekNumber } from 'src/utils/format-time';
-
 import { Chart, ChartSelect } from 'src/components/chart';
 import { useSettingsContext } from 'src/components/settings';
 
@@ -46,7 +44,7 @@ export default function HashRate() {
         data: blocks!
           .map((item) => Number(((item?.hashRate! || 1) / 10 ** 9).toFixed(2)))
           .reverse(),
-        type: 'area',
+        type: 'line',
       },
       {
         name: 'Sold HashPower',
@@ -69,32 +67,27 @@ export default function HashRate() {
     },
     grid: { show: false },
     xaxis: {
-      labels: { show: false },
-      tooltip: { enabled: false },
-      tickAmount: 30,
+      axisBorder: { show: false },
+      tickAmount: 10,
       axisTicks: { show: false },
       categories: blocks!
         .map((item) =>
           currentSelect?.value === 'week'
-            ? `#${formatWeekNumber(item.baseDate)} (${dayjs(item.baseDate).utc().format('MM/DD')} - ${dayjs(item.baseDate).utc().add(6, 'day').format('MM/DD')})`
-            : item.base
+            ? dayjs(item.baseDate).utc().format('MM/DD')
+            : currentSelect?.value === 'day'
+              ? dayjs(item.base).format('MM/DD')
+              : item.base
         )
         .reverse(),
     },
     yaxis: [
       {
-        title: {
-          text: 'HashRate',
-        },
         labels: {
           formatter: (value: number) => `${Math.floor(value)} GH/s`,
         },
       },
       {
         opposite: true,
-        title: {
-          text: 'Sold HashPower',
-        },
         labels: {
           formatter: (value: number) => `${value} GH/s`,
         },
@@ -102,9 +95,6 @@ export default function HashRate() {
       },
     ],
     colors: chartColors,
-    fill: {
-      opacity: 0.6,
-    },
     tooltip: {
       shared: true,
       intersect: false,
@@ -142,7 +132,7 @@ export default function HashRate() {
       </Box>
 
       <Box p={2}>
-        <Chart type="line" loading={loading} series={series} options={chartOptions} height={300} />
+        <Chart type="line" loading={loading} series={series} options={chartOptions} height={330} />
       </Box>
     </Card>
   );

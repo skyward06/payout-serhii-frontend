@@ -102,7 +102,7 @@ export default function MemberByCountry() {
           loading={loading}
           series={series}
           options={chartOptions}
-          sx={{ mx: 'auto', width: 306, height: 306 }}
+          sx={{ mx: 'auto', width: 336, height: 336 }}
         />
       </Box>
     </Card>

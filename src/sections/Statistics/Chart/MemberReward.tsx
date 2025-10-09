@@ -8,7 +8,6 @@ import Card from '@mui/material/Card';
 import { alpha, useTheme } from '@mui/material/styles';
 
 import { fNumber } from 'src/utils/formatNumber';
-import { formatWeekNumber } from 'src/utils/format-time';
 
 import { Chart, useChart, ChartSelect } from 'src/components/chart';
 
@@ -47,14 +46,13 @@ export default function MemberReward() {
 
   const chartOptions = useChart({
     xaxis: {
-      labels: { show: false },
-      tooltip: { enabled: false },
-      tickAmount: 10,
       categories: memberReward!
         .map((item) =>
           currentSelect?.value === 'week'
-            ? `#${formatWeekNumber(item.baseDate)} (${dayjs(item.baseDate).utc().format('MM/DD')} - ${dayjs(item.baseDate).utc().add(6, 'day').format('MM/DD')})`
-            : item.base
+            ? dayjs(item.baseDate).utc().format('MM/DD')
+            : currentSelect?.value === 'day'
+              ? dayjs(item.base).format('MM/DD')
+              : item.base
         )
         .reverse(),
     },
@@ -87,7 +85,7 @@ export default function MemberReward() {
       </Box>
 
       <Box p={2}>
-        <Chart type="area" loading={loading} series={series} options={chartOptions} height={300} />
+        <Chart type="area" loading={loading} series={series} options={chartOptions} height={330} />
       </Box>
     </Card>
   );

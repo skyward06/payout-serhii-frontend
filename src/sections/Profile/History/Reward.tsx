@@ -36,6 +36,7 @@ export default function Reward() {
       },
     },
     xaxis: {
+      tooltip: { enabled: true },
       categories: statistics.map((item) => `${formatDate(item?.issuedAt!, 'MM/DD')}`).reverse(),
     },
     yaxis: {
