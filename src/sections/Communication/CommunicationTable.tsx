@@ -4,13 +4,11 @@ import type { ColDef, IDateFilterParams, ITextFilterParams } from '@ag-grid-comm
 import { useMemo } from 'react';
 
 import Card from '@mui/material/Card';
-import Tooltip from '@mui/material/Tooltip';
 
 import { formatDate } from 'src/utils/format-time';
 
 import { AgGrid } from 'src/components/AgGrid';
-import { Iconify } from 'src/components/Iconify';
-import { IconRenderer } from 'src/components/ItemRenderers';
+import { IconRenderer, LabelRenderer } from 'src/components/ItemRenderers';
 
 import { useAuthContext } from 'src/auth/hooks';
 
@@ -101,19 +99,18 @@ export default function CommunicationTable() {
           data?.openedAt ? formatDate(data?.openedAt) : 'Not opened yet',
       },
       {
-        width: 50,
+        width: 130,
         filter: false,
         sortable: false,
         resizable: true,
         editable: false,
+        cellClass: 'ag-cell-center',
         cellRenderer: ({ data }: CustomCellRendererProps<EmailRecipient>) => (
-          <Tooltip title={data?.openedAt ? 'Opened' : data?.sentAt ? 'Sent' : 'Not sent yet'} arrow>
-            <Iconify
-              icon={data?.openedAt ? 'akar-icons:double-check' : 'lucide:check'}
-              color={data?.sentAt ? 'green' : '#999999'}
-              mt={0.8}
-            />
-          </Tooltip>
+          <LabelRenderer
+            icon={data?.openedAt ? 'akar-icons:double-check' : 'lucide:check'}
+            color={data?.openedAt ? 'primary' : 'warning'}
+            value={data?.openedAt ? 'Opened' : 'Not opened'}
+          />
         ),
       },
       {
