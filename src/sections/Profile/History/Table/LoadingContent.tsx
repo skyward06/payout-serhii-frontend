@@ -12,16 +12,16 @@ export function LoadingContent({ tableHead }: Props) {
   const theme = useTheme();
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Stack spacing={2}>
-        <Stack direction="row" spacing={2} sx={{ px: 2, py: 1 }}>
-          {tableHead.map((head, index) => (
+    <Box sx={{ px: 3 }}>
+      <Stack spacing={1}>
+        <Stack direction="row" spacing={2} sx={{ px: 2 }}>
+          {tableHead.map((head) => (
             <Skeleton
               key={head.id}
               variant="text"
               sx={{
                 width: head.width || 150,
-                height: 24,
+                height: 32,
                 borderRadius: 1,
                 bgcolor: alpha(theme.palette.grey[300], 0.3),
                 animation: 'pulse 1.5s ease-in-out infinite',
@@ -44,12 +44,11 @@ export function LoadingContent({ tableHead }: Props) {
         {[...Array(8)].map((_, index) => (
           <Paper
             key={index}
-            elevation={0}
             sx={{
-              p: 2,
+              px: 2,
+              py: 1,
               borderRadius: 2,
-              background: alpha(theme.palette.background.paper, 0.6),
-              border: `1px solid ${alpha(theme.palette.divider, 0.08)}`,
+              background: 'transparent',
               transition: 'all 0.2s ease-in-out',
             }}
           >
