@@ -4,13 +4,13 @@ import type { ColDef, IDateFilterParams, ITextFilterParams } from '@ag-grid-comm
 import { useMemo } from 'react';
 
 import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 
 import { formatDate } from 'src/utils/format-time';
 
 import { AgGrid } from 'src/components/AgGrid';
 import { Iconify } from 'src/components/Iconify';
+import { IconRenderer } from 'src/components/ItemRenderers';
 
 import { useAuthContext } from 'src/auth/hooks';
 
@@ -45,10 +45,7 @@ export default function CommunicationTable() {
         editable: false,
         filterParams: { buttons: ['reset'] } as ITextFilterParams,
         cellRenderer: ({ data }: CustomCellRendererProps<EmailRecipient>) => (
-          <Stack direction="row" alignItems="center" spacing={1}>
-            <Iconify icon="ic:round-email" color="primary.main" />
-            {data?.email}
-          </Stack>
+          <IconRenderer icon="ic:round-email" value={data?.email!} />
         ),
       },
       {
@@ -60,10 +57,7 @@ export default function CommunicationTable() {
         editable: false,
         filterParams: { buttons: ['reset'] } as ITextFilterParams,
         cellRenderer: ({ data }: CustomCellRendererProps<EmailRecipient>) => (
-          <Stack direction="row" alignItems="center" spacing={1}>
-            <Iconify icon="lets-icons:user-fill" color="primary.main" />
-            {data?.sender}
-          </Stack>
+          <IconRenderer icon="lets-icons:user-fill" value={data?.sender!} />
         ),
       },
       {
@@ -88,10 +82,7 @@ export default function CommunicationTable() {
         resizable: true,
         editable: false,
         cellRenderer: ({ data }: CustomCellRendererProps<EmailRecipient>) => (
-          <Stack direction="row" alignItems="center" spacing={1}>
-            <Iconify icon="cuida:calendar-outline" color="primary.main" />
-            {formatDate(data?.sentAt)}
-          </Stack>
+          <IconRenderer icon="cuida:calendar-outline" value={formatDate(data?.sentAt)} />
         ),
       },
       {
