@@ -8,8 +8,8 @@ import { alpha, useTheme } from '@mui/material/styles';
 import { fNumber } from 'src/utils/formatNumber';
 import { formatDate } from 'src/utils/format-time';
 
-import { Label } from 'src/components/Label';
 import { Iconify } from 'src/components/Iconify';
+import { StatusLabel } from 'src/components/Label/StatusLabel';
 
 // ----------------------------------------------------------------------
 
@@ -108,22 +108,11 @@ export function TableItemRow({ row, selected }: Props) {
       </TableCell>
 
       <TableCell>
-        <Label
+        <StatusLabel
           color={sent ? 'success' : 'error'}
-          startIcon={
-            <Iconify
-              icon={sent ? 'solar:check-circle-bold' : 'solar:close-circle-bold'}
-              sx={{ width: 14, height: 14 }}
-            />
-          }
-          sx={{
-            '& .MuiChip-label': {
-              fontWeight: 600,
-            },
-          }}
-        >
-          {sent ? 'Received' : 'Not Received'}
-        </Label>
+          value={sent ? 'Received' : 'Not Received'}
+          icon={sent ? 'solar:check-circle-bold' : 'solar:close-circle-bold'}
+        />
       </TableCell>
     </TableRow>
   );
