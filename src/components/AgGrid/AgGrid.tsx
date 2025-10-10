@@ -13,12 +13,11 @@ import isEqual from 'lodash/isEqual';
 import { useRef, useMemo, useCallback } from 'react';
 
 import { AgGridReact } from '@ag-grid-community/react';
-import { themeQuartz, iconSetQuartzLight, colorSchemeDarkBlue } from '@ag-grid-community/theming';
+import { themeQuartz, iconSetQuartzLight } from '@ag-grid-community/theming';
 
 import { SetFilterModule } from '@ag-grid-enterprise/set-filter';
 
 import Box from '@mui/material/Box';
-import { useTheme } from '@mui/material';
 
 import { useAgQuery } from 'src/routes/hooks';
 
@@ -47,45 +46,50 @@ export const AgGrid = <TData,>(props: Props<TData>) => {
 
   const [query, { setPage, setPageSize, setSort, setFilter }] = useAgQuery<FilterModel>();
   const { pageModel = { page: 1, pageSize: 50 }, sortModel, filter } = query;
-  const theme = useTheme();
 
   const agGridTheme = useMemo(
     () =>
-      themeQuartz
-        .withPart(colorScheme === 'dark' ? colorSchemeDarkBlue : iconSetQuartzLight)
-        .withParams({
-          // backgroundColor: '#ffffff',
-          // browserColorScheme: 'light',
-          // columnBorder: { style: 'dashed', width: 1, color: theme.vars.palette.divider },
-          // textColor: theme.palette.text.primary,
-
-          fontFamily: {
-            ref: 'fontFamily', // Use System Font
-          },
-          spacing: 6,
-          // iconSize: 14,
-          wrapperBorder: false,
-          wrapperBorderRadius: 0,
-          borderRadius: 0,
-          sidePanelBorder: false,
-          // Header
-          headerFontSize: 14,
-          headerFontWeight: 600,
-          pinnedColumnBorder: { style: 'dashed', width: 1, color: theme.vars.palette.divider },
-          // Row
-          // oddRowBackgroundColor: '#FFF',
-          rowBorder: { style: 'dashed', width: 1, color: theme.vars.palette.divider },
-
-          // Overlay
-
-          ...(colorScheme === 'light' && {
-            accentColor: theme.palette.text.disabled,
-            headerTextColor: theme.palette.text.secondary,
-            headerBackgroundColor: theme.palette.grey.A100,
-            modalOverlayBackgroundColor: 'rgba(0, 0, 0, 0)',
+      colorScheme === 'light'
+        ? themeQuartz.withPart(iconSetQuartzLight).withParams({
+            backgroundColor: '#ffffff',
+            browserColorScheme: 'light',
+            columnBorder: false,
+            fontFamily: 'Arial',
+            foregroundColor: 'rgb(46, 55, 66)',
+            headerBackgroundColor: '#F9FAFB',
+            headerFontSize: 14,
+            headerFontWeight: 600,
+            headerTextColor: '#919191',
+            oddRowBackgroundColor: '#F9FAFB',
+            rowBorder: false,
+            sidePanelBorder: false,
+            spacing: 8,
+            wrapperBorder: false,
+            wrapperBorderRadius: 0,
+          })
+        : themeQuartz.withParams({
+            accentColor: '#15BDE8',
+            backgroundColor: '#0C0C0D',
+            borderColor: '#ffffff00',
+            borderRadius: 20,
+            browserColorScheme: 'dark',
+            chromeBackgroundColor: {
+              ref: 'backgroundColor',
+            },
+            columnBorder: false,
+            fontFamily: 'Arial',
+            foregroundColor: '#BBBEC9',
+            headerBackgroundColor: '#182226',
+            headerFontSize: 14,
+            headerFontWeight: 600,
+            headerTextColor: '#FFFFFF',
+            rowBorder: false,
+            sidePanelBorder: false,
+            spacing: 8,
+            wrapperBorder: false,
+            wrapperBorderRadius: 0,
           }),
-        }),
-    [theme, colorScheme]
+    [colorScheme]
   );
 
   const initialState = useMemo<GridState>(
