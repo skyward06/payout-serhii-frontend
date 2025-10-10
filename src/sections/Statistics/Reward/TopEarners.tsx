@@ -10,6 +10,7 @@ import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 import { alpha, useTheme } from '@mui/material/styles';
 
+import { fCurrency } from 'src/utils/formatNumber';
 import { customizeFullName } from 'src/utils/helper';
 
 import { CONFIG } from 'src/config';
@@ -168,11 +169,11 @@ export function TopEarners() {
                 letterSpacing={-1}
                 sx={{ fontVariantNumeric: 'tabular-nums' }}
               >
-                {earnedValue.toLocaleString(undefined, { maximumFractionDigits: 4 })}
+                {fCurrency(earnedValue)}
               </Typography>
             </Tooltip>
             <Typography variant="caption" color="text.secondary">
-              TXC
+              USD
             </Typography>
           </Stack>
         </Stack>
