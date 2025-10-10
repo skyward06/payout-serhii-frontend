@@ -1,5 +1,5 @@
-import { Label } from './label';
 import { Iconify } from '../Iconify';
+import { Label } from '../Label/label';
 
 interface Props {
   icon: string;
@@ -7,7 +7,7 @@ interface Props {
   color?: 'default' | 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'error';
 }
 
-export function StatusLabel({ color = 'default', icon, value }: Props) {
+export function LabelRenderer({ color = 'default', icon, value }: Props) {
   return (
     <Label
       color={color}

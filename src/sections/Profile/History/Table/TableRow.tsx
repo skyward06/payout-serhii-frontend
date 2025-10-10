@@ -9,7 +9,7 @@ import { fNumber } from 'src/utils/formatNumber';
 import { formatDate } from 'src/utils/format-time';
 
 import { Iconify } from 'src/components/Iconify';
-import { StatusLabel } from 'src/components/Label/StatusLabel';
+import { LabelRenderer } from 'src/components/ItemRenderers';
 
 // ----------------------------------------------------------------------
 
@@ -108,7 +108,7 @@ export function TableItemRow({ row, selected }: Props) {
       </TableCell>
 
       <TableCell>
-        <StatusLabel
+        <LabelRenderer
           color={sent ? 'success' : 'error'}
           value={sent ? 'Received' : 'Not Received'}
           icon={sent ? 'solar:check-circle-bold' : 'solar:close-circle-bold'}
