@@ -22,7 +22,7 @@ export default function OverView() {
       >
         <Stack width={0.8}>
           {fNumber(user?.currentHashPower ?? 0)}
-          <Box component="span" sx={{ color: 'text.secondary', typography: 'body2' }}>
+          <Box component="span" color="text.secondary" typography="body2">
             Hash Power
           </Box>
         </Stack>
