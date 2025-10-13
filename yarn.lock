@@ -838,6 +838,18 @@
   resolved "https://registry.npmjs.org/@fontsource/public-sans/-/public-sans-5.0.18.tgz"
   integrity sha512-dYx/ULF7pRkjBO1ncCwIRXWWmI2oCsMsWxheHgjtNANm4+prtfq3gdGy3KOsuNcAhEKn6BQeIyg0hFqeoTpAaQ==
 
+"@google-recaptcha/core@*":
+  version "1.1.2"
+  resolved "https://registry.npmjs.org/@google-recaptcha/core/-/core-1.1.2.tgz"
+  integrity sha512-WHIVXntnc7b0FXkgNOO1Y7kYj+wnWVNkwluHz4ISmGfnGeUw5U/OezBPmZBOD9J+LK+hA11zvFGs0vElnc7UMw==
+
+"@google-recaptcha/react@^2.3.2":
+  version "2.3.2"
+  resolved "https://registry.npmjs.org/@google-recaptcha/react/-/react-2.3.2.tgz"
+  integrity sha512-mT8cH3IYcvK5tulARx7vbtimb4YG3Zkfi2oXqnWmX9NOhNK2LxzCFjPMff71YIJ7geL1XSrOnKAoCIVj2ZfIFA==
+  dependencies:
+    "@google-recaptcha/core" "*"
+
 "@graphql-codegen/add@^5.0.3":
   version "5.0.3"
   resolved "https://registry.npmjs.org/@graphql-codegen/add/-/add-5.0.3.tgz"
@@ -2103,6 +2115,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-google-recaptcha@^2.1.9":
+  version "2.1.9"
+  resolved "https://registry.npmjs.org/@types/react-google-recaptcha/-/react-google-recaptcha-2.1.9.tgz"
+  integrity sha512-nT31LrBDuoSZJN4QuwtQSF3O89FVHC4jLhM+NtKEmVF5R1e8OY0Jo4//x2Yapn2aNHguwgX5doAq8Zo+Ehd0ug==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-infinite-scroll-component@^5.0.0":
   version "5.0.0"
   resolved "https://registry.npmjs.org/@types/react-infinite-scroll-component/-/react-infinite-scroll-component-5.0.0.tgz"
@@ -2125,7 +2144,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^17.0.0 || ^18.0.0", "@types/react@^17.0.0 || ^18.0.0 || ^19.0.0", "@types/react@^18.3.3", "@types/react@>=16.8", "@types/react@>=18":
+"@types/react@*", "@types/react@^17 || ^18|| ^19", "@types/react@^17.0.0 || ^18.0.0", "@types/react@^17.0.0 || ^18.0.0 || ^19.0.0", "@types/react@^18.3.3", "@types/react@>=16.8", "@types/react@>=18":
   version "18.3.3"
   resolved "https://registry.npmjs.org/@types/react/-/react-18.3.3.tgz"
   integrity sha512-hti/R0pS0q1/xx+TsI73XIqk26eBsISZ2R0wUijXIngRK9R/e7Xw/cXVxQK7R5JjW+SV4zGcn5hXjudkN/pLIw==
@@ -6794,7 +6813,7 @@ react-transition-group@^4.4.5:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
-react@*, "react@^15.x.x || ^16.x.x || ^17.x.x || ^18.x.x", "react@^16.6.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17 || ^18", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react@^17.0.0 || ^18.0.0", "react@^17.0.0 || ^18.0.0 || ^19.0.0", react@^18.0.0, react@^18.3.1, "react@>= 16.12.0", "react@>= 16.8 || 18.0.0", "react@>= 16.8.0", react@>=0.13, react@>=15.0.0, react@>=16, react@>=16.0.0, react@>=16.4.1, react@>=16.6.0, react@>=16.8, react@>=16.8.0, react@>=17, react@>=18:
+react@*, "react@^15.x.x || ^16.x.x || ^17.x.x || ^18.x.x", "react@^16.6.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17 || ^18", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react@^17 || ^18 || ^19", "react@^17.0.0 || ^18.0.0", "react@^17.0.0 || ^18.0.0 || ^19.0.0", react@^18.0.0, react@^18.3.1, "react@>= 16.12.0", "react@>= 16.8 || 18.0.0", "react@>= 16.8.0", react@>=0.13, react@>=15.0.0, react@>=16, react@>=16.0.0, react@>=16.4.1, react@>=16.6.0, react@>=16.8, react@>=16.8.0, react@>=17, react@>=18:
   version "18.3.1"
   resolved "https://registry.npmjs.org/react/-/react-18.3.1.tgz"
   integrity sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==
