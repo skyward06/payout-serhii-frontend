@@ -175,3 +175,4 @@ export const CASH_POTENTIAL_URL = 'https://help.minetxc.com/understanding-cash-p
 export const COIN_MARKET_CAP = 'https://coinmarketcap.com/currencies/texitcoin/';
 
 export const ZENDESK_KEY = '39fe4f12-fb6b-4d14-83c1-3b297fbaf5d4';
+export const RECAPTCHA_KEY = '6Le1J-grAAAAAKuWbC-NUWYZffS5pqYHzNCFNtbG';

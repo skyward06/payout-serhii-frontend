@@ -3,8 +3,9 @@ import countries from 'country-list';
 import { useForm } from 'react-hook-form';
 import { useLocation } from 'react-router';
 import { ApolloError } from '@apollo/client';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState, useEffect, useCallback } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
@@ -24,8 +25,8 @@ import useIframeResizer from 'src/hooks/use-iframe-resizer';
 
 import { removeSpecialCharacters } from 'src/utils/helper';
 
-import { PAYMENT_METHOD_IDS } from 'src/consts';
 import { CommissionDefault } from 'src/__generated__/graphql';
+import { RECAPTCHA_KEY, PAYMENT_METHOD_IDS } from 'src/consts';
 
 import { toast } from 'src/components/SnackBar';
 import { Iconify } from 'src/components/Iconify';
@@ -50,6 +51,7 @@ export function SignUpView({ isComponent = false }: Props) {
   const router = useRouter();
   const [state, setState] = useState<string>();
   const { sendMessage } = useIframeResizer();
+  const recaptcha = useRef<any>();
 
   const location = useLocation();
   const queryParams = isComponent
@@ -104,6 +106,13 @@ export function SignUpView({ isComponent = false }: Props) {
   const onSubmit = handleSubmit(
     async ({ firstName, lastName, sponsorUsername, uname, txcAddress, packageId, ...rest }) => {
       try {
+        const captchaValue = recaptcha.current.getValue();
+
+        if (!captchaValue) {
+          toast.error('Please verify the reCAPTCHA!');
+          return;
+        }
+
         if (user) {
           await handleSignOut();
         }
@@ -446,6 +455,7 @@ export function SignUpView({ isComponent = false }: Props) {
         >
           Submit
         </LoadingButton>
+        <ReCAPTCHA ref={recaptcha} sitekey={RECAPTCHA_KEY} />
       </Box>
     </Stack>
   );

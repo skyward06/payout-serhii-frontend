@@ -1,7 +1,8 @@
 import { z as zod } from 'zod';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import Link from '@mui/material/Link';
@@ -19,6 +20,7 @@ import { RouterLink } from 'src/routes/components';
 import { useBoolean } from 'src/hooks/useBoolean';
 
 import { CONFIG } from 'src/config';
+import { RECAPTCHA_KEY } from 'src/consts';
 
 import { toast } from 'src/components/SnackBar';
 import { Iconify } from 'src/components/Iconify';
@@ -52,6 +54,7 @@ export function SignInView() {
   const navigate = useNavigate();
   const { signIn } = useAuthContext();
   const { submitLogin } = useApollo();
+  const recaptcha = useRef<any>();
 
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -158,11 +161,19 @@ export function SignInView() {
       >
         Sign In
       </LoadingButton>
+      <ReCAPTCHA ref={recaptcha} sitekey={RECAPTCHA_KEY} />
     </Stack>
   );
 
   const onSubmit = handleSubmit(async (data) => {
     try {
+      const captchaValue = recaptcha.current.getValue();
+
+      if (!captchaValue) {
+        toast.error('Please verify the reCAPTCHA!');
+        return;
+      }
+
       const response = await submitLogin({ variables: { data } });
       const token = response.data?.memberLogin.accessToken ?? '';
 
