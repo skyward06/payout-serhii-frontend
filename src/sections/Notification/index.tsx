@@ -11,19 +11,17 @@ import { useBoolean } from 'src/hooks/useBoolean';
 import { varHover } from 'src/components/animate';
 
 import { Content } from './content';
-import { useNewNotifications, useFetchNotifications } from './useApollo';
+import { useFetchNotifications } from './useApollo';
 
 export default function NotificationsDrawer() {
   const drawer = useBoolean();
   const { notifications, fetchNotification } = useFetchNotifications();
-  const { newNotification } = useNewNotifications();
 
   const totalUnRead = notifications.filter((item: any) => item.read === false).length;
 
   useEffect(() => {
     fetchNotification({ variables: { sort: '-read,createdAt', filter: { read: false } } });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newNotification]);
+  }, [fetchNotification]);
 
   return (
     <>
