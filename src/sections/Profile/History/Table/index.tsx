@@ -33,7 +33,7 @@ const TABLE_HEAD = [
   { id: 'hashPower', label: 'Hash Power', width: 200, sortable: true },
   { id: 'reward', label: 'Rewarded TXC', width: 200, sortable: true },
   { id: 'percent', label: 'Percent', width: 130, sortable: true },
-  { id: 'sent', label: 'Received', width: 120, sortable: true },
+  // { id: 'sent', label: 'Received', width: 120, sortable: true },
 ];
 
 export default function MemberStatistics() {

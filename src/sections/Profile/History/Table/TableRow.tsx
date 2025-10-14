@@ -9,7 +9,6 @@ import { fNumber } from 'src/utils/formatNumber';
 import { formatDate } from 'src/utils/format-time';
 
 import { Iconify } from 'src/components/Iconify';
-import { LabelRenderer } from 'src/components/ItemRenderers';
 
 // ----------------------------------------------------------------------
 
@@ -20,7 +19,7 @@ type Props = {
 
 export function TableItemRow({ row, selected }: Props) {
   const theme = useTheme();
-  const { issuedAt, hashPower, txcShared, percent, sent } = row;
+  const { issuedAt, hashPower, txcShared, percent } = row;
 
   return (
     <TableRow
@@ -107,13 +106,13 @@ export function TableItemRow({ row, selected }: Props) {
         </Box>
       </TableCell>
 
-      <TableCell>
+      {/* <TableCell>
         <LabelRenderer
           color={sent ? 'success' : 'error'}
           value={sent ? 'Received' : 'Not Received'}
           icon={sent ? 'solar:check-circle-bold' : 'solar:close-circle-bold'}
         />
-      </TableCell>
+      </TableCell> */}
     </TableRow>
   );
 }
