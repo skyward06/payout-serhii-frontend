@@ -10,12 +10,14 @@ import { useRef, useState, useEffect, useCallback } from 'react';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
+import Tooltip from '@mui/material/Tooltip';
 import TextField from '@mui/material/TextField';
 import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Autocomplete from '@mui/material/Autocomplete';
+import InputAdornment from '@mui/material/InputAdornment';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
@@ -428,6 +430,26 @@ export function SignUpView({ isComponent = false }: Props) {
               label="Coin ID"
               InputLabelProps={{ shrink: true }}
               placeholder="Do you have a coin? Enter the ID here"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <Tooltip
+                      title="To get started with your TXC wallet, simply click here for step-by-step instructions."
+                      placement="left"
+                      arrow
+                    >
+                      <IconButton
+                        sx={{ bgcolor: 'action.hover', '&:hover': { bgcolor: 'action.selected' } }}
+                        onClick={() =>
+                          window.open('https://texitcoin.org/TEXITcoin-Wallets.html', '_blank')
+                        }
+                      >
+                        <Iconify icon="entypo:link" />
+                      </IconButton>
+                    </Tooltip>
+                  </InputAdornment>
+                ),
+              }}
             />
           ) : (
             <Field.Text
