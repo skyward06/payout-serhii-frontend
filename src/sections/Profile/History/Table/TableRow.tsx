@@ -58,18 +58,7 @@ export function TableItemRow({ row, selected }: Props) {
       </TableCell>
 
       <TableCell>
-        <Chip
-          label={`${fNumber(hashPower)} M/s`}
-          size="small"
-          sx={{
-            backgroundColor: alpha(theme.palette.info.main, 0.12),
-            color: 'info.dark',
-            fontWeight: 600,
-            '& .MuiChip-label': {
-              px: 1.5,
-            },
-          }}
-        />
+        <Chip label={`${fNumber(hashPower)} M/s`} size="small" color="info" variant="soft" />
       </TableCell>
 
       <TableCell>
