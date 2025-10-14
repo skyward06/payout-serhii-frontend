@@ -71,10 +71,6 @@ const NotificationListPage = lazy(() => import('src/pages/Notification/List'));
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
-const CalculatorPage = lazy(() => import('src/pages/Calculator'));
-// ----------------------------------------------------------------------
-
-// ----------------------------------------------------------------------
 const InvoiceListPage = lazy(() => import('src/pages/Invoice/List'));
 // ----------------------------------------------------------------------
 
@@ -187,17 +183,6 @@ export const dashboardRoutes = [
             ),
           },
         ],
-      },
-      {
-        path: 'calculator',
-        element: (
-          <AuthGuard>
-            <Suspense fallback={<LoadingScreen />}>
-              <Outlet />
-            </Suspense>
-          </AuthGuard>
-        ),
-        children: [{ index: true, element: <CalculatorPage /> }],
       },
     ],
   },

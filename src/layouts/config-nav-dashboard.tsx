@@ -67,7 +67,6 @@ export const navData = [
       { title: 'Invoice', path: paths.dashboard.invoice.root, icon: ICONS.invoice },
       { title: 'Resource', path: paths.dashboard.resource.root, icon: ICONS.folder },
       { title: 'Reward', path: paths.dashboard.reward.root, icon: ICONS.reward },
-      { title: 'Calculator', path: paths.dashboard.calculator.root, icon: ICONS.calculator },
       { title: 'Team', path: paths.dashboard.team.root, icon: ICONS.team },
       { title: 'Communication', path: paths.dashboard.communication.root, icon: ICONS.send },
       { title: 'TXC Purchase', path: paths.dashboard.txcRequest.root, icon: ICONS.txc_buy },

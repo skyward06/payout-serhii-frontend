@@ -12,7 +12,6 @@ const ROOTS = {
 
   // Pages
   INTRO: '/intro',
-  CALCULATOR: '/calculator',
   STATISTICS: '/statistics',
   RAPID_REWARDS: '/rapid-rewards',
   CONTACT: '/contact',
@@ -125,7 +124,6 @@ export const paths = {
       root: ROOTS.TEAM,
     },
     invoice: { root: ROOTS.INVOICE },
-    calculator: { root: ROOTS.CALCULATOR },
     txcRequest: { root: ROOTS.TXC_REQUEST, new: `${ROOTS.TXC_REQUEST}/new` },
     reimbursement: {
       root: ROOTS.REIMBURSEMENT,
