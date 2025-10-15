@@ -171,7 +171,7 @@ export function SignInView() {
 
       if (!captchaValue) {
         toast.error('Please verify the reCAPTCHA!');
-        // return;
+        return;
       }
 
       const response = await submitLogin({ variables: { data } });
