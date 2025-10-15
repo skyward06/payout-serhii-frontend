@@ -17,7 +17,7 @@ import { Form, Field } from 'src/components/Form';
 import { useAuthContext } from 'src/auth/hooks';
 
 import { Schema, type SchemaType } from './schema';
-import { useUpdateSettingMember } from '../useApollo';
+import { useUpdateSettingMember } from '../../useApollo';
 
 interface Props {
   open: UseBooleanReturn;

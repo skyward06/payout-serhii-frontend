@@ -95,7 +95,7 @@ export default function MemberStatistics() {
             <Table
               size={table.dense ? 'small' : 'medium'}
               sx={{
-                minWidth: 960,
+                minWidth: 560,
                 '& .MuiTableCell-root': {
                   borderBottom: `1px solid ${alpha(theme.palette.divider, 0.08)}`,
                   py: table.dense ? 1 : 1.5,
