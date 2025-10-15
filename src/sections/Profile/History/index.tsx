@@ -9,13 +9,13 @@ import Personal from './Personal';
 export default function HistoryView() {
   return (
     <Grid container spacing={2}>
-      <Grid md={12} xl={8}>
+      <Grid md={12} xl={7}>
         <Box display="grid" gap={2}>
           <Reward />
           <Table />
         </Box>
       </Grid>
-      <Grid md={12} xl={4}>
+      <Grid md={12} xl={5}>
         <Box display="grid" gap={2}>
           <OverView />
           <Personal />

@@ -37,19 +37,13 @@ export function TableItemRow({ row, selected }: Props) {
       }}
     >
       <TableCell>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <Iconify
-            icon="solar:calendar-bold"
-            sx={{
-              color: 'text.secondary',
-              width: 16,
-              height: 16,
-            }}
-          />
+        <Box display="flex" alignItems="center" gap={1}>
+          <Iconify icon="solar:calendar-bold" color="text.secondary" width={16} height={16} />
           <Typography
             variant="body2"
             color="text.primary"
             fontWeight={500}
+            letterSpacing={-1}
             sx={{ fontVariantNumeric: 'tabular-nums' }}
           >
             {formatDate(issuedAt)}
@@ -58,23 +52,28 @@ export function TableItemRow({ row, selected }: Props) {
       </TableCell>
 
       <TableCell>
-        <Chip label={`${fNumber(hashPower)} M/s`} size="small" color="info" variant="soft" />
+        <Chip
+          label={`${fNumber(hashPower)} M/s`}
+          size="small"
+          color="info"
+          variant="soft"
+          sx={{ fontVariantNumeric: 'tabular-nums', letterSpacing: -1 }}
+        />
       </TableCell>
 
       <TableCell>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <Box display="flex" alignItems="center" gap={1}>
           <Iconify
             icon="solar:dollar-minimalistic-bold"
-            sx={{
-              color: 'warning.main',
-              width: 16,
-              height: 16,
-            }}
+            color="warning.main"
+            width={16}
+            height={16}
           />
           <Typography
             variant="body2"
             color="text.primary"
             fontWeight={600}
+            letterSpacing={-1}
             sx={{ fontVariantNumeric: 'tabular-nums' }}
           >
             {fNumber(txcShared / 10 ** 8)} TXC
@@ -88,9 +87,10 @@ export function TableItemRow({ row, selected }: Props) {
             variant="body2"
             color="text.primary"
             fontWeight={600}
+            letterSpacing={-1}
             sx={{ fontVariantNumeric: 'tabular-nums' }}
           >
-            {fNumber(percent / 100)}%
+            {fNumber(percent / 100)} %
           </Typography>
         </Box>
       </TableCell>
