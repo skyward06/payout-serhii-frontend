@@ -3,6 +3,7 @@ import type { ColDef, IDateFilterParams, ITextFilterParams } from '@ag-grid-comm
 
 import { useMemo } from 'react';
 
+import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 
 import { formatDate } from 'src/utils/format-time';
@@ -106,11 +107,13 @@ export default function CommunicationTable() {
         editable: false,
         cellClass: 'ag-cell-center',
         cellRenderer: ({ data }: CustomCellRendererProps<EmailRecipient>) => (
-          <LabelRenderer
-            icon={data?.openedAt ? 'akar-icons:double-check' : 'lucide:check'}
-            color={data?.openedAt ? 'primary' : 'warning'}
-            value={data?.openedAt ? 'Opened' : 'Not opened'}
-          />
+          <Box display="flex">
+            <LabelRenderer
+              icon={data?.openedAt ? 'akar-icons:double-check' : 'lucide:check'}
+              color={data?.openedAt ? 'primary' : 'warning'}
+              value={data?.openedAt ? 'Opened' : 'Not opened'}
+            />
+          </Box>
         ),
       },
       {

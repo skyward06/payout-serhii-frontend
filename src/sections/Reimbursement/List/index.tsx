@@ -9,6 +9,7 @@ import type {
 
 import { useMemo } from 'react';
 
+import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 
 import { formatID } from 'src/utils/helper';
@@ -97,11 +98,13 @@ export function ReimbursementList() {
         editable: false,
         cellClass: 'ag-cell-center',
         cellRenderer: ({ data }: CustomCellRendererProps<BasicReimbursement>) => (
-          <LabelRenderer
-            icon={REIMBURSEMENT_STATUS[data?.status!].icon}
-            value={REIMBURSEMENT_STATUS[data?.status!].label}
-            color={REIMBURSEMENT_STATUS[data?.status!].color as LabelColor}
-          />
+          <Box display="flex">
+            <LabelRenderer
+              icon={REIMBURSEMENT_STATUS[data?.status!].icon}
+              value={REIMBURSEMENT_STATUS[data?.status!].label}
+              color={REIMBURSEMENT_STATUS[data?.status!].color as LabelColor}
+            />
+          </Box>
         ),
       },
       {

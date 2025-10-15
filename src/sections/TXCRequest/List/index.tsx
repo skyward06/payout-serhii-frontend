@@ -8,6 +8,7 @@ import type {
 
 import { useMemo } from 'react';
 
+import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import ListItemText from '@mui/material/ListItemText';
@@ -130,11 +131,13 @@ export default function TXCRequestList() {
         editable: false,
         cellClass: 'ag-cell-center',
         cellRenderer: ({ data }: CustomCellRendererProps<TXCRequest>) => (
-          <LabelRenderer
-            value={TXC_REQUEST_STATUS[data?.status!].label}
-            color={TXC_REQUEST_STATUS[data?.status!].color as LabelColor}
-            icon={TXC_REQUEST_STATUS[data?.status!].icon}
-          />
+          <Box display="flex">
+            <LabelRenderer
+              value={TXC_REQUEST_STATUS[data?.status!].label}
+              color={TXC_REQUEST_STATUS[data?.status!].color as LabelColor}
+              icon={TXC_REQUEST_STATUS[data?.status!].icon}
+            />
+          </Box>
         ),
       },
       {
