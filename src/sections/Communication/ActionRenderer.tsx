@@ -20,7 +20,7 @@ export const ActionRender = memo(
 
     return (
       <>
-        <Box>
+        <Box display="flex" justifyContent="center">
           <Tooltip title="View" arrow placement="left">
             <IconButton size="small" color="default" onClick={open.onTrue}>
               <Iconify icon="flowbite:eye-outline" width={18} />

@@ -43,7 +43,7 @@ export default function CommunicationTable() {
         editable: false,
         filterParams: { buttons: ['reset'] } as ITextFilterParams,
         cellRenderer: ({ data }: CustomCellRendererProps<EmailRecipient>) => (
-          <IconRenderer icon="ic:round-email" value={data?.email!} />
+          <IconRenderer icon="ic:outline-email" value={data?.email!} />
         ),
       },
       {
@@ -55,7 +55,7 @@ export default function CommunicationTable() {
         editable: false,
         filterParams: { buttons: ['reset'] } as ITextFilterParams,
         cellRenderer: ({ data }: CustomCellRendererProps<EmailRecipient>) => (
-          <IconRenderer icon="lets-icons:user-fill" value={data?.sender!} />
+          <IconRenderer icon="lucide:user-round" value={data?.sender!} />
         ),
       },
       {

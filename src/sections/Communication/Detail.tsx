@@ -1,10 +1,13 @@
 import type { UseBooleanReturn } from 'src/hooks/useBoolean';
 
+import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import { Skeleton } from '@mui/material';
 import Drawer from '@mui/material/Drawer';
+import Skeleton from '@mui/material/Skeleton';
+import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 
+import { Iconify } from 'src/components/Iconify';
 import { ScrollBar } from 'src/components/ScrollBar';
 
 import { useFetchCampaignMember } from './useApollo';
@@ -22,10 +25,10 @@ export function CommunicationDetail({ open, id }: Props) {
   return (
     <Drawer
       open={open.value}
-      onClose={() => open.onFalse()}
+      onClose={open.onFalse}
       anchor="right"
       slotProps={{ backdrop: { invisible: true } }}
-      PaperProps={{ sx: { width: 600 } }}
+      PaperProps={{ sx: { width: { xs: 390, sm: 600 } } }}
     >
       <ScrollBar
         sx={{
@@ -33,9 +36,30 @@ export function CommunicationDetail({ open, id }: Props) {
           px: 2,
         }}
       >
-        <Stack direction="row" sx={{ py: 2 }} spacing={2}>
-          <Typography variant="subtitle1">Subject</Typography>
-          {loading ? <Skeleton width="100%" /> : <Typography>{campaignMember?.subject}</Typography>}
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          spacing={2}
+          py={2}
+        >
+          <Stack direction="row" spacing={2}>
+            <Typography variant="subtitle1">Subject</Typography>
+            {loading ? (
+              <Skeleton width="100%" />
+            ) : (
+              <Typography>{campaignMember?.subject}</Typography>
+            )}
+          </Stack>
+
+          <Box>
+            <IconButton
+              sx={{ bgcolor: 'action.hover', '&:hover': { bgcolor: 'action.selected' } }}
+              onClick={open.onFalse}
+            >
+              <Iconify icon="uil:times" />
+            </IconButton>
+          </Box>
         </Stack>
 
         {loading ? (
