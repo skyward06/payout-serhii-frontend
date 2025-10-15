@@ -1,10 +1,10 @@
 import { Iconify } from '../Iconify';
-import { Label } from '../Label/label';
+import { Label, type LabelColor } from '../Label';
 
 interface Props {
   icon: string;
   value: string;
-  color?: 'default' | 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'error';
+  color?: LabelColor;
 }
 
 export function LabelRenderer({ color = 'default', icon, value }: Props) {

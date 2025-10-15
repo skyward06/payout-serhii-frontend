@@ -18,8 +18,8 @@ import { fCurrency } from 'src/utils/formatNumber';
 import { REIMBURSEMENT_STATUS } from 'src/consts';
 import { ReimbursementStatus } from 'src/__generated__/graphql';
 
-import { Label } from 'src/components/Label';
 import { AgGrid } from 'src/components/AgGrid';
+import { IconRenderer, LabelRenderer } from 'src/components/ItemRenderers';
 
 import { parseType } from './parseType';
 import { FileRenderer } from './FileRender';
@@ -52,8 +52,15 @@ export function ReimbursementList() {
         resizable: true,
         editable: false,
         cellClass: 'tabular-nums ag-right-aligned-cell',
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicReimbursement>) =>
-          fCurrency((data?.requestedAmountInCent ?? 0) / 100, { minimumFractionDigits: 2 }),
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicReimbursement>) => (
+          <IconRenderer
+            icon="material-symbols:paid-outline-rounded"
+            value={fCurrency((data?.requestedAmountInCent ?? 0) / 100, {
+              minimumFractionDigits: 2,
+            })}
+            sx={{ justifyContent: 'space-between' }}
+          />
+        ),
       },
       {
         field: 'description',
@@ -87,10 +94,13 @@ export function ReimbursementList() {
         } as ISetFilterParams<BasicReimbursement>,
         resizable: true,
         editable: false,
+        cellClass: 'ag-cell-center',
         cellRenderer: ({ data }: CustomCellRendererProps<BasicReimbursement>) => (
-          <Label variant="soft" color={REIMBURSEMENT_STATUS[data?.status!].color as LabelColor}>
-            {REIMBURSEMENT_STATUS[data?.status!].label}
-          </Label>
+          <LabelRenderer
+            icon={REIMBURSEMENT_STATUS[data?.status!].icon}
+            value={REIMBURSEMENT_STATUS[data?.status!].label}
+            color={REIMBURSEMENT_STATUS[data?.status!].color as LabelColor}
+          />
         ),
       },
       {
@@ -106,8 +116,9 @@ export function ReimbursementList() {
         resizable: true,
         editable: false,
         cellClass: 'tabular-nums',
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicReimbursement>) =>
-          formatDate(data?.createdAt),
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicReimbursement>) => (
+          <IconRenderer icon="cuida:calendar-outline" value={formatDate(data?.createdAt)} />
+        ),
       },
       {
         colId: 'action',
