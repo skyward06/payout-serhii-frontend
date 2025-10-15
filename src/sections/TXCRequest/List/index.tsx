@@ -152,7 +152,7 @@ export default function TXCRequestList() {
         cellClass: 'tabular-nums',
         cellRenderer: ({ data }: CustomCellRendererProps<TXCRequest>) => (
           <IconRenderer
-            icon="cuida:calendar-outline"
+            icon="lineicons:calendar-days"
             value={
               <ListItemText
                 primary={formatDate(data?.paidAt)}

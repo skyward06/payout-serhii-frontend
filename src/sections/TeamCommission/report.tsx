@@ -5,13 +5,20 @@ import type { WeeklyReport, TeamReportSection } from 'src/__generated__/graphql'
 import dayjs from 'dayjs';
 import { useMemo, useEffect } from 'react';
 
+import Box from '@mui/material/Box';
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+
 import { useAgQuery as useQueryString } from 'src/routes/hooks';
 
 import { parseFilterModel } from 'src/utils/parseFilter';
 import { formatWeekNumber } from 'src/utils/format-time';
 
 import { AgGrid } from 'src/components/AgGrid';
+import { IconRenderer } from 'src/components/ItemRenderers';
 
+import { PointInfo } from './PointInfo';
 import { useFetchTeamCommission } from './useApollo';
 
 import type { WeeklyCommission } from '../Commission/type';
@@ -43,97 +50,164 @@ export default function Report({ teamReport }: Props) {
         headerName: 'Week',
         width: 250,
         filter: 'agDateColumnFilter',
-        cellRenderer: ({ data }: CustomCellRendererProps<WeeklyReport>) =>
-          `week #${formatWeekNumber(data?.weekStartDate)} (${dayjs(data?.weekStartDate).utc().format('MM/DD')} - ${dayjs(data?.weekStartDate).utc().add(6, 'day').format('MM/DD')})`,
+        cellClass: 'ag-cell-center',
+        cellRenderer: ({ data }: CustomCellRendererProps<WeeklyReport>) => (
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Chip
+              label={`Week ${formatWeekNumber(data?.weekStartDate)}`}
+              size="small"
+              variant="soft"
+              color="primary"
+              sx={{ fontWeight: 600, minWidth: 70 }}
+            />
+            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+              {dayjs(data?.weekStartDate).utc().format('MMM DD')} -{' '}
+              {dayjs(data?.weekStartDate).utc().add(6, 'day').format('MMM DD')}
+            </Typography>
+          </Stack>
+        ),
       },
       {
         field: 'fullName',
-        headerName: 'Name',
+        headerName: 'Full Name',
         width: 200,
         filter: 'agTextColumnFilter',
         resizable: true,
         editable: false,
         filterParams: { buttons: ['reset'] } as ITextFilterParams,
+        cellClass: 'ag-cell-center',
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
+          <Typography variant="body2" fontWeight={500}>
+            {data?.fullName}
+          </Typography>
+        ),
       },
       {
         field: 'username',
         headerName: 'Username',
-        width: 200,
+        width: 220,
         filter: 'agTextColumnFilter',
         resizable: true,
         editable: false,
         filterParams: { buttons: ['reset'] } as ITextFilterParams,
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
+          <IconRenderer icon="lucide:user-round" value={data?.username!} />
+        ),
       },
       {
-        headerName: 'BegLR',
-        width: 120,
-        filter: 'agNumberColumnFilter',
+        headerName: 'Beginning L/R',
+        width: 160,
         resizable: true,
         editable: false,
-        cellClass: 'ag-number-cell',
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) =>
-          `L${data?.begL}, R${data?.begR}`,
+        sortable: false,
+        cellClass: 'ag-cell-center',
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
+          <PointInfo leftValue={data?.begL || 0} rightValue={data?.begR || 0} />
+        ),
       },
       {
-        headerName: 'NewLR',
-        width: 120,
-        filter: 'agNumberColumnFilter',
+        headerName: 'New L/R',
+        width: 160,
         resizable: true,
         editable: false,
-        cellClass: 'ag-number-cell',
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) =>
-          `L${data?.newL}, R${data?.newR}`,
+        sortable: false,
+        cellClass: 'ag-cell-center',
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
+          <PointInfo leftValue={data?.newL || 0} rightValue={data?.newR || 0} />
+        ),
       },
       {
-        headerName: 'MaxLR',
-        width: 120,
-        filter: 'agNumberColumnFilter',
+        headerName: 'Max L/R',
+        width: 160,
         resizable: true,
         editable: false,
-        cellClass: 'ag-number-cell',
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) =>
-          `L${data?.maxL}, R${data?.maxR}`,
+        sortable: false,
+        cellClass: 'ag-cell-center',
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
+          <PointInfo leftValue={data?.maxL || 0} rightValue={data?.maxR || 0} />
+        ),
       },
       {
-        headerName: 'PackageLR',
-        width: 120,
-        filter: 'agNumberColumnFilter',
+        headerName: 'Package L/R',
+        width: 160,
         resizable: true,
         editable: false,
-        cellClass: 'ag-number-cell',
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) =>
-          `L${data?.pkgL}, R${data?.pkgR}`,
+        sortable: false,
+        cellClass: 'ag-cell-center',
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
+          <PointInfo leftValue={data?.pkgL || 0} rightValue={data?.pkgR || 0} />
+        ),
       },
       {
-        headerName: 'EndLR',
-        width: 120,
-        filter: 'agNumberColumnFilter',
+        headerName: 'End L/R',
+        width: 160,
         resizable: true,
         editable: false,
-        cellClass: 'ag-number-cell',
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) =>
-          `L${data?.endL}, R${data?.endR}`,
+        sortable: false,
+        cellClass: 'ag-cell-center',
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
+          <PointInfo leftValue={data?.endL || 0} rightValue={data?.endR || 0} />
+        ),
       },
       {
         field: 'commission',
         headerName: 'Commission',
-        width: 150,
+        width: 180,
         filter: 'agNumberColumnFilter',
         resizable: true,
         editable: false,
-        cellClass: 'ag-number-cell',
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => {
+          const amount = data?.commission || 0;
+          const formattedAmount = amount.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          });
+
+          return (
+            <Box sx={{ display: 'flex', alignItems: 'center', height: '100%' }}>
+              <Chip
+                label={`$${formattedAmount}`}
+                size="small"
+                color="primary"
+                sx={{
+                  fontWeight: 600,
+                  minWidth: 90,
+                }}
+              />
+            </Box>
+          );
+        },
       },
       {
         field: 'shortNote',
         headerName: 'Note',
-        width: 300,
+        width: 320,
         filter: 'agTextColumnFilter',
         resizable: true,
         editable: false,
-        cellClass: 'ag-number-cell',
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              height: '100%',
+              py: 1,
+            }}
+          >
+            <Typography
+              variant="body2"
+              color={data?.shortNote ? 'text.primary' : 'text.disabled'}
+              fontStyle={data?.shortNote ? 'normal' : 'italic'}
+              overflow="hidden"
+              textOverflow="ellipsis"
+              whiteSpace="nowrap"
+            >
+              {data?.shortNote || 'No note'}
+            </Typography>
+          </Box>
+        ),
       },
     ],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 

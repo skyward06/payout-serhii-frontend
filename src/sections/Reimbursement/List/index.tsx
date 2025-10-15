@@ -118,7 +118,7 @@ export function ReimbursementList() {
         editable: false,
         cellClass: 'tabular-nums',
         cellRenderer: ({ data }: CustomCellRendererProps<BasicReimbursement>) => (
-          <IconRenderer icon="cuida:calendar-outline" value={formatDate(data?.createdAt)} />
+          <IconRenderer icon="lineicons:calendar-days" value={formatDate(data?.createdAt)} />
         ),
       },
       {

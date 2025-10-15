@@ -11,6 +11,7 @@ import { parseFilterModel } from 'src/utils/parseFilter';
 import { type Introducer } from 'src/__generated__/graphql';
 
 import { AgGrid } from 'src/components/AgGrid';
+import { IconRenderer } from 'src/components/ItemRenderers';
 
 import { ActionRender } from './ActionRenderer';
 import { useFetchIntroducers } from './useApollo';
@@ -37,6 +38,9 @@ export default function Contact() {
         resizable: true,
         editable: false,
         filterParams: { buttons: ['reset'] } as ITextFilterParams,
+        cellRenderer: ({ data }: CustomCellRendererProps<Introducer>) => (
+          <IconRenderer icon="lucide:user-round" value={data?.username!} />
+        ),
       },
       {
         field: 'email',
@@ -45,12 +49,14 @@ export default function Contact() {
         filter: 'agNumberColumnFilter',
         resizable: true,
         editable: false,
-        cellClass: 'ag-number-cell',
+        cellRenderer: ({ data }: CustomCellRendererProps<Introducer>) => (
+          <IconRenderer icon="lucide:mail" value={data?.email!} />
+        ),
       },
       {
         field: 'fullName',
         headerName: 'Full Name',
-        width: 150,
+        width: 220,
         filter: 'agTextColumnFilter',
         resizable: true,
         editable: false,
@@ -59,19 +65,23 @@ export default function Contact() {
       {
         field: 'mobile',
         headerName: 'Mobile',
-        width: 150,
+        width: 180,
         filter: 'agTextColumnFilter',
         resizable: true,
         editable: false,
         cellClass: 'ag-number-cell',
+        cellRenderer: ({ data }: CustomCellRendererProps<Introducer>) => (
+          <IconRenderer icon="nimbus:mobile" value={data?.mobile!} />
+        ),
       },
       {
         field: 'createdAt',
         headerName: 'Date',
-        width: 150,
+        width: 180,
         filter: 'agDateColumnFilter',
-        cellRenderer: ({ data }: CustomCellRendererProps<Introducer>) =>
-          formatDate(data?.createdAt),
+        cellRenderer: ({ data }: CustomCellRendererProps<Introducer>) => (
+          <IconRenderer icon="lineicons:calendar-days" value={formatDate(data?.createdAt)} />
+        ),
       },
       {
         colId: 'action',

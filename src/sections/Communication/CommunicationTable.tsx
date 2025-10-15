@@ -80,7 +80,7 @@ export default function CommunicationTable() {
         resizable: true,
         editable: false,
         cellRenderer: ({ data }: CustomCellRendererProps<EmailRecipient>) => (
-          <IconRenderer icon="cuida:calendar-outline" value={formatDate(data?.sentAt)} />
+          <IconRenderer icon="lineicons:calendar-days" value={formatDate(data?.sentAt)} />
         ),
       },
       {

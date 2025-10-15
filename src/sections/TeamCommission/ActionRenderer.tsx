@@ -32,7 +32,7 @@ export const ActionRender = memo(
     return (
       <Iconify
         icon={copy.value ? 'mingcute:check-fill' : 'bxs:copy'}
-        color="#008000"
+        color="primary.main"
         sx={{ cursor: 'pointer' }}
         onClick={handleCopy}
       />
