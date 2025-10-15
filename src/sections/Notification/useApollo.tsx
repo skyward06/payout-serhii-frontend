@@ -1,11 +1,11 @@
 import { useRef, useMemo } from 'react';
-import { useMutation, useLazyQuery, useSubscription } from '@apollo/client';
+import { useMutation, useLazyQuery } from '@apollo/client';
 
 import {
   SET_READ_NOTIFICATIONS,
   READ_ALL_NOTIFICATIONS,
   FETCH_NOTIFICATION_QUERY,
-  SUBSCRIPTION_NOTIFICATION,
+  // SUBSCRIPTION_NOTIFICATION,
 } from './query';
 
 export function useFetchNotifications() {
@@ -51,8 +51,8 @@ export function useReadAllNotifications() {
   return { loading, data, readAllNotifications };
 }
 
-export function useNewNotifications() {
-  const { loading, data } = useSubscription(SUBSCRIPTION_NOTIFICATION);
+// export function useNewNotifications() {
+//   const { loading, data } = useSubscription(SUBSCRIPTION_NOTIFICATION);
 
-  return { loading, newNotification: data?.newNotification };
-}
+//   return { loading, newNotification: data?.newNotification };
+// }

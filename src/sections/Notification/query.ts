@@ -33,14 +33,14 @@ export const READ_ALL_NOTIFICATIONS = gql(/* GraphQL */ `
   }
 `);
 
-export const SUBSCRIPTION_NOTIFICATION = gql(/* GraphQL */ `
-  subscription NewNotification {
-    newNotification {
-      id
-      level
-      message
-      createdAt
-      updatedAt
-    }
-  }
-`);
+// export const SUBSCRIPTION_NOTIFICATION = gql(/* GraphQL */ `
+//   subscription NewNotification {
+//     newNotification {
+//       id
+//       level
+//       message
+//       createdAt
+//       updatedAt
+//     }
+//   }
+// `);
