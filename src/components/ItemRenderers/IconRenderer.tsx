@@ -7,7 +7,7 @@ import { Iconify } from 'src/components/Iconify';
 interface Props {
   icon: string;
   color?: 'default' | 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'error';
-  value: string;
+  value: string | React.ReactNode;
   sx?: SxProps<Theme>;
 }
 

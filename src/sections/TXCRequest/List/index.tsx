@@ -8,7 +8,6 @@ import type {
 
 import { useMemo } from 'react';
 
-import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import ListItemText from '@mui/material/ListItemText';
@@ -25,7 +24,8 @@ import { TxcRequestStatus } from 'src/__generated__/graphql';
 import { AgGrid } from 'src/components/AgGrid';
 import { toast } from 'src/components/SnackBar';
 import { Iconify } from 'src/components/Iconify';
-import { Label, type LabelColor } from 'src/components/Label';
+import { type LabelColor } from 'src/components/Label';
+import { IconRenderer, LabelRenderer } from 'src/components/ItemRenderers';
 
 import { parseType } from './parseType';
 import { useFetchTXCRequestList } from '../useApollo';
@@ -49,7 +49,7 @@ export default function TXCRequestList() {
       {
         field: 'ID',
         headerName: 'ID',
-        width: 200,
+        width: 150,
         filter: 'agNumberColumnFilter',
         resizable: true,
         editable: false,
@@ -68,7 +68,7 @@ export default function TXCRequestList() {
         cellClass: 'ag-cell-center',
         filterParams: { buttons: ['reset'] } as ITextFilterParams,
         cellRenderer: ({ data }: CustomCellRendererProps<TXCRequest>) => (
-          <Stack direction="row" spacing={2} alignItems="center">
+          <Stack direction="row" spacing={2} alignItems="center" fontFamily="monospace">
             {data?.outputAddress}
             <Iconify
               icon="stash:copy-light"
@@ -80,18 +80,35 @@ export default function TXCRequestList() {
       },
       {
         field: 'inputBalanceInCent',
-        headerName: 'Amount',
+        headerName: 'Paid Balance',
         width: 150,
+        resizable: true,
+        editable: false,
+        sortable: false,
+        cellClass: 'tabular-nums ag-right-aligned-cell ag-cell-center',
+        cellRenderer: ({ data }: CustomCellRendererProps<TXCRequest>) => (
+          <IconRenderer
+            icon="material-symbols:paid-outline-rounded"
+            value={fNumber(Number(data?.inputBalanceInCent) / 100, { minimumFractionDigits: 2 })}
+            color="info"
+            sx={{ justifyContent: 'space-between' }}
+          />
+        ),
+      },
+      {
+        field: 'sentBalance',
+        headerName: 'Received Balance',
+        width: 180,
         resizable: true,
         editable: false,
         cellClass: 'tabular-nums ag-right-aligned-cell ag-cell-center',
         cellRenderer: ({ data }: CustomCellRendererProps<TXCRequest>) =>
-          fNumber(Number(data?.inputBalanceInCent) / 100),
+          fNumber(Number(data?.sentBalance) / 10 ** 8, { minimumFractionDigits: 2 }),
       },
       {
         field: 'txcPrice',
         headerName: 'TXC Price',
-        width: 150,
+        width: 180,
         filter: 'agNumberColumnFilter',
         resizable: true,
         editable: false,
@@ -102,7 +119,7 @@ export default function TXCRequestList() {
       {
         field: 'status',
         headerName: 'Status',
-        width: 200,
+        width: 150,
         filter: 'agMultiColumnFilter',
         filterParams: {
           values: Object.values(TxcRequestStatus),
@@ -113,17 +130,17 @@ export default function TXCRequestList() {
         editable: false,
         cellClass: 'ag-cell-center',
         cellRenderer: ({ data }: CustomCellRendererProps<TXCRequest>) => (
-          <Box>
-            <Label color={TXC_REQUEST_STATUS[data?.status!].color as LabelColor}>
-              {TXC_REQUEST_STATUS[data?.status!].label}
-            </Label>
-          </Box>
+          <LabelRenderer
+            value={TXC_REQUEST_STATUS[data?.status!].label}
+            color={TXC_REQUEST_STATUS[data?.status!].color as LabelColor}
+            icon={TXC_REQUEST_STATUS[data?.status!].icon}
+          />
         ),
       },
       {
         field: 'paidAt',
         headerName: 'Paid At',
-        width: 200,
+        width: 160,
         filter: 'agDateColumnFilter',
         filterParams: {
           buttons: ['reset'],
@@ -134,14 +151,19 @@ export default function TXCRequestList() {
         editable: false,
         cellClass: 'tabular-nums',
         cellRenderer: ({ data }: CustomCellRendererProps<TXCRequest>) => (
-          <ListItemText
-            primary={formatDate(data?.paidAt)}
-            secondary={formatTime(data?.paidAt)}
-            primaryTypographyProps={{ typography: 'body2' }}
-            secondaryTypographyProps={{
-              component: 'span',
-              color: 'text.disabled',
-            }}
+          <IconRenderer
+            icon="cuida:calendar-outline"
+            value={
+              <ListItemText
+                primary={formatDate(data?.paidAt)}
+                secondary={formatTime(data?.paidAt)}
+                primaryTypographyProps={{ typography: 'body2' }}
+                secondaryTypographyProps={{
+                  component: 'span',
+                  color: 'text.disabled',
+                }}
+              />
+            }
           />
         ),
       },

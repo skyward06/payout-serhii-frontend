@@ -148,10 +148,10 @@ export const CHAIN_UNIT = {
 };
 
 export const TXC_REQUEST_STATUS = {
-  SENT: { label: 'Sent', color: 'success' },
-  PENDING: { label: 'Pending', color: 'warning' },
-  CONFIRMING: { label: 'Confirming', color: 'info' },
-  FAILED: { label: 'Failed', color: 'error' },
+  SENT: { label: 'Received', color: 'success', icon: 'mdi:check-all' },
+  PENDING: { label: 'Pending', color: 'warning', icon: 'mdi:receipt-text-pending' },
+  CONFIRMING: { label: 'Confirming', color: 'info', icon: 'line-md:confirm-circle' },
+  FAILED: { label: 'Failed', color: 'error', icon: 'uil:times-circle' },
 };
 
 export const REIMBURSEMENT_STATUS = {

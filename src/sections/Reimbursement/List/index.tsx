@@ -55,6 +55,7 @@ export function ReimbursementList() {
         cellRenderer: ({ data }: CustomCellRendererProps<BasicReimbursement>) => (
           <IconRenderer
             icon="material-symbols:paid-outline-rounded"
+            color="info"
             value={fCurrency((data?.requestedAmountInCent ?? 0) / 100, {
               minimumFractionDigits: 2,
             })}
