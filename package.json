@@ -75,6 +75,7 @@
     "axios": "^1.7.2",
     "country-list": "^2.3.0",
     "dayjs": "^1.11.11",
+    "es-toolkit": "^1.40.0",
     "framer-motion": "^11.2.10",
     "graphql": "^16.8.2",
     "graphql-ws": "^5.16.0",

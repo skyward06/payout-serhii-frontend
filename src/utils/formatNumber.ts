@@ -115,3 +115,31 @@ export function fLimitDigits(value: number, decimals: number) {
   const factor = 10 ** decimals;
   return Math.floor(value * factor) / factor;
 }
+
+export function fHashPower(inputValue: InputNumberValue) {
+  const number = processInput(inputValue);
+  if (number === null || number === 0) return '0';
+
+  const units = ['', 'K/s', 'M/s', 'G/s', 'T/s', 'P/s', 'E/s', 'Z/s', 'Y/s'];
+  const decimal = 2;
+  const baseValue = 1000;
+
+  const index = Math.floor(Math.log(number) / Math.log(baseValue));
+  const fm = `${parseFloat((number / baseValue ** index).toFixed(decimal))} ${units[index]}`;
+
+  return fm;
+}
+
+export function fHashRate(inputValue: InputNumberValue) {
+  const number = processInput(inputValue);
+  if (number === null || number === 0) return '0';
+
+  const units = ['', 'KH/s', 'MH/s', 'GH/s', 'TH/s', 'PH/s', 'EH/s', 'ZH/s', 'YH/s'];
+  const decimal = 2;
+  const baseValue = 1000;
+
+  const index = Math.floor(Math.log(number) / Math.log(baseValue));
+  const fm = `${parseFloat((number / baseValue ** index).toFixed(decimal))} ${units[index]}`;
+
+  return fm;
+}

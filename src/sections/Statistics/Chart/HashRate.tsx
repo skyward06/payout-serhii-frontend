@@ -1,4 +1,3 @@
-import type { ApexOptions } from 'apexcharts';
 import type { PeriodStateType } from 'src/__generated__/graphql';
 
 import dayjs from 'dayjs';
@@ -8,8 +7,9 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import { useTheme } from '@mui/material/styles';
 
-import { Chart, ChartSelect } from 'src/components/chart';
-import { useSettingsContext } from 'src/components/settings';
+import { fHashRate, fHashPower } from 'src/utils/formatNumber';
+
+import { Chart, useChart, ChartSelect } from 'src/components/chart';
 
 import { useFetchBlocks } from '../useApollo';
 
@@ -24,7 +24,6 @@ const select = [
 
 export default function HashRate() {
   const theme = useTheme();
-  const { colorScheme } = useSettingsContext();
   const [selectedSeries, setSelectedSeries] = useState('Block');
 
   const handleChangeSeries = useCallback((newValue: string) => {
@@ -37,39 +36,25 @@ export default function HashRate() {
 
   const chartColors = [theme.palette.primary.dark, theme.palette.warning.main];
 
-  const series = useMemo(
+  const series = useMemo<ApexAxisChartSeries>(
     () => [
       {
         name: 'Hashrate',
-        data: blocks!
-          .map((item) => Number(((item?.hashRate! || 1) / 10 ** 9).toFixed(2)))
-          .reverse(),
+        data: blocks!.map((item) => item.hashRate).reverse(),
         type: 'line',
       },
       {
         name: 'Sold HashPower',
-        data: blocks!.map((item) => item.soldHashPower / 1000).reverse(),
+        data: blocks!.map((item) => item.soldHashPower).reverse(),
         type: 'line',
       },
     ],
     [blocks]
   );
 
-  const chartOptions: ApexOptions = {
-    chart: {
-      toolbar: {
-        show: false,
-      },
-    },
-    stroke: {
-      curve: 'smooth',
-      width: [2.5, 2.5],
-    },
-    grid: { show: false },
+  const chartOptions = useChart({
     xaxis: {
-      axisBorder: { show: false },
-      tickAmount: 10,
-      axisTicks: { show: false },
+      tickAmount: 12,
       categories: blocks!
         .map((item) =>
           currentSelect?.value === 'week'
@@ -81,44 +66,16 @@ export default function HashRate() {
         .reverse(),
     },
     yaxis: [
+      { labels: { formatter: (val: any) => fHashRate(val) } },
       {
+        show: false,
         labels: {
-          formatter: (value: number) => `${Math.floor(value)} GH/s`,
+          formatter: (val: any) => fHashPower(val),
         },
-      },
-      {
-        opposite: true,
-        labels: {
-          formatter: (value: number) => `${value} GH/s`,
-        },
-        min: 0,
       },
     ],
     colors: chartColors,
-    tooltip: {
-      shared: true,
-      intersect: false,
-      custom: ({ dataPointIndex, w }) => {
-        const category = w.globals.categoryLabels.length
-          ? w.globals.categoryLabels[dataPointIndex]
-          : w.globals.labels[dataPointIndex];
-        const data = w.globals.initialSeries.map((item: any) => item.data[dataPointIndex]);
-
-        const chartData = data.reduce(
-          (
-            prev: any,
-            item: any,
-            index: number
-          ) => `${prev}<div style="display: flex; padding: 10px;"><div style="margin-right: 8px; width: 12px; height: 12px; border-radius: 50%; background-color: ${w.globals.colors[index]}; margin-top: 4px;">
-          </div><div><span style="color: ${colorScheme === 'dark' ? '#ffffff' : '#637381'}; margin-right: 5px;">${w.globals.seriesNames[index]}:</span> <span style="font-weight: bold;">${item} GH/s</span></div></div>`,
-          ''
-        );
-
-        return `<div style="background: ${colorScheme === 'dark' ? '#141A21' : '#ffffff'}; color: ${colorScheme === 'dark' ? '#ffffff' : '#6a7987'};"><div style="background: ${colorScheme === 'dark' ? '#28323D' : '#f4f6f8'}; color: ${colorScheme === 'dark' ? '#ffffff' : '#637381'}; font-weight: bold; padding: 5px 10px;">${category}</div>${chartData}</div>`;
-      },
-    },
-    legend: { show: false },
-  };
+  });
 
   return (
     <Card>
