@@ -13,7 +13,7 @@ interface Props {
   color?: PaletteColorKey;
 }
 
-export function ItemInfo({ icon, label, color = 'success' }: Props) {
+export function IconItem({ icon, label, color = 'success' }: Props) {
   const theme = useTheme();
 
   return (
