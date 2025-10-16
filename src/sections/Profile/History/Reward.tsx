@@ -22,33 +22,36 @@ export default function Reward() {
     () => [
       {
         name: 'TXC Shared',
-        data: statistics.map((item) => (item?.txcShared ?? 0) / 10 ** 8).reverse(),
+        data: statistics.map((item) => item?.txcShared ?? 0).reverse(),
+        type: 'area',
       },
       {
         name: 'Hash Power',
         data: statistics.map((item) => item?.hashPower ?? 0).reverse(),
+        type: 'area',
       },
     ],
     [statistics]
   );
 
   const chartOptions = useChart({
-    plotOptions: {
-      bar: {
-        columnWidth: '80%',
-      },
-    },
     xaxis: {
+      tickAmount: 12,
       tooltip: { enabled: true },
       categories: statistics.map((item) => `${formatDate(item?.issuedAt!, 'MM/DD')}`).reverse(),
     },
-    yaxis: {
-      labels: {
-        formatter(val) {
-          return `${Math.floor(val)}`;
+    yaxis: [
+      {
+        labels: {
+          formatter(val) {
+            return `${val / 10 ** 8}`;
+          },
         },
       },
-    },
+      {
+        show: false,
+      },
+    ],
   });
 
   return (
@@ -65,7 +68,7 @@ export default function Reward() {
       />
 
       <Box p={2}>
-        <Chart type="bar" loading={loading} series={series} options={chartOptions} height={480} />
+        <Chart type="area" loading={loading} series={series} options={chartOptions} height={480} />
       </Box>
     </Card>
   );
