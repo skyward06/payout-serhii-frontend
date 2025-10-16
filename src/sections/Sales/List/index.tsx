@@ -4,6 +4,7 @@ import type { ColDef, IDateFilterParams, ITextFilterParams } from '@ag-grid-comm
 
 import { useMemo } from 'react';
 
+import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 
 import { formatID } from 'src/utils/helper';
@@ -11,6 +12,7 @@ import { formatDate } from 'src/utils/format-time';
 import { fCurrency } from 'src/utils/formatNumber';
 
 import { AgGrid } from 'src/components/AgGrid';
+import { IconRenderer, LabelRenderer } from 'src/components/ItemRenderers';
 
 import { useFetchSales } from 'src/sections/Sales/useApollo';
 
@@ -22,73 +24,99 @@ export default function SaleListView() {
       {
         field: 'ID',
         headerName: 'ID',
-        width: 140,
+        width: 160,
         filter: 'agNumberColumnFilter',
         resizable: true,
         editable: false,
-        cellClass: 'ag-number-cell',
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicSale>) =>
-          formatID(data?.ID ?? '', 'S'),
-      },
-      {
-        field: 'assetId',
-        headerName: 'Asset ID',
-        width: 110,
-        filter: 'agTextColumnFilter',
-        resizable: true,
-        editable: false,
-        filterParams: { buttons: ['reset'] } as ITextFilterParams,
+        cellClass: 'ag-cell-center',
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicSale>) => (
+          <LabelRenderer
+            icon="solar:bill-list-bold"
+            value={formatID(data?.ID!, 'S')}
+            color="primary"
+          />
+        ),
       },
       {
         field: 'productName',
-        headerName: 'ProductName',
+        headerName: 'Product Name',
         flex: 1,
+        minWidth: 200,
         filter: 'agTextColumnFilter',
         resizable: true,
         editable: false,
+        cellClass: 'ag-cell-center',
         filterParams: { buttons: ['reset'] } as ITextFilterParams,
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicSale>) => (
+          <IconRenderer icon="solar:box-bold-duotone" value={data?.productName} color="info" />
+        ),
       },
       {
         field: 'paymentMethod',
         headerName: 'Payment Method',
-        flex: 1,
+        width: 250,
         filter: 'agTextColumnFilter',
         resizable: true,
         editable: false,
+        cellClass: 'ag-cell-center',
         filterParams: { buttons: ['reset'] } as ITextFilterParams,
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicSale>) => (
+          <Box display="flex">
+            <LabelRenderer icon="solar:card-bold" value={data?.paymentMethod!} color="success" />
+          </Box>
+        ),
       },
       {
         field: 'amount',
         headerName: 'Amount',
-        width: 100,
+        width: 150,
         filter: 'agNumberColumnFilter',
         resizable: true,
         editable: false,
-        cellClass: 'ag-number-cell ag-right-aligned-cell',
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicSale>) => fCurrency(data?.amount),
+        cellClass: 'ag-cell-center ',
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicSale>) => (
+          <IconRenderer
+            icon="material-symbols:paid-outline-rounded"
+            value={fCurrency(data?.amount)}
+            color="info"
+            sx={{ justifyContent: 'space-between' }}
+          />
+        ),
       },
       {
         field: 'token',
         headerName: 'Hash Power',
-        width: 130,
+        width: 180,
         filter: 'agNumberColumnFilter',
         resizable: true,
         editable: false,
-        cellClass: 'ag-number-cell ag-right-aligned-cell',
+        cellClass: 'ag-cell-center',
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicSale>) => (
+          <IconRenderer
+            icon="solar:routing-2-bold"
+            value={data?.token!}
+            sx={{ justifyContent: 'space-between' }}
+          />
+        ),
       },
       {
         field: 'point',
         headerName: 'Point',
-        width: 90,
+        width: 130,
         filter: 'agNumberColumnFilter',
         resizable: true,
         editable: false,
-        cellClass: 'ag-number-cell ag-right-aligned-cell',
+        cellClass: 'ag-cell-center',
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicSale>) => (
+          <Box display="flex" justifyContent="flex-end">
+            <LabelRenderer icon="solar:star-bold" value={`${data?.point}`} color="secondary" />
+          </Box>
+        ),
       },
       {
         field: 'orderedAt',
         headerName: 'Ordered At',
-        width: 160,
+        width: 180,
         filter: 'agDateColumnFilter',
         filterParams: {
           buttons: ['reset'],
@@ -98,8 +126,10 @@ export default function SaleListView() {
         resizable: true,
         editable: false,
         initialSort: 'desc',
-        cellClass: 'ag-number-cell',
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicSale>) => formatDate(data?.createdAt),
+        cellClass: 'ag-cell-center',
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicSale>) => (
+          <IconRenderer icon="lineicons:calendar-days" value={formatDate(data?.createdAt)} />
+        ),
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -115,7 +145,7 @@ export default function SaleListView() {
       }}
     >
       <AgGrid<BasicSale>
-        gridKey="miner-sale-list"
+        gridKey="miner-order-list"
         loading={loading}
         rowData={sales}
         columnDefs={colDefs}

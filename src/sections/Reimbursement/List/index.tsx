@@ -119,7 +119,7 @@ export function ReimbursementList() {
         } as IDateFilterParams,
         resizable: true,
         editable: false,
-        cellClass: 'tabular-nums',
+        cellClass: 'ag-cell-center',
         cellRenderer: ({ data }: CustomCellRendererProps<BasicReimbursement>) => (
           <IconRenderer icon="lineicons:calendar-days" value={formatDate(data?.createdAt)} />
         ),
