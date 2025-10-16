@@ -19,9 +19,9 @@ export default function Personal() {
 
       <BasicInfo />
 
-      <AddressInfo />
-
       <AccountInfo />
+
+      <AddressInfo />
 
       <TeamInfo />
 
