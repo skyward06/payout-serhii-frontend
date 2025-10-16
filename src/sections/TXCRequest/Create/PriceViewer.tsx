@@ -4,11 +4,12 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
+import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 
 import { RouterLink } from 'src/routes/components';
 
-import { fNumber } from 'src/utils/formatNumber';
+import { fCurrency } from 'src/utils/formatNumber';
 
 import { COIN_MARKET_CAP } from 'src/consts';
 
@@ -22,41 +23,60 @@ interface Props {
 
 export function PriceViewer({ loading, price, getPrice }: Props) {
   return (
-    <Stack
-      direction={{ md: 'row', sm: 'column' }}
-      spacing={4}
-      rowGap={1}
-      alignItems="center"
-      color="text.secondary"
-    >
-      <Box display="flex" alignItems="center" gap={2}>
-        <Typography variant="subtitle1">TXC Price</Typography>
-        <Iconify icon="lucide:equal-approximately" />
-        <Typography variant="body1">
-          {fNumber(price, { minimumFractionDigits: 4, maximumFractionDigits: 4 })}
+    <Stack spacing={2}>
+      <Box>
+        <Typography variant="h2" lineHeight={1}>
+          {fCurrency(price, { minimumFractionDigits: 4, maximumFractionDigits: 4 })}
+        </Typography>
+        <Typography variant="caption" sx={{ opacity: 0.8, mt: 0.5 }}>
+          per coin
         </Typography>
       </Box>
-      <Box display="flex" alignItems="center" gap={2}>
-        <Typography variant="caption" color="text.secondary">
-          {TOOLTIP_TEXT}
-        </Typography>
-        <Tooltip title="Click here to get the current TXC Price" placement="bottom">
-          <Iconify
-            icon={loading.value ? 'eos-icons:bubble-loading' : 'ic:baseline-refresh'}
-            cursor="pointer"
+
+      <Stack direction="row" spacing={1} alignItems="center">
+        <Tooltip title="Refresh to get current price" arrow placement="bottom">
+          <IconButton
             onClick={getPrice}
-          />
+            disabled={loading.value}
+            size="small"
+            sx={{
+              color: 'inherit',
+              bgcolor: 'rgba(255, 255, 255, 0.16)',
+              '&:hover': {
+                bgcolor: 'rgba(255, 255, 255, 0.24)',
+              },
+            }}
+          >
+            <Iconify
+              icon={loading.value ? 'eos-icons:bubble-loading' : 'solar:refresh-bold-duotone'}
+              width={18}
+            />
+          </IconButton>
         </Tooltip>
+
+        <Typography variant="caption" color="inherit" sx={{ opacity: 0.9 }}>
+          Updated from{' '}
+          <Link
+            component={RouterLink}
+            href={COIN_MARKET_CAP}
+            target="_blank"
+            sx={{
+              color: 'inherit',
+              textDecoration: 'underline',
+              fontWeight: 600,
+              '&:hover': { opacity: 0.8 },
+            }}
+          >
+            CoinMarketCap
+          </Link>
+        </Typography>
+      </Stack>
+
+      <Box p={1.5} borderRadius={1} bgcolor="rgba(255, 255, 255, 0.12)">
+        <Typography variant="caption" color="inherit" display="block" sx={{ opacity: 0.9 }}>
+          * Includes 5% convenience fee
+        </Typography>
       </Box>
     </Stack>
   );
 }
-
-const TOOLTIP_TEXT = (
-  <Typography variant="caption">
-    This is the live price of TXC from{' '}
-    <Link component={RouterLink} href={COIN_MARKET_CAP} target="_blank">
-      CoinMarketCap with a 5% convenience fee
-    </Link>
-  </Typography>
-);

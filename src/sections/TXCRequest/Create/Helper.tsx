@@ -1,47 +1,81 @@
 import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 
 import { Iconify } from 'src/components/Iconify';
 
+const TIPS = [
+  {
+    icon: 'solar:wallet-money-bold-duotone',
+    title: 'Minimum Amount',
+    text: '$30 minimum deposit required',
+  },
+  {
+    icon: 'solar:chart-2-bold-duotone',
+    title: 'Conversion Rate',
+    text: 'Final amount determined at order completion',
+  },
+  {
+    icon: 'solar:shield-check-bold-duotone',
+    title: 'Secure Process',
+    text: 'All transactions are encrypted and secure',
+  },
+  {
+    icon: 'solar:chat-round-call-bold-duotone',
+    title: 'Need Help?',
+    text: 'Submit a ticket in your dashboard',
+  },
+] as const;
+
 export function Helper() {
   return (
-    <Box color="text.secondary">
-      <Divider sx={{ borderStyle: 'dashed', my: 3, typography: 'overline' }}>
-        <Typography variant="subtitle1">Useful tips to know</Typography>
-      </Divider>
-
-      <Box display="grid" gap={1} sx={{ width: { md: 500, sm: 300 }, mx: 'auto' }}>
-        <Stack direction="row" alignItems="start" spacing={2}>
-          <Iconify icon="ion:information-circle-outline" sx={{ mt: 0.3 }} color="primary.main" />
-          <Typography variant="body2">
-            Minimum deposit of <strong>$30</strong> is required.
+    <Card
+      sx={{
+        p: 3,
+        borderRadius: 3,
+        boxShadow: (theme) => theme.customShadows.z8,
+      }}
+    >
+      <Stack spacing={2}>
+        <Stack direction="row" spacing={1} alignItems="center">
+          <Iconify icon="solar:info-circle-bold-duotone" width={24} color="info.main" />
+          <Typography variant="subtitle1" fontWeight={700}>
+            Important Information
           </Typography>
         </Stack>
 
-        <Stack direction="row" alignItems="start" spacing={2}>
-          <Iconify icon="ion:information-circle-outline" sx={{ mt: 0.3 }} color="primary.main" />
-          <Typography variant="body2">
-            Final amount you receive is determined by the conversion rate at order completion, not
-            at submission.
-          </Typography>
-        </Stack>
+        <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <Stack direction="row" alignItems="start" spacing={2}>
-          <Iconify icon="ion:information-circle-outline" sx={{ mt: 0.3 }} color="primary.main" />
-          <Typography variant="body2">
-            Click the reload button to see the <strong>current TXC</strong> price before submitting.
-          </Typography>
+        <Stack spacing={2}>
+          {TIPS.map((tip, index) => (
+            <Stack key={index} direction="row" spacing={2}>
+              <Box
+                width={40}
+                height={40}
+                flexShrink={0}
+                borderRadius={1.5}
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                color="primary.main"
+                bgcolor={(theme) => theme.palette.primary.lighter}
+              >
+                <Iconify icon={tip.icon} width={24} />
+              </Box>
+              <Box>
+                <Typography variant="subtitle2" fontWeight={600} mb={0.5}>
+                  {tip.title}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {tip.text}
+                </Typography>
+              </Box>
+            </Stack>
+          ))}
         </Stack>
-
-        <Stack direction="row" alignItems="start" spacing={2}>
-          <Iconify icon="ion:information-circle-outline" sx={{ mt: 0.3 }} color="primary.main" />
-          <Typography variant="body2">
-            If you have any issues, please fill out a ticket in your dashboard.
-          </Typography>
-        </Stack>
-      </Box>
-    </Box>
+      </Stack>
+    </Card>
   );
 }

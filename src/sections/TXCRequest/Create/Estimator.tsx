@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import MenuItem from '@mui/material/MenuItem';
 import Grid from '@mui/material/Unstable_Grid2';
+import Typography from '@mui/material/Typography';
 import InputAdornment from '@mui/material/InputAdornment';
 
 import { CONFIG } from 'src/config';
@@ -59,31 +60,66 @@ export function Estimator({ isTXC, price }: Props) {
   };
 
   return (
-    <Grid container rowSpacing={4} columnSpacing={3} mb={2}>
-      <Grid xs={12} md={3}>
-        <Field.Select name="payment" defaultValue="TXC" label="Currency">
+    <Grid container spacing={2}>
+      <Grid xs={12}>
+        <Field.Select
+          name="payment"
+          defaultValue="TXC"
+          label="Select Currency"
+          InputLabelProps={{ shrink: true }}
+        >
           {PAYMENTS.map((item) => (
             <MenuItem key={item.label} value={item.label}>
-              <Box display="flex" alignItems="center" columnGap={2}>
-                <Avatar src={item.path} sx={{ width: 24, height: 24 }} />
-                {item.label}
+              <Box display="flex" alignItems="center" columnGap={1}>
+                <Avatar
+                  src={item.path}
+                  sx={{
+                    width: 24,
+                    height: 24,
+                  }}
+                />
+                <Typography variant="subtitle2">{item.label}</Typography>
               </Box>
             </MenuItem>
           ))}
         </Field.Select>
       </Grid>
-      <Grid xs={12} md={6}>
-        <Field.Text name="buy" type="number" label="Amount to buy" onChange={handleBuyChange} />
-      </Grid>
-      <Grid xs={12} md={3}>
+
+      <Grid xs={12} sm={6}>
         <Field.Text
-          name="pay"
+          name="buy"
           type="number"
-          label="Amount to pay"
+          label="Amount to Buy"
+          onChange={handleBuyChange}
+          InputLabelProps={{ shrink: true }}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <Iconify icon="mdi:currency-usd" color="primary.main" />
+                <Iconify
+                  icon="solar:coins-bold-duotone"
+                  width={24}
+                  sx={{ color: 'warning.main' }}
+                />
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Grid>
+
+      <Grid xs={12} sm={6}>
+        <Field.Text
+          name="pay"
+          type="number"
+          label="Amount to Pay (USD)"
+          InputLabelProps={{ shrink: true }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Iconify
+                  icon="material-symbols:paid-outline-rounded"
+                  width={24}
+                  color="info.main"
+                />
               </InputAdornment>
             ),
           }}
