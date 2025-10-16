@@ -12,13 +12,14 @@ import Typography from '@mui/material/Typography';
 
 import { useAgQuery as useQueryString } from 'src/routes/hooks';
 
+import { fCurrency } from 'src/utils/formatNumber';
 import { parseFilterModel } from 'src/utils/parseFilter';
 import { formatWeekNumber } from 'src/utils/format-time';
 
 import { AgGrid } from 'src/components/AgGrid';
+import { PointView } from 'src/components/Common';
 import { IconRenderer } from 'src/components/ItemRenderers';
 
-import { PointInfo } from './PointInfo';
 import { useFetchTeamCommission } from './useApollo';
 
 import type { WeeklyCommission } from '../Commission/type';
@@ -102,7 +103,7 @@ export default function Report({ teamReport }: Props) {
         sortable: false,
         cellClass: 'ag-cell-center',
         cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
-          <PointInfo leftValue={data?.begL || 0} rightValue={data?.begR || 0} />
+          <PointView leftValue={data?.begL || 0} rightValue={data?.begR || 0} />
         ),
       },
       {
@@ -113,7 +114,7 @@ export default function Report({ teamReport }: Props) {
         sortable: false,
         cellClass: 'ag-cell-center',
         cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
-          <PointInfo leftValue={data?.newL || 0} rightValue={data?.newR || 0} />
+          <PointView leftValue={data?.newL || 0} rightValue={data?.newR || 0} />
         ),
       },
       {
@@ -124,7 +125,7 @@ export default function Report({ teamReport }: Props) {
         sortable: false,
         cellClass: 'ag-cell-center',
         cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
-          <PointInfo leftValue={data?.maxL || 0} rightValue={data?.maxR || 0} />
+          <PointView leftValue={data?.maxL || 0} rightValue={data?.maxR || 0} />
         ),
       },
       {
@@ -135,7 +136,7 @@ export default function Report({ teamReport }: Props) {
         sortable: false,
         cellClass: 'ag-cell-center',
         cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
-          <PointInfo leftValue={data?.pkgL || 0} rightValue={data?.pkgR || 0} />
+          <PointView leftValue={data?.pkgL || 0} rightValue={data?.pkgR || 0} />
         ),
       },
       {
@@ -146,7 +147,7 @@ export default function Report({ teamReport }: Props) {
         sortable: false,
         cellClass: 'ag-cell-center',
         cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
-          <PointInfo leftValue={data?.endL || 0} rightValue={data?.endR || 0} />
+          <PointView leftValue={data?.endL || 0} rightValue={data?.endR || 0} />
         ),
       },
       {
@@ -156,27 +157,19 @@ export default function Report({ teamReport }: Props) {
         filter: 'agNumberColumnFilter',
         resizable: true,
         editable: false,
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => {
-          const amount = data?.commission || 0;
-          const formattedAmount = amount.toLocaleString('en-US', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          });
-
-          return (
-            <Box sx={{ display: 'flex', alignItems: 'center', height: '100%' }}>
-              <Chip
-                label={`$${formattedAmount}`}
-                size="small"
-                color="primary"
-                sx={{
-                  fontWeight: 600,
-                  minWidth: 90,
-                }}
-              />
-            </Box>
-          );
-        },
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
+          <Box sx={{ display: 'flex', alignItems: 'center', height: '100%' }}>
+            <Chip
+              label={fCurrency(data?.commission)}
+              size="small"
+              color="primary"
+              sx={{
+                fontWeight: 600,
+                minWidth: 90,
+              }}
+            />
+          </Box>
+        ),
       },
       {
         field: 'shortNote',

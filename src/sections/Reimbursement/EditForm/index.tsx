@@ -20,8 +20,8 @@ import { useRouter } from 'src/routes/hooks';
 
 import { toast } from 'src/components/SnackBar';
 import { Iconify } from 'src/components/Iconify';
+import { IconItem } from 'src/components/Common';
 import { Form, Field } from 'src/components/Form';
-import { ItemInfo } from 'src/components/ItemInfo';
 
 import { FileRecentItem } from 'src/sections/BugReport/FileRecentItem';
 
@@ -130,7 +130,7 @@ export function EditForm({ current }: Props) {
 
             <Stack spacing={3} sx={{ p: 3 }}>
               <Box>
-                <ItemInfo
+                <IconItem
                   icon="solar:wallet-bold-duotone"
                   label="Payment Details"
                   color="success"
@@ -176,7 +176,7 @@ export function EditForm({ current }: Props) {
               <Divider sx={{ borderStyle: 'dashed' }} />
 
               <Box>
-                <ItemInfo
+                <IconItem
                   icon="solar:document-text-bold-duotone"
                   label="Description"
                   color="info"

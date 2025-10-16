@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import { useMemo } from 'react';
 
 import Box from '@mui/material/Box';
+import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
@@ -18,10 +19,11 @@ import { formatWeekNumber } from 'src/utils/format-time';
 import { COMMISSION_TYPE, COMMISSION_STATUS } from 'src/consts';
 import { CommissionType, CommissionDefault } from 'src/__generated__/graphql';
 
-import { Label } from 'src/components/Label';
 import { AgGrid } from 'src/components/AgGrid';
 import { toast } from 'src/components/SnackBar';
 import { Iconify } from 'src/components/Iconify';
+import { PointView, PriceView } from 'src/components/Common';
+import { LabelRenderer } from 'src/components/ItemRenderers';
 
 import { useFetchCommissions } from '../useApollo';
 import { parseType, commissionParseType } from './parseType';
@@ -63,76 +65,90 @@ export default function CommissionTable() {
       {
         field: 'weekStartDate',
         headerName: 'Week',
-        width: 150,
+        width: 250,
         resizable: true,
         editable: false,
         sortable: false,
         filterParams: { buttons: ['reset'] } as ITextFilterParams,
         cellClass: 'ag-cell-center',
         cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
-          <>
-            <Typography
-              variant="body2"
-              fontWeight={600}
-            >{`week #${formatWeekNumber(data?.weekStartDate)}`}</Typography>
-            <Typography variant="body2">{`${dayjs(data?.weekStartDate).utc().format('MM/DD')} - ${dayjs(data?.weekStartDate).utc().add(6, 'day').format('MM/DD')}`}</Typography>
-          </>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Chip
+              label={`Week ${formatWeekNumber(data?.weekStartDate)}`}
+              size="small"
+              variant="soft"
+              color="primary"
+              sx={{ fontWeight: 600, minWidth: 70 }}
+            />
+            <Typography variant="body2" color="text.secondary">
+              {dayjs(data?.weekStartDate).utc().format('MMM DD')} -{' '}
+              {dayjs(data?.weekStartDate).utc().add(6, 'day').format('MMM DD')}
+            </Typography>
+          </Stack>
         ),
       },
       {
         headerName: 'BegLR',
-        width: 120,
+        width: 160,
         resizable: true,
         editable: false,
         sortable: false,
         cellClass: 'ag-cell-center tabular-nums',
         filterParams: { buttons: ['reset'] } as ITextFilterParams,
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) =>
-          `L${data?.begL}, R${data?.begR}`,
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
+          <PointView leftValue={data?.begL!} rightValue={data?.begR!} />
+        ),
       },
       {
         headerName: 'NewLR',
-        width: 120,
+        width: 160,
         resizable: true,
         editable: false,
         sortable: false,
         cellClass: 'ag-cell-center tabular-nums',
         filterParams: { buttons: ['reset'] } as ITextFilterParams,
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) =>
-          `L${data?.newL}, R${data?.newR}`,
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
+          <PointView leftValue={data?.newL!} rightValue={data?.newR!} />
+        ),
       },
       {
         headerName: 'MaxLR',
-        width: 120,
+        width: 160,
         resizable: true,
         editable: false,
         sortable: false,
         cellClass: 'ag-cell-center tabular-nums',
         filterParams: { buttons: ['reset'] } as ITextFilterParams,
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) =>
-          `L${data?.maxL}, R${data?.maxR}`,
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
+          <PointView leftValue={data?.maxL!} rightValue={data?.maxR!} />
+        ),
       },
       {
         headerName: 'Package',
-        width: 120,
+        width: 160,
         resizable: true,
         editable: false,
         sortable: false,
         cellClass: 'ag-cell-center tabular-nums',
         filterParams: { buttons: ['reset'] } as ITextFilterParams,
         cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) =>
-          data?.status !== COMMISSION_STATUS.NONE.label ? `L${data?.pkgL}, R${data?.pkgR}` : 'None',
+          data?.status !== COMMISSION_STATUS.NONE.label ? (
+            <PointView leftValue={data?.pkgL!} rightValue={data?.pkgR!} />
+          ) : (
+            'None'
+          ),
       },
       {
         headerName: 'EndLR',
-        width: 120,
+        width: 160,
         resizable: true,
         editable: false,
         sortable: false,
         cellClass: 'ag-cell-center tabular-nums',
         filterParams: { buttons: ['reset'] } as ITextFilterParams,
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) =>
-          `L${data?.endL}, R${data?.endR}`,
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
+          <PointView leftValue={data?.endL!} rightValue={data?.endR!} />
+        ),
       },
       {
         field: 'commission',
@@ -142,6 +158,9 @@ export default function CommissionTable() {
         editable: false,
         cellClass: 'ag-cell-center tabular-nums ag-right-aligned-cell',
         filter: 'agNumberColumnFilter',
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
+          <PriceView price={data?.commission ?? 0} />
+        ),
       },
       {
         field: 'paymentMethod',
@@ -157,11 +176,26 @@ export default function CommissionTable() {
           defaultToNothingSelected: true,
         } as ISetFilterParams<WeeklyCommission>,
         cellRenderer: ({ data }: CustomCellRendererProps<WeeklyCommission>) => (
-          <Stack direction="row" alignItems="center" spacing={2}>
-            {data?.paymentMethod}
-
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <LabelRenderer
+              icon={
+                data?.paymentMethod === CommissionDefault.Usdc
+                  ? 'cryptocurrency:usdc'
+                  : data?.paymentMethod === CommissionDefault.Hash
+                    ? 'solar:wallet-money-bold'
+                    : ''
+              }
+              color={
+                data?.paymentMethod === CommissionDefault.Usdc
+                  ? 'info'
+                  : data?.paymentMethod === CommissionDefault.Txc
+                    ? 'warning'
+                    : 'success'
+              }
+              value={data?.paymentMethod!}
+            />
             {data?.hasUSDC && data.paymentMethod === CommissionDefault.Usdc && (
-              <Iconify icon="ic:twotone-check-box" color="green" />
+              <Iconify icon="solar:check-circle-bold" width={20} color="success.main" />
             )}
           </Stack>
         ),
@@ -173,22 +207,19 @@ export default function CommissionTable() {
         filter: 'agMultiColumnFilter',
         resizable: true,
         editable: false,
-        cellClass: 'ag-cell-center',
         filterParams: {
           values: Object.values(CommissionType),
           valueFormatter: (params: any) => commissionParseType(params.value),
           defaultToNothingSelected: true,
         } as ISetFilterParams<WeeklyCommission>,
+        cellClass: 'ag-cell-center',
         cellRenderer: ({ data }: CustomCellRendererProps<WeeklyCommission>) => (
-          <Box>
-            {data?.commissionType === CommissionType.Supernova && (
-              <Label
-                variant="soft"
-                color={COMMISSION_TYPE[data?.commissionType!].color as LabelColor}
-              >
-                {COMMISSION_TYPE[data?.commissionType!].value}
-              </Label>
-            )}
+          <Box display="flex">
+            <LabelRenderer
+              icon={data?.commissionType === CommissionType.Supernova ? 'solar:star-bold' : null}
+              value={COMMISSION_TYPE[data?.commissionType!].value}
+              color={COMMISSION_TYPE[data?.commissionType!].color as LabelColor}
+            />
           </Box>
         ),
       },
@@ -201,7 +232,13 @@ export default function CommissionTable() {
         sortable: false,
         cellClass: 'ag-cell-center',
         cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
-          <>{data?.paidAs ? 'Cash' : 'Hash'}</>
+          <Box display="flex">
+            <LabelRenderer
+              icon={data?.paidAs ? 'solar:dollar-bold' : 'solar:routing-bold'}
+              value={data?.paidAs ? 'Cash' : 'Hash'}
+              color={data?.paidAs ? 'success' : 'secondary'}
+            />
+          </Box>
         ),
       },
       {

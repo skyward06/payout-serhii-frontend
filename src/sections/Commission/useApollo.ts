@@ -8,7 +8,7 @@ import { parseFilterModel } from 'src/utils/parseFilter';
 import { FETCH_COMMISSION_QUERY, FETCH_COMMISSION_STATS_QUERY } from './query';
 
 export function useFetchCommissions() {
-  const [{ page = '1,50', sort = 'createdAt', filter }] = useQueryString();
+  const [{ page = '1,50', sort = 'ID', filter }] = useQueryString();
   const graphQueryFilter = useMemo(() => parseFilterModel({}, filter), [filter]);
 
   const { loading, data } = useQuery(FETCH_COMMISSION_QUERY, {
