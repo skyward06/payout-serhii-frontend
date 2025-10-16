@@ -148,6 +148,7 @@ export default function InvoiceListView() {
         resizable: true,
         editable: false,
         initialSort: 'desc',
+        cellClass: 'ag-cell-center',
         cellRenderer: ({ data }: CustomCellRendererProps<Invoice>) => (
           <IconRenderer icon="lineicons:calendar-days" value={formatDate(data?.dueDate)} />
         ),
@@ -165,6 +166,7 @@ export default function InvoiceListView() {
         resizable: true,
         editable: false,
         initialSort: 'desc',
+        cellClass: 'ag-cell-center',
         cellRenderer: ({ data }: CustomCellRendererProps<Invoice>) => (
           <IconRenderer icon="lineicons:calendar-days" value={formatDate(data?.createdAt)} />
         ),

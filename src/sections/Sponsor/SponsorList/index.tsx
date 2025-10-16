@@ -3,6 +3,7 @@ import type { ColDef, IDateFilterParams, ITextFilterParams } from '@ag-grid-comm
 
 import { useMemo, useEffect } from 'react';
 
+import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 
 import { useAgQuery as useQueryString } from 'src/routes/hooks';
@@ -12,6 +13,7 @@ import { parseFilterModel } from 'src/utils/parseFilter';
 import { formatID, customizeFullName } from 'src/utils/helper';
 
 import { AgGrid } from 'src/components/AgGrid';
+import { IconRenderer, LabelRenderer } from 'src/components/ItemRenderers';
 
 import { useFetchSponsors } from 'src/sections/TeamCommission/useApollo';
 
@@ -40,12 +42,15 @@ export default function SPonsorListView({ filter: customFilter }: Props) {
       {
         field: 'ID',
         headerName: 'ID',
-        width: 200,
+        width: 180,
         filter: 'agTextColumnFilter',
         resizable: true,
         editable: false,
+        cellClass: 'ag-cell-center',
         filterParams: { buttons: ['reset'] } as ITextFilterParams,
-        cellRenderer: ({ data }: CustomCellRendererProps<Introducer>) => formatID(data?.ID ?? ''),
+        cellRenderer: ({ data }: CustomCellRendererProps<Introducer>) => (
+          <LabelRenderer icon="solar:user-id-bold" value={formatID(data?.ID!)} color="primary" />
+        ),
       },
       {
         field: 'username',
@@ -56,6 +61,9 @@ export default function SPonsorListView({ filter: customFilter }: Props) {
         resizable: true,
         editable: false,
         filterParams: { buttons: ['reset'] } as ITextFilterParams,
+        cellRenderer: ({ data }: CustomCellRendererProps<Introducer>) => (
+          <IconRenderer icon="lucide:user-round" value={data?.username} />
+        ),
       },
       {
         field: 'fullName',
@@ -76,6 +84,12 @@ export default function SPonsorListView({ filter: customFilter }: Props) {
         filter: 'agNumberColumnFilter',
         resizable: true,
         editable: false,
+        cellClass: 'ag-cell-center',
+        cellRenderer: ({ data }: CustomCellRendererProps<Introducer>) => (
+          <Box display="flex" justifyContent="flex-end">
+            <LabelRenderer icon="solar:star-bold" value={`${data?.point}`} color="secondary" />
+          </Box>
+        ),
       },
       {
         field: 'createdAt',
@@ -89,8 +103,10 @@ export default function SPonsorListView({ filter: customFilter }: Props) {
         } as IDateFilterParams,
         resizable: true,
         editable: false,
-        cellRenderer: ({ data }: CustomCellRendererProps<Introducer>) =>
-          formatDate(data?.createdAt),
+        cellClass: 'ag-cell-center',
+        cellRenderer: ({ data }: CustomCellRendererProps<Introducer>) => (
+          <IconRenderer icon="lineicons:calendar-days" value={formatDate(data?.createdAt)} />
+        ),
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
