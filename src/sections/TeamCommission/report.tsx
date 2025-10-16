@@ -17,7 +17,7 @@ import { parseFilterModel } from 'src/utils/parseFilter';
 import { formatWeekNumber } from 'src/utils/format-time';
 
 import { AgGrid } from 'src/components/AgGrid';
-import { PointView } from 'src/components/Common';
+import { NoteView, PointView } from 'src/components/Common';
 import { IconRenderer } from 'src/components/ItemRenderers';
 
 import { useFetchTeamCommission } from './useApollo';
@@ -179,25 +179,7 @@ export default function Report({ teamReport }: Props) {
         resizable: true,
         editable: false,
         cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              height: '100%',
-              py: 1,
-            }}
-          >
-            <Typography
-              variant="body2"
-              color={data?.shortNote ? 'text.primary' : 'text.disabled'}
-              fontStyle={data?.shortNote ? 'normal' : 'italic'}
-              overflow="hidden"
-              textOverflow="ellipsis"
-              whiteSpace="nowrap"
-            >
-              {data?.shortNote || 'No note'}
-            </Typography>
-          </Box>
+          <NoteView note={data?.shortNote!} />
         ),
       },
     ],

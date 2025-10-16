@@ -22,8 +22,8 @@ import { CommissionType, CommissionDefault } from 'src/__generated__/graphql';
 import { AgGrid } from 'src/components/AgGrid';
 import { toast } from 'src/components/SnackBar';
 import { Iconify } from 'src/components/Iconify';
-import { PointView, PriceView } from 'src/components/Common';
 import { LabelRenderer } from 'src/components/ItemRenderers';
+import { NoteView, PointView, PriceView } from 'src/components/Common';
 
 import { useFetchCommissions } from '../useApollo';
 import { parseType, commissionParseType } from './parseType';
@@ -251,6 +251,9 @@ export default function CommissionTable() {
         cellClass: 'ag-cell-center',
         filter: 'agTextColumnFilter',
         filterParams: { buttons: ['reset'] } as ITextFilterParams,
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
+          <NoteView note={data?.note!} />
+        ),
       },
     ];
 
