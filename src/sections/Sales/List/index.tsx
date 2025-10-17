@@ -34,6 +34,7 @@ export default function SaleListView() {
             icon="solar:bill-list-bold"
             value={formatID(data?.ID!, 'S')}
             color="primary"
+            variant="outlined"
           />
         ),
       },
