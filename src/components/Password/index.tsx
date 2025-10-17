@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import { useBoolean } from 'src/hooks/useBoolean';
 
 import { Iconify } from '../Iconify';
-import ResetPassword from './ResetPassword';
+import { ResetPassword } from './ResetPassword';
 
 export default function Password() {
   const open = useBoolean();

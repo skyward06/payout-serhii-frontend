@@ -21,7 +21,7 @@ interface Props {
   open: UseBooleanReturn;
 }
 
-export default function ResetPassword({ open }: Props) {
+export function ResetPassword({ open }: Props) {
   const password = useBoolean();
   const current = useBoolean();
   const confirm = useBoolean();
