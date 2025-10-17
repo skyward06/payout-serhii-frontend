@@ -1,19 +1,14 @@
-import type { Theme, SxProps } from '@mui/material';
-
 import { Iconify } from '../Iconify';
-import { Label, type LabelColor } from '../Label';
+import { Label, type LabelProps } from '../Label';
 
-interface Props {
+interface Props extends LabelProps {
   icon?: string | null;
   value: string;
-  color?: LabelColor;
-  sx?: SxProps<Theme>;
 }
 
-export function LabelRenderer({ color = 'default', icon, value, sx }: Props) {
+export function LabelRenderer({ icon, value, ref, ...other }: Props) {
   return (
     <Label
-      color={color}
       {...(icon && {
         startIcon: <Iconify icon={icon} width={14} height={14} />,
       })}
@@ -22,8 +17,8 @@ export function LabelRenderer({ color = 'default', icon, value, sx }: Props) {
         '& .MuiChip-label': {
           fontWeight: 600,
         },
-        ...sx,
       }}
+      {...other}
     >
       {value}
     </Label>

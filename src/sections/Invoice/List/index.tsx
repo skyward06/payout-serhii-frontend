@@ -10,7 +10,6 @@ import { useMemo, useEffect } from 'react';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import Chip from '@mui/material/Chip';
 
 import { useAgQuery as useQueryString } from 'src/routes/hooks';
 
@@ -21,7 +20,6 @@ import { parseFilterModel } from 'src/utils/parseFilter';
 import { InvoiceStatus } from 'src/__generated__/graphql';
 
 import { AgGrid } from 'src/components/AgGrid';
-import { Iconify } from 'src/components/Iconify';
 import { IconRenderer, LabelRenderer } from 'src/components/ItemRenderers';
 
 import { parseType } from '../parseType';
@@ -51,18 +49,14 @@ export default function InvoiceListView() {
         resizable: true,
         editable: false,
         cellClass: 'ag-number-cell ag-cell-center',
-        cellRenderer: ({ data }: CustomCellRendererProps<Invoice>) => {
-          const invoiceNo = data?.ID.toString().padStart(6, '0');
-          return (
-            <Chip
-              icon={<Iconify icon="solar:bill-list-bold-duotone" width={16} />}
-              label={`#${invoiceNo}`}
-              size="small"
-              color="primary"
-              variant="outlined"
-            />
-          );
-        },
+        cellRenderer: ({ data }: CustomCellRendererProps<Invoice>) => (
+          <LabelRenderer
+            icon="solar:bill-list-bold-duotone"
+            value={`# ${data?.ID.toString().padStart(6, '0')}`}
+            color="primary"
+            variant="outlined"
+          />
+        ),
       },
       {
         field: 'name',
