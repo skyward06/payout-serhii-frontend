@@ -129,7 +129,7 @@ export default function OtherWallets({ wallets }: Props) {
         color="default"
         sx={{
           borderRadius: 0,
-          '&:hover': { background: 'transparent', color: '#00A76F' },
+          '&:hover': { background: 'transparent', color: 'primary.main' },
         }}
         onClick={addWallet}
       >
