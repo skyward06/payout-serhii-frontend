@@ -28,8 +28,7 @@ export const Schema = zod.object({
       note: zod.string().optional().nullable(),
       percent: zod
         .number({ required_error: 'Percent is required' })
-        .min(0, 'Percent must be at least 0')
-        .max(100, 'Percent cannot exceed 100'),
+        .min(0, { message: 'Percent must be at least 0' }),
       isDefault: zod.boolean().default(false),
     })
   ),
@@ -38,11 +37,7 @@ export const Schema = zod.object({
       payoutId: zod.string(),
       address: zod.string().regex(/^0x[a-fA-F0-9]{40}$/, { message: 'Invalid Ethereum address' }),
       note: zod.string().optional().nullable(),
-      percent: zod
-        .number()
-        .min(0, 'Percent must be at least 0')
-        .max(100, 'Percent cannot exceed 100')
-        .default(0),
+      percent: zod.number().min(0, { message: 'Percent must be at least 0' }).default(0),
       isDefault: zod.boolean().default(false),
     })
   ),
