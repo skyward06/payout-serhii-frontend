@@ -6,11 +6,19 @@ import { useTheme } from '@mui/material/styles';
 
 import { fNumber } from 'src/utils/formatNumber';
 
+import { COUNTRY } from 'src/consts';
+
 import { Chart, useChart } from 'src/components/chart';
 
 import { useFetchMemberByCountry } from '../useApollo';
 
-const mainCountries = ['United States of America', 'Texas', 'Australia', 'New Zealand', 'Canada'];
+const mainCountries = [
+  COUNTRY.USA,
+  COUNTRY.TEXAS,
+  COUNTRY.AUSTRALIA,
+  COUNTRY.NEW_ZEALAND,
+  COUNTRY.CANADA,
+];
 
 export default function MemberByCountry() {
   const theme = useTheme();

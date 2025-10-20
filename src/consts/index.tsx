@@ -176,3 +176,12 @@ export const COIN_MARKET_CAP = 'https://coinmarketcap.com/currencies/texitcoin/'
 export const MEMPOOL_URL = 'https://mempool.texitcoin.org/';
 
 export const ZENDESK_KEY = '39fe4f12-fb6b-4d14-83c1-3b297fbaf5d4';
+export const RECAPTCHA_KEY = '6Le1J-grAAAAAKuWbC-NUWYZffS5pqYHzNCFNtbG';
+
+export const COUNTRY = {
+  USA: 'United States of America',
+  TEXAS: 'Texas',
+  AUSTRALIA: 'Australia',
+  NEW_ZEALAND: 'New Zealand',
+  CANADA: 'Canada',
+};

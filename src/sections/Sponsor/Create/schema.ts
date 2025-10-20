@@ -1,5 +1,6 @@
 import { z as zod } from 'zod';
 
+import { COUNTRY } from 'src/consts';
 import { PlacementPosition } from 'src/__generated__/graphql';
 
 export type SchemaType = zod.infer<typeof Schema>;
@@ -29,7 +30,7 @@ export const Schema = zod
       .optional(),
   })
   .superRefine((data, ctx) => {
-    if (data.country !== 'United States of America' && !data.txcAddress) {
+    if (data.country !== COUNTRY.USA && !data.txcAddress) {
       ctx.addIssue({
         path: ['txcAddress'],
         code: zod.ZodIssueCode.custom,

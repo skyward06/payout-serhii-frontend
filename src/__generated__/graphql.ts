@@ -660,7 +660,7 @@ export type CreateMemberInput = {
   teamReport: Array<TeamReport>;
   teamStrategy: TeamStrategy;
   username: Scalars['String']['input'];
-  wallets: Array<MemberWalletDataInput>;
+  wallets?: InputMaybe<Array<MemberWalletDataInput>>;
   zipCode?: InputMaybe<Scalars['String']['input']>;
 };
 

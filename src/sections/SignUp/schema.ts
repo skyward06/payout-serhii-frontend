@@ -1,6 +1,6 @@
 import { z as zod } from 'zod';
 
-import { PAYMENT_METHOD_IDS } from 'src/consts';
+import { COUNTRY, PAYMENT_METHOD_IDS } from 'src/consts';
 import { CommissionDefault } from 'src/__generated__/graphql';
 
 export type SchemaType = zod.infer<typeof Schema>;
@@ -59,7 +59,7 @@ export const Schema = zod
     }
   )
   .superRefine((data, ctx) => {
-    if (data.country !== 'United States of America' && !data.txcAddress) {
+    if (data.country !== COUNTRY.USA && !data.txcAddress) {
       ctx.addIssue({
         path: ['txcAddress'],
         code: zod.ZodIssueCode.custom,

@@ -17,6 +17,7 @@ import { useRouter } from 'src/routes/hooks';
 
 import { removeSpecialCharacters } from 'src/utils/helper';
 
+import { COUNTRY } from 'src/consts';
 import { CommissionDefault } from 'src/__generated__/graphql';
 
 import { toast } from 'src/components/SnackBar';
@@ -49,7 +50,7 @@ export default function AddMiner() {
     uname: '',
     primaryAddress: '',
     secondaryAddress: '',
-    country: 'United States of America',
+    country: COUNTRY.USA,
     state: '',
     zipCode: '',
     city: '',
@@ -96,7 +97,7 @@ export default function AddMiner() {
             data: {
               ...rest,
               username: removeSpecialCharacters(uname),
-              state: country === 'United States of America' ? state : '',
+              state: country === COUNTRY.USA ? state : '',
               packageId,
               placementParentId,
               assetId: rest.assetId === '' ? null : rest.assetId,
@@ -105,7 +106,7 @@ export default function AddMiner() {
               ...((user?.isTexitRanger || user?.peerAcceptable) && {
                 sponsorId: sponsorId || user.id,
               }),
-              ...(country !== 'United States of America' && {
+              ...(country !== COUNTRY.USA && {
                 txcAddress,
               }),
             },
@@ -169,7 +170,7 @@ export default function AddMiner() {
           fullWidth
           options={states}
           getOptionLabel={(option: any) => option.name}
-          disabled={country !== 'United States of America'}
+          disabled={country !== COUNTRY.USA}
           renderInput={(params) => (
             <TextField {...params} name="state" label="States" margin="none" />
           )}
@@ -197,7 +198,7 @@ export default function AddMiner() {
 
         <Field.Text name="zipCode" label="Zip Code" />
 
-        {country === 'United States of America' ? (
+        {country === COUNTRY.USA ? (
           <Field.Text
             name="assetId"
             label="Coin ID"

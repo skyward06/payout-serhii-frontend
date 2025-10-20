@@ -28,7 +28,7 @@ import useIframeResizer from 'src/hooks/use-iframe-resizer';
 import { removeSpecialCharacters } from 'src/utils/helper';
 
 import { CONFIG } from 'src/config';
-import { PAYMENT_METHOD_IDS } from 'src/consts';
+import { COUNTRY, PAYMENT_METHOD_IDS } from 'src/consts';
 import { CommissionDefault } from 'src/__generated__/graphql';
 
 import { toast } from 'src/components/SnackBar';
@@ -77,7 +77,7 @@ export function SignUpView({ isComponent = false }: Props) {
     secondaryAddress: '',
     commissionDefault: CommissionDefault.Usdc,
     state: '',
-    country: 'United States of America',
+    country: COUNTRY.USA,
     zipCode: '',
     city: '',
   };
@@ -127,12 +127,12 @@ export function SignUpView({ isComponent = false }: Props) {
               packageId: packageId.split('::')[0],
               paymentMethod: rest.paymentMethod.split('::')[1],
               paymentPeerCode: isPeerCode ? rest.paymentPeerCode : null,
-              state: country === 'United States of America' ? state : '',
+              state: country === COUNTRY.USA ? state : '',
               username: removeSpecialCharacters(uname),
               fullName: `${firstName} ${lastName}`,
               assetId: rest.assetId === '' ? null : rest.assetId,
               sponsorUsername,
-              ...(country !== 'United States of America' && {
+              ...(country !== COUNTRY.USA && {
                 txcAddress,
               }),
               recaptcha: captchaValue,
@@ -293,7 +293,7 @@ export function SignUpView({ isComponent = false }: Props) {
           fullWidth
           options={states}
           getOptionLabel={(option: any) => option.name}
-          disabled={country !== 'United States of America'}
+          disabled={country !== COUNTRY.USA}
           renderInput={(params) => (
             <TextField {...params} name="state" label="State" margin="none" />
           )}
@@ -424,13 +424,11 @@ export function SignUpView({ isComponent = false }: Props) {
       <Stack direction={{ xs: 'column', sm: 'row' }} alignItems="center" spacing={2}>
         <Stack width={1}>
           <Typography>
-            {country === 'United States of America'
-              ? 'Have a Cold Storage Coin?'
-              : 'Your TXC Wallet is REQUIRED'}
+            {country === COUNTRY.USA ? 'Have a Cold Storage Coin?' : 'Your TXC Wallet is REQUIRED'}
           </Typography>
         </Stack>
         <Stack width={1}>
-          {country === 'United States of America' ? (
+          {country === COUNTRY.USA ? (
             <Field.Text
               name="assetId"
               label="Coin ID"
