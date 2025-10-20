@@ -1,5 +1,3 @@
-import Stack from '@mui/material/Stack';
-
 import { useAuthContext } from 'src/auth/hooks';
 
 import { Header } from './Header';
@@ -14,7 +12,7 @@ export default function Personal() {
   const { user } = useAuthContext();
 
   return (
-    <Stack spacing={2}>
+    <>
       <Header />
 
       <BasicInfo />
@@ -28,6 +26,6 @@ export default function Personal() {
       {user?.memberWallets && user.memberWallets.length > 0 && <PaymentInfo />}
 
       <SettingsInfo />
-    </Stack>
+    </>
   );
 }
