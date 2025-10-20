@@ -4,6 +4,8 @@ import IconButton from '@mui/material/IconButton';
 
 import { useBoolean } from 'src/hooks/useBoolean';
 
+import { COUNTRY } from 'src/consts';
+
 import { toast } from 'src/components/SnackBar';
 import { Iconify } from 'src/components/Iconify';
 import { usePopover, CustomPopover } from 'src/components/custom-popover';
@@ -26,7 +28,7 @@ export function Setting() {
   const handleActivate = async () => {
     try {
       if (user?.memberWallets?.length) {
-        if (user.country === 'United States of America') {
+        if (user.country === COUNTRY.USA) {
           active.onTrue();
           popover.onClose();
         } else {

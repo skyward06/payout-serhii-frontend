@@ -16,11 +16,7 @@ import { Form, Field } from 'src/components/Form';
 
 import { useAuthContext } from 'src/auth/hooks';
 
-<<<<<<<< HEAD:src/sections/Profile/History/Setting/index.tsx
 import { Schema, type SchemaType } from './schema';
-========
-import { Schema, type SchemaType } from '../schema';
->>>>>>>> da61beb (Update setting section):src/sections/Profile/History/Setting/SettingModal.tsx
 import { useUpdateSettingMember } from '../../useApollo';
 
 interface Props {

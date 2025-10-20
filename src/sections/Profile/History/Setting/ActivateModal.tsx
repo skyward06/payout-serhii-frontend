@@ -23,8 +23,8 @@ import { Form, Field } from 'src/components/Form';
 
 import { useAuthContext } from 'src/auth/hooks';
 
-import { Schema, type SchemaType } from './schema';
 import { useActivateMember } from '../../useApollo';
+import { ActivateSchema, type ActivateSchemaType } from './schema';
 
 interface Props {
   open: UseBooleanReturn;
@@ -34,8 +34,8 @@ export function ActivateModal({ open }: Props) {
   const { loading, activateMember } = useActivateMember();
   const { user } = useAuthContext();
 
-  const methods = useForm<SchemaType>({
-    resolver: zodResolver(Schema),
+  const methods = useForm<ActivateSchemaType>({
+    resolver: zodResolver(ActivateSchema),
     defaultValues: { assetId: '' },
   });
 
