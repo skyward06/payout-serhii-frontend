@@ -17,6 +17,7 @@ import { useAuthContext } from 'src/auth/hooks';
 import General from './General';
 import History from './History';
 import VerifyModal from './Verify';
+import { ActivationView } from './Activate';
 
 // ----------------------------------------------------------------------
 
@@ -31,9 +32,9 @@ const TABS = [
 
 export default function Profile() {
   const tabs = useTabs('history');
-  const [tabEvent, setTabEvent] = useState<any>(null);
   const open = useBoolean();
   const { user, code, loading } = useAuthContext();
+  const [tabEvent, setTabEvent] = useState<any>(null);
 
   if (loading) {
     return <LoadingScreen />;
@@ -59,6 +60,8 @@ export default function Profile() {
 
   return (
     <>
+      <ActivationView />
+
       <Tabs value={tabs.value} onChange={onTabChange} sx={{ mb: { xs: 2, md: 3 } }}>
         {TABS.map((tab) => (
           <Tab key={tab.value} label={tab.label} icon={tab.icon} value={tab.value} />
