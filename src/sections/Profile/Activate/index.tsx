@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Alert from '@mui/material/Alert';
@@ -13,10 +15,15 @@ import { Iconify } from 'src/components/Iconify';
 import { useAuthContext } from 'src/auth/hooks';
 
 import { useActivateMember } from '../useApollo';
+import { TransactionModal } from './TransactionModal';
 import { ActivateModal } from '../History/Setting/ActivateModal';
 
 export function ActivationView() {
   const active = useBoolean();
+  const transactionOpen = useBoolean();
+
+  const [txHash, setTxHash] = useState<string>();
+
   const { user, loading } = useAuthContext();
   const { loading: activating, activateMember } = useActivateMember();
 
@@ -26,7 +33,12 @@ export function ActivationView() {
         if (user.country === COUNTRY.USA) {
           active.onTrue();
         } else {
-          await activateMember({});
+          const { data } = await activateMember({});
+
+          if (data?.activateMember.activationTx) {
+            transactionOpen.onTrue();
+            setTxHash(data.activateMember.activationTx);
+          }
         }
       } else {
         toast.error('Please add a wallet first');
@@ -67,6 +79,7 @@ export function ActivationView() {
       </Stack>
 
       <ActivateModal open={active} />
+      <TransactionModal open={transactionOpen} txHash={txHash} />
     </>
   );
 }
