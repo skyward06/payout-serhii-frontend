@@ -763,6 +763,17 @@ export type DailyStats = {
   field: Scalars['String']['output'];
 };
 
+export type DuplicateMemberInput1Input = {
+  assetId: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
+};
+
+export type DuplicateMemberInput2Input = {
+  assetId1: Scalars['String']['input'];
+  assetId2: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
+};
+
 export type EmailInput = {
   email: Scalars['String']['input'];
 };
@@ -1587,12 +1598,12 @@ export type MutationCreateSignUpOrderArgs = {
 
 
 export type MutationDuplicateMemberArgs = {
-  data: IdInput;
+  data: DuplicateMemberInput1Input;
 };
 
 
 export type MutationDuplicateMember2Args = {
-  data: IdInput;
+  data: DuplicateMemberInput2Input;
 };
 
 
