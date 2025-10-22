@@ -4,7 +4,6 @@ import type {
 } from 'src/sections/Reward/List/types';
 
 import dayjs from 'dayjs';
-import { useLazyQuery } from '@apollo/client';
 import { useMemo, useState, useEffect } from 'react';
 
 import Card from '@mui/material/Card';
@@ -31,8 +30,8 @@ import {
   TablePaginationCustom,
 } from 'src/components/Table';
 
-import { FETCH_STATISTICS_QUERY } from '../../query';
 import StatisticsTableRow from './StatisticsTableRow';
+import { useFetchMemberStatistics } from '../../useApollo';
 
 const TABLE_HEAD = [
   { id: 'collapsible', label: '', width: 70 },
@@ -84,11 +83,9 @@ export default function StatisticsTable() {
       .join(',');
   }, [sort]);
 
-  const [fetchStatistics, { loading, data }] = useLazyQuery(FETCH_STATISTICS_QUERY);
+  const { loading, rowCount, memberStatistics, fetchMemberStatistics } = useFetchMemberStatistics();
 
-  const statistics = data?.statistics.statistics ?? [];
-
-  const notFound = !statistics?.length;
+  const notFound = !memberStatistics?.length;
 
   const token = localStorage.getItem(STORAGE_TOKEN_KEY);
 
@@ -119,7 +116,7 @@ export default function StatisticsTable() {
   );
 
   useEffect(() => {
-    fetchStatistics({
+    fetchMemberStatistics({
       variables: {
         page: page && `${page.page},${page.pageSize}`,
         filter: graphQueryFilter,
@@ -147,7 +144,7 @@ export default function StatisticsTable() {
                 order={sort && sort[Object.keys(sort)[0]]}
                 orderBy={sort && Object.keys(sort)[0]}
                 headLabel={TABLE_HEAD}
-                rowCount={loading ? 0 : statistics!.length}
+                rowCount={loading ? 0 : memberStatistics!.length}
                 numSelected={table.selected.length}
                 onSort={(id) => {
                   const isAsc = sort && sort[id] === 'asc';
@@ -170,7 +167,7 @@ export default function StatisticsTable() {
                 </>
               ) : (
                 <TableBody>
-                  {statistics!.map((row) => (
+                  {memberStatistics!.map((row) => (
                     <StatisticsTableRow
                       key={row!.id}
                       row={row!}
@@ -186,7 +183,7 @@ export default function StatisticsTable() {
         </TableContainer>
 
         <TablePaginationCustom
-          count={loading ? 0 : data?.statistics!.total!}
+          count={loading ? 0 : rowCount}
           page={loading ? 0 : page!.page - 1}
           rowsPerPage={page?.pageSize}
           onPageChange={(_, curPage) => {

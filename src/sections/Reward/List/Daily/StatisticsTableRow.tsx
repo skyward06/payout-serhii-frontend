@@ -33,17 +33,9 @@ type Props = {
 };
 
 export default function StatisticsTableRow({ row, selected }: Props) {
-  const {
-    id,
-    sent,
-    status,
-    issuedAt,
-    newBlocks,
-    txcShared,
-    rewardedTXC,
-    totalMembers,
-    totalHashPower,
-  } = row;
+  const { id, sent, issuedAt, txcShared, statistic } = row;
+
+  const { status, newBlocks, totalMembers, totalHashPower } = statistic;
 
   const router = useRouter();
 
@@ -83,8 +75,8 @@ export default function StatisticsTableRow({ row, selected }: Props) {
         <TableCell>{newBlocks}</TableCell>
         <TableCell>{totalHashPower}</TableCell>
         <TableCell>{totalMembers}</TableCell>
+        <TableCell>{statistic.txcShared / 10 ** 8}</TableCell>
         <TableCell>{txcShared / 10 ** 8}</TableCell>
-        <TableCell>{rewardedTXC !== null ? (rewardedTXC / 10 ** 8).toFixed(8) : '-'}</TableCell>
         <TableCell>
           <Label color={sent ? 'success' : 'error'}>{sent ? 'Received' : 'Not Received'}</Label>
         </TableCell>

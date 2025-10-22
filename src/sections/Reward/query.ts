@@ -7,13 +7,11 @@ export const FETCH_STATISTICS_QUERY = gql(/* GraphQL */ `
         id
         to
         from
-        sent
         status
         issuedAt
         txcShared
         newBlocks
         totalBlocks
-        rewardedTXC
         totalMembers
         totalHashPower
       }
@@ -37,10 +35,13 @@ export const FETCH_MEMBER_STATISTICS_QUERY = gql(/* GraphQL */ `
         updatedAt
         deletedAt
         statisticsId
-        member {
-          id
-          username
-          fullName
+        statistic {
+          status
+          newBlocks
+          txcShared
+          totalBlocks
+          totalMembers
+          totalHashPower
         }
       }
       total
