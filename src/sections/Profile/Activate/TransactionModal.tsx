@@ -11,6 +11,9 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
+import { paths } from 'src/routes/paths';
+import { useRouter } from 'src/routes/hooks';
+
 import { truncateMiddle } from 'src/utils/helper';
 
 import { Iconify } from 'src/components/Iconify';
@@ -22,6 +25,7 @@ interface Props {
 
 export function TransactionModal({ open, txHash }: Props) {
   const theme = useTheme();
+  const router = useRouter();
   const smUp = useMediaQuery(theme.breakpoints.up('sm'));
 
   return (
@@ -48,7 +52,10 @@ export function TransactionModal({ open, txHash }: Props) {
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button variant="outlined" onClick={open.onFalse}>
+        <Button
+          variant="outlined"
+          onClick={() => router.push(paths.dashboard.profile.root, { state: { isModal: true } })}
+        >
           Close
         </Button>
       </DialogActions>

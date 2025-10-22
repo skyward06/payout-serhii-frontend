@@ -50,11 +50,12 @@ export function ActivationView() {
 
       if (data) {
         toast.success('Your account has been activated successfully!');
-        router.push(paths.dashboard.profile.root);
 
         if (data?.activateMember.activationTx) {
           transactionOpen.onTrue();
           setTxHash(data.activateMember.activationTx);
+        } else {
+          router.push(paths.dashboard.profile.root);
         }
 
         reset();
@@ -74,11 +75,12 @@ export function ActivationView() {
 
       if (data) {
         toast.success('Your account has been activated successfully!');
-        router.push(paths.dashboard.profile.root);
 
         if (data?.activateMember.activationTx) {
           transactionOpen.onTrue();
           setTxHash(data.activateMember.activationTx);
+        } else {
+          router.push(paths.dashboard.profile.root);
         }
 
         reset();
