@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useLocation } from 'react-router';
 
 import Link from '@mui/material/Link';
@@ -9,41 +8,20 @@ import Typography from '@mui/material/Typography';
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 
-import { useBoolean } from 'src/hooks/useBoolean';
-
-import { COUNTRY } from 'src/consts';
-
 import { toast } from 'src/components/SnackBar';
-import { Iconify } from 'src/components/Iconify';
 
 import { useAuthContext } from 'src/auth/hooks';
 
-import { useActivateMember } from '../useApollo';
-import { TransactionModal } from './TransactionModal';
-
 export function ActivationView() {
-  const transactionOpen = useBoolean();
   const router = useRouter();
   const { state } = useLocation();
 
-  const [txHash, setTxHash] = useState<string>();
-
   const { user, loading } = useAuthContext();
-  const { loading: activating, activateMember } = useActivateMember();
 
   const handleActivate = async () => {
     try {
       if (user?.memberWallets?.length) {
-        if (user.country === COUNTRY.USA) {
-          router.push(paths.dashboard.profile.activation, { state: { isModal: true } });
-        } else {
-          const { data } = await activateMember({});
-
-          if (data?.activateMember.activationTx) {
-            transactionOpen.onTrue();
-            setTxHash(data.activateMember.activationTx);
-          }
-        }
+        router.push(paths.dashboard.profile.activation, { state: { isModal: true } });
       } else {
         toast.error('Please add a wallet first');
       }
@@ -53,36 +31,29 @@ export function ActivationView() {
   };
 
   return (
-    <>
-      <Stack spacing={2}>
-        {(state?.isModal || !loading) && !user?.activated && (
-          <Alert severity="error" variant="outlined">
-            <Stack direction={{ xs: 'column', md: 'row' }} spacing={1}>
-              <Typography variant="body2">
-                Your account is not activate. To received daily reward, please activate your
-                account.
-              </Typography>
-
-              <Stack direction="row" spacing={2}>
+    <Stack spacing={2}>
+      {(state?.isModal || !loading) && !user?.activated && (
+        <Alert severity="error" variant="outlined">
+          <Stack direction={{ xs: 'column', md: 'row' }} spacing={1}>
+            <Typography variant="body2" display="flex" gap={0.5}>
+              Your account is not activate. Click{' '}
+              <Stack direction="row" spacing={0.5}>
                 <Link variant="body2" sx={{ cursor: 'pointer' }} onClick={handleActivate}>
-                  Activate account
+                  here
                 </Link>
+              </Stack>{' '}
+              to activate
+            </Typography>
+          </Stack>
+        </Alert>
+      )}
 
-                {activating && <Iconify icon="eos-icons:bubble-loading" color="success.main" />}
-              </Stack>
-            </Stack>
-          </Alert>
-        )}
-
-        {(state?.isModal || !loading) && Number(user?.totalTXCNotReceived) !== 0 && (
-          <Alert
-            severity="warning"
-            variant="outlined"
-          >{`You did not received ${Number(user?.totalTXCNotReceived) / 10 ** 8} TXC`}</Alert>
-        )}
-      </Stack>
-
-      <TransactionModal open={transactionOpen} txHash={txHash} />
-    </>
+      {(state?.isModal || !loading) && Number(user?.totalTXCNotReceived) !== 0 && (
+        <Alert
+          severity="warning"
+          variant="outlined"
+        >{`You did not received ${Number(user?.totalTXCNotReceived) / 10 ** 8} TXC`}</Alert>
+      )}
+    </Stack>
   );
 }
