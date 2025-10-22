@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { Outlet, Navigate, type RouteObject } from 'react-router';
+import { Outlet, type RouteObject } from 'react-router';
 
 import Skeleton from '@mui/material/Skeleton';
 import Container from '@mui/material/Container';
@@ -31,7 +31,7 @@ const CommissionConfirmationPage = lazy(() => import('src/pages/Commission/Confi
 
 export const statisticsRoutes: RouteObject[] = [
   {
-    path: '',
+    path: '/',
     element: (
       <Suspense fallback={<LoadingScreen />}>
         <Container>
@@ -41,7 +41,6 @@ export const statisticsRoutes: RouteObject[] = [
       </Suspense>
     ),
     children: [
-      { index: true, element: <Navigate to={paths.pages.intro.root} replace /> },
       { path: 'intro', element: <IntroductionPage /> },
       { path: 'rapid-rewards', element: <RapidRewardsPage /> },
       { path: 'silverbugs', element: <SilverGuaranteePage /> },

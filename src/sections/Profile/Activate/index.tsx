@@ -18,15 +18,11 @@ export function ActivationView() {
 
   const { user, loading } = useAuthContext();
 
-  const handleActivate = async () => {
-    try {
-      if (user?.memberWallets?.length) {
-        router.push(paths.dashboard.profile.activation, { state: { isModal: true } });
-      } else {
-        toast.error('Please add a wallet first');
-      }
-    } catch (error) {
-      toast.error((error as Error).message || 'Something went wrong, please try again');
+  const handleActivate = () => {
+    if (user?.memberWallets?.length) {
+      router.push(paths.dashboard.profile.activation, { state: { isModal: true } });
+    } else {
+      toast.error('Please add a wallet first');
     }
   };
 
@@ -37,11 +33,9 @@ export function ActivationView() {
           <Stack direction={{ xs: 'column', md: 'row' }} spacing={1}>
             <Typography variant="body2" display="flex" gap={0.5}>
               Your account is not activate. Click{' '}
-              <Stack direction="row" spacing={0.5}>
-                <Link variant="body2" sx={{ cursor: 'pointer' }} onClick={handleActivate}>
-                  here
-                </Link>
-              </Stack>{' '}
+              <Link variant="body2" sx={{ cursor: 'pointer' }} onClick={handleActivate}>
+                here
+              </Link>
               to activate
             </Typography>
           </Stack>
