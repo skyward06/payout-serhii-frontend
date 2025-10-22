@@ -11,32 +11,34 @@ const ROOTS = {
   VERIFY_RESULT: '/thanks',
 
   // Pages
-  INTRO: '/intro',
-  STATISTICS: '/statistics',
-  RAPID_REWARDS: '/rapid-rewards',
   CONTACT: '/contact',
-  ORDER: '/order',
+  INTRO: '/intro',
   MAINTENANCE: '/maintenance',
+  ORDER: '/order',
+  RAPID_REWARDS: '/rapid-rewards',
+  STATISTICS: '/statistics',
 
   // Dashboard
-  OVERVIEW: '/overview',
-  SALES: '/sales',
-  REWARD: '/reward',
-  SPONSOR: '/sponsorships',
-  PLACEMENT: '/placement',
   COMMISSION: '/commission',
-  RESOURCE: '/resource',
-  PROFILE: '/my-account',
-  TEAM: '/team',
-  INVOICE: '/invoices',
-  TXC_REQUEST: 'txc-request',
   COMMUNICATION: '/communication',
-  REIMBURSEMENT: '/reimbursement',
-  SILVER_GUARANTEE: '/silverbugs',
+  INVOICE: '/invoices',
+  PROFILE: '/my-account',
   NOTIFICATIONS: '/notifications',
+  OVERVIEW: '/overview',
+  PLACEMENT: '/placement',
+  REIMBURSEMENT: '/reimbursement',
+  RESOURCE: '/resource',
+  REWARD: '/reward',
+  SALES: '/sales',
+  SILVER_GUARANTEE: '/silverbugs',
+  SPONSOR: '/sponsorships',
+  TEAM: '/team',
+  TXC_REQUEST: 'txc-request',
 
   // Widget
   WIDGET: '/widget',
+
+  // Common
   PEER: '/peer',
 };
 
@@ -113,6 +115,7 @@ export const paths = {
     resource: { root: ROOTS.RESOURCE, view: (slug: string) => `${ROOTS.RESOURCE}/${slug}` },
     profile: {
       root: ROOTS.PROFILE,
+      activation: `${ROOTS.PROFILE}/activation`,
     },
     notifications: {
       root: ROOTS.NOTIFICATIONS,
@@ -130,12 +133,13 @@ export const paths = {
       new: `${ROOTS.REIMBURSEMENT}/new`,
       edit: (id: string) => `${ROOTS.REIMBURSEMENT}/${id}`,
     },
-    peer: { confirmation: `${ROOTS.PEER}/confirmation` },
   },
 
   widget: {
     signUp: `${ROOTS.WIDGET}/sign-up`,
   },
+
+  peer: { confirmation: `${ROOTS.PEER}/confirmation` },
 
   page403: '/403',
   notFound: '/404',

@@ -8,7 +8,11 @@ import Profile from 'src/sections/Profile';
 
 // ----------------------------------------------------------------------
 
-export default function ProfilePage() {
+interface Props {
+  children?: React.ReactNode;
+}
+
+export default function ProfilePage({ children }: Props) {
   return (
     <>
       <Helmet>
@@ -23,6 +27,8 @@ export default function ProfilePage() {
       />
 
       <Profile />
+
+      {children}
     </>
   );
 }

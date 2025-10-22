@@ -10,7 +10,6 @@ import { useTabs } from 'src/hooks/use-tabs';
 import { useBoolean } from 'src/hooks/useBoolean';
 
 import { Iconify } from 'src/components/Iconify';
-import { LoadingScreen } from 'src/components/loading-screen';
 
 import { useAuthContext } from 'src/auth/hooks';
 
@@ -18,6 +17,8 @@ import General from './General';
 import History from './History';
 import VerifyModal from './Verify';
 import { ActivationView } from './Activate';
+
+import type { Member } from './type';
 
 // ----------------------------------------------------------------------
 
@@ -36,11 +37,7 @@ export default function Profile() {
   const { user, code, loading } = useAuthContext();
   const [tabEvent, setTabEvent] = useState<any>(null);
 
-  if (loading) {
-    return <LoadingScreen />;
-  }
-
-  if (!user) {
+  if (!loading && !user) {
     return <Navigate to={paths.notFound} replace />;
   }
 
@@ -68,7 +65,7 @@ export default function Profile() {
         ))}
       </Tabs>
 
-      {tabs.value === 'edit' && <General me={user} />}
+      {tabs.value === 'edit' && <General me={user as Member} />}
 
       {tabs.value === 'history' && <History />}
 

@@ -2,6 +2,9 @@ import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 
+import { paths } from 'src/routes/paths';
+import { useRouter } from 'src/routes/hooks';
+
 import { useBoolean } from 'src/hooks/useBoolean';
 
 import { COUNTRY } from 'src/consts';
@@ -13,12 +16,11 @@ import { usePopover, CustomPopover } from 'src/components/custom-popover';
 import { useAuthContext } from 'src/auth/hooks';
 
 import { SettingModal } from './SettingModal';
-import { ActivateModal } from './ActivateModal';
 import { useActivateMember } from '../../useApollo';
 
 export function Setting() {
   const open = useBoolean();
-  const active = useBoolean();
+  const router = useRouter();
   const popover = usePopover();
 
   const { user } = useAuthContext();
@@ -29,7 +31,7 @@ export function Setting() {
     try {
       if (user?.memberWallets?.length) {
         if (user.country === COUNTRY.USA) {
-          active.onTrue();
+          router.push(paths.dashboard.profile.activation, { state: { isModal: true } });
           popover.onClose();
         } else {
           await activateMember({});
@@ -75,7 +77,6 @@ export function Setting() {
       </CustomPopover>
 
       <SettingModal open={open} />
-      <ActivateModal open={active} />
     </>
   );
 }

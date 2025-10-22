@@ -32,6 +32,10 @@ const ResourceDetailPage = lazy(() => import('src/pages/Resource/Detail'));
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
+const ActivationPage = lazy(() => import('src/pages/Activation'));
+// ----------------------------------------------------------------------
+
+// ----------------------------------------------------------------------
 const PlacementListPage = lazy(() => import('src/pages/Placement/List'));
 // ----------------------------------------------------------------------
 
@@ -144,7 +148,21 @@ export const dashboardRoutes = [
           { path: ':slug', children: [{ index: true, element: <ResourceDetailPage /> }] },
         ],
       },
-      { path: 'my-account', element: <ProfilePage /> },
+      {
+        path: 'my-account',
+        element: (
+          <ProfilePage>
+            <Outlet />
+          </ProfilePage>
+        ),
+        children: [
+          { index: true, element: <Outlet /> },
+          {
+            path: 'activation',
+            element: <ActivationPage />,
+          },
+        ],
+      },
       {
         path: 'notifications',
         element: (
