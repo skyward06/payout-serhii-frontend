@@ -1,3 +1,4 @@
+import { useLocation } from 'react-router';
 import { useState, useEffect } from 'react';
 
 import { paths } from 'src/routes/paths';
@@ -15,6 +16,7 @@ type Props = {
 
 export function AuthGuard({ children }: Props) {
   const router = useRouter();
+  const { pathname } = useLocation();
 
   const { isAuthenticated, loading } = useAuthContext();
 
@@ -26,7 +28,13 @@ export function AuthGuard({ children }: Props) {
     }
 
     if (!isAuthenticated) {
-      router.replace(paths.pages.intro.root);
+      if (pathname === paths.dashboard.profile.activation) {
+        router.replace(
+          `${paths.auth.signIn}?returnTo=${encodeURIComponent(paths.dashboard.profile.activation)}`
+        );
+      } else {
+        router.replace(paths.pages.intro.root);
+      }
       return;
     }
 

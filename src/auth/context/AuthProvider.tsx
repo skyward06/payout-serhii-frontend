@@ -3,7 +3,7 @@ import { useLazyQuery } from '@apollo/client';
 import { useMemo, useState, useEffect, useCallback } from 'react';
 
 import { paths } from 'src/routes/paths';
-import { useRouter } from 'src/routes/hooks';
+import { useRouter, useSearchParams } from 'src/routes/hooks';
 
 import { STORAGE_TOKEN_KEY } from 'src/consts';
 
@@ -29,17 +29,24 @@ export function AuthProvider({ children }: Props) {
   const [code, setCode] = useState<any>('');
 
   const { pathname } = useLocation();
+  const searchParams = useSearchParams();
 
   const [fetchMe, { loading, error, data }] = useLazyQuery(FETCH_ME_QUERY);
+
+  const returnTo = searchParams.get('returnTo');
 
   const signIn = useCallback(
     (newToken: string) => {
       setSession(newToken);
       setToken(newToken);
       toast.success('Successfully logged in');
-      router.push(paths.dashboard.profile.root);
+      if (returnTo) {
+        router.push(decodeURIComponent(returnTo));
+      } else {
+        router.push(paths.dashboard.profile.root);
+      }
     },
-    [router]
+    [router, returnTo]
   );
 
   useEffect(() => {
