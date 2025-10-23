@@ -5,6 +5,8 @@ import { DashboardLayout, DashboardContent } from 'src/layouts/dashboard';
 
 import { LoadingScreen } from 'src/components/loading-screen';
 
+import { ServerAlert } from 'src/sections/Alert';
+
 import { AuthGuard } from 'src/auth/guard';
 
 import { paths } from '../paths';
@@ -81,6 +83,7 @@ export const dashboardRoutes = [
       <AuthGuard>
         <DashboardLayout>
           <DashboardContent>
+            <ServerAlert />
             <Suspense fallback={<LoadingScreen />}>
               <Outlet />
             </Suspense>
