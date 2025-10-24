@@ -14,18 +14,18 @@ export function PeerConfirmation() {
   const memberId = searchParams.get('id');
   const response = searchParams.get('res');
   const peerCode = searchParams.get('peerCode');
-  const verifierId = searchParams.get('verifier');
+  const verifier = searchParams.get('verifier');
 
   const { confirmPeerPayment } = useConfirmPeerPayment();
 
   useEffect(() => {
-    if (memberId && peerCode && verifierId && response === 'yes') {
+    if (memberId && peerCode && verifier && response === 'yes') {
       (async () => {
         try {
           const { data } = await confirmPeerPayment({
             memberId,
             peerCode,
-            verifierId,
+            verifier,
             confirm: response === 'yes',
           });
 
@@ -39,7 +39,7 @@ export function PeerConfirmation() {
         }
       })();
     }
-  }, [memberId, peerCode, response, verifierId, confirmPeerPayment]);
+  }, [memberId, peerCode, response, verifier, confirmPeerPayment]);
 
   return (
     <Box px={4}>

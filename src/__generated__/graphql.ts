@@ -2176,7 +2176,7 @@ export type PeerConfirmationInput = {
   confirm: Scalars['Boolean']['input'];
   memberId: Scalars['String']['input'];
   peerCode: Scalars['String']['input'];
-  verifierId: Scalars['String']['input'];
+  verifier: Scalars['String']['input'];
 };
 
 export type PeriodEmailOverview = {
