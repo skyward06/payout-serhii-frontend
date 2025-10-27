@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import { useTheme } from '@mui/material/styles';
 
-import { fHashRate, fHashPower } from 'src/utils/formatNumber';
+import { fHashRate } from 'src/utils/formatNumber';
 
 import { Chart, useChart, ChartSelect } from 'src/components/chart';
 
@@ -84,13 +84,13 @@ export default function HashRate() {
       {
         show: false,
         labels: {
-          formatter: (val: any) => fHashPower(val),
+          formatter: (val: any) => fHashRate(val),
         },
       },
       {
         show: false,
         labels: {
-          formatter: (val: any) => fHashPower(val),
+          formatter: (val: any) => fHashRate(val),
         },
       },
     ],
