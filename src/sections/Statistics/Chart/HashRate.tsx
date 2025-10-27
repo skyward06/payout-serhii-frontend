@@ -62,6 +62,11 @@ export default function HashRate() {
   );
 
   const chartOptions = useChart({
+    legend: {
+      show: true,
+      position: 'top',
+      markers: { radius: 0, width: 15, height: 3, offsetY: 5 },
+    },
     xaxis: {
       tickAmount: 12,
       categories: blocks!
