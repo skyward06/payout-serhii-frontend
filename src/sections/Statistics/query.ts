@@ -106,6 +106,7 @@ export const FETCH_BLOCKS_DATA_QUERY = gql(/* GraphQL */ `
       base
       baseDate
       soldHashPower
+      purchasedHashPower
     }
   }
 `);

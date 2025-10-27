@@ -34,7 +34,11 @@ export default function HashRate() {
 
   const { loading, blocks } = useFetchBlocks(currentSelect?.value as PeriodStateType);
 
-  const chartColors = [theme.palette.primary.dark, theme.palette.warning.main];
+  const chartColors = [
+    theme.palette.primary.dark,
+    theme.palette.warning.main,
+    theme.palette.error.main,
+  ];
 
   const series = useMemo<ApexAxisChartSeries>(
     () => [
@@ -46,6 +50,11 @@ export default function HashRate() {
       {
         name: 'Sold HashPower',
         data: blocks!.map((item) => item.soldHashPower * 10 ** 6).reverse(),
+        type: 'line',
+      },
+      {
+        name: 'Purchased HashPower',
+        data: blocks!.map((item) => (item?.purchasedHashPower ?? 0) * 10 ** 6).reverse(),
         type: 'line',
       },
     ],
@@ -67,6 +76,12 @@ export default function HashRate() {
     },
     yaxis: [
       { labels: { formatter: (val: any) => fHashRate(val) } },
+      {
+        show: false,
+        labels: {
+          formatter: (val: any) => fHashPower(val),
+        },
+      },
       {
         show: false,
         labels: {
