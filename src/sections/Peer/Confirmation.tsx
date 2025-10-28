@@ -34,7 +34,11 @@ export function PeerConfirmation() {
 
           if (data?.confirmPeerPayment.result === 'success') {
             setIsSent(true);
-            toast.success('Peer payment confirmed');
+            if (response === 'yes') {
+              toast.success('Peer payment confirmed');
+            } else {
+              toast.success('Peer payment declined');
+            }
             setResult(true);
           } else {
             setIsSent(true);
@@ -42,7 +46,7 @@ export function PeerConfirmation() {
             setResult(false);
           }
         } catch (err: any) {
-          console.log(err?.message);
+          toast.error('Your action failed');
         }
       })();
     }
