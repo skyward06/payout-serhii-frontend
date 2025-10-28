@@ -27,8 +27,9 @@ import useIframeResizer from 'src/hooks/use-iframe-resizer';
 
 import { removeSpecialCharacters } from 'src/utils/helper';
 
+import { CONFIG } from 'src/config';
+import { PAYMENT_METHOD_IDS } from 'src/consts';
 import { CommissionDefault } from 'src/__generated__/graphql';
-import { RECAPTCHA_KEY, PAYMENT_METHOD_IDS } from 'src/consts';
 
 import { toast } from 'src/components/SnackBar';
 import { Iconify } from 'src/components/Iconify';
@@ -134,6 +135,7 @@ export function SignUpView({ isComponent = false }: Props) {
               ...(country !== 'United States of America' && {
                 txcAddress,
               }),
+              recaptcha: captchaValue,
             },
           },
         });
@@ -477,7 +479,7 @@ export function SignUpView({ isComponent = false }: Props) {
         >
           Submit
         </LoadingButton>
-        <ReCAPTCHA ref={recaptcha} sitekey={RECAPTCHA_KEY} />
+        <ReCAPTCHA ref={recaptcha} sitekey={CONFIG.RECAPTCHA_KEY} />
       </Box>
     </Stack>
   );

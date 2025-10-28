@@ -1,10 +1,12 @@
 import type { UseTabsReturn } from 'src/hooks/use-tabs';
 import type { UseBooleanReturn } from 'src/hooks/useBoolean';
 
-import { useState, useEffect } from 'react';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { useNavigate } from 'react-router-dom';
+import { useRef, useState, useEffect } from 'react';
 
 import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -35,6 +37,7 @@ interface Props {
 export default function VerifyModal({ tabs, open, event }: Props) {
   const { user } = useAuthContext();
   const navigate = useNavigate();
+  const recaptcha = useRef<any>();
 
   const [step, setStep] = useState<number>(0);
   const [password, setPassword] = useState<string>();
@@ -50,13 +53,20 @@ export default function VerifyModal({ tabs, open, event }: Props) {
 
   const handlePasswordVerify = async () => {
     try {
+      const captchaValue = recaptcha.current.getValue();
+
+      if (!captchaValue) {
+        toast.error('Please verify the reCAPTCHA!');
+        return;
+      }
+
       if (!password) {
         toast.error('Please enter your password');
         return;
       }
 
       const { data } = await memberExChangeLogin({
-        variables: { data: { email: user?.email!, password } },
+        variables: { data: { email: user?.email!, password, recaptcha: captchaValue } },
       });
 
       if (data?.memberExchangeLogin.passwordExpired) {
@@ -93,7 +103,13 @@ export default function VerifyModal({ tabs, open, event }: Props) {
       <DialogTitle>Verify</DialogTitle>
       <DialogContent>
         <Paper sx={{ py: 2 }}>
-          {step === 0 && <PasswordContent setPassword={setPassword} />}
+          {step === 0 && (
+            <Stack spacing={2}>
+              <PasswordContent setPassword={setPassword} />
+
+              <ReCAPTCHA ref={recaptcha} sitekey={CONFIG.RECAPTCHA_KEY} />
+            </Stack>
+          )}
           {step === 1 && <VerificationCode setSuccess={setSuccess} />}
         </Paper>
       </DialogContent>

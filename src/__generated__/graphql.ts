@@ -1180,6 +1180,7 @@ export type MemberListResponse = {
 export type MemberLoginInput = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
+  recaptcha: Scalars['String']['input'];
 };
 
 export enum MemberState {
@@ -3342,6 +3343,7 @@ export type SignupFormInput = {
   preferredContact?: InputMaybe<Scalars['String']['input']>;
   preferredContactDetail?: InputMaybe<Scalars['String']['input']>;
   primaryAddress: Scalars['String']['input'];
+  recaptcha: Scalars['String']['input'];
   secondaryAddress?: InputMaybe<Scalars['String']['input']>;
   sponsorUsername?: InputMaybe<Scalars['String']['input']>;
   state?: InputMaybe<Scalars['String']['input']>;

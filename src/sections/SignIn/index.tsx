@@ -20,7 +20,6 @@ import { RouterLink } from 'src/routes/components';
 import { useBoolean } from 'src/hooks/useBoolean';
 
 import { CONFIG } from 'src/config';
-import { RECAPTCHA_KEY } from 'src/consts';
 
 import { toast } from 'src/components/SnackBar';
 import { Iconify } from 'src/components/Iconify';
@@ -161,7 +160,7 @@ export function SignInView() {
       >
         Sign In
       </LoadingButton>
-      <ReCAPTCHA ref={recaptcha} sitekey={RECAPTCHA_KEY} />
+      <ReCAPTCHA ref={recaptcha} sitekey={CONFIG.RECAPTCHA_KEY} />
     </Stack>
   );
 
@@ -174,7 +173,10 @@ export function SignInView() {
         return;
       }
 
-      const response = await submitLogin({ variables: { data } });
+      const response = await submitLogin({
+        variables: { data: { ...data, recaptcha: captchaValue } },
+      });
+
       const token = response.data?.memberLogin.accessToken ?? '';
 
       if (response.data?.memberLogin.passwordExpired) {

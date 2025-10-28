@@ -1,5 +1,6 @@
 import QRCode from 'react-qr-code';
-import { useState, useEffect } from 'react';
+import ReCAPTCHA from 'react-google-recaptcha';
+import { useRef, useState, useEffect } from 'react';
 
 import Alert from '@mui/material/Alert';
 import Paper from '@mui/material/Paper';
@@ -34,6 +35,7 @@ interface Props {
 export default function PasswordModal({ open }: Props) {
   const { user, code } = useAuthContext();
   const password = useBoolean();
+  const recaptcha = useRef<any>();
 
   const [step, setStep] = useState<number>(0);
   const [token, setToken] = useState<string>('');
@@ -45,32 +47,36 @@ export default function PasswordModal({ open }: Props) {
   const { loading: verifyLoading, verify2FAAndEnable } = useVerify2FAAndEnable();
 
   const confirmPassword = (
-    <TextField
-      variant="outlined"
-      type={password.value ? 'text' : 'password'}
-      fullWidth
-      label="Confirm Password"
-      onChange={(e) => {
-        setNewPassword(e.target.value);
-      }}
-      InputProps={{
-        startAdornment: (
-          <InputAdornment position="start">
-            <Iconify icon="solar:user-rounded-bold" width={24} />
-          </InputAdornment>
-        ),
-        endAdornment: (
-          <InputAdornment position="end">
-            <IconButton onClick={password.onToggle} edge="end">
-              <Iconify
-                icon={password.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'}
-                width={24}
-              />
-            </IconButton>
-          </InputAdornment>
-        ),
-      }}
-    />
+    <Stack spacing={1}>
+      <TextField
+        variant="outlined"
+        type={password.value ? 'text' : 'password'}
+        fullWidth
+        label="Confirm Password"
+        onChange={(e) => {
+          setNewPassword(e.target.value);
+        }}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <Iconify icon="solar:user-rounded-bold" width={24} />
+            </InputAdornment>
+          ),
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton onClick={password.onToggle} edge="end">
+                <Iconify
+                  icon={password.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'}
+                  width={24}
+                />
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+      />
+
+      <ReCAPTCHA ref={recaptcha} sitekey={CONFIG.RECAPTCHA_KEY} />
+    </Stack>
   );
 
   const QRContent = (
@@ -127,8 +133,17 @@ export default function PasswordModal({ open }: Props) {
               variant="contained"
               loading={loading}
               onClick={async () => {
+                const captchaValue = recaptcha.current.getValue();
+
+                if (!captchaValue) {
+                  toast.error('Please verify the reCAPTCHA!');
+                  return;
+                }
+
                 const { data } = await submitLogin({
-                  variables: { data: { email: user?.email!, password: newPassword } },
+                  variables: {
+                    data: { email: user?.email!, password: newPassword, recaptcha: '' },
+                  },
                 });
 
                 if (data) {

@@ -19,6 +19,7 @@ export type ConfigValue = {
   redirectPath: string;
   storageTokenKey: string;
   IFRAME_RESIZER_LICENSE_KEY: string;
+  RECAPTCHA_KEY: string;
 };
 
 // ----------------------------------------------------------------------
@@ -36,6 +37,7 @@ export const CONFIG: ConfigValue = {
   SERVER_URL: import.meta.env.VITE_SERVER_URL ?? '',
   ASSET_URL: import.meta.env.VITE_ASSET_URL ?? '',
   IFRAME_RESIZER_LICENSE_KEY: import.meta.env.VITE_IFRAME_RESIZER_LICENSE_KEY ?? '',
+  RECAPTCHA_KEY: import.meta.env.VITE_RECAPTCHA_KEY ?? '',
   redirectPath: paths.pages.intro.root,
   storageTokenKey: 'token',
 };
