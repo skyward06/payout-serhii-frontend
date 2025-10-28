@@ -192,7 +192,7 @@ export default function MemberGeneral({ me }: Props) {
     <>
       <Form methods={methods} onSubmit={onSubmit}>
         <Grid container spacing={3}>
-          <Grid md={12} xl={6} zIndex={9999}>
+          <Grid md={12} xl={6} zIndex={9998}>
             <Card sx={{ p: 3 }}>
               <Box
                 rowGap={3}

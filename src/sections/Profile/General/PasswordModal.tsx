@@ -107,7 +107,7 @@ export default function PasswordModal({ open }: Props) {
   }, [code, generate2FA]);
 
   return (
-    <Dialog fullWidth maxWidth="xs" open={open.value} onClose={open.onFalse}>
+    <Dialog fullWidth maxWidth="xs" open={open.value} onClose={open.onFalse} sx={{ zIndex: 9999 }}>
       <DialogTitle>
         {step === 0 && <>Confirm Password</>}
         {step === 1 && <>QR Code</>}
