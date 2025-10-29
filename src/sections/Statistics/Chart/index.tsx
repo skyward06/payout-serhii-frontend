@@ -13,32 +13,32 @@ import MemberByCountry from './MemberByCountry';
 export default function Chart() {
   return (
     <>
-      <Grid xs={12} md={6}>
+      <Grid xs={12}>
         <HashRate />
       </Grid>
-      <Grid xs={12} md={6}>
+      <Grid xs={12} md={8}>
         <HashPower />
       </Grid>
-      <Grid xs={12} md={6}>
+      <Grid xs={12} md={4}>
+        <Revenue />
+      </Grid>
+      <Grid xs={12} md={8}>
         <TXCShared />
       </Grid>
-      <Grid xs={12} md={6}>
+      <Grid xs={12} md={4}>
+        <MemberByCountry />
+      </Grid>
+      <Grid xs={12} md={8}>
         <Commission />
+      </Grid>
+      <Grid xs={12} md={4}>
+        <MemberCount />
       </Grid>
       <Grid xs={12} md={6}>
         <MemberReward />
       </Grid>
       <Grid xs={12} md={6}>
         <TotalMiner />
-      </Grid>
-      <Grid xs={12} md={4}>
-        <Revenue />
-      </Grid>
-      <Grid xs={12} md={4}>
-        <MemberCount />
-      </Grid>
-      <Grid xs={12} md={4}>
-        <MemberByCountry />
       </Grid>
     </>
   );
