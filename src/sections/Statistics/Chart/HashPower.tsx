@@ -22,7 +22,7 @@ const select = [
   { value: 'month', label: 'Month' },
 ];
 
-export default function HashRate() {
+export default function HashPower() {
   const theme = useTheme();
   const [selectedSeries, setSelectedSeries] = useState('Block');
 
@@ -34,20 +34,30 @@ export default function HashRate() {
 
   const { loading, blocks } = useFetchBlocks(currentSelect?.value as PeriodStateType);
 
-  const chartColors = [theme.palette.primary.dark];
+  const chartColors = [theme.palette.primary.main, theme.palette.warning.main];
 
   const series = useMemo(
     () => [
       {
-        name: 'Network Hashrate',
-        data: blocks!.map((item) => item.hashRate).reverse(),
-        type: 'line',
+        name: 'Purchased HashPower',
+        data: blocks!.map((item) => (item?.purchasedHashPower ?? 0) * 10 ** 6).reverse(),
+        type: 'area',
+      },
+      {
+        name: 'Sold HashPower',
+        data: blocks!.map((item) => item.soldHashPower * 10 ** 6).reverse(),
+        type: 'area',
       },
     ],
     [blocks]
   );
 
   const chartOptions = useChart({
+    legend: {
+      show: true,
+      position: 'top',
+      markers: { radius: 0, width: 15, height: 3, offsetY: 5 },
+    },
     xaxis: {
       tickAmount: 12,
       categories: blocks!
@@ -67,7 +77,7 @@ export default function HashRate() {
   return (
     <Card>
       <Box display="flex" justifyContent="space-between" typography="h6" p="24px 16px 0 24px">
-        Hash Rate
+        Hash Power
         <ChartSelect
           options={select.map((item) => item.label)}
           value={selectedSeries}
@@ -76,7 +86,7 @@ export default function HashRate() {
       </Box>
 
       <Box p={2}>
-        <Chart type="line" loading={loading} series={series} options={chartOptions} height={330} />
+        <Chart type="area" loading={loading} series={series} options={chartOptions} height={330} />
       </Box>
     </Card>
   );
