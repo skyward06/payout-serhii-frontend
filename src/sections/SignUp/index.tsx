@@ -141,6 +141,7 @@ export function SignUpView({ isComponent = false }: Props) {
         });
 
         if (data) {
+          recaptcha.current?.reset();
           localStorage.setItem('payout_reference', refID || sponsorUsername);
 
           const searchParams = new URLSearchParams({ email: rest.email }).toString();
@@ -176,6 +177,7 @@ export function SignUpView({ isComponent = false }: Props) {
           }
         }
       } catch (err) {
+        recaptcha.current?.reset();
         if (err instanceof ApolloError) {
           const [error] = err.graphQLErrors;
 
@@ -209,6 +211,8 @@ export function SignUpView({ isComponent = false }: Props) {
             '*'
           );
         }
+      } finally {
+        recaptcha.current?.reset();
       }
     }
   );
