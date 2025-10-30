@@ -468,23 +468,27 @@ export function SignUpView({ isComponent = false }: Props) {
         </Stack>
       </Stack>
 
-      <Box display="flex" justifyContent="flex-end" gap={2} alignItems="center">
-        {!isComponent && (
-          <Link onClick={handleSignOut} variant="subtitle2" sx={{ cursor: 'pointer' }}>
-            Click here to sign out
-          </Link>
-        )}
-        <LoadingButton
-          color="primary"
-          size="large"
-          type="submit"
-          variant="contained"
-          loading={isSubmitting}
-        >
-          Submit
-        </LoadingButton>
-        <ReCAPTCHA ref={recaptcha} sitekey={CONFIG.RECAPTCHA_KEY} />
-      </Box>
+      <Stack direction={{ xs: 'column', md: 'row' }} justifyContent="flex-end" spacing={2}>
+        <Stack direction="row" justifyContent="flex-end" spacing={2} alignItems="center">
+          {!isComponent && (
+            <Link onClick={handleSignOut} variant="subtitle2" sx={{ cursor: 'pointer' }}>
+              Click here to sign out
+            </Link>
+          )}
+          <LoadingButton
+            color="primary"
+            size="large"
+            type="submit"
+            variant="contained"
+            loading={isSubmitting}
+          >
+            Submit
+          </LoadingButton>
+        </Stack>
+        <Stack direction="row" justifyContent="flex-end">
+          <ReCAPTCHA ref={recaptcha} sitekey={CONFIG.RECAPTCHA_KEY} />
+        </Stack>
+      </Stack>
     </Stack>
   );
 
