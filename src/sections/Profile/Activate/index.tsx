@@ -8,6 +8,8 @@ import Typography from '@mui/material/Typography';
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 
+import { COUNTRY } from 'src/consts';
+
 import { toast } from 'src/components/SnackBar';
 
 import { useAuthContext } from 'src/auth/hooks';
@@ -19,10 +21,10 @@ export function ActivationView() {
   const { user, loading } = useAuthContext();
 
   const handleActivate = () => {
-    if (user?.memberWallets?.length) {
-      router.push(paths.dashboard.profile.activation, { state: { isModal: true } });
-    } else {
+    if (user?.country !== COUNTRY.USA && user?.memberWallets?.length === 0) {
       toast.error('Please add a wallet first');
+    } else {
+      router.push(paths.dashboard.profile.activation, { state: { isModal: true } });
     }
   };
 

@@ -763,17 +763,6 @@ export type DailyStats = {
   field: Scalars['String']['output'];
 };
 
-export type DuplicateMemberInput1Input = {
-  assetId: Scalars['String']['input'];
-  id: Scalars['ID']['input'];
-};
-
-export type DuplicateMemberInput2Input = {
-  assetId1: Scalars['String']['input'];
-  assetId2: Scalars['String']['input'];
-  id: Scalars['ID']['input'];
-};
-
 export type EmailInput = {
   email: Scalars['String']['input'];
 };
@@ -1599,12 +1588,12 @@ export type MutationCreateSignUpOrderArgs = {
 
 
 export type MutationDuplicateMemberArgs = {
-  data: DuplicateMemberInput1Input;
+  data: IdInput;
 };
 
 
 export type MutationDuplicateMember2Args = {
-  data: DuplicateMemberInput2Input;
+  data: IdInput;
 };
 
 
@@ -2238,6 +2227,8 @@ export enum PermissionType {
   PlacementPointChange = 'PLACEMENT_POINT_CHANGE',
   PlacementPointPreview = 'PLACEMENT_POINT_PREVIEW',
   PlacementView = 'PLACEMENT_VIEW',
+  ProofEdit = 'PROOF_EDIT',
+  ProofView = 'PROOF_VIEW',
   RoleEdit = 'ROLE_EDIT',
   RoleView = 'ROLE_VIEW',
   SaleEdit = 'SALE_EDIT',
