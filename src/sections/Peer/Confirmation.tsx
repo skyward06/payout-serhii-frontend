@@ -46,7 +46,7 @@ export function PeerConfirmation() {
             setResult(false);
           }
         } catch (err: any) {
-          toast.error('Your action failed');
+          toast.error(err.message);
         }
       })();
     }
