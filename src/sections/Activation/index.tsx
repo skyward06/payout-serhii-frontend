@@ -61,11 +61,7 @@ export function ActivationView() {
         reset();
       }
     } catch (error) {
-      if (error.message === 'Invalid asset address') {
-        toast.error(
-          'Please enter the correct Coin ID. If it’s different from the one on your profile, kindly submit a ticket for assistance.'
-        );
-      }
+      toast.error(error.message);
     }
   });
 
@@ -86,11 +82,7 @@ export function ActivationView() {
         reset();
       }
     } catch (error) {
-      if (error.message === 'Invalid asset address') {
-        toast.error(
-          'Please enter the correct Coin ID. If it’s different from the one on your profile, kindly submit a ticket for assistance.'
-        );
-      }
+      toast.error(error.message);
     }
   };
 
@@ -114,28 +106,32 @@ export function ActivationView() {
           )}
 
           <Stack spacing={1}>
-            <Typography variant="subtitle2">Current wallet address</Typography>
-            {user?.memberWallets
-              ?.filter(
-                (wallet) =>
-                  TXC_WALLET.findIndex((txcWallet) => txcWallet.id === wallet.payoutId) !== -1
-              )
-              .map((wallet) => (
-                <Box
-                  p={1}
-                  borderRadius={1}
-                  border={`1px solid ${alpha(theme.palette.grey[500], 0.12)}`}
-                  bgcolor={alpha(theme.palette.grey[500], 0.04)}
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
-                  <Typography variant="caption">
-                    {truncateMiddle(wallet.address, 30, true)}
-                  </Typography>
-                  <Iconify icon="bxs:copy" color="primary.main" />
-                </Box>
-              ))}
+            {user?.memberWallets?.length ? (
+              <>
+                <Typography variant="subtitle2">Current wallet address</Typography>
+                {user.memberWallets
+                  ?.filter(
+                    (wallet) =>
+                      TXC_WALLET.findIndex((txcWallet) => txcWallet.id === wallet.payoutId) !== -1
+                  )
+                  .map((wallet) => (
+                    <Box
+                      p={1}
+                      borderRadius={1}
+                      border={`1px solid ${alpha(theme.palette.grey[500], 0.12)}`}
+                      bgcolor={alpha(theme.palette.grey[500], 0.04)}
+                      display="flex"
+                      justifyContent="space-between"
+                      alignItems="center"
+                    >
+                      <Typography variant="caption">
+                        {truncateMiddle(wallet.address, 30, true)}
+                      </Typography>
+                      <Iconify icon="bxs:copy" color="primary.main" />
+                    </Box>
+                  ))}
+              </>
+            ) : null}
           </Stack>
 
           <Stack direction="row" justifyContent="flex-end" spacing={3}>
@@ -161,7 +157,7 @@ export function ActivationView() {
         </Stack>
       </Box>
 
-      <TransactionModal open={transactionOpen} txHash={txHash} />
+      {transactionOpen.value && <TransactionModal open={transactionOpen} txHash={txHash} />}
     </>
   );
 }
