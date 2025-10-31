@@ -29,7 +29,7 @@ export function TransactionModal({ open, txHash }: Props) {
   const smUp = useMediaQuery(theme.breakpoints.up('sm'));
 
   return (
-    <Dialog open={open.value} fullWidth maxWidth="xs" onClose={open.onFalse}>
+    <Dialog open={open.value} fullWidth maxWidth="xs">
       <DialogTitle>Transaction Details</DialogTitle>
       <DialogContent>
         <Stack spacing={2}>

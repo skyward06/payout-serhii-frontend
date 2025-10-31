@@ -13,6 +13,7 @@ import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 
 import { useBoolean } from 'src/hooks/useBoolean';
+import { useCopyToClipboard } from 'src/hooks/use-copy-to-clipboard';
 
 import { truncateMiddle } from 'src/utils/helper';
 
@@ -34,6 +35,8 @@ export function ActivationView() {
   const transactionOpen = useBoolean();
   const [txHash, setTxHash] = useState<string>();
 
+  const { copy } = useCopyToClipboard();
+
   const { user } = useAuthContext();
   const { loading, activateMember } = useActivateMember();
 
@@ -43,27 +46,6 @@ export function ActivationView() {
   });
 
   const { reset, handleSubmit } = methods;
-
-  const onSubmit = handleSubmit(async (newData) => {
-    try {
-      const { data } = await activateMember(newData);
-
-      if (data) {
-        toast.success('Your account has been activated successfully!');
-
-        if (data?.activateMember.activationTx) {
-          transactionOpen.onTrue();
-          setTxHash(data.activateMember.activationTx);
-        } else {
-          router.push(paths.dashboard.profile.root);
-        }
-
-        reset();
-      }
-    } catch (error) {
-      toast.error(error.message);
-    }
-  });
 
   const handleActivate = async () => {
     try {
@@ -85,6 +67,34 @@ export function ActivationView() {
       toast.error(error.message);
     }
   };
+
+  const handleCopy = (value: string) => {
+    if (value) {
+      copy(value);
+      toast.success('Copied to clipboard');
+    }
+  };
+
+  const onSubmit = handleSubmit(async (newData) => {
+    try {
+      const { data } = await activateMember(newData);
+
+      if (data) {
+        toast.success('Your account has been activated successfully!');
+
+        if (data?.activateMember.activationTx) {
+          transactionOpen.onTrue();
+          setTxHash(data.activateMember.activationTx);
+        } else {
+          router.push(paths.dashboard.profile.root);
+        }
+
+        reset();
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  });
 
   return (
     <>
@@ -127,7 +137,12 @@ export function ActivationView() {
                       <Typography variant="caption">
                         {truncateMiddle(wallet.address, 30, true)}
                       </Typography>
-                      <Iconify icon="bxs:copy" color="primary.main" />
+                      <Iconify
+                        icon="bxs:copy"
+                        color="primary.main"
+                        cursor="pointer"
+                        onClick={() => handleCopy(wallet.address)}
+                      />
                     </Box>
                   ))}
               </>
