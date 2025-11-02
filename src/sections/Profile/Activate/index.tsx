@@ -48,7 +48,7 @@ export function ActivationView() {
         <Alert
           severity="warning"
           variant="outlined"
-        >{`You did not received ${Number(user?.totalTXCNotReceived) / 10 ** 8} TXC`}</Alert>
+        >{`Please activate your account to receive ${Number(user?.totalTXCNotReceived) / 10 ** 8}`}</Alert>
       )}
     </Stack>
   );
