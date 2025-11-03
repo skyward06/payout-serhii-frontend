@@ -13,7 +13,6 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n  mutation CreateBugReport($data: CreateBugReportInput!) {\n    createBugReport(data: $data) {\n      message\n      result\n    }\n  }\n": types.CreateBugReportDocument,
     "\n  query CalculateProfitability($data: ProfitabilityCalculationInput!) {\n    calculateProfitability(data: $data) {\n      startDate\n      target\n      init\n      period\n      txc\n      txcCost\n      extraTXC\n      endDate\n      txcPrice\n    }\n  }\n": types.CalculateProfitabilityDocument,
     "\n  query WeeklyCommissions($sort: String, $page: String, $filter: JSONObject) {\n    weeklyCommissions(sort: $sort, page: $page, filter: $filter) {\n      weeklyCommissions {\n        id\n        ID\n        begL\n        begR\n        newL\n        newR\n        maxL\n        maxR\n        endL\n        endR\n        pkgL\n        pkgR\n        note\n        paidAs\n        status\n        hasUSDC\n        username\n        fullName\n        memberId\n        createdAt\n        shortNote\n        commission\n        commissionType\n        weekStartDate\n        paymentMethod\n      }\n      total\n    }\n  }\n": types.WeeklyCommissionsDocument,
     "\n  query FetchCommissionStats(\n    $allFilter: JSONObject\n    $pendingFilter: JSONObject\n    $declineFilter: JSONObject\n    $sentFilter: JSONObject\n  ) {\n    all: weeklyCommissions(filter: $allFilter) {\n      total\n    }\n    pending: weeklyCommissions(filter: $pendingFilter) {\n      total\n    }\n    decline: weeklyCommissions(filter: $declineFilter) {\n      total\n    }\n    sent: weeklyCommissions(filter: $sentFilter) {\n      total\n    }\n  }\n": types.FetchCommissionStatsDocument,
@@ -112,10 +111,6 @@ const documents = {
  */
 export function gql(source: string): unknown;
 
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(source: "\n  mutation CreateBugReport($data: CreateBugReportInput!) {\n    createBugReport(data: $data) {\n      message\n      result\n    }\n  }\n"): (typeof documents)["\n  mutation CreateBugReport($data: CreateBugReportInput!) {\n    createBugReport(data: $data) {\n      message\n      result\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

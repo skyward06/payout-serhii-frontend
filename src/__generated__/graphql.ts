@@ -589,14 +589,6 @@ export type CreateAdminNotesInput = {
   memberId: Scalars['ID']['input'];
 };
 
-export type CreateBugReportInput = {
-  contact?: InputMaybe<Scalars['String']['input']>;
-  description: Scalars['String']['input'];
-  fileIds?: InputMaybe<Array<Scalars['ID']['input']>>;
-  subject: Scalars['String']['input'];
-  who?: InputMaybe<Scalars['String']['input']>;
-};
-
 export type CreateBuyTxcInput = {
   address: Scalars['String']['input'];
 };
@@ -783,6 +775,7 @@ export type EmailRecipient = {
   createdAt: Scalars['DateTimeISO']['output'];
   email: Scalars['String']['output'];
   id: Scalars['ID']['output'];
+  isVisible: Scalars['Boolean']['output'];
   openedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   sender: Scalars['String']['output'];
   senderName: Scalars['String']['output'];
@@ -831,6 +824,7 @@ export type EntityLog = {
   after?: Maybe<Scalars['JSON']['output']>;
   before?: Maybe<Scalars['JSON']['output']>;
   entity: Scalars['String']['output'];
+  fingerprint?: Maybe<Scalars['JSON']['output']>;
   id: Scalars['String']['output'];
   role: Scalars['String']['output'];
   status: Scalars['String']['output'];
@@ -1298,7 +1292,6 @@ export type Mutation = {
   createAdmin: Admin;
   createAdminNote: AdminNotes;
   createAndSendCampaign: Campaign;
-  createBugReport: SuccessResponse;
   createBuyTXCOrder: Order;
   createBuyWTXCOrder: Order;
   createCampaignSchedule: ScheduleCampaign;
@@ -1346,7 +1339,7 @@ export type Mutation = {
   removeMember: Member;
   removeMemberFromPlacementTree: SuccessResponse;
   removeMemberList: MemberList;
-  removePackage: SuccessResponse;
+  removePackage: Package;
   removePaymentMethod: PaymentMethod;
   removePromo: SuccessResponse;
   removeProof: Proof;
@@ -1494,11 +1487,6 @@ export type MutationCreateAdminNoteArgs = {
 
 export type MutationCreateAndSendCampaignArgs = {
   data: CreateCampaignInput;
-};
-
-
-export type MutationCreateBugReportArgs = {
-  data: CreateBugReportInput;
 };
 
 
@@ -2207,34 +2195,69 @@ export type PeriodStatsArgs = {
 };
 
 export enum PermissionType {
+  AddressView = 'ADDRESS_VIEW',
   AdminEdit = 'ADMIN_EDIT',
   AdminView = 'ADMIN_VIEW',
+  BugReportView = 'BUG_REPORT_VIEW',
+  CampaignCreate = 'CAMPAIGN_CREATE',
+  CampaignView = 'CAMPAIGN_VIEW',
+  CartonEdit = 'CARTON_EDIT',
+  CartonView = 'CARTON_VIEW',
   CommissionApprove = 'COMMISSION_APPROVE',
   CommissionCalculation = 'COMMISSION_CALCULATION',
   CommissionEdit = 'COMMISSION_EDIT',
   CommissionSuspend = 'COMMISSION_SUSPEND',
   CommissionView = 'COMMISSION_VIEW',
+  CommunicationView = 'COMMUNICATION_VIEW',
+  EmailsView = 'EMAILS_VIEW',
+  EmailTemplateEdit = 'EMAIL_TEMPLATE_EDIT',
+  EmailTemplateView = 'EMAIL_TEMPLATE_VIEW',
+  GroupSettingEdit = 'GROUP_SETTING_EDIT',
+  GroupSettingView = 'GROUP_SETTING_VIEW',
   InvoiceEdit = 'INVOICE_EDIT',
   InvoiceRegenerate = 'INVOICE_REGENERATE',
   InvoiceView = 'INVOICE_VIEW',
+  LogView = 'LOG_VIEW',
   MemberAssetEdit = 'MEMBER_ASSET_EDIT',
   MemberEdit = 'MEMBER_EDIT',
+  MemberListEdit = 'MEMBER_LIST_EDIT',
+  MemberListView = 'MEMBER_LIST_VIEW',
   MemberPeerEdit = 'MEMBER_PEER_EDIT',
   MemberTexitrangerEdit = 'MEMBER_TEXITRANGER_EDIT',
   MemberView = 'MEMBER_VIEW',
+  OrderView = 'ORDER_VIEW',
+  PackageEdit = 'PACKAGE_EDIT',
+  PaymentMethodEdit = 'PAYMENT_METHOD_EDIT',
   PlacementEdit = 'PLACEMENT_EDIT',
   PlacementPastEdit = 'PLACEMENT_PAST_EDIT',
   PlacementPointChange = 'PLACEMENT_POINT_CHANGE',
   PlacementPointPreview = 'PLACEMENT_POINT_PREVIEW',
   PlacementView = 'PLACEMENT_VIEW',
+  PromoEdit = 'PROMO_EDIT',
+  PromoView = 'PROMO_VIEW',
   ProofEdit = 'PROOF_EDIT',
   ProofView = 'PROOF_VIEW',
+  ReimbursementEdit = 'REIMBURSEMENT_EDIT',
+  ReimbursementPay = 'REIMBURSEMENT_PAY',
+  ReimbursementView = 'REIMBURSEMENT_VIEW',
+  ReportView = 'REPORT_VIEW',
+  RewardDetailView = 'REWARD_DETAIL_VIEW',
+  RewardRun = 'REWARD_RUN',
   RoleEdit = 'ROLE_EDIT',
   RoleView = 'ROLE_VIEW',
   SaleEdit = 'SALE_EDIT',
   SalePastEdit = 'SALE_PAST_EDIT',
   SaleView = 'SALE_VIEW',
+  ScheduleEdit = 'SCHEDULE_EDIT',
+  ScheduleView = 'SCHEDULE_VIEW',
+  SharedEdit = 'SHARED_EDIT',
+  SharedView = 'SHARED_VIEW',
   ShippingView = 'SHIPPING_VIEW',
+  SponsorTreeView = 'SPONSOR_TREE_VIEW',
+  SwapView = 'SWAP_VIEW',
+  TransactionEmailEdit = 'TRANSACTION_EMAIL_EDIT',
+  TransactionEmailView = 'TRANSACTION_EMAIL_VIEW',
+  TxcPurchaseView = 'TXC_PURCHASE_VIEW',
   WalletEdit = 'WALLET_EDIT',
   WalletView = 'WALLET_VIEW'
 }
@@ -3943,13 +3966,6 @@ export type WeeklyReportResponse = {
   weeklyReports?: Maybe<Array<WeeklyReport>>;
 };
 
-export type CreateBugReportMutationVariables = Exact<{
-  data: CreateBugReportInput;
-}>;
-
-
-export type CreateBugReportMutation = { __typename?: 'Mutation', createBugReport: { __typename?: 'SuccessResponse', message?: string | null, result: SuccessResult } };
-
 export type CalculateProfitabilityQueryVariables = Exact<{
   data: ProfitabilityCalculationInput;
 }>;
@@ -4551,7 +4567,6 @@ export type BlocksdataQueryVariables = Exact<{
 export type BlocksdataQuery = { __typename?: 'Query', blocksData: Array<{ __typename?: 'BlockStatsResponse', base: string, difficulty: number, hashRate: number }> };
 
 
-export const CreateBugReportDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateBugReport"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateBugReportInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createBugReport"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"result"}}]}}]}}]} as unknown as DocumentNode<CreateBugReportMutation, CreateBugReportMutationVariables>;
 export const CalculateProfitabilityDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CalculateProfitability"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ProfitabilityCalculationInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"calculateProfitability"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"startDate"}},{"kind":"Field","name":{"kind":"Name","value":"target"}},{"kind":"Field","name":{"kind":"Name","value":"init"}},{"kind":"Field","name":{"kind":"Name","value":"period"}},{"kind":"Field","name":{"kind":"Name","value":"txc"}},{"kind":"Field","name":{"kind":"Name","value":"txcCost"}},{"kind":"Field","name":{"kind":"Name","value":"extraTXC"}},{"kind":"Field","name":{"kind":"Name","value":"endDate"}},{"kind":"Field","name":{"kind":"Name","value":"txcPrice"}}]}}]}}]} as unknown as DocumentNode<CalculateProfitabilityQuery, CalculateProfitabilityQueryVariables>;
 export const WeeklyCommissionsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"WeeklyCommissions"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sort"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"page"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"JSONObject"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"weeklyCommissions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"sort"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sort"}}},{"kind":"Argument","name":{"kind":"Name","value":"page"},"value":{"kind":"Variable","name":{"kind":"Name","value":"page"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"weeklyCommissions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"ID"}},{"kind":"Field","name":{"kind":"Name","value":"begL"}},{"kind":"Field","name":{"kind":"Name","value":"begR"}},{"kind":"Field","name":{"kind":"Name","value":"newL"}},{"kind":"Field","name":{"kind":"Name","value":"newR"}},{"kind":"Field","name":{"kind":"Name","value":"maxL"}},{"kind":"Field","name":{"kind":"Name","value":"maxR"}},{"kind":"Field","name":{"kind":"Name","value":"endL"}},{"kind":"Field","name":{"kind":"Name","value":"endR"}},{"kind":"Field","name":{"kind":"Name","value":"pkgL"}},{"kind":"Field","name":{"kind":"Name","value":"pkgR"}},{"kind":"Field","name":{"kind":"Name","value":"note"}},{"kind":"Field","name":{"kind":"Name","value":"paidAs"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"hasUSDC"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"shortNote"}},{"kind":"Field","name":{"kind":"Name","value":"commission"}},{"kind":"Field","name":{"kind":"Name","value":"commissionType"}},{"kind":"Field","name":{"kind":"Name","value":"weekStartDate"}},{"kind":"Field","name":{"kind":"Name","value":"paymentMethod"}}]}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]} as unknown as DocumentNode<WeeklyCommissionsQuery, WeeklyCommissionsQueryVariables>;
 export const FetchCommissionStatsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FetchCommissionStats"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"allFilter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"JSONObject"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pendingFilter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"JSONObject"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"declineFilter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"JSONObject"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sentFilter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"JSONObject"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"all"},"name":{"kind":"Name","value":"weeklyCommissions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"allFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"total"}}]}},{"kind":"Field","alias":{"kind":"Name","value":"pending"},"name":{"kind":"Name","value":"weeklyCommissions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pendingFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"total"}}]}},{"kind":"Field","alias":{"kind":"Name","value":"decline"},"name":{"kind":"Name","value":"weeklyCommissions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"declineFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"total"}}]}},{"kind":"Field","alias":{"kind":"Name","value":"sent"},"name":{"kind":"Name","value":"weeklyCommissions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sentFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]} as unknown as DocumentNode<FetchCommissionStatsQuery, FetchCommissionStatsQueryVariables>;
