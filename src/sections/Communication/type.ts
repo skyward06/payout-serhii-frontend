@@ -5,6 +5,7 @@ export type EmailRecipient = {
   id: string;
   email: string;
   sender: string;
+  isVisible: boolean;
   senderName: string;
   status: EmailStatus;
   sentAt?: any | null;

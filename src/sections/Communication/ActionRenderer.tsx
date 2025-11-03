@@ -20,13 +20,15 @@ export const ActionRender = memo(
 
     return (
       <>
-        <Box display="flex" justifyContent="center">
-          <Tooltip title="View" arrow placement="left">
-            <IconButton size="small" color="default" onClick={open.onTrue}>
-              <Iconify icon="flowbite:eye-outline" width={18} />
-            </IconButton>
-          </Tooltip>
-        </Box>
+        {data?.isVisible ? (
+          <Box display="flex" justifyContent="center">
+            <Tooltip title="View" arrow placement="left">
+              <IconButton size="small" color="default" onClick={open.onTrue}>
+                <Iconify icon="flowbite:eye-outline" width={18} />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        ) : null}
 
         {data?.id && open.value && <CommunicationDetail open={open} id={data?.id} />}
       </>

@@ -12,6 +12,7 @@ export const FETCH_EMAIL_RECIPIENTS = gql(/* GraphQL */ `
         sentAt
         subject
         openedAt
+        isVisible
         senderName
       }
       total
@@ -30,6 +31,7 @@ export const FETCH_CAMPAIGN_MEMBER = gql(/* GraphQL */ `
       sentAt
       subject
       openedAt
+      isVisible
       senderName
     }
   }
