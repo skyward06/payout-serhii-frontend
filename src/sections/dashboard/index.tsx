@@ -19,7 +19,7 @@ export default function Dashboard() {
         <Typography variant="h4">{`Welcome, ${customizeFullName(user?.fullName)} !`}</Typography>
         {!user?.activated && (
           <Alert severity="error" variant="outlined">
-            {`Activate your account. Missed reward is ${Number(user?.totalTXCNotReceived) / 10 ** 8} TXC`}
+            {`Please activate your account to receive ${Number(user?.totalTXCNotReceived) / 10 ** 8}`}
           </Alert>
         )}
       </Stack>
