@@ -19,7 +19,7 @@ export default function Dashboard() {
         <Typography variant="h4">{`Welcome, ${customizeFullName(user?.fullName)} !`}</Typography>
         {!user?.activated && (
           <Alert severity="error" variant="outlined">
-            {`Please activate your account to receive ${Number(user?.totalTXCNotReceived) / 10 ** 8}`}
+            {`Please activate your cold storage coin to receive ${Number(user?.totalTXCNotReceived) / 10 ** 8}`}
           </Alert>
         )}
       </Stack>

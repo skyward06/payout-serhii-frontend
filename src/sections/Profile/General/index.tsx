@@ -105,7 +105,9 @@ export default function MemberGeneral({ me }: Props) {
         return;
       }
 
-      if (total === 100) {
+      if (newMember?.txcWallets?.length && total !== 100) {
+        toast.warning('Sum of percent must be 100%');
+      } else {
         await updateMember({
           variables: {
             data: {
@@ -141,8 +143,6 @@ export default function MemberGeneral({ me }: Props) {
         toast.success('Update success!');
 
         router.push(paths.dashboard.profile.root);
-      } else {
-        toast.warning('Sum of percent muse be 100%');
       }
     } catch (err) {
       if (err instanceof ApolloError) {

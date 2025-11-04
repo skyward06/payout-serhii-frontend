@@ -48,7 +48,7 @@ export function ActivationView() {
         <Alert
           severity="warning"
           variant="outlined"
-        >{`Please activate your account to receive ${Number(user?.totalTXCNotReceived) / 10 ** 8}`}</Alert>
+        >{`Please activate your cold storage coin to receive ${Number(user?.totalTXCNotReceived) / 10 ** 8}`}</Alert>
       )}
     </Stack>
   );
