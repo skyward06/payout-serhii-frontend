@@ -186,14 +186,17 @@ export function SignInView() {
           navigate(paths.auth.updatePassword, { state: { token } });
         }, 2000);
       } else if (response.data?.memberLogin.status === 'success') {
+        recaptcha.current?.reset();
         signIn(token);
       } else {
         localStorage.setItem(CONFIG.storageTokenKey, token);
         open.onTrue();
       }
     } catch (error) {
-      console.error(error);
+      recaptcha.current?.reset();
       setErrorMsg(error instanceof Error ? error.message : error);
+    } finally {
+      recaptcha.current?.reset();
     }
   });
 

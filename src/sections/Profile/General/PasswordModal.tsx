@@ -133,23 +133,32 @@ export default function PasswordModal({ open }: Props) {
               variant="contained"
               loading={loading}
               onClick={async () => {
-                const captchaValue = recaptcha.current.getValue();
+                try {
+                  const captchaValue = recaptcha.current.getValue();
 
-                if (!captchaValue) {
-                  toast.error('Please verify the reCAPTCHA!');
-                  return;
-                }
+                  if (!captchaValue) {
+                    toast.error('Please verify the reCAPTCHA!');
+                    return;
+                  }
 
-                const { data } = await submitLogin({
-                  variables: {
-                    data: { email: user?.email!, password: newPassword, recaptcha: '' },
-                  },
-                });
+                  const { data } = await submitLogin({
+                    variables: {
+                      data: { email: user?.email!, password: newPassword, recaptcha: '' },
+                    },
+                  });
 
-                if (data) {
-                  localStorage.setItem(CONFIG.storageTokenKey, data.memberLogin.accessToken);
-                  setStep(step + 1);
-                  await generate2FA();
+                  if (data) {
+                    recaptcha.current?.reset();
+
+                    localStorage.setItem(CONFIG.storageTokenKey, data.memberLogin.accessToken);
+                    setStep(step + 1);
+                    await generate2FA();
+                  }
+                } catch (error) {
+                  console.log('error: ', error);
+                  recaptcha.current?.reset();
+                } finally {
+                  recaptcha.current?.reset();
                 }
               }}
             >

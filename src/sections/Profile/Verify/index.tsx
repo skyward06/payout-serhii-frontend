@@ -78,6 +78,7 @@ export default function VerifyModal({ tabs, open, event }: Props) {
           state: { token: data.memberExchangeLogin.accessToken },
         });
       } else if (data) {
+        recaptcha.current?.reset();
         localStorage.setItem(CONFIG.storageTokenKey, data.memberExchangeLogin.accessToken);
 
         setStep((prev) => prev + 1);
@@ -85,7 +86,10 @@ export default function VerifyModal({ tabs, open, event }: Props) {
         await sendVerificationCode();
       }
     } catch (error) {
+      recaptcha.current?.reset();
       toast.error(error.message);
+    } finally {
+      recaptcha.current?.reset();
     }
   };
 
