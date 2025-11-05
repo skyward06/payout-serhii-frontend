@@ -40,6 +40,8 @@ const ROOTS = {
 
   // Common
   PEER: '/peer',
+
+  CONFIRM_ADDRESS: '/confirm-address',
 };
 
 // ----------------------------------------------------------------------
@@ -140,6 +142,8 @@ export const paths = {
   },
 
   peer: { confirmation: `${ROOTS.PEER}/confirmation` },
+
+  confirmAddress: ROOTS.CONFIRM_ADDRESS,
 
   page403: '/403',
   notFound: '/404',
