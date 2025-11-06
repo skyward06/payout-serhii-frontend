@@ -44,7 +44,7 @@ export function ActivationView() {
         </Alert>
       )}
 
-      {(state?.isModal || !loading) && Number(user?.totalTXCNotReceived) !== 0 && (
+      {(state?.isModal || !loading) && Number(user?.totalTXCNotReceived) > 0 && (
         <Alert
           severity="warning"
           variant="outlined"

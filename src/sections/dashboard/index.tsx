@@ -17,9 +17,9 @@ export default function Dashboard() {
     <>
       <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={3} mb={2}>
         <Typography variant="h4">{`Welcome, ${customizeFullName(user?.fullName)} !`}</Typography>
-        {!user?.activated && (
+        {!user?.activated && (user?.totalTXCNotReceived ?? 0) > 0 && (
           <Alert severity="error" variant="outlined">
-            {`Please activate your cold storage coin to receive ${Number(user?.totalTXCNotReceived) / 10 ** 8}`}
+            {`Please activate your cold storage coin to receive ${Number(user?.totalTXCNotReceived ?? 0) / 10 ** 8}`}
           </Alert>
         )}
       </Stack>
