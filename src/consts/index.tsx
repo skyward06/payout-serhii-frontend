@@ -113,6 +113,11 @@ export const NOTIFICATION_LEVEL = {
   TEAM_LEADER: 'Team Leader',
 };
 
+export const PAID_AS = {
+  Cash: { value: 'Cash', color: 'info', icon: 'solar:dollar-bold' },
+  Hash: { value: 'Hash', color: 'success', icon: 'solar:wallet-money-bold' },
+};
+
 export enum State {
   Approved = 'Approved',
   Draft = 'Draft',

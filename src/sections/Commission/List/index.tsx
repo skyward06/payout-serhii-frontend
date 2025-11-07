@@ -16,7 +16,7 @@ import { useCopyToClipboard } from 'src/hooks/use-copy-to-clipboard';
 import { formatID } from 'src/utils/helper';
 import { formatWeekNumber } from 'src/utils/format-time';
 
-import { COMMISSION_TYPE, COMMISSION_STATUS } from 'src/consts';
+import { PAID_AS, COMMISSION_TYPE, COMMISSION_STATUS } from 'src/consts';
 import { CommissionType, CommissionDefault } from 'src/__generated__/graphql';
 
 import { AgGrid } from 'src/components/AgGrid';
@@ -234,9 +234,9 @@ export default function CommissionTable() {
         cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
           <Box display="flex">
             <LabelRenderer
-              icon={data?.paidAs ? 'solar:dollar-bold' : 'solar:routing-bold'}
-              value={data?.paidAs ? 'Cash' : 'Hash'}
-              color={data?.paidAs ? 'success' : 'secondary'}
+              icon={PAID_AS[data?.paidAs! as keyof typeof PAID_AS].icon}
+              value={PAID_AS[data?.paidAs! as keyof typeof PAID_AS].value}
+              color={PAID_AS[data?.paidAs! as keyof typeof PAID_AS].color as LabelColor}
             />
           </Box>
         ),
