@@ -2,7 +2,6 @@ import { lazy, Suspense } from 'react';
 import { Outlet, type RouteObject } from 'react-router';
 
 import Skeleton from '@mui/material/Skeleton';
-import Container from '@mui/material/Container';
 
 import OrderProvider from 'src/libs/Order';
 import { MainLayout } from 'src/layouts/main';
@@ -35,10 +34,9 @@ export const statisticsRoutes: RouteObject[] = [
     path: '/',
     element: (
       <Suspense fallback={<LoadingScreen />}>
-        <Container>
-          <NavBasic />
-        </Container>
-        <Outlet />
+        <NavBasic>
+          <Outlet />
+        </NavBasic>
       </Suspense>
     ),
     children: [
