@@ -89,7 +89,7 @@ export default function CommissionTable() {
       },
       {
         headerName: 'BegLR',
-        width: 160,
+        width: 180,
         resizable: true,
         editable: false,
         sortable: false,
@@ -101,7 +101,7 @@ export default function CommissionTable() {
       },
       {
         headerName: 'NewLR',
-        width: 160,
+        width: 180,
         resizable: true,
         editable: false,
         sortable: false,
@@ -113,7 +113,7 @@ export default function CommissionTable() {
       },
       {
         headerName: 'MaxLR',
-        width: 160,
+        width: 180,
         resizable: true,
         editable: false,
         sortable: false,
@@ -125,7 +125,7 @@ export default function CommissionTable() {
       },
       {
         headerName: 'Package',
-        width: 160,
+        width: 180,
         resizable: true,
         editable: false,
         sortable: false,
@@ -140,7 +140,7 @@ export default function CommissionTable() {
       },
       {
         headerName: 'EndLR',
-        width: 160,
+        width: 180,
         resizable: true,
         editable: false,
         sortable: false,
@@ -231,15 +231,16 @@ export default function CommissionTable() {
         editable: false,
         sortable: false,
         cellClass: 'ag-cell-center',
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
-          <Box display="flex">
-            <LabelRenderer
-              icon={PAID_AS[data?.paidAs! as keyof typeof PAID_AS].icon}
-              value={PAID_AS[data?.paidAs! as keyof typeof PAID_AS].value}
-              color={PAID_AS[data?.paidAs! as keyof typeof PAID_AS].color as LabelColor}
-            />
-          </Box>
-        ),
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) =>
+          data?.paidAs === 'No payment' ? null : (
+            <Box display="flex">
+              <LabelRenderer
+                icon={PAID_AS[data?.paidAs! as keyof typeof PAID_AS].icon}
+                value={PAID_AS[data?.paidAs! as keyof typeof PAID_AS].value}
+                color={PAID_AS[data?.paidAs! as keyof typeof PAID_AS].color as LabelColor}
+              />
+            </Box>
+          ),
       },
       {
         field: 'note',
