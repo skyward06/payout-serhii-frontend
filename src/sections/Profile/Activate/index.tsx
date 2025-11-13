@@ -3,7 +3,7 @@ import { useLocation } from 'react-router';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Alert from '@mui/material/Alert';
-import Typography from '@mui/material/Typography';
+import { Typography } from '@mui/material';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
@@ -31,24 +31,18 @@ export function ActivationView() {
   return (
     <Stack spacing={2}>
       {(state?.isModal || !loading) && !user?.activated && (
-        <Alert severity="error" variant="outlined">
-          <Stack direction={{ xs: 'column', md: 'row' }} spacing={1}>
-            <Typography variant="body2" display="flex" gap={0.5}>
-              Your account is not activate. Click{' '}
-              <Link variant="body2" sx={{ cursor: 'pointer' }} onClick={handleActivate}>
-                here
-              </Link>
-              to activate
-            </Typography>
-          </Stack>
+        <Alert severity="warning" variant="outlined">
+          <Typography variant="body2">
+            {`Please activate your cold storage coin to receive ${Number(user?.totalTXCNotReceived ?? 0) / 10 ** 8}.`}
+          </Typography>
+          <Typography variant="body2">
+            Click{' '}
+            <Link variant="body2" sx={{ cursor: 'pointer' }} onClick={handleActivate}>
+              here
+            </Link>{' '}
+            to activate.
+          </Typography>
         </Alert>
-      )}
-
-      {(state?.isModal || !loading) && Number(user?.totalTXCNotReceived) > 0 && (
-        <Alert
-          severity="warning"
-          variant="outlined"
-        >{`Please activate your cold storage coin to receive ${Number(user?.totalTXCNotReceived ?? 0) / 10 ** 8}`}</Alert>
       )}
     </Stack>
   );
