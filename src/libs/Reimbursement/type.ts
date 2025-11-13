@@ -9,7 +9,7 @@ export type Reimbursement = {
   description?: string | null;
   requestedAmountInCent: number;
   paidAmountInCent?: number | null;
-  attachments?: Array<PFile> | null;
+  attachments: Array<PFile>;
 };
 
 export type ReimbursementContextValue = {

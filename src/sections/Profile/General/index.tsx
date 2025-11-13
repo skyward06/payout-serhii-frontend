@@ -20,15 +20,18 @@ import { useRouter } from 'src/routes/hooks';
 
 import { useBoolean } from 'src/hooks/useBoolean';
 
+import { uuid } from 'src/utils/uuid';
 import { fData } from 'src/utils/formatNumber';
 import { uploadService } from 'src/utils/axios/api-service';
 
 import { CONFIG } from 'src/config';
 import { CONTACT } from 'src/consts';
-import { TeamStrategy, CommissionDefault } from 'src/__generated__/graphql';
+import { FileType, TeamStrategy, CommissionDefault } from 'src/__generated__/graphql';
 
 import { toast } from 'src/components/SnackBar';
 import { Form, Field } from 'src/components/Form';
+
+import { useCompleteUpload, usePublicUploadPresignedURLs } from 'src/sections/Upload/useApollo';
 
 import { useAuthContext } from 'src/auth/hooks';
 
@@ -57,6 +60,8 @@ export default function MemberGeneral({ me }: Props) {
 
   const [avatar, setAvatar] = useState<string>();
   const [country, setCountry] = useState<string>();
+  const { completeUpload } = useCompleteUpload();
+  const { publicUploadPresignedUrls } = usePublicUploadPresignedURLs();
   const [avatarUrl, setAvatarUrl] = useState<File | string | null>(null);
   const [lastName, setLastName] = useState<string>(me.fullName.split(' ')[1]);
   const [firstName, setFirstName] = useState<string>(me.fullName.split(' ')[0]);
@@ -155,24 +160,56 @@ export default function MemberGeneral({ me }: Props) {
     }
   });
 
-  const handleDrop = useCallback(async (acceptedFiles: File[]) => {
-    const newFile = acceptedFiles[0];
-    setAvatarUrl(newFile);
+  const handleDrop = useCallback(
+    async (acceptedFiles: File[]) => {
+      const newFile = acceptedFiles[0];
+      setAvatarUrl(newFile);
 
-    const formData = new FormData();
+      try {
+        const fileMap: Record<string, File> = {};
+        acceptedFiles.forEach((file) => {
+          fileMap[uuid()] = file;
+        });
 
-    acceptedFiles.forEach((file) => formData.append('avatar', file));
+        const { data, error } = await publicUploadPresignedUrls({
+          variables: {
+            data: {
+              fileType: FileType.Avatar,
+              data: acceptedFiles.map((file) => ({
+                id: uuid(),
+                fileName: file.name,
+                contentType: file.type,
+              })),
+            },
+          },
+        });
 
-    try {
-      const data = await uploadService.uploadFile({ formData });
+        if (data) {
+          await Promise.all(
+            data.publicUploadPresignedURLs
+              .filter((url) => fileMap[url.id])
+              .map(async (url) => {
+                await uploadService.uploadFile(url.url, fileMap[url.id]);
+              })
+          );
 
-      if (data) {
-        setAvatar(data.files[0].url);
+          completeUpload(
+            data.publicUploadPresignedURLs.map((url) => ({
+              id: url.id,
+              fileType: FileType.Avatar,
+            }))
+          );
+
+          setAvatar(data.publicUploadPresignedURLs[0].url);
+        } else {
+          toast.error(error?.message || 'Error uploading avatar');
+        }
+      } catch (error) {
+        console.error('Error uploading file:', error);
       }
-    } catch (error) {
-      console.error('Error uploading file:', error);
-    }
-  }, []);
+    },
+    [completeUpload, publicUploadPresignedUrls]
+  );
 
   const handleDisable = async () => {
     try {

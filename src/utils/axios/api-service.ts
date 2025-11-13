@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 import { api, endpoints, createFormData, type ResponseType, type RequestConfig } from './axios';
 
 // ----------------------------------------------------------------------
@@ -77,15 +79,12 @@ export const authService = {
 // ----------------------------------------------------------------------
 
 export const uploadService = {
-  uploadFile: async ({ token, target = '', formData }: UploadRequest): Promise<any> => {
-    const response = await api.post<UploadResponse>(`${endpoints.upload}/${target}`, formData, {
+  uploadFile: async (url: string, file: File) => {
+    await axios.put(url, file, {
       headers: {
-        Authorization: token ? `Bearer ${token}` : undefined,
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': file.type || 'application/octet-stream',
       },
     });
-
-    return response.data;
   },
 
   uploadFiles: async (

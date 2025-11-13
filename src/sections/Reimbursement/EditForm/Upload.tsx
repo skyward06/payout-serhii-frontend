@@ -3,12 +3,16 @@ import { useState, useEffect, useCallback } from 'react';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 
+import { uuid } from 'src/utils/uuid';
 import { uploadService } from 'src/utils/axios/api-service';
 
-import { CONFIG } from 'src/config';
+import { FileType } from 'src/__generated__/graphql';
 
+import { toast } from 'src/components/SnackBar';
 import { Iconify } from 'src/components/Iconify';
 import { CustomUpload } from 'src/components/Upload';
+
+import { useCompleteUpload, usePublicUploadPresignedURLs } from 'src/sections/Upload/useApollo';
 
 // ----------------------------------------------------------------------
 
@@ -29,8 +33,11 @@ export function FileManagerNewFolderDialog({
   folderName,
   onChangeFolderName,
 }: Props) {
-  const [files, setFiles] = useState<(File | string)[]>([]);
   const [loading, setLoading] = useState<boolean>();
+  const [files, setFiles] = useState<(File | string)[]>([]);
+
+  const { completeUpload } = useCompleteUpload();
+  const { publicUploadPresignedUrls } = usePublicUploadPresignedURLs();
 
   useEffect(() => {
     setFiles([]);
@@ -47,12 +54,44 @@ export function FileManagerNewFolderDialog({
       acceptedFiles.forEach((file) => formData.append('reimbursements', file));
 
       try {
-        const data = await uploadService.uploadFile({
-          formData,
-          token: localStorage.getItem(CONFIG.storageTokenKey)!,
+        const fileMap: Record<string, File> = {};
+        acceptedFiles.forEach((file) => {
+          fileMap[uuid()] = file;
         });
 
-        handleUpdate(data);
+        const { data, error } = await publicUploadPresignedUrls({
+          variables: {
+            data: {
+              fileType: FileType.Reimbursement,
+              data: acceptedFiles.map((file) => ({
+                id: uuid(),
+                fileName: file.name,
+                contentType: file.type,
+              })),
+            },
+          },
+        });
+
+        if (data) {
+          await Promise.all(
+            data.publicUploadPresignedURLs
+              .filter((url) => fileMap[url.id])
+              .map(async (url) => {
+                await uploadService.uploadFile(url.url, fileMap[url.id]);
+              })
+          );
+
+          completeUpload(
+            data.publicUploadPresignedURLs.map((url) => ({
+              id: url.id,
+              fileType: FileType.Reimbursement,
+            }))
+          );
+
+          handleUpdate(data);
+        } else {
+          toast.error(error?.message || 'Error uploading avatar');
+        }
       } catch (error) {
         console.error('Error uploading file:', error);
       } finally {

@@ -1,19 +1,7 @@
 // TODO: Get type from codegen instead of copying
 // Copied from src/__generated__/graphql/AccountsQuery
 
-import type { ProofType } from 'src/__generated__/graphql';
-
-export type PFile = {
-  __typename?: 'PFile';
-  createdAt?: any | null;
-  deletedAt?: any | null;
-  id: string;
-  mimeType: string;
-  originalName: string;
-  size: number;
-  updatedAt?: any | null;
-  url: string;
-};
+import type { PFile, ProofType } from 'src/__generated__/graphql';
 
 export type RefLink = {
   __typename?: 'RefLink';

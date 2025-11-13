@@ -18,6 +18,7 @@ export const FETCH_REIMBURSEMENT = gql(/* GraphQL */ `
           url
           size
           mimeType
+          isPublic
           originalName
         }
       }
@@ -41,6 +42,7 @@ export const FETCH_REIMBURSEMENT_BY_ID = gql(/* GraphQL */ `
         url
         size
         mimeType
+        isPublic
         originalName
       }
     }

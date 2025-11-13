@@ -17,6 +17,7 @@ export const FETCH_INVOICES_QUERY = gql(/* GraphQL */ `
           url
           size
           mimeType
+          isPublic
           originalName
         }
       }
