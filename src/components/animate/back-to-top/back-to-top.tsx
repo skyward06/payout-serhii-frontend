@@ -36,7 +36,7 @@ export function BackToTop({ value = 90, sx, ...other }: BackToTopProps) {
         height: 48,
         position: 'fixed',
         transform: 'scale(0)',
-        right: 16,
+        right: 20,
         bottom: 80,
         zIndex: (theme) => theme.zIndex.speedDial,
         transition: (theme) => theme.transitions.create(['transform']),
