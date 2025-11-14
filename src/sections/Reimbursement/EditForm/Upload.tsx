@@ -63,8 +63,8 @@ export function FileManagerNewFolderDialog({
           variables: {
             data: {
               fileType: FileType.Reimbursement,
-              data: acceptedFiles.map((file) => ({
-                id: uuid(),
+              data: Object.entries(fileMap).map(([id, file]) => ({
+                id,
                 fileName: file.name,
                 contentType: file.type,
               })),
@@ -81,14 +81,21 @@ export function FileManagerNewFolderDialog({
               })
           );
 
-          completeUpload(
+          const { data: completedFile } = await completeUpload(
             data.publicUploadPresignedURLs.map((url) => ({
               id: url.id,
               fileType: FileType.Reimbursement,
             }))
           );
 
-          handleUpdate(data);
+          const mergedFiles = data.publicUploadPresignedURLs.map((uploadUrl) => {
+            const completedData = completedFile?.completeUpload?.find(
+              (completed) => completed.id === uploadUrl.id
+            );
+            return completedData ? { ...uploadUrl, ...completedData } : uploadUrl;
+          });
+
+          handleUpdate(mergedFiles);
         } else {
           toast.error(error?.message || 'Error uploading avatar');
         }

@@ -108,7 +108,7 @@ export function EditForm({ current }: Props) {
   });
 
   const handleUpdate = (data: any) => {
-    setFiles((prev: any) => [...(prev ?? []), ...data.files]);
+    setFiles((prev: any) => [...(prev ?? []), ...data]);
   };
 
   const onDelete = (fileId: string) => {

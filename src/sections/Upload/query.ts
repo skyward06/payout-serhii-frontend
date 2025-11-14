@@ -5,7 +5,10 @@ export const PUBLIC_UPLOAD_PRESIGNED_URLS = gql(/* GraphQL */ `
     publicUploadPresignedURLs(data: $data) {
       id
       url
-      contentType
+      size
+      mimeType
+      isPublic
+      originalName
     }
   }
 `);

@@ -721,6 +721,33 @@ export type CreateShareAccountInput = {
   note: Scalars['String']['input'];
 };
 
+export type CreateShippingInput = {
+  SKU: Scalars['String']['input'];
+  city: Scalars['String']['input'];
+  company: Scalars['String']['input'];
+  country: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+  id?: InputMaybe<Scalars['Int']['input']>;
+  itemCurrency: Scalars['String']['input'];
+  itemPrice: Scalars['Float']['input'];
+  itemTitle: Scalars['String']['input'];
+  itemWeight: Scalars['Float']['input'];
+  itemWeightUnit: Scalars['String']['input'];
+  memberIds?: InputMaybe<Array<Scalars['String']['input']>>;
+  orderAmount: Scalars['Float']['input'];
+  orderCurrency: Scalars['String']['input'];
+  orderWeight: Scalars['Float']['input'];
+  orderWeightUnit: Scalars['String']['input'];
+  orderedAt: Scalars['DateTimeISO']['input'];
+  phone: Scalars['String']['input'];
+  quantity: Scalars['Int']['input'];
+  recipientName: Scalars['String']['input'];
+  state: Scalars['String']['input'];
+  streetLine1: Scalars['String']['input'];
+  streetLine2: Scalars['String']['input'];
+  zipCode: Scalars['String']['input'];
+};
+
 export type CreateSignUpOrderInput = {
   memberId: Scalars['String']['input'];
 };
@@ -1303,7 +1330,9 @@ export type Mutation = {
   createRole: Role;
   createSale: Sale;
   createShareAccount: ShareAccount;
+  createShipping: Shipping;
   createSignUpOrder: Order;
+  deleteShipping: Shipping;
   disable2FA: AccessTokenResponse;
   duplicateMember: Member;
   duplicateMember2: Array<Member>;
@@ -1382,6 +1411,7 @@ export type Mutation = {
   updateRole: Role;
   updateSale: Sale;
   updateShareAccount: ShareAccount;
+  updateShipping: Shipping;
   upsertSettingByMemberId: Setting;
   verify2FAAndEnable: AccessTokenResponse;
   verify2FAToken: LoginResponse;
@@ -1572,8 +1602,18 @@ export type MutationCreateShareAccountArgs = {
 };
 
 
+export type MutationCreateShippingArgs = {
+  data: CreateShippingInput;
+};
+
+
 export type MutationCreateSignUpOrderArgs = {
   data: CreateSignUpOrderInput;
+};
+
+
+export type MutationDeleteShippingArgs = {
+  ID: Scalars['Int']['input'];
 };
 
 
@@ -1933,6 +1973,12 @@ export type MutationUpdateShareAccountArgs = {
 };
 
 
+export type MutationUpdateShippingArgs = {
+  ID: Scalars['Int']['input'];
+  data: UpdateShippingInput;
+};
+
+
 export type MutationUpsertSettingByMemberIdArgs = {
   data: UpsertSettingInput;
 };
@@ -2236,6 +2282,7 @@ export enum PermissionType {
   ScheduleView = 'SCHEDULE_VIEW',
   SharedEdit = 'SHARED_EDIT',
   SharedView = 'SHARED_VIEW',
+  ShippingEdit = 'SHIPPING_EDIT',
   ShippingView = 'SHIPPING_VIEW',
   SponsorTreeView = 'SPONSOR_TREE_VIEW',
   SwapView = 'SWAP_VIEW',
@@ -2313,13 +2360,6 @@ export type PlacementToBottomInput = {
 export type PlacementWithLevelInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
   level: Scalars['Int']['input'];
-};
-
-export type PresignedUrlData = {
-  __typename?: 'PresignedURLData';
-  contentType: Scalars['String']['output'];
-  id: Scalars['ID']['output'];
-  url: Scalars['String']['output'];
 };
 
 export type PresignedUrlRequests = {
@@ -2504,8 +2544,8 @@ export type Query = {
   promos: PromoResponse;
   proofById: Proof;
   proofs: ProofResponse;
-  protectedUploadPresignedURLs: Array<PresignedUrlData>;
-  publicUploadPresignedURLs: Array<PresignedUrlData>;
+  protectedUploadPresignedURLs: Array<PFile>;
+  publicUploadPresignedURLs: Array<PFile>;
   reimbursementById: Reimbursement;
   reimbursements: ReimbursementResponse;
   revenueOverview: Array<RevenueSpentItem>;
@@ -2520,7 +2560,9 @@ export type Query = {
   settingByMemberId: Setting;
   shareAccountById: ShareAccount;
   shareAccounts: ShareAccountResponse;
+  shippingById: Shipping;
   shippingMemberInfos: Array<ShippingMemberInfo>;
+  shippings: ShippingResponse;
   sponsorMembers: Array<SponsorMember>;
   statisticById: Statistics;
   statistics: StatisticsResponse;
@@ -3001,8 +3043,20 @@ export type QueryShareAccountsArgs = {
 };
 
 
+export type QueryShippingByIdArgs = {
+  ID: Scalars['Int']['input'];
+};
+
+
 export type QueryShippingMemberInfosArgs = {
   assetId: Scalars['String']['input'];
+};
+
+
+export type QueryShippingsArgs = {
+  filter?: InputMaybe<Scalars['JSONObject']['input']>;
+  page?: InputMaybe<Scalars['String']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -3337,6 +3391,37 @@ export type ShareMemberInput = {
   memberIds: Array<Scalars['ID']['input']>;
 };
 
+export type Shipping = {
+  __typename?: 'Shipping';
+  SKU: Scalars['String']['output'];
+  city: Scalars['String']['output'];
+  company: Scalars['String']['output'];
+  country: Scalars['String']['output'];
+  createdAt: Scalars['DateTimeISO']['output'];
+  deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
+  email: Scalars['String']['output'];
+  id: Scalars['Int']['output'];
+  itemCurrency: Scalars['String']['output'];
+  itemPrice: Scalars['Int']['output'];
+  itemTitle: Scalars['String']['output'];
+  itemWeight: Scalars['Int']['output'];
+  itemWeightUnit: Scalars['String']['output'];
+  members: Array<MemberInfo>;
+  orderAmount: Scalars['Int']['output'];
+  orderCurrency: Scalars['String']['output'];
+  orderWeight: Scalars['Int']['output'];
+  orderWeightUnit: Scalars['String']['output'];
+  orderedAt: Scalars['DateTimeISO']['output'];
+  phone: Scalars['String']['output'];
+  quantity: Scalars['Int']['output'];
+  recipientName: Scalars['String']['output'];
+  state: Scalars['String']['output'];
+  streetLine1: Scalars['String']['output'];
+  streetLine2: Scalars['String']['output'];
+  updatedAt: Scalars['DateTimeISO']['output'];
+  zipCode: Scalars['String']['output'];
+};
+
 export type ShippingMemberInfo = {
   __typename?: 'ShippingMemberInfo';
   assetId?: Maybe<Scalars['String']['output']>;
@@ -3350,6 +3435,12 @@ export type ShippingMemberInfo = {
   secondaryAddress?: Maybe<Scalars['String']['output']>;
   state?: Maybe<Scalars['String']['output']>;
   zipCode?: Maybe<Scalars['String']['output']>;
+};
+
+export type ShippingResponse = {
+  __typename?: 'ShippingResponse';
+  shippings: Array<Shipping>;
+  total?: Maybe<Scalars['Int']['output']>;
 };
 
 export type SignupFormInput = {
@@ -3824,6 +3915,33 @@ export type UpdateShareAccountInput = {
   id: Scalars['ID']['input'];
   memberIds?: InputMaybe<Array<Scalars['ID']['input']>>;
   note?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UpdateShippingInput = {
+  SKU?: InputMaybe<Scalars['String']['input']>;
+  city?: InputMaybe<Scalars['String']['input']>;
+  company?: InputMaybe<Scalars['String']['input']>;
+  country?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['Int']['input']>;
+  itemCurrency?: InputMaybe<Scalars['String']['input']>;
+  itemPrice?: InputMaybe<Scalars['Int']['input']>;
+  itemTitle?: InputMaybe<Scalars['String']['input']>;
+  itemWeight?: InputMaybe<Scalars['Int']['input']>;
+  itemWeightUnit?: InputMaybe<Scalars['String']['input']>;
+  memberIds?: InputMaybe<Array<Scalars['String']['input']>>;
+  orderAmount?: InputMaybe<Scalars['Int']['input']>;
+  orderCurrency?: InputMaybe<Scalars['String']['input']>;
+  orderWeight?: InputMaybe<Scalars['Int']['input']>;
+  orderWeightUnit?: InputMaybe<Scalars['String']['input']>;
+  orderedAt?: InputMaybe<Scalars['DateTimeISO']['input']>;
+  phone?: InputMaybe<Scalars['String']['input']>;
+  quantity?: InputMaybe<Scalars['Int']['input']>;
+  recipientName?: InputMaybe<Scalars['String']['input']>;
+  state?: InputMaybe<Scalars['String']['input']>;
+  streetLine1?: InputMaybe<Scalars['String']['input']>;
+  streetLine2?: InputMaybe<Scalars['String']['input']>;
+  zipCode?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpsertSettingInput = {
@@ -4573,7 +4691,7 @@ export type PublicUploadPresignedUrLsQueryVariables = Exact<{
 }>;
 
 
-export type PublicUploadPresignedUrLsQuery = { __typename?: 'Query', publicUploadPresignedURLs: Array<{ __typename?: 'PresignedURLData', id: string, url: string, contentType: string }> };
+export type PublicUploadPresignedUrLsQuery = { __typename?: 'Query', publicUploadPresignedURLs: Array<{ __typename?: 'PFile', id: string, url: string, size: number, mimeType: string, isPublic: boolean, originalName: string }> };
 
 export type CompleteUploadMutationVariables = Exact<{
   data: Array<CompleteUploadInput> | CompleteUploadInput;
@@ -4672,6 +4790,6 @@ export const FetchTeamCommissionStatsDocument = {"kind":"Document","definitions"
 export const TeamCommissionsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"TeamCommissions"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"teamReport"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"TeamReportSection"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sort"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"page"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"JSONObject"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"teamCommissions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"teamReport"},"value":{"kind":"Variable","name":{"kind":"Name","value":"teamReport"}}},{"kind":"Argument","name":{"kind":"Name","value":"sort"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sort"}}},{"kind":"Argument","name":{"kind":"Name","value":"page"},"value":{"kind":"Variable","name":{"kind":"Name","value":"page"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"weeklyCommissions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"ID"}},{"kind":"Field","name":{"kind":"Name","value":"begL"}},{"kind":"Field","name":{"kind":"Name","value":"begR"}},{"kind":"Field","name":{"kind":"Name","value":"newL"}},{"kind":"Field","name":{"kind":"Name","value":"newR"}},{"kind":"Field","name":{"kind":"Name","value":"maxL"}},{"kind":"Field","name":{"kind":"Name","value":"maxR"}},{"kind":"Field","name":{"kind":"Name","value":"endL"}},{"kind":"Field","name":{"kind":"Name","value":"endR"}},{"kind":"Field","name":{"kind":"Name","value":"pkgL"}},{"kind":"Field","name":{"kind":"Name","value":"pkgR"}},{"kind":"Field","name":{"kind":"Name","value":"note"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"shortNote"}},{"kind":"Field","name":{"kind":"Name","value":"commission"}},{"kind":"Field","name":{"kind":"Name","value":"weekStartDate"}},{"kind":"Field","name":{"kind":"Name","value":"paymentMethod"}},{"kind":"Field","name":{"kind":"Name","value":"commissionType"}}]}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]} as unknown as DocumentNode<TeamCommissionsQuery, TeamCommissionsQueryVariables>;
 export const IntroducersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Introducers"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sort"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"page"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"JSONObject"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"introducers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"sort"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sort"}}},{"kind":"Argument","name":{"kind":"Name","value":"page"},"value":{"kind":"Variable","name":{"kind":"Name","value":"page"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"introducers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"ID"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"point"}},{"kind":"Field","name":{"kind":"Name","value":"mobile"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]} as unknown as DocumentNode<IntroducersQuery, IntroducersQueryVariables>;
 export const SponsorsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Sponsors"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sort"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"page"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"JSONObject"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"introducers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"sort"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sort"}}},{"kind":"Argument","name":{"kind":"Name","value":"page"},"value":{"kind":"Variable","name":{"kind":"Name","value":"page"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"introducers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"ID"}},{"kind":"Field","name":{"kind":"Name","value":"point"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]} as unknown as DocumentNode<SponsorsQuery, SponsorsQueryVariables>;
-export const PublicUploadPresignedUrLsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PublicUploadPresignedURLs"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"PresignedURLRequests"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"publicUploadPresignedURLs"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"contentType"}}]}}]}}]} as unknown as DocumentNode<PublicUploadPresignedUrLsQuery, PublicUploadPresignedUrLsQueryVariables>;
+export const PublicUploadPresignedUrLsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PublicUploadPresignedURLs"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"PresignedURLRequests"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"publicUploadPresignedURLs"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"size"}},{"kind":"Field","name":{"kind":"Name","value":"mimeType"}},{"kind":"Field","name":{"kind":"Name","value":"isPublic"}},{"kind":"Field","name":{"kind":"Name","value":"originalName"}}]}}]}}]} as unknown as DocumentNode<PublicUploadPresignedUrLsQuery, PublicUploadPresignedUrLsQueryVariables>;
 export const CompleteUploadDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CompleteUpload"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CompleteUploadInput"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"completeUpload"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"size"}},{"kind":"Field","name":{"kind":"Name","value":"mimeType"}},{"kind":"Field","name":{"kind":"Name","value":"isPublic"}},{"kind":"Field","name":{"kind":"Name","value":"originalName"}}]}}]}}]} as unknown as DocumentNode<CompleteUploadMutation, CompleteUploadMutationVariables>;
 export const BlocksdataDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Blocksdata"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"PeriodStatsArgs"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"blocksData"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"base"}},{"kind":"Field","name":{"kind":"Name","value":"difficulty"}},{"kind":"Field","name":{"kind":"Name","value":"hashRate"}}]}}]}}]} as unknown as DocumentNode<BlocksdataQuery, BlocksdataQueryVariables>;
