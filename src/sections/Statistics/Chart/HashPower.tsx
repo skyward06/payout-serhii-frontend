@@ -16,7 +16,6 @@ import { useFetchBlocks } from '../useApollo';
 // ----------------------------------------------------------------------
 
 const select = [
-  { value: 'block', label: 'Block' },
   { value: 'day', label: 'Day' },
   { value: 'week', label: 'Week' },
   { value: 'month', label: 'Month' },
@@ -24,7 +23,7 @@ const select = [
 
 export default function HashPower() {
   const theme = useTheme();
-  const [selectedSeries, setSelectedSeries] = useState('Block');
+  const [selectedSeries, setSelectedSeries] = useState('Day');
 
   const handleChangeSeries = useCallback((newValue: string) => {
     setSelectedSeries(newValue);
