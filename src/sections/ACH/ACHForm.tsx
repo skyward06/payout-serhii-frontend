@@ -1,5 +1,7 @@
+import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLocation } from 'react-router';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import Chip from '@mui/material/Chip';
@@ -14,6 +16,8 @@ import InputAdornment from '@mui/material/InputAdornment';
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 
+import { CONFIG } from 'src/config';
+
 import { toast } from 'src/components/SnackBar';
 import { Iconify } from 'src/components/Iconify';
 import { Form, Field } from 'src/components/Form';
@@ -22,13 +26,14 @@ import { useCreateACH } from './useApollo';
 import { Schema, type SchemaType } from './schema';
 
 export function ACHForm() {
-  const { state } = useLocation();
   const router = useRouter();
+  const { state } = useLocation();
+  const recaptcha = useRef<any>();
 
   const defaultValues = {
     accountNumber: '',
     routingNumber: '',
-    amountInCent: 0,
+    amountInCent: Number(state?.amount ?? 0),
     bankName: '',
     checkNumber: '',
     name: '',
@@ -41,13 +46,29 @@ export function ACHForm() {
 
   const { reset, handleSubmit } = methods;
 
-  const onSubmit = handleSubmit(async (newData) => {
-    const { data } = await createACH({ id: state.id, ...newData });
+  const onSubmit = handleSubmit(async ({ amountInCent, ...newData }) => {
+    try {
+      const captchaValue = recaptcha.current.getValue();
 
-    if (data) {
-      router.push(paths.auth.verifyResult);
-      toast.success('ACH payment submitted successfully.');
-      reset();
+      if (!captchaValue) {
+        toast.error('Please verify the reCAPTCHA!');
+        return;
+      }
+
+      const { data } = await createACH({
+        id: state.id,
+        amountInCent: amountInCent * 100,
+        recaptcha: captchaValue,
+        ...newData,
+      });
+
+      if (data) {
+        router.push(paths.auth.verifyResult);
+        toast.success('ACH payment submitted successfully.');
+        reset();
+      }
+    } catch (error) {
+      toast.error((error as Error).message || 'Failed to submit ACH payment.');
     }
   });
 
@@ -206,7 +227,7 @@ export function ACHForm() {
           </Grid>
 
           <Grid item xs={12}>
-            <Stack direction="row" spacing={1.5} justifyContent="flex-end" sx={{ mt: 1 }}>
+            <Stack direction="row" spacing={1.5} justifyContent="flex-end" sx={{ my: 1 }}>
               <LoadingButton
                 variant="outlined"
                 color="inherit"
@@ -226,6 +247,9 @@ export function ACHForm() {
               >
                 Submit
               </LoadingButton>
+            </Stack>
+            <Stack direction="row" justifyContent="flex-end">
+              <ReCAPTCHA ref={recaptcha} sitekey={CONFIG.RECAPTCHA_KEY} />
             </Stack>
           </Grid>
         </Grid>

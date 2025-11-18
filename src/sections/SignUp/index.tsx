@@ -147,7 +147,12 @@ export function SignUpView({ isComponent = false }: Props) {
           const searchParams = new URLSearchParams({ email: rest.email }).toString();
 
           if (rest.paymentMethod.split('::')[0] === PAYMENT_METHOD_IDS[2]) {
-            router.push(paths.pages.ach.root, { state: { id: data.signUpMember.id } });
+            router.push(paths.pages.ach.root, {
+              state: {
+                id: data.signUpMember.id,
+                amount: packageId.split('::')[1].split(' @ ')[0].replace('$', ''),
+              },
+            });
             return;
           }
 
