@@ -5,7 +5,7 @@ import { useLocation } from 'react-router';
 import { ApolloError } from '@apollo/client';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRef, useState, useEffect, useCallback } from 'react';
+import { useRef, useMemo, useState, useEffect, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
@@ -106,6 +106,14 @@ export function SignUpView({ isComponent = false }: Props) {
   const { createSignUpOrder } = useCreateSignUpOrder();
   const { packages, fetchPackages } = useFetchPackages();
 
+  const paymentData = useMemo(
+    () =>
+      country === COUNTRY.USA
+        ? payments
+        : payments.filter((payment) => payment.id !== PAYMENT_METHOD_IDS[2]),
+    [country, payments]
+  );
+
   const onSubmit = handleSubmit(
     async ({ firstName, lastName, sponsorUsername, uname, txcAddress, packageId, ...rest }) => {
       try {
@@ -113,6 +121,14 @@ export function SignUpView({ isComponent = false }: Props) {
 
         if (!captchaValue) {
           toast.error('Please verify the reCAPTCHA!');
+          return;
+        }
+
+        if (
+          rest.country !== COUNTRY.USA &&
+          rest.paymentMethod.split('::')[0] === PAYMENT_METHOD_IDS[2]
+        ) {
+          toast.error('ACH payment method is available for only USA residents.');
           return;
         }
 
@@ -400,7 +416,7 @@ export function SignUpView({ isComponent = false }: Props) {
             label="Payment Method"
             required
             fullWidth
-            options={payments.map((payment) => `${payment.id}::${payment.name}`)}
+            options={paymentData.map((payment) => `${payment.id}::${payment.name}`)}
             getOptionLabel={(option: any) => option.split('::')[1]}
             renderOption={(props, option) => (
               <li {...props} key={option.split('::')[0]}>
