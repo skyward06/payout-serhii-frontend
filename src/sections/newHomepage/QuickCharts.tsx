@@ -1,5 +1,3 @@
-import type { PeriodStateType } from 'src/__generated__/graphql';
-
 import { m } from 'framer-motion';
 import { useMemo, useState, useEffect } from 'react';
 
@@ -16,12 +14,12 @@ import { fHashRate, formatNumber } from 'src/utils/formatNumber';
 import { Iconify } from 'src/components/Iconify';
 import { varFade, MotionViewport } from 'src/components/animate';
 
-import { useFetchSeatFilled, useFetchPurchasedHashRate } from './useApollo';
+import { useFetchRevenue, useFetchMemberByCountry } from '../Statistics/useApollo';
 import {
-  useFetchRevenue,
-  useFetchMemberCounts,
-  useFetchMemberByCountry,
-} from '../Statistics/useApollo';
+  useFetchSeatFilled,
+  useFetchTotalCommission,
+  useFetchPurchasedHashRate,
+} from './useApollo';
 
 // ----------------------------------------------------------------------
 
@@ -67,7 +65,7 @@ function AnimatedCounter({
   return (
     <>
       {prefix}
-      {formatter ? formatter(count) : formatNumber(count)}
+      {formatter ? formatter(count * 10 ** 6) : formatNumber(count)}
       {suffix}
     </>
   );
@@ -80,7 +78,7 @@ export function QuickCharts() {
   const { seatFilled } = useFetchSeatFilled();
   const { members } = useFetchMemberByCountry();
   const { hashrate } = useFetchPurchasedHashRate();
-  const { memberCount } = useFetchMemberCounts('week' as PeriodStateType);
+  const { totalCommission } = useFetchTotalCommission();
 
   const totalRevenue = revenue?.filter((item) => item.type === 'INCOME')[0].total ?? 0;
 
@@ -115,12 +113,12 @@ export function QuickCharts() {
         },
         {
           title: 'Total Commission',
-          total: memberCount[0]?.minerCount || 0,
+          total: totalCommission,
           icon: 'mdi:trophy',
           colorKey: 'primary',
         },
       ] as const,
-    [totalMembers, totalRevenue, memberCount, seatFilled, hashrate]
+    [totalMembers, totalRevenue, seatFilled, hashrate, totalCommission]
   );
 
   return (
