@@ -28,6 +28,7 @@ const SilverGuaranteePage = lazy(() => import('src/pages/SilverGuarantee'));
 const RewardDetailPage = lazy(() => import('src/pages/MemberStatistics/List'));
 const CommissionConfirmationPage = lazy(() => import('src/pages/Commission/Confirmation'));
 const ConfirmAddressPage = lazy(() => import('src/pages/ConfirmAddress'));
+const NewHomePage = lazy(() => import('src/pages/NewHomePage'));
 // ----------------------------------------------------------------------
 
 export const statisticsRoutes: RouteObject[] = [
@@ -120,6 +121,16 @@ export const statisticsRoutes: RouteObject[] = [
       <AuthCenteredLayout>
         <ConfirmAddressPage />
       </AuthCenteredLayout>
+    ),
+  },
+  {
+    path: 'new-homepage',
+    element: (
+      <Suspense fallback={<LoadingScreen />}>
+        <NavBasic>
+          <NewHomePage />
+        </NavBasic>
+      </Suspense>
     ),
   },
   {

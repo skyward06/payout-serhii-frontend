@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async';
 
 import { CONFIG } from 'src/config';
 
-import Introduction from 'src/sections/Introduction';
+import { Introduction } from 'src/sections/Introduction';
 
 // ----------------------------------------------------------------------
 

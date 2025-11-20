@@ -1,22 +1,30 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router';
 
+import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
+import Divider from '@mui/material/Divider';
 import Container from '@mui/material/Container';
 
 import { BackToTop } from 'src/components/animate/back-to-top';
 import { ScrollProgress, useScrollProgress } from 'src/components/animate/scroll-progress';
 
-import Brief from './Brief';
-import Quick from './Quick';
-import Steps from './Steps';
-import Texit from './Texit';
-import WhatsIn from './WhatsIn';
+import { Texit } from './Texit';
+import { Quick } from './Quick';
 import { Footer } from './Footer';
 import { Packages } from './Packages';
 import { SignUpView } from '../SignUp';
+import { LatestNews } from './LatestNews';
+import { QuickCharts } from './QuickCharts';
+import { HeroSection } from './HeroSection';
+import { NewsArticles } from './NewsArticles';
+import { ChartsSection } from './ChartsSection';
+import { UpcomingEvents } from './UpcomingEvents';
+import { ContentSections } from './ContentSections';
+import { FeaturesSection } from './FeaturesSection';
+import { HowItWorksSection } from './HowItWorksSection';
 
-export function Introduction() {
+export function NewHomePage() {
   const { hash } = useLocation();
   const pageProgress = useScrollProgress();
 
@@ -49,25 +57,41 @@ export function Introduction() {
 
       <BackToTop />
 
-      <Stack sx={{ position: 'relative' }}>
-        <Brief />
+      <Box sx={{ position: 'relative' }}>
+        <HeroSection />
 
-        <WhatsIn />
+        <QuickCharts />
+
+        <NewsArticles />
+
+        <ChartsSection />
+
+        <UpcomingEvents />
+
+        <ContentSections />
+
+        <FeaturesSection />
 
         <Quick />
 
-        <Steps />
+        <HowItWorksSection />
 
         <Texit />
 
         <Packages />
 
-        <Container>
-          <SignUpView />
-        </Container>
+        <LatestNews />
+
+        <Divider />
+
+        <Box py={8} bgcolor="background.neutral">
+          <Container>
+            <SignUpView />
+          </Container>
+        </Box>
 
         <Footer />
-      </Stack>
+      </Box>
     </Stack>
   );
 }

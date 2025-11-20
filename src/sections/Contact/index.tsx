@@ -1,8 +1,8 @@
 import About from './About';
 import Address from './Address';
-import Footer from '../Introduction/Footer';
+import { Footer } from '../Introduction/Footer';
 
-export default function Contact() {
+export function Contact() {
   return (
     <>
       <About />

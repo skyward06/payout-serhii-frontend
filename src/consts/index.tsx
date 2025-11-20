@@ -183,6 +183,8 @@ export const MEMPOOL_URL = 'https://mempool.texitcoin.org/';
 
 export const ZENDESK_KEY = '39fe4f12-fb6b-4d14-83c1-3b297fbaf5d4';
 export const RECAPTCHA_KEY = '6Le1J-grAAAAAKuWbC-NUWYZffS5pqYHzNCFNtbG';
+export const CALENDAR_LINK =
+  'https://calendar.google.com/calendar/u/0/r?cid=Y182NzMzNjM1YzVlZmFiNzgzZjY3OWI2Zjg1OTJmNWE0MGNmYTYwNjk3MjY1ZjVmOTk3MjVkYmJhNWZkNDc3ZjNkQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&pli=1';
 
 export const COUNTRY = {
   USA: 'United States of America',
