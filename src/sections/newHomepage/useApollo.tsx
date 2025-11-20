@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client';
 
-import { FETCH_SEAT_FILLED, FETCH_PURCHASED_HASHRATE } from './query';
+import { FETCH_SEAT_FILLED, FETCH_TOTAL_COMMISSION, FETCH_PURCHASED_HASHRATE } from './query';
 
 export function useFetchSeatFilled() {
   const { loading, data, error } = useQuery(FETCH_SEAT_FILLED);
@@ -12,4 +12,10 @@ export function useFetchPurchasedHashRate() {
   const { loading, data, error } = useQuery(FETCH_PURCHASED_HASHRATE);
 
   return { loading, hashrate: data?.purchasedHashRate ?? 0, error };
+}
+
+export function useFetchTotalCommission() {
+  const { loading, data, error } = useQuery(FETCH_TOTAL_COMMISSION);
+
+  return { loading, totalCommission: data?.totalCommission ?? 0, error };
 }

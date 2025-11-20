@@ -11,3 +11,9 @@ export const FETCH_PURCHASED_HASHRATE = gql(/* GraphQL */ `
     purchasedHashRate
   }
 `);
+
+export const FETCH_TOTAL_COMMISSION = gql(/* GraphQL */ `
+  query TotalCommission {
+    totalCommission
+  }
+`);
