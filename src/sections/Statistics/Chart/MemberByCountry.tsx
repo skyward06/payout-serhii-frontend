@@ -17,7 +17,7 @@ const mainCountries = [
   COUNTRY.TEXAS,
   COUNTRY.AUSTRALIA,
   COUNTRY.NEW_ZEALAND,
-  COUNTRY.CANADA,
+  COUNTRY.FLORIDA,
 ];
 
 export default function MemberByCountry() {

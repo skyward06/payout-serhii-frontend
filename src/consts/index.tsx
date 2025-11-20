@@ -192,4 +192,5 @@ export const COUNTRY = {
   AUSTRALIA: 'Australia',
   NEW_ZEALAND: 'New Zealand',
   CANADA: 'Canada',
+  FLORIDA: 'Florida',
 };
