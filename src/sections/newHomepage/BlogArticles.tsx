@@ -19,6 +19,7 @@ import {
 type ItemProp = {
   id: string;
   title: string;
+  subtitle: string;
   description: string;
 };
 
@@ -26,21 +27,21 @@ export function BlogArticles() {
   const list: ItemProp[] = [
     {
       id: '1',
-      title: 'Getting Started with TXC Mining',
-      description:
-        'Learn the basics of crypto mining and how to start earning with TEXITcoin in just a few simple steps. Learn the basics of crypto mining and how to start earning with TEXITcoin in just a few simple steps.Learn the basics of crypto mining and how to start earning with TEXITcoin in just a few simple steps.Learn the basics of crypto mining and how to start earning with TEXITcoin in just a few simple steps.Learn the basics of crypto mining and how to start earning with TEXITcoin in just a few simple steps.',
+      title: 'Rocketeers Closing',
+      subtitle: `Take advantage of BOGO commission before it's gone!`,
+      description: `Ending this Saturday, 22 November`,
     },
     {
       id: '2',
-      title: 'Understanding Blockchain Technology',
-      description:
-        'A comprehensive guide to blockchain technology and how TEXITcoin leverages it for secure transactions.',
+      title: 'Christmas Cheer',
+      subtitle: 'Join us for the Dallas Holiday Parade',
+      description: `Floats, cars, trucks & dancers & a festive parade!`,
     },
     {
       id: '3',
-      title: 'Maximizing Your Mining Rewards',
-      description:
-        'Tips and strategies to optimize your mining setup and increase your TXC earnings potential.',
+      title: 'Mine Update',
+      subtitle: 'Our first Fog Hashing Container comes online',
+      description: 'Major progress for the Victoria mine site',
     },
   ];
 
@@ -87,11 +88,11 @@ function CarouselItem({ item }: { item: ItemProp }) {
         }}
       >
         <Typography variant="overline" color="primary.light">
-          Recent Blogs
+          {item.title}
         </Typography>
 
-        <Link color="inherit" underline="none" variant="h5" noWrap>
-          {item.title}
+        <Link color="inherit" underline="none" variant="h5">
+          {item.subtitle}
         </Link>
 
         <Typography variant="body2" noWrap>

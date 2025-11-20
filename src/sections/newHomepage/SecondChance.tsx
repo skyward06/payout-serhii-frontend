@@ -1,5 +1,6 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Grid from '@mui/material/Unstable_Grid2';
 import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
@@ -19,58 +20,67 @@ export function SecondChance() {
         }),
         pt: 5,
         pb: 5,
-        pr: 3,
-        gap: 5,
+        px: 5,
+        gap: 2,
         borderRadius: 2,
         display: 'flex',
         height: { md: 1 },
         position: 'relative',
-        pl: { xs: 3, md: 5 },
-        alignItems: 'center',
+        alignItems: { xs: 'center', md: 'flex-start' },
         color: 'common.white',
-        textAlign: { xs: 'center', md: 'left' },
-        flexDirection: { xs: 'column', md: 'row' },
+        flexDirection: 'column',
         border: `solid 1px ${theme.vars.palette.grey[800]}`,
       }}
     >
-      <Box
-        sx={{
-          display: 'flex',
-          flex: '1 1 auto',
-          flexDirection: 'column',
-          alignItems: { xs: 'center', md: 'flex-start' },
-        }}
+      <Typography
+        variant="h4"
+        sx={{ whiteSpace: 'pre-line', lineHeight: { md: 0, xs: 1.5 }, mb: 2 }}
       >
-        <Typography variant="h4" sx={{ whiteSpace: 'pre-line', mb: 1 }}>
-          Second Chance At Crypto
-        </Typography>
+        The Exclusive Mining Partner of TEXITcoin
+      </Typography>
 
-        <Typography variant="body2" sx={{ opacity: 0.64, maxWidth: 360, mb: 3 }}>
-          Join us faster, cheaper and better than Bitcoin in almost every way, our passionate
-          affiliates are on track to make $TXC bigger than the world&apos;s leading crypto. Join us,
-          help secure the TEXITcoin network, and play an active role in the success of $TXC.
-        </Typography>
+      <Grid container spacing={2}>
+        <Grid xs={12} md={8}>
+          <Box
+            sx={{
+              display: 'flex',
+              flex: '1 1 auto',
+              flexDirection: 'column',
+              alignItems: { xs: 'center', md: 'flex-start' },
+              textAlign: { xs: 'center', md: 'left' },
+              gap: 3,
+            }}
+          >
+            <Typography variant="body2" sx={{ opacity: 0.64, maxWidth: 400, mb: 3 }}>
+              Join the mineTXC community and help us crowdsource the world’s largest, privately
+              owned decentralized mine, built exclusively in Texas, for Texas EVERYONE, powering the
+              TEXITcoin blockchain, community currencies & payment systems for fairs & festivals
+              around the wo
+            </Typography>
 
-        <Button
-          href="#sign-up"
-          size="large"
-          variant="contained"
-          color="info"
-          sx={{
-            px: 5,
-            py: 2,
-            bgcolor: 'common.primary',
-            boxShadow: theme.customShadows.z20,
-            '&:hover': {
-              boxShadow: 'theme.customShadows.z24',
-            },
-          }}
-        >
-          Get Started Now
-        </Button>
-      </Box>
-
-      <SeoIllustration hideBackground />
+            <Button
+              href="#sign-up"
+              size="large"
+              variant="contained"
+              color="info"
+              sx={{
+                px: 5,
+                py: 2,
+                bgcolor: 'common.primary',
+                boxShadow: theme.customShadows.z20,
+                '&:hover': {
+                  boxShadow: 'theme.customShadows.z24',
+                },
+              }}
+            >
+              Get Started Now
+            </Button>
+          </Box>
+        </Grid>
+        <Grid xs={12} md={4}>
+          <SeoIllustration hideBackground />
+        </Grid>
+      </Grid>
     </Box>
   );
 }

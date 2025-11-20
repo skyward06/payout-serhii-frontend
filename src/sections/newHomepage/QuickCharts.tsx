@@ -16,6 +16,7 @@ import { fHashRate, formatNumber } from 'src/utils/formatNumber';
 import { Iconify } from 'src/components/Iconify';
 import { varFade, MotionViewport } from 'src/components/animate';
 
+import { useFetchSeatFilled, useFetchPurchasedHashRate } from './useApollo';
 import {
   useFetchRevenue,
   useFetchMemberCounts,
@@ -76,7 +77,9 @@ function AnimatedCounter({
 
 export function QuickCharts() {
   const { revenue } = useFetchRevenue();
+  const { seatFilled } = useFetchSeatFilled();
   const { members } = useFetchMemberByCountry();
+  const { hashrate } = useFetchPurchasedHashRate();
   const { memberCount } = useFetchMemberCounts('week' as PeriodStateType);
 
   const totalRevenue = revenue?.filter((item) => item.type === 'INCOME')[0].total ?? 0;
@@ -87,37 +90,37 @@ export function QuickCharts() {
     () =>
       [
         {
-          title: 'Miners',
+          title: 'Total Miners',
           total: totalMembers,
           icon: 'mdi:account-group',
           colorKey: 'success',
         },
         {
-          title: 'Money',
+          title: 'Total Revenue',
           total: totalRevenue,
           icon: 'mdi:cash-multiple',
           colorKey: 'info',
         },
         {
           title: 'Seats Filled',
-          total: 85,
+          total: seatFilled,
           icon: 'mdi:seat',
           colorKey: 'warning',
         },
         {
           title: 'Current Hashrate',
-          total: 304598039,
+          total: hashrate,
           icon: 'mdi:speedometer',
           colorKey: 'error',
         },
         {
-          title: 'Miner of the Week',
+          title: 'Total Commission',
           total: memberCount[0]?.minerCount || 0,
           icon: 'mdi:trophy',
           colorKey: 'primary',
         },
       ] as const,
-    [totalMembers, totalRevenue, memberCount]
+    [totalMembers, totalRevenue, memberCount, seatFilled, hashrate]
   );
 
   return (
@@ -125,7 +128,7 @@ export function QuickCharts() {
       <Container component={MotionViewport}>
         <Grid container spacing={2}>
           {charts.map((chart) => (
-            <Grid key={chart.title} xs={6} sm={6} md={2.4}>
+            <Grid key={chart.title} xs={12} sm={6} md={2.4}>
               <m.div variants={varFade().inUp}>
                 <Card
                   sx={{
@@ -160,7 +163,7 @@ export function QuickCharts() {
                     </Box>
                     <Stack spacing={0.5} alignItems="flex-start" minWidth={0}>
                       <Typography variant="h5" fontWeight={700} noWrap>
-                        {chart.title === 'Money' ? (
+                        {chart.title === 'Total Revenue' ? (
                           <AnimatedCounter value={chart.total} prefix="$" />
                         ) : chart.title === 'Current Hashrate' ? (
                           <AnimatedCounter value={chart.total} formatter={fHashRate} />

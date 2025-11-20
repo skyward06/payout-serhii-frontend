@@ -40,6 +40,7 @@ export type Ach = {
   id: Scalars['ID']['output'];
   member: MemberInfo;
   name: Scalars['String']['output'];
+  note?: Maybe<Scalars['String']['output']>;
   routingNumber: Scalars['String']['output'];
   sign: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
@@ -216,6 +217,7 @@ export type BasicGroupSetting = {
 export type BasicMember = {
   __typename?: 'BasicMember';
   ID?: Maybe<Scalars['Int']['output']>;
+  ach?: Maybe<Ach>;
   activated: Scalars['Boolean']['output'];
   adminFullname?: Maybe<Scalars['String']['output']>;
   adminUsername?: Maybe<Scalars['String']['output']>;
@@ -990,12 +992,6 @@ export type GroupSettingResponse = {
   __typename?: 'GroupSettingResponse';
   groupSettings?: Maybe<Array<GroupSetting>>;
   total?: Maybe<Scalars['Int']['output']>;
-};
-
-export type HashPowerResponse = {
-  __typename?: 'HashPowerResponse';
-  actualHashPower: Scalars['Float']['output'];
-  soldHashPower: Scalars['Float']['output'];
 };
 
 export type IdInput = {
@@ -2542,6 +2538,7 @@ export enum ProofType {
 export type Query = {
   __typename?: 'Query';
   ach: BasicAchResponse;
+  achById: Ach;
   achByMemberId: Ach;
   addressByAddress: Address;
   addresses: AddressResponse;
@@ -2577,7 +2574,6 @@ export type Query = {
   generateWhenLamboGameOverReport2: SuccessResponse;
   getProtectedFileDownloadURL: Scalars['String']['output'];
   groupSettings: GroupSettingResponse;
-  hashPowerResponse: HashPowerResponse;
   individualMembers: Array<IndividualMember>;
   introducers: IntroducersResponse;
   invoiceById: Invoice;
@@ -2621,6 +2617,7 @@ export type Query = {
   proofs: ProofResponse;
   protectedUploadPresignedURLs: Array<PFile>;
   publicUploadPresignedURLs: Array<PFile>;
+  purchasedHashRate: Scalars['Float']['output'];
   reimbursementById: Reimbursement;
   reimbursements: ReimbursementResponse;
   revenueOverview: Array<RevenueSpentItem>;
@@ -2632,6 +2629,7 @@ export type Query = {
   sales: BasicSalesResponse;
   scheduleCampaigns: ScheduleCampaignResponse;
   searchMembers: Array<BasicMemberInfo>;
+  seatFilled: Scalars['Float']['output'];
   settingByMemberId: Setting;
   shareAccountById: ShareAccount;
   shareAccounts: ShareAccountResponse;
@@ -2656,6 +2654,7 @@ export type Query = {
   txcSupplyWalletBalance: WalletBalance;
   unusedAssets: Array<BasicCartonAddress>;
   weekIntroducers: ReportMemberResponse;
+  weekJoinedMembers: Scalars['Int']['output'];
   weeklyCommissionById: WeeklyCommission;
   weeklyCommissions: BasicWeeklyCommissionResponse;
   weeklyReports: WeeklyReportResponse;
@@ -2669,6 +2668,11 @@ export type QueryAchArgs = {
   filter?: InputMaybe<Scalars['JSONObject']['input']>;
   page?: InputMaybe<Scalars['String']['input']>;
   sort?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryAchByIdArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -4822,6 +4826,16 @@ export type BlocksdataQueryVariables = Exact<{
 
 export type BlocksdataQuery = { __typename?: 'Query', blocksData: Array<{ __typename?: 'BlockStatsResponse', base: string, difficulty: number, hashRate: number }> };
 
+export type SeatFilledQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SeatFilledQuery = { __typename?: 'Query', seatFilled: number };
+
+export type PurchasedHashRateQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PurchasedHashRateQuery = { __typename?: 'Query', purchasedHashRate: number };
+
 
 export const CreateAchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateACH"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateACHInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createACH"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateAchMutation, CreateAchMutationVariables>;
 export const CalculateProfitabilityDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CalculateProfitability"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ProfitabilityCalculationInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"calculateProfitability"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"startDate"}},{"kind":"Field","name":{"kind":"Name","value":"target"}},{"kind":"Field","name":{"kind":"Name","value":"init"}},{"kind":"Field","name":{"kind":"Name","value":"period"}},{"kind":"Field","name":{"kind":"Name","value":"txc"}},{"kind":"Field","name":{"kind":"Name","value":"txcCost"}},{"kind":"Field","name":{"kind":"Name","value":"extraTXC"}},{"kind":"Field","name":{"kind":"Name","value":"endDate"}},{"kind":"Field","name":{"kind":"Name","value":"txcPrice"}}]}}]}}]} as unknown as DocumentNode<CalculateProfitabilityQuery, CalculateProfitabilityQueryVariables>;
@@ -4909,3 +4923,5 @@ export const SponsorsDocument = {"kind":"Document","definitions":[{"kind":"Opera
 export const PublicUploadPresignedUrLsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PublicUploadPresignedURLs"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"PresignedURLRequests"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"publicUploadPresignedURLs"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"size"}},{"kind":"Field","name":{"kind":"Name","value":"mimeType"}},{"kind":"Field","name":{"kind":"Name","value":"isPublic"}},{"kind":"Field","name":{"kind":"Name","value":"originalName"}}]}}]}}]} as unknown as DocumentNode<PublicUploadPresignedUrLsQuery, PublicUploadPresignedUrLsQueryVariables>;
 export const CompleteUploadDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CompleteUpload"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CompleteUploadInput"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"completeUpload"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"size"}},{"kind":"Field","name":{"kind":"Name","value":"mimeType"}},{"kind":"Field","name":{"kind":"Name","value":"isPublic"}},{"kind":"Field","name":{"kind":"Name","value":"originalName"}}]}}]}}]} as unknown as DocumentNode<CompleteUploadMutation, CompleteUploadMutationVariables>;
 export const BlocksdataDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Blocksdata"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"PeriodStatsArgs"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"blocksData"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"base"}},{"kind":"Field","name":{"kind":"Name","value":"difficulty"}},{"kind":"Field","name":{"kind":"Name","value":"hashRate"}}]}}]}}]} as unknown as DocumentNode<BlocksdataQuery, BlocksdataQueryVariables>;
+export const SeatFilledDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SeatFilled"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"seatFilled"}}]}}]} as unknown as DocumentNode<SeatFilledQuery, SeatFilledQueryVariables>;
+export const PurchasedHashRateDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PurchasedHashRate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"purchasedHashRate"}}]}}]} as unknown as DocumentNode<PurchasedHashRateQuery, PurchasedHashRateQueryVariables>;

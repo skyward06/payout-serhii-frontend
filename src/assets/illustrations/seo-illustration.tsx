@@ -15,10 +15,10 @@ type SvgProps = SvgIconProps & { hideBackground?: boolean };
 function SeoIllustration({ hideBackground, sx, ...other }: SvgProps) {
   const renderCharacterImage = () => (
     <image
-      href={`${CONFIG.site.basePath}/assets/illustrations/characters/character-present.webp`}
-      height="280"
-      x="320"
-      y="40"
+      href={`${CONFIG.site.basePath}/assets/illustrations/characters/armadillo.png`}
+      height="350"
+      x="280"
+      y="0"
     />
   );
 
