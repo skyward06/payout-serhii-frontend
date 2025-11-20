@@ -121,7 +121,7 @@ export function QuickCharts() {
   );
 
   return (
-    <Box py={{ xs: 6, md: 8 }} bgcolor="background.default">
+    <Box pt={{ xs: 6, md: 8 }} bgcolor="background.default">
       <Container component={MotionViewport}>
         <Grid container spacing={2}>
           {charts.map((chart) => (
@@ -131,7 +131,6 @@ export function QuickCharts() {
                   sx={{
                     p: 2.5,
                     height: '100%',
-                    textAlign: 'center',
                     bgcolor: 'background.paper',
                     transition: 'all 0.3s ease-in-out',
                     border: (theme) => `1px solid ${alpha(theme.palette.grey[500], 0.08)}`,
@@ -142,17 +141,16 @@ export function QuickCharts() {
                     },
                   }}
                 >
-                  <Stack spacing={1.5} alignItems="center">
+                  <Stack direction="row" spacing={2} alignItems="center">
                     <Box
-                      sx={{
-                        width: 56,
-                        height: 56,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderRadius: 1.5,
-                        bgcolor: (theme) => alpha(theme.palette[chart.colorKey].main, 0.08),
-                      }}
+                      width={60}
+                      height={60}
+                      flexShrink={0}
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                      borderRadius={1.5}
+                      bgcolor={(theme) => alpha(theme.palette[chart.colorKey].main, 0.08)}
                     >
                       <Iconify
                         icon={chart.icon}
@@ -160,20 +158,22 @@ export function QuickCharts() {
                         sx={{ color: `${chart.colorKey}.main` }}
                       />
                     </Box>
-                    <Typography variant="h5" sx={{ fontWeight: 700 }}>
-                      {chart.title === 'Money' ? (
-                        <AnimatedCounter value={chart.total} prefix="$" />
-                      ) : chart.title === 'Current Hashrate' ? (
-                        <AnimatedCounter value={chart.total} formatter={fHashRate} />
-                      ) : chart.title === 'Seats Filled' ? (
-                        <AnimatedCounter value={chart.total} suffix="%" />
-                      ) : (
-                        <AnimatedCounter value={chart.total} />
-                      )}
-                    </Typography>
-                    <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                      {chart.title}
-                    </Typography>
+                    <Stack spacing={0.5} alignItems="flex-start" minWidth={0}>
+                      <Typography variant="h5" fontWeight={700} noWrap>
+                        {chart.title === 'Money' ? (
+                          <AnimatedCounter value={chart.total} prefix="$" />
+                        ) : chart.title === 'Current Hashrate' ? (
+                          <AnimatedCounter value={chart.total} formatter={fHashRate} />
+                        ) : chart.title === 'Seats Filled' ? (
+                          <AnimatedCounter value={chart.total} suffix="%" />
+                        ) : (
+                          <AnimatedCounter value={chart.total} />
+                        )}
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary" noWrap>
+                        {chart.title}
+                      </Typography>
+                    </Stack>
                   </Stack>
                 </Card>
               </m.div>

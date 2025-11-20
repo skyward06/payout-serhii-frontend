@@ -58,9 +58,9 @@ export function NewHomePage() {
       <BackToTop />
 
       <Box sx={{ position: 'relative' }}>
-        <HeroSection />
-
         <QuickCharts />
+
+        <HeroSection />
 
         <NewsArticles />
 

@@ -1439,7 +1439,9 @@ export type Mutation = {
   setReadNotification: SuccessResponse;
   setTransactionalEmail: TransactionalEmail;
   signUpMember: SignupMemberResponse;
+  submitACH: Ach;
   suspendCommission: SuspendedCommissions;
+  updateACH: Ach;
   updateAdmin: Admin;
   updateAdminNote: AdminNotes;
   updateAssetUsedStatuses: SuccessResponse;
@@ -1915,6 +1917,16 @@ export type MutationSignUpMemberArgs = {
 };
 
 
+export type MutationSubmitAchArgs = {
+  data: SubmitAchInput;
+};
+
+
+export type MutationUpdateAchArgs = {
+  data: UpdateAchInput;
+};
+
+
 export type MutationUpdateAdminArgs = {
   data: UpdateAdminInput;
 };
@@ -2283,6 +2295,8 @@ export type PeriodStatsArgs = {
 };
 
 export enum PermissionType {
+  AchEdit = 'ACH_EDIT',
+  AchSubmit = 'ACH_SUBMIT',
   AchView = 'ACH_VIEW',
   AddressView = 'ADDRESS_VIEW',
   AdminEdit = 'ADMIN_EDIT',
@@ -3584,6 +3598,17 @@ export type StatisticsResponse = {
   total?: Maybe<Scalars['Int']['output']>;
 };
 
+export type SubmitAchInput = {
+  accountNumber: Scalars['String']['input'];
+  amountInCent: Scalars['Float']['input'];
+  bankName: Scalars['String']['input'];
+  checkNumber?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  routingNumber: Scalars['String']['input'];
+  sign: Scalars['String']['input'];
+};
+
 export type SuccessResponse = {
   __typename?: 'SuccessResponse';
   frontActions?: Maybe<Array<FrontAction>>;
@@ -3791,6 +3816,16 @@ export enum TxcRequestType {
   Txc = 'TXC',
   Wtxc = 'WTXC'
 }
+
+export type UpdateAchInput = {
+  accountNumber?: InputMaybe<Scalars['String']['input']>;
+  amountInCent?: InputMaybe<Scalars['Float']['input']>;
+  bankName?: InputMaybe<Scalars['String']['input']>;
+  checkNumber?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['String']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+  routingNumber?: InputMaybe<Scalars['String']['input']>;
+};
 
 export type UpdateAdminInput = {
   avatar?: InputMaybe<Scalars['String']['input']>;

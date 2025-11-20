@@ -7,7 +7,7 @@ import { SecondChance } from './SecondChance';
 
 export function HeroSection() {
   return (
-    <Box pt={{ xs: 6, md: 8 }} bgcolor="background.default">
+    <Box py={{ xs: 6, md: 8 }} bgcolor="background.default">
       <Container>
         <Grid container spacing={4} alignItems="stretch">
           <Grid xs={12} md={8}>
