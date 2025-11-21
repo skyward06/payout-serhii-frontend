@@ -40,9 +40,9 @@ export function NewNavBasic({ children }: Props) {
       title: 'About',
       path: '#',
       children: [
-        { title: 'Meet the Team', path: 'https://texitcoin.org/Meet-the-Team.html' },
+        { title: 'Meet the Team', path: paths.comingSoon },
         { title: 'News & Events', path: 'https://texitcoin.org/Events.html' },
-        { title: 'Contact Us', path: '#' },
+        { title: 'Contact Us', path: paths.comingSoon },
       ],
     },
     {
@@ -61,9 +61,9 @@ export function NewNavBasic({ children }: Props) {
       title: 'Proof',
       path: '#',
       children: [
-        { title: 'The Mine', path: '#' },
-        { title: 'Promotion', path: '#' },
-        { title: 'Community', path: '#' },
+        { title: 'The Mine', path: paths.comingSoon },
+        { title: 'Promotion', path: paths.comingSoon },
+        { title: 'Community', path: paths.comingSoon },
       ],
     },
     {
