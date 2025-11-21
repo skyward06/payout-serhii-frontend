@@ -1,22 +1,22 @@
 export const _socials = [
   {
-    value: 'facebook',
-    name: 'Facebook',
-    path: 'https://www.facebook.com/profile.php?id=61559875176657',
+    value: 'telegram',
+    name: 'Telegram',
+    path: 'https://t.me/texitcoin_txc',
   },
   {
     value: 'instagram',
     name: 'Instagram',
-    path: 'https://www.instagram.com/TEXITcoin_TXC',
+    path: 'https://www.instagram.com/texitcoin/',
   },
   {
     value: 'tiktok',
     name: 'TikTok',
-    path: 'https://www.tiktok.com/@TEXITcoin_TXC',
+    path: 'https://www.tiktok.com/@TEXITcoins',
   },
   {
     value: 'twitter',
     name: 'Twitter',
-    path: 'https://twitter.com/TEXITcoin_TXC',
+    path: 'https://x.com/TEXITcoin',
   },
 ];

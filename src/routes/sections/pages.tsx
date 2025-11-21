@@ -5,6 +5,7 @@ import Skeleton from '@mui/material/Skeleton';
 
 import OrderProvider from 'src/libs/Order';
 import { MainLayout } from 'src/layouts/main';
+import { SimpleLayout } from 'src/layouts/simple';
 import { NavBasic } from 'src/layouts/main/navItem/nav-basic';
 import { AuthCenteredLayout } from 'src/layouts/auth-centered';
 import { NewNavBasic } from 'src/layouts/main/navItem/newNavBasic';
@@ -30,6 +31,7 @@ const RewardDetailPage = lazy(() => import('src/pages/MemberStatistics/List'));
 const CommissionConfirmationPage = lazy(() => import('src/pages/Commission/Confirmation'));
 const ConfirmAddressPage = lazy(() => import('src/pages/ConfirmAddress'));
 const NewHomePage = lazy(() => import('src/pages/NewHomePage'));
+const ComingSoonPage = lazy(() => import('src/pages/ComingSoon'));
 // ----------------------------------------------------------------------
 
 export const statisticsRoutes: RouteObject[] = [
@@ -131,6 +133,16 @@ export const statisticsRoutes: RouteObject[] = [
         <NewNavBasic>
           <NewHomePage />
         </NewNavBasic>
+      </Suspense>
+    ),
+  },
+  {
+    path: 'coming-soon',
+    element: (
+      <Suspense fallback={<LoadingScreen />}>
+        <SimpleLayout content={{ compact: true }}>
+          <ComingSoonPage />
+        </SimpleLayout>
       </Suspense>
     ),
   },

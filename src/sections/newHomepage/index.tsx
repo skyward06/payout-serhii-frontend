@@ -14,10 +14,8 @@ import { Quick } from './Quick';
 import { Footer } from './Footer';
 import { Packages } from './Packages';
 import { SignUpView } from '../SignUp';
-import { LatestNews } from './LatestNews';
 import { QuickCharts } from './QuickCharts';
 import { HeroSection } from './HeroSection';
-import { NewsArticles } from './NewsArticles';
 import { ChartsSection } from './ChartsSection';
 import { UpcomingEvents } from './UpcomingEvents';
 import { ContentSections } from './ContentSections';
@@ -62,7 +60,8 @@ export function NewHomePage() {
 
         <HeroSection />
 
-        <NewsArticles />
+        {/* <NewsArticles /> */}
+        <Quick />
 
         <ChartsSection />
 
@@ -72,15 +71,13 @@ export function NewHomePage() {
 
         <FeaturesSection />
 
-        <Quick />
-
         <HowItWorksSection />
 
         <Texit />
 
         <Packages />
 
-        <LatestNews />
+        {/* <LatestNews /> */}
 
         <Divider />
 

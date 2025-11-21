@@ -30,7 +30,7 @@ export function Footer() {
           >
             <Button
               onClick={() => {
-                window.open('https://www.tiktok.com/@BlockchainMint', '_blank');
+                window.open('https://www.tiktok.com/@TEXITcoins', '_blank');
               }}
             >
               <SocialAvatar icon="mage:tiktok-circle" />
@@ -42,12 +42,10 @@ export function Footer() {
             >
               <SocialAvatar icon="logos:telegram" />
             </Button>
-            <Button
-              onClick={() => window.open('https://www.instagram.com/coldstoragecoins/', '_blank')}
-            >
+            <Button onClick={() => window.open('https://www.instagram.com/texitcoin/', '_blank')}>
               <SocialAvatar icon="skill-icons:instagram" />
             </Button>
-            <Button onClick={() => window.open('https://twitter.com/texitcoin_txc', '_blank')}>
+            <Button onClick={() => window.open('https://x.com/TEXITcoin', '_blank')}>
               <SocialAvatar icon="skill-icons:twitter" />
             </Button>
           </Grid>

@@ -15,6 +15,7 @@ export type SocialIconProps = {
     | 'facebook'
     | 'github'
     | 'tiktok'
+    | 'telegram'
     | string;
   width?: number;
   sx?: SxProps<Theme>;
@@ -34,6 +35,9 @@ export const SocialIcon = forwardRef<SVGSVGElement, SocialIconProps>(
           ...(['twitter', 'github'].includes(`${socialName}`) && {
             color: 'text.primary',
           }),
+          ...(socialName === 'telegram' && {
+            color: '#33A9E5', // light blue for Telegram
+          }),
           ...sx,
         }}
         {...other}
@@ -45,6 +49,7 @@ export const SocialIcon = forwardRef<SVGSVGElement, SocialIconProps>(
         {socialName === 'instagram' && instagramSVG}
         {socialName === 'github' && githubSVG}
         {socialName === 'tiktok' && tiktokSVG}
+        {socialName === 'telegram' && telegramSVG}
       </SvgIcon>
     );
   }
@@ -156,4 +161,11 @@ const tiktokSVG = (
       d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74a2.89 2.89 0 0 1 2.31-4.64a3 3 0 0 1 .88.13V9.4a7 7 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a5 5 0 0 1-1-.1z"
     />
   </svg>
+);
+
+const telegramSVG = (
+  <path
+    fill="currentColor"
+    d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm4.59 6.58-1.5 7.07c-.11.5-.4.62-.81.39l-2.25-1.66-1.08 1.04c-.12.12-.22.22-.45.22l.16-2.28 4.16-3.76c.18-.16-.04-.26-.28-.1l-5.15 3.24-2.22-.69c-.48-.15-.49-.48.1-.71l8.66-3.34c.4-.15.75.09.62.71Z"
+  />
 );

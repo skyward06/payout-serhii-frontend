@@ -1,38 +1,38 @@
-import styled from 'styled-components';
+import { m } from 'framer-motion';
 import MediaPlayer from 'react-player';
 
-import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
+import { varAlpha } from 'src/theme/styles';
+
+import { varFade, MotionViewport } from 'src/components/animate';
+
 export function Quick() {
   return (
-    <Content>
+    <Box
+      py={{ xs: 8, md: 10 }}
+      textAlign="center"
+      sx={{
+        background: (theme) =>
+          `linear-gradient(135deg, ${varAlpha(theme.vars.palette.primary.mainChannel, 0.03)} 0%, ${varAlpha(theme.vars.palette.primary.darkChannel, 0.06)} 100%)`,
+      }}
+      component={MotionViewport}
+    >
       <Container>
-        <Header>A Quick Introduction...</Header>
+        <m.div variants={varFade().inDown}>
+          <Typography variant="h2" fontWeight={700} mb={2}>
+            A Quick Introduction...
+          </Typography>
+        </m.div>
 
-        <CustomContainer>
-          <MediaPlayer url="https://www.youtube.com/watch?v=-XP4JzOFYFI" controls />
-        </CustomContainer>
+        <m.div variants={varFade().inUp}>
+          <Box display="flex" justifyContent="center">
+            <MediaPlayer url="https://www.youtube.com/watch?v=-XP4JzOFYFI" controls />
+          </Box>
+        </m.div>
       </Container>
-    </Content>
+    </Box>
   );
 }
-
-const Content = styled(Paper)`
-  background-color: #e5e5e5;
-  padding: 50px 0 30px;
-  text-align: center;
-  border-radius: 0;
-`;
-
-const CustomContainer = styled(Container)`
-  padding: 40px 0;
-  display: flex;
-  justify-content: center;
-`;
-
-const Header = styled(Typography)`
-  font-size: 3rem;
-  font-weight: 700;
-`;

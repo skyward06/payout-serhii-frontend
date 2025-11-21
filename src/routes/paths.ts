@@ -45,6 +45,8 @@ const ROOTS = {
 
   CONFIRM_ADDRESS: '/confirm-address',
 
+  COMING_SOON: '/coming-soon',
+
   NEW_HOMEPAGE: '/new-homepage',
 };
 
@@ -151,6 +153,8 @@ export const paths = {
   peer: { confirmation: `${ROOTS.PEER}/confirmation` },
 
   confirmAddress: ROOTS.CONFIRM_ADDRESS,
+
+  comingSoon: ROOTS.COMING_SOON,
 
   newHomepage: ROOTS.NEW_HOMEPAGE,
 

@@ -82,8 +82,7 @@ export function FeaturesSection() {
                 lineHeight: 1.8,
               }}
             >
-              Discover the powerful features that make TEXITcoin the best choice for cryptocurrency
-              mining and passive income generation.
+              TEXITcoin here to mineTXC
             </Typography>
           </m.div>
         </Stack>

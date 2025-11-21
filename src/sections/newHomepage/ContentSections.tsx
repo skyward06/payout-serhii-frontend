@@ -7,6 +7,7 @@ import { alpha } from '@mui/material/styles';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
+import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 
 import { Iconify } from 'src/components/Iconify';
@@ -21,7 +22,8 @@ const SECTIONS = [
     subtitle: 'Our goal is 35 sites, 35 megawatts of power - monitor our progress',
     icon: 'mdi:factory',
     color: '#FF6B6B',
-    link: '#',
+    link: paths.comingSoon,
+    linkText: 'See our progress',
   },
   {
     id: '2',
@@ -30,7 +32,8 @@ const SECTIONS = [
       'We have a moral obligation to share the message of peace and prosperity with everyone',
     icon: 'mdi:book-open-page-variant',
     color: '#4ECDC4',
-    link: '#',
+    link: paths.comingSoon,
+    linkText: 'Learn how we share',
   },
   {
     id: '3',
@@ -38,7 +41,8 @@ const SECTIONS = [
     subtitle: 'Help us grow, vote with your wallet, and be the change you want to see in the world',
     icon: 'mdi:account-group',
     color: '#95E1D3',
-    link: '#',
+    link: paths.comingSoon,
+    linkText: 'Meet our winning team',
   },
 ];
 
@@ -197,14 +201,14 @@ export function ContentSections() {
                             color: section.color,
                             fontWeight: 600,
                             fontSize: '1rem',
-                            px: 0,
+                            px: 3,
                             '&:hover': {
                               bgcolor: 'transparent',
                               color: section.color,
                             },
                           }}
                         >
-                          Link to sub-page
+                          {section.linkText}
                         </Button>
                       </Box>
                     </Stack>

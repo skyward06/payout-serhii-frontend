@@ -279,7 +279,7 @@ export function SignUpView({ isComponent = false }: Props) {
   const renderHead = (
     <Stack spacing={1.5} sx={{ mb: 5, outline: 'none' }} id="sign-up" tabIndex={-1}>
       <Typography variant="h2" textAlign="center">
-        Fill out the form and let us blast off...
+        Fill out the form and let&apos;s blast off...
       </Typography>
     </Stack>
   );
