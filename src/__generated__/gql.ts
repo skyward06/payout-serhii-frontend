@@ -100,8 +100,7 @@ const documents = {
     "\n  mutation CompleteUpload($data: [CompleteUploadInput!]!) {\n    completeUpload(data: $data) {\n      id\n      url\n      size\n      mimeType\n      isPublic\n      originalName\n    }\n  }\n": types.CompleteUploadDocument,
     "\n  query Blocksdata($data: PeriodStatsArgs!) {\n    blocksData(data: $data) {\n      base\n      difficulty\n      hashRate\n    }\n  }\n": types.BlocksdataDocument,
     "\n  query SeatFilled {\n    seatFilled\n  }\n": types.SeatFilledDocument,
-    "\n  query PurchasedHashRate {\n    purchasedHashRate\n  }\n": types.PurchasedHashRateDocument,
-    "\n  query TotalCommission {\n    totalCommission\n  }\n": types.TotalCommissionDocument,
+    "\n  query CurrentNetworkHashRate {\n    currentNetworkHashRate\n  }\n": types.CurrentNetworkHashRateDocument,
 };
 
 /**
@@ -469,11 +468,7 @@ export function gql(source: "\n  query SeatFilled {\n    seatFilled\n  }\n"): (t
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  query PurchasedHashRate {\n    purchasedHashRate\n  }\n"): (typeof documents)["\n  query PurchasedHashRate {\n    purchasedHashRate\n  }\n"];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(source: "\n  query TotalCommission {\n    totalCommission\n  }\n"): (typeof documents)["\n  query TotalCommission {\n    totalCommission\n  }\n"];
+export function gql(source: "\n  query CurrentNetworkHashRate {\n    currentNetworkHashRate\n  }\n"): (typeof documents)["\n  query CurrentNetworkHashRate {\n    currentNetworkHashRate\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

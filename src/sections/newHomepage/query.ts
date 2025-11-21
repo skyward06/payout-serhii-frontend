@@ -6,14 +6,8 @@ export const FETCH_SEAT_FILLED = gql(/* GraphQL */ `
   }
 `);
 
-export const FETCH_PURCHASED_HASHRATE = gql(/* GraphQL */ `
-  query PurchasedHashRate {
-    purchasedHashRate
-  }
-`);
-
-export const FETCH_TOTAL_COMMISSION = gql(/* GraphQL */ `
-  query TotalCommission {
-    totalCommission
+export const CURRENT_NETWORK_HASHRATE = gql(/* GraphQL */ `
+  query CurrentNetworkHashRate {
+    currentNetworkHashRate
   }
 `);

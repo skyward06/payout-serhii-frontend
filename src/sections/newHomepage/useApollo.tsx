@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client';
 
-import { FETCH_SEAT_FILLED, FETCH_TOTAL_COMMISSION, FETCH_PURCHASED_HASHRATE } from './query';
+import { FETCH_SEAT_FILLED, CURRENT_NETWORK_HASHRATE } from './query';
 
 export function useFetchSeatFilled() {
   const { loading, data, error } = useQuery(FETCH_SEAT_FILLED);
@@ -8,14 +8,8 @@ export function useFetchSeatFilled() {
   return { loading, seatFilled: data?.seatFilled ?? 0, error };
 }
 
-export function useFetchPurchasedHashRate() {
-  const { loading, data, error } = useQuery(FETCH_PURCHASED_HASHRATE);
+export function useFetchCurrentHashRate() {
+  const { loading, data, error } = useQuery(CURRENT_NETWORK_HASHRATE);
 
-  return { loading, hashrate: data?.purchasedHashRate ?? 0, error };
-}
-
-export function useFetchTotalCommission() {
-  const { loading, data, error } = useQuery(FETCH_TOTAL_COMMISSION);
-
-  return { loading, totalCommission: data?.totalCommission ?? 0, error };
+  return { loading, hashrate: data?.currentNetworkHashRate ?? 0, error };
 }

@@ -1,5 +1,3 @@
-import type { PeriodStateType } from 'src/__generated__/graphql';
-
 import { m } from 'framer-motion';
 import { useMemo, useState, useEffect } from 'react';
 
@@ -16,8 +14,8 @@ import { fHashRate, formatNumber } from 'src/utils/formatNumber';
 import { Iconify } from 'src/components/Iconify';
 import { varFade, MotionViewport } from 'src/components/animate';
 
-import { useFetchSeatFilled } from './useApollo';
-import { useFetchBlocks, useFetchRevenue, useFetchMemberByCountry } from '../Statistics/useApollo';
+import { useFetchSeatFilled, useFetchCurrentHashRate } from './useApollo';
+import { useFetchRevenue, useFetchMemberByCountry } from '../Statistics/useApollo';
 
 // ----------------------------------------------------------------------
 
@@ -75,12 +73,11 @@ export function QuickCharts() {
   const { revenue } = useFetchRevenue();
   const { seatFilled } = useFetchSeatFilled();
   const { members } = useFetchMemberByCountry();
-  const { blocks } = useFetchBlocks('block' as PeriodStateType);
+  const { hashrate } = useFetchCurrentHashRate();
 
   const totalMembers = members.reduce((sum, country) => sum + country.memberCount, 0);
   const totalRevenue = revenue?.filter((item) => item.type === 'INCOME')[0].total ?? 0;
   const totalCommission = revenue?.filter((item) => item.type === 'COMMISSION')[0].total ?? 0;
-  const hashrate = blocks!.map((item) => item.hashRate).reverse()[0] || 0;
 
   const charts = useMemo(
     () =>
@@ -158,7 +155,7 @@ export function QuickCharts() {
                       />
                     </Box>
                     <Stack spacing={0.5} alignItems="flex-start" minWidth={0}>
-                      <Typography variant="h5" fontWeight={700} noWrap>
+                      <Typography variant="h6" fontWeight={700} noWrap>
                         {chart.title === 'Total Revenue' ? (
                           <AnimatedCounter value={chart.total} prefix="$" />
                         ) : chart.title === 'Current Hashrate' ? (

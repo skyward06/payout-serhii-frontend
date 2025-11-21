@@ -2558,6 +2558,7 @@ export type Query = {
   collectAddresses: CollectAddressResponse;
   commissionByPeriod: Array<CommissionPeriodResponse>;
   commissionsByWeek: CommissionOverviewResponse;
+  currentNetworkHashRate: Scalars['Float']['output'];
   emailOverviewByPeriod: Array<PeriodEmailOverview>;
   emailRecipientById: EmailRecipient;
   emailRecipients: EmailRecipientResponse;
@@ -2617,7 +2618,6 @@ export type Query = {
   proofs: ProofResponse;
   protectedUploadPresignedURLs: Array<PFile>;
   publicUploadPresignedURLs: Array<PFile>;
-  purchasedHashRate: Scalars['Float']['output'];
   reimbursementById: Reimbursement;
   reimbursements: ReimbursementResponse;
   revenueOverview: Array<RevenueSpentItem>;
@@ -2643,7 +2643,6 @@ export type Query = {
   texasMembers: TexasMemberResponse;
   topEarners: Array<TopEarnersResponse>;
   topRecruiters: Array<TopRecruitersResponse>;
-  totalCommission: Scalars['Int']['output'];
   totalMemberCounts: Array<MinerCountStatsResponse>;
   transactionByHash: Transaction;
   transactionalEmailById: TransactionalEmail;
@@ -4831,15 +4830,10 @@ export type SeatFilledQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type SeatFilledQuery = { __typename?: 'Query', seatFilled: number };
 
-export type PurchasedHashRateQueryVariables = Exact<{ [key: string]: never; }>;
+export type CurrentNetworkHashRateQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PurchasedHashRateQuery = { __typename?: 'Query', purchasedHashRate: number };
-
-export type TotalCommissionQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type TotalCommissionQuery = { __typename?: 'Query', totalCommission: number };
+export type CurrentNetworkHashRateQuery = { __typename?: 'Query', currentNetworkHashRate: number };
 
 
 export const CreateAchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateACH"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateACHInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createACH"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateAchMutation, CreateAchMutationVariables>;
@@ -4929,5 +4923,4 @@ export const PublicUploadPresignedUrLsDocument = {"kind":"Document","definitions
 export const CompleteUploadDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CompleteUpload"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CompleteUploadInput"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"completeUpload"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"size"}},{"kind":"Field","name":{"kind":"Name","value":"mimeType"}},{"kind":"Field","name":{"kind":"Name","value":"isPublic"}},{"kind":"Field","name":{"kind":"Name","value":"originalName"}}]}}]}}]} as unknown as DocumentNode<CompleteUploadMutation, CompleteUploadMutationVariables>;
 export const BlocksdataDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Blocksdata"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"PeriodStatsArgs"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"blocksData"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"base"}},{"kind":"Field","name":{"kind":"Name","value":"difficulty"}},{"kind":"Field","name":{"kind":"Name","value":"hashRate"}}]}}]}}]} as unknown as DocumentNode<BlocksdataQuery, BlocksdataQueryVariables>;
 export const SeatFilledDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SeatFilled"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"seatFilled"}}]}}]} as unknown as DocumentNode<SeatFilledQuery, SeatFilledQueryVariables>;
-export const PurchasedHashRateDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PurchasedHashRate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"purchasedHashRate"}}]}}]} as unknown as DocumentNode<PurchasedHashRateQuery, PurchasedHashRateQueryVariables>;
-export const TotalCommissionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"TotalCommission"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCommission"}}]}}]} as unknown as DocumentNode<TotalCommissionQuery, TotalCommissionQueryVariables>;
+export const CurrentNetworkHashRateDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CurrentNetworkHashRate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"currentNetworkHashRate"}}]}}]} as unknown as DocumentNode<CurrentNetworkHashRateQuery, CurrentNetworkHashRateQueryVariables>;
