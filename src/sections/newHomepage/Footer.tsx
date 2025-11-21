@@ -11,7 +11,7 @@ import DarkLogo from 'src/components/logo/dark-logo';
 
 export function Footer() {
   return (
-    <Content>
+    <Content sx={{ bgcolor: '#333333', borderRadius: 0 }}>
       <Container>
         <Grid container alignItems="center" spacing={2}>
           <Grid xs={12} md={6} lg={4}>

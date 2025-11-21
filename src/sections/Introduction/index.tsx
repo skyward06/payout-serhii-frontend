@@ -12,7 +12,6 @@ import Quick from './Quick';
 import Steps from './Steps';
 import Texit from './Texit';
 import WhatsIn from './WhatsIn';
-import { Footer } from './Footer';
 import { Packages } from './Packages';
 import { SignUpView } from '../SignUp';
 
@@ -65,8 +64,6 @@ export function Introduction() {
         <Container>
           <SignUpView />
         </Container>
-
-        <Footer />
       </Stack>
     </Stack>
   );

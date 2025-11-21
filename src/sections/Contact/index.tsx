@@ -1,6 +1,5 @@
 import About from './About';
 import Address from './Address';
-import { Footer } from '../Introduction/Footer';
 
 export function Contact() {
   return (
@@ -8,8 +7,6 @@ export function Contact() {
       <About />
 
       <Address />
-
-      <Footer />
     </>
   );
 }

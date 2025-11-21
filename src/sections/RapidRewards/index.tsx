@@ -3,7 +3,6 @@ import Container from '@mui/material/Container';
 import Rewards from './Rewards';
 import { SignUpView } from '../SignUp';
 import Description from './Description';
-import { Footer } from '../Introduction/Footer';
 import { Packages } from '../Introduction/Packages';
 
 export function RapidRewards() {
@@ -18,8 +17,6 @@ export function RapidRewards() {
       <Container>
         <SignUpView />
       </Container>
-
-      <Footer />
     </>
   );
 }

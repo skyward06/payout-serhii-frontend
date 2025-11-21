@@ -11,7 +11,6 @@ import { ScrollProgress, useScrollProgress } from 'src/components/animate/scroll
 
 import { Texit } from './Texit';
 import { Quick } from './Quick';
-import { Footer } from './Footer';
 import { Packages } from './Packages';
 import { SignUpView } from '../SignUp';
 import { QuickCharts } from './QuickCharts';
@@ -86,8 +85,6 @@ export function NewHomePage() {
             <SignUpView />
           </Container>
         </Box>
-
-        <Footer />
       </Box>
     </Stack>
   );

@@ -5,7 +5,6 @@ import Skeleton from '@mui/material/Skeleton';
 
 import OrderProvider from 'src/libs/Order';
 import { MainLayout } from 'src/layouts/main';
-import { SimpleLayout } from 'src/layouts/simple';
 import { NavBasic } from 'src/layouts/main/navItem/nav-basic';
 import { AuthCenteredLayout } from 'src/layouts/auth-centered';
 import { NewNavBasic } from 'src/layouts/main/navItem/newNavBasic';
@@ -140,9 +139,9 @@ export const statisticsRoutes: RouteObject[] = [
     path: 'coming-soon',
     element: (
       <Suspense fallback={<LoadingScreen />}>
-        <SimpleLayout content={{ compact: true }}>
+        <NewNavBasic>
           <ComingSoonPage />
-        </SimpleLayout>
+        </NewNavBasic>
       </Suspense>
     ),
   },

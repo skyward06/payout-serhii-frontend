@@ -9,7 +9,6 @@ import Chris from './Chris';
 import Offer from './Offer';
 import Tommy from './Tommy';
 import Right from './Right';
-import Footer from './Footer';
 import Crypto from './Crypto';
 import Header from './Header';
 import Silver from './Silver';
@@ -53,8 +52,6 @@ export default function SilverGuaranteeView() {
       <News />
 
       <Why />
-
-      <Footer />
     </>
   );
 }
