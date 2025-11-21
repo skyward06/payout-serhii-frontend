@@ -110,7 +110,9 @@ export function SignUpView({ isComponent = false }: Props) {
     () =>
       country === COUNTRY.USA
         ? payments
-        : payments.filter((payment) => payment.id !== PAYMENT_METHOD_IDS[2]),
+        : payments.filter(
+            (payment) => payment.id !== (PAYMENT_METHOD_IDS[2] || PAYMENT_METHOD_IDS[3])
+          ),
     [country, payments]
   );
 

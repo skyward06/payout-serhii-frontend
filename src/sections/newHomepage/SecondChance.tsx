@@ -53,9 +53,9 @@ export function SecondChance() {
           >
             <Typography variant="body2" sx={{ opacity: 0.64, maxWidth: 400, mb: 3 }}>
               Join the mineTXC community and help us crowdsource the world’s largest, privately
-              owned decentralized mine, built exclusively in Texas, for Texas EVERYONE, powering the
-              TEXITcoin blockchain, community currencies & payment systems for fairs & festivals
-              around the wo
+              owned decentralized mine, built in Texas, for EVERYONE. Our work powers the TXC
+              blockchain, community currencies & payment systems for fairs & festivals around the
+              world.
             </Typography>
 
             <Button
