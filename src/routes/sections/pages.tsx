@@ -5,7 +5,6 @@ import Skeleton from '@mui/material/Skeleton';
 
 import OrderProvider from 'src/libs/Order';
 import { MainLayout } from 'src/layouts/main';
-import { NavBasic } from 'src/layouts/main/navItem/nav-basic';
 import { AuthCenteredLayout } from 'src/layouts/auth-centered';
 import { NewNavBasic } from 'src/layouts/main/navItem/newNavBasic';
 
@@ -38,9 +37,9 @@ export const statisticsRoutes: RouteObject[] = [
     path: '/',
     element: (
       <Suspense fallback={<LoadingScreen />}>
-        <NavBasic>
+        <NewNavBasic>
           <Outlet />
-        </NavBasic>
+        </NewNavBasic>
       </Suspense>
     ),
     children: [
