@@ -26,8 +26,13 @@ export default function RevenueOverview() {
 
   const series = useMemo(
     () => [
+      revenue?.filter((item) => item.type === 'COMMISSION')[0].total ?? 0,
       incomeRevenue,
-      ...(revenue?.filter((item) => item.type !== 'INCOME').map((item) => item.total) ?? []),
+      revenue?.filter((item) => item.type === 'LIQUIDITY')[0].total ?? 0,
+      revenue?.filter((item) => item.type === 'MINE')[0].total ?? 0,
+      revenue?.filter((item) => item.type === 'OVERHEAD')[0].total ?? 0,
+      revenue?.filter((item) => item.type === 'PROFIT')[0].total ?? 0,
+      revenue?.filter((item) => item.type === 'PROMOTION')[0].total ?? 0,
     ],
     [revenue, incomeRevenue]
   );
