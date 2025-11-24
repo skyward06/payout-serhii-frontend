@@ -1,7 +1,7 @@
 import { gql } from 'src/__generated__/gql';
 
 export const PUBLIC_UPLOAD_PRESIGNED_URLS = gql(/* GraphQL */ `
-  query PublicUploadPresignedURLs($data: PresignedURLRequests!) {
+  query PublicUploadPresignedURLs($data: PresignedUploadURLRequests!) {
     publicUploadPresignedURLs(data: $data) {
       id
       url

@@ -31,8 +31,11 @@ export type Scalars = {
 export type Ach = {
   __typename?: 'ACH';
   accountNumber: Scalars['String']['output'];
+  achBatch?: Maybe<AchBatch>;
+  achHistories: Array<AchHistory>;
   amountInCent: Scalars['Int']['output'];
   bankName: Scalars['String']['output'];
+  batchId?: Maybe<Scalars['Int']['output']>;
   checkNumber?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
@@ -43,7 +46,80 @@ export type Ach = {
   note?: Maybe<Scalars['String']['output']>;
   routingNumber: Scalars['String']['output'];
   sign: Scalars['String']['output'];
+  status: AchStatus;
   updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
+};
+
+export type AchBatch = {
+  __typename?: 'ACHBatch';
+  aches: Array<Ach>;
+  batchDate: Scalars['DateTimeISO']['output'];
+  batchName: Scalars['String']['output'];
+  createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
+  deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
+  file: PFile;
+  frontActions?: Maybe<Array<FrontAction>>;
+  id: Scalars['Int']['output'];
+  totalAmountInCent: Scalars['BigInt']['output'];
+  updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
+};
+
+export type AchBatchResponse = {
+  __typename?: 'ACHBatchResponse';
+  achBatches: Array<AchBatch>;
+  total?: Maybe<Scalars['Int']['output']>;
+};
+
+export type AchConfigInput = {
+  companyId: Scalars['String']['input'];
+  companyName: Scalars['String']['input'];
+  immediateDest: Scalars['String']['input'];
+  immediateDestName: Scalars['String']['input'];
+  immediateOrigin: Scalars['String']['input'];
+  immediateOriginName: Scalars['String']['input'];
+  organizationDFI: Scalars['String']['input'];
+};
+
+export type AchConfigResponse = {
+  __typename?: 'ACHConfigResponse';
+  companyId: Scalars['String']['output'];
+  companyName: Scalars['String']['output'];
+  immediateDest: Scalars['String']['output'];
+  immediateDestName: Scalars['String']['output'];
+  immediateOrigin: Scalars['String']['output'];
+  immediateOriginName: Scalars['String']['output'];
+  organizationDFI: Scalars['String']['output'];
+};
+
+export type AchHistory = {
+  __typename?: 'ACHHistory';
+  achId: Scalars['String']['output'];
+  changerId: Scalars['String']['output'];
+  changerInfo: Scalars['String']['output'];
+  createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
+  deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
+  fromStatus?: Maybe<AchStatus>;
+  frontActions?: Maybe<Array<FrontAction>>;
+  id: Scalars['ID']['output'];
+  isAdmin: Scalars['Boolean']['output'];
+  reason?: Maybe<Scalars['String']['output']>;
+  toStatus: AchStatus;
+  updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
+};
+
+export enum AchStatus {
+  Cancelled = 'CANCELLED',
+  Completed = 'COMPLETED',
+  Failed = 'FAILED',
+  Pending = 'PENDING',
+  Processing = 'PROCESSING',
+  Queued = 'QUEUED'
+}
+
+export type AchStatusChangeInput = {
+  id: Scalars['String']['input'];
+  newStatus: AchStatus;
+  reason?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type AccessTokenResponse = {
@@ -192,6 +268,7 @@ export type BasicAch = {
   name: Scalars['String']['output'];
   routingNumber: Scalars['String']['output'];
   sign: Scalars['String']['output'];
+  status: AchStatus;
   username: Scalars['String']['output'];
 };
 
@@ -566,7 +643,7 @@ export type CompleteTxcRequestInput = {
 };
 
 export type CompleteUploadInput = {
-  fileType: FileType;
+  fileType: UploadFileType;
   id: Scalars['ID']['input'];
 };
 
@@ -590,7 +667,6 @@ export type CreateAddMemberOrderInput = {
   email: Scalars['String']['input'];
   fullName: Scalars['String']['input'];
   mobile: Scalars['String']['input'];
-  note?: InputMaybe<Scalars['String']['input']>;
   packageId: Scalars['String']['input'];
   placementParentId?: InputMaybe<Scalars['String']['input']>;
   placementPosition?: InputMaybe<PlacementPosition>;
@@ -900,12 +976,6 @@ export type FileMetaDataInput = {
   fileName: Scalars['String']['input'];
   id: Scalars['ID']['input'];
 };
-
-export enum FileType {
-  Avatar = 'AVATAR',
-  Payment = 'PAYMENT',
-  Reimbursement = 'REIMBURSEMENT'
-}
 
 export type FrontAction = {
   __typename?: 'FrontAction';
@@ -1350,6 +1420,7 @@ export type Mutation = {
   calculateCommissions: SuccessResponse;
   calculatePreviewCommissions: SuccessResponse;
   cancelOrder: Order;
+  changeACHStatus: Ach;
   checkSaleRefDuplication: RefLinkDuplicationResponse;
   completeOrder: Order;
   completeSwap: WtxcSwap;
@@ -1386,6 +1457,7 @@ export type Mutation = {
   duplicateMember: Member;
   duplicateMember2: Array<Member>;
   forceMemberLogout: SuccessResponse;
+  generateNACHAFiles: Array<AchBatch>;
   generateWeekP2PInvoice: SuccessResponse;
   generateWeeklyReport: SuccessResponse;
   linkMembers: SuccessResponse;
@@ -1403,6 +1475,7 @@ export type Mutation = {
   payReimbursementsWithTxId: Array<Reimbursement>;
   refreshBalance: SuccessResponse;
   regenerateInvoiceById: SuccessResponse;
+  regenerateNACHAFile: AchBatch;
   removeAdmin: SuccessResponse;
   removeAdminNote: SuccessResponse;
   removeCampaignSchedule: ScheduleCampaign;
@@ -1438,6 +1511,7 @@ export type Mutation = {
   submitACH: Ach;
   suspendCommission: SuspendedCommissions;
   updateACH: Ach;
+  updateACHConfig: AchConfigResponse;
   updateAdmin: Admin;
   updateAdminNote: AdminNotes;
   updateAssetUsedStatuses: SuccessResponse;
@@ -1510,6 +1584,11 @@ export type MutationApproveMemberArgs = {
 
 export type MutationCancelOrderArgs = {
   data: IdInput;
+};
+
+
+export type MutationChangeAchStatusArgs = {
+  data: AchStatusChangeInput;
 };
 
 
@@ -1688,6 +1767,11 @@ export type MutationForceMemberLogoutArgs = {
 };
 
 
+export type MutationGenerateNachaFilesArgs = {
+  data: NachaGenerateInput;
+};
+
+
 export type MutationGenerateWeekP2PInvoiceArgs = {
   data: InvoiceWeekInput;
 };
@@ -1765,6 +1849,11 @@ export type MutationRefreshBalanceArgs = {
 
 export type MutationRegenerateInvoiceByIdArgs = {
   data: IdInput;
+};
+
+
+export type MutationRegenerateNachaFileArgs = {
+  data: IdnInput;
 };
 
 
@@ -1923,6 +2012,11 @@ export type MutationUpdateAchArgs = {
 };
 
 
+export type MutationUpdateAchConfigArgs = {
+  data: AchConfigInput;
+};
+
+
 export type MutationUpdateAdminArgs = {
   data: UpdateAdminInput;
 };
@@ -2077,6 +2171,11 @@ export type MutationVerifyMemberEmailArgs = {
 
 export type MutationVerifyResetPasswordTokenArgs = {
   data: TokenInput;
+};
+
+export type NachaGenerateInput = {
+  endDate?: InputMaybe<Scalars['Date']['input']>;
+  startDate: Scalars['Date']['input'];
 };
 
 export type NotificationClient = {
@@ -2291,7 +2390,9 @@ export type PeriodStatsArgs = {
 };
 
 export enum PermissionType {
+  AchConfigChange = 'ACH_CONFIG_CHANGE',
   AchEdit = 'ACH_EDIT',
+  AchStatusChange = 'ACH_STATUS_CHANGE',
   AchSubmit = 'ACH_SUBMIT',
   AchView = 'ACH_VIEW',
   AddressView = 'ADDRESS_VIEW',
@@ -2357,6 +2458,7 @@ export enum PermissionType {
   SwapView = 'SWAP_VIEW',
   TransactionEmailEdit = 'TRANSACTION_EMAIL_EDIT',
   TransactionEmailView = 'TRANSACTION_EMAIL_VIEW',
+  TxcPurchaseManualApprove = 'TXC_PURCHASE_MANUAL_APPROVE',
   TxcPurchaseView = 'TXC_PURCHASE_VIEW',
   WalletEdit = 'WALLET_EDIT',
   WalletView = 'WALLET_VIEW'
@@ -2431,9 +2533,9 @@ export type PlacementWithLevelInput = {
   level: Scalars['Int']['input'];
 };
 
-export type PresignedUrlRequests = {
+export type PresignedUploadUrlRequests = {
   data: Array<FileMetaDataInput>;
-  fileType: FileType;
+  fileType: UploadFileType;
 };
 
 export type ProfitabilityCalculationInput = {
@@ -2538,8 +2640,11 @@ export enum ProofType {
 export type Query = {
   __typename?: 'Query';
   ach: BasicAchResponse;
+  achBatchById: AchBatch;
+  achBatches: AchBatchResponse;
   achById: Ach;
   achByMemberId: Ach;
+  achConfig: AchConfigResponse;
   addressByAddress: Address;
   addresses: AddressResponse;
   adminMe: Admin;
@@ -2664,6 +2769,18 @@ export type Query = {
 
 
 export type QueryAchArgs = {
+  filter?: InputMaybe<Scalars['JSONObject']['input']>;
+  page?: InputMaybe<Scalars['String']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryAchBatchByIdArgs = {
+  ID: Scalars['Int']['input'];
+};
+
+
+export type QueryAchBatchesArgs = {
   filter?: InputMaybe<Scalars['JSONObject']['input']>;
   page?: InputMaybe<Scalars['String']['input']>;
   sort?: InputMaybe<Scalars['String']['input']>;
@@ -3045,12 +3162,12 @@ export type QueryProofsArgs = {
 
 
 export type QueryProtectedUploadPresignedUrLsArgs = {
-  data: PresignedUrlRequests;
+  data: PresignedUploadUrlRequests;
 };
 
 
 export type QueryPublicUploadPresignedUrLsArgs = {
-  data: PresignedUrlRequests;
+  data: PresignedUploadUrlRequests;
 };
 
 
@@ -3541,7 +3658,6 @@ export type SignupFormInput = {
   email: Scalars['String']['input'];
   fullName: Scalars['String']['input'];
   mobile: Scalars['String']['input'];
-  note?: InputMaybe<Scalars['String']['input']>;
   packageId: Scalars['ID']['input'];
   paymentMethod: Scalars['String']['input'];
   paymentPeerCode?: InputMaybe<Scalars['String']['input']>;
@@ -3714,7 +3830,6 @@ export enum TeamReportSection {
 }
 
 export enum TeamStrategy {
-  Balance = 'BALANCE',
   Left = 'LEFT',
   Manual = 'MANUAL',
   Right = 'RIGHT'
@@ -4054,6 +4169,12 @@ export type UpdateShippingInput = {
   streetLine2?: InputMaybe<Scalars['String']['input']>;
   zipCode?: InputMaybe<Scalars['String']['input']>;
 };
+
+export enum UploadFileType {
+  Avatar = 'AVATAR',
+  Payment = 'PAYMENT',
+  Reimbursement = 'REIMBURSEMENT'
+}
 
 export type UpsertSettingInput = {
   communication?: InputMaybe<Scalars['Boolean']['input']>;
@@ -4805,7 +4926,7 @@ export type SponsorsQueryVariables = Exact<{
 export type SponsorsQuery = { __typename?: 'Query', introducers: { __typename?: 'IntroducersResponse', total?: number | null, introducers?: Array<{ __typename?: 'Introducer', id: string, ID?: number | null, point: number, username: string, fullName: string, createdAt: any }> | null } };
 
 export type PublicUploadPresignedUrLsQueryVariables = Exact<{
-  data: PresignedUrlRequests;
+  data: PresignedUploadUrlRequests;
 }>;
 
 
@@ -4919,7 +5040,7 @@ export const FetchTeamCommissionStatsDocument = {"kind":"Document","definitions"
 export const TeamCommissionsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"TeamCommissions"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"teamReport"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"TeamReportSection"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sort"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"page"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"JSONObject"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"teamCommissions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"teamReport"},"value":{"kind":"Variable","name":{"kind":"Name","value":"teamReport"}}},{"kind":"Argument","name":{"kind":"Name","value":"sort"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sort"}}},{"kind":"Argument","name":{"kind":"Name","value":"page"},"value":{"kind":"Variable","name":{"kind":"Name","value":"page"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"weeklyCommissions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"ID"}},{"kind":"Field","name":{"kind":"Name","value":"begL"}},{"kind":"Field","name":{"kind":"Name","value":"begR"}},{"kind":"Field","name":{"kind":"Name","value":"newL"}},{"kind":"Field","name":{"kind":"Name","value":"newR"}},{"kind":"Field","name":{"kind":"Name","value":"maxL"}},{"kind":"Field","name":{"kind":"Name","value":"maxR"}},{"kind":"Field","name":{"kind":"Name","value":"endL"}},{"kind":"Field","name":{"kind":"Name","value":"endR"}},{"kind":"Field","name":{"kind":"Name","value":"pkgL"}},{"kind":"Field","name":{"kind":"Name","value":"pkgR"}},{"kind":"Field","name":{"kind":"Name","value":"note"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"memberId"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"shortNote"}},{"kind":"Field","name":{"kind":"Name","value":"commission"}},{"kind":"Field","name":{"kind":"Name","value":"weekStartDate"}},{"kind":"Field","name":{"kind":"Name","value":"paymentMethod"}},{"kind":"Field","name":{"kind":"Name","value":"commissionType"}}]}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]} as unknown as DocumentNode<TeamCommissionsQuery, TeamCommissionsQueryVariables>;
 export const IntroducersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Introducers"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sort"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"page"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"JSONObject"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"introducers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"sort"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sort"}}},{"kind":"Argument","name":{"kind":"Name","value":"page"},"value":{"kind":"Variable","name":{"kind":"Name","value":"page"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"introducers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"ID"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"point"}},{"kind":"Field","name":{"kind":"Name","value":"mobile"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]} as unknown as DocumentNode<IntroducersQuery, IntroducersQueryVariables>;
 export const SponsorsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Sponsors"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sort"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"page"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"JSONObject"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"introducers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"sort"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sort"}}},{"kind":"Argument","name":{"kind":"Name","value":"page"},"value":{"kind":"Variable","name":{"kind":"Name","value":"page"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"introducers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"ID"}},{"kind":"Field","name":{"kind":"Name","value":"point"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]} as unknown as DocumentNode<SponsorsQuery, SponsorsQueryVariables>;
-export const PublicUploadPresignedUrLsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PublicUploadPresignedURLs"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"PresignedURLRequests"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"publicUploadPresignedURLs"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"size"}},{"kind":"Field","name":{"kind":"Name","value":"mimeType"}},{"kind":"Field","name":{"kind":"Name","value":"isPublic"}},{"kind":"Field","name":{"kind":"Name","value":"originalName"}}]}}]}}]} as unknown as DocumentNode<PublicUploadPresignedUrLsQuery, PublicUploadPresignedUrLsQueryVariables>;
+export const PublicUploadPresignedUrLsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PublicUploadPresignedURLs"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"PresignedUploadURLRequests"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"publicUploadPresignedURLs"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"size"}},{"kind":"Field","name":{"kind":"Name","value":"mimeType"}},{"kind":"Field","name":{"kind":"Name","value":"isPublic"}},{"kind":"Field","name":{"kind":"Name","value":"originalName"}}]}}]}}]} as unknown as DocumentNode<PublicUploadPresignedUrLsQuery, PublicUploadPresignedUrLsQueryVariables>;
 export const CompleteUploadDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CompleteUpload"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CompleteUploadInput"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"completeUpload"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"size"}},{"kind":"Field","name":{"kind":"Name","value":"mimeType"}},{"kind":"Field","name":{"kind":"Name","value":"isPublic"}},{"kind":"Field","name":{"kind":"Name","value":"originalName"}}]}}]}}]} as unknown as DocumentNode<CompleteUploadMutation, CompleteUploadMutationVariables>;
 export const BlocksdataDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Blocksdata"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"PeriodStatsArgs"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"blocksData"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"base"}},{"kind":"Field","name":{"kind":"Name","value":"difficulty"}},{"kind":"Field","name":{"kind":"Name","value":"hashRate"}}]}}]}}]} as unknown as DocumentNode<BlocksdataQuery, BlocksdataQueryVariables>;
 export const SeatFilledDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SeatFilled"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"seatFilled"}}]}}]} as unknown as DocumentNode<SeatFilledQuery, SeatFilledQueryVariables>;

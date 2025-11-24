@@ -33,7 +33,6 @@ export const Schema = zod
       CommissionDefault.Usdc,
     ]),
     assetId: zod.string().optional().nullable(),
-    note: zod.string().optional().nullable(),
     txcAddress: zod.string().optional().nullable(),
     paymentPeerCode: zod
       .string()

@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField';
 import { uuid } from 'src/utils/uuid';
 import { uploadService } from 'src/utils/axios/api-service';
 
-import { FileType } from 'src/__generated__/graphql';
+import { UploadFileType } from 'src/__generated__/graphql';
 
 import { toast } from 'src/components/SnackBar';
 import { Iconify } from 'src/components/Iconify';
@@ -62,7 +62,7 @@ export function FileManagerNewFolderDialog({
         const { data, error } = await publicUploadPresignedUrls({
           variables: {
             data: {
-              fileType: FileType.Reimbursement,
+              fileType: UploadFileType.Reimbursement,
               data: Object.entries(fileMap).map(([id, file]) => ({
                 id,
                 fileName: file.name,
@@ -84,7 +84,7 @@ export function FileManagerNewFolderDialog({
           const { data: completedFile } = await completeUpload(
             data.publicUploadPresignedURLs.map((url) => ({
               id: url.id,
-              fileType: FileType.Reimbursement,
+              fileType: UploadFileType.Reimbursement,
             }))
           );
 

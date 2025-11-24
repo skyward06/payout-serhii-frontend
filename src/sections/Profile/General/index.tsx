@@ -26,7 +26,7 @@ import { uploadService } from 'src/utils/axios/api-service';
 
 import { CONFIG } from 'src/config';
 import { CONTACT } from 'src/consts';
-import { FileType, TeamStrategy, CommissionDefault } from 'src/__generated__/graphql';
+import { TeamStrategy, UploadFileType, CommissionDefault } from 'src/__generated__/graphql';
 
 import { toast } from 'src/components/SnackBar';
 import { Form, Field } from 'src/components/Form';
@@ -174,7 +174,7 @@ export default function MemberGeneral({ me }: Props) {
         const { data, error } = await publicUploadPresignedUrls({
           variables: {
             data: {
-              fileType: FileType.Avatar,
+              fileType: UploadFileType.Avatar,
               data: acceptedFiles.map((file) => ({
                 id: uuid(),
                 fileName: file.name,
@@ -196,7 +196,7 @@ export default function MemberGeneral({ me }: Props) {
           completeUpload(
             data.publicUploadPresignedURLs.map((url) => ({
               id: url.id,
-              fileType: FileType.Avatar,
+              fileType: UploadFileType.Avatar,
             }))
           );
 
