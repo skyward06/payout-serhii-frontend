@@ -23,6 +23,7 @@ const AchFormPage = lazy(() => import('src/pages/ACH'));
 const StatisticsPage = lazy(() => import('src/pages/Statistics'));
 const ActionPage = lazy(() => import('src/pages/Commission/Action'));
 const IntroductionPage = lazy(() => import('src/pages/Introduction'));
+const AboutUsPage = lazy(() => import('src/pages/AboutUs'));
 const RapidRewardsPage = lazy(() => import('src/pages/RapidRewards'));
 const SilverGuaranteePage = lazy(() => import('src/pages/SilverGuarantee'));
 const RewardDetailPage = lazy(() => import('src/pages/MemberStatistics/List'));
@@ -48,6 +49,7 @@ export const statisticsRoutes: RouteObject[] = [
       { path: 'rapid-rewards', element: <RapidRewardsPage /> },
       { path: 'silverbugs', element: <SilverGuaranteePage /> },
       { path: 'contact', element: <ContactPage /> },
+      { path: 'about-us', element: <AboutUsPage /> },
     ],
   },
   {

@@ -18,6 +18,7 @@ const ROOTS = {
   RAPID_REWARDS: '/rapid-rewards',
   CONTACT: '/contact',
   MAINTENANCE: '/maintenance',
+  ABOUT_US: '/about-us',
   ORDER: '/order',
 
   // Dashboard
@@ -92,6 +93,9 @@ export const paths = {
 
     // STATISTICS
     statistics: { root: ROOTS.STATISTICS },
+
+    // ABOUT US
+    aboutUs: { root: ROOTS.ABOUT_US },
 
     // ORDER
     order: { root: ROOTS.ORDER, detail: (id: string) => `${ROOTS.ORDER}/${id}` },

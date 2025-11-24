@@ -44,7 +44,7 @@ export function NewNavBasic({ children }: Props) {
       title: 'About',
       path: '#',
       children: [
-        { title: 'Meet the Team', path: paths.comingSoon },
+        { title: 'Meet the Team', path: paths.pages.aboutUs.root },
         { title: 'News & Events', path: 'https://texitcoin.org/Events.html' },
         { title: 'Contact Us', path: paths.comingSoon },
       ],

@@ -6,9 +6,9 @@ import { NewHomePage } from 'src/sections/NewHomepage';
 
 // ----------------------------------------------------------------------
 
-const metadata = { title: `${CONFIG.site.name} / Introduction` };
+const metadata = { title: `${CONFIG.site.name} - Introduction` };
 
-export default function Page() {
+export default function IntroductionPage() {
   return (
     <>
       <Helmet>
