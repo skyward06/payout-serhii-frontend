@@ -1,7 +1,5 @@
 import type { SvgIconProps } from '@mui/material/SvgIcon';
 
-import { memo } from 'react';
-
 import SvgIcon from '@mui/material/SvgIcon';
 
 import { CONFIG } from 'src/config';
@@ -11,7 +9,7 @@ import { BackgroundShape } from 'src/assets/illustrations/background-shape';
 
 type SvgProps = SvgIconProps & { hideBackground?: boolean };
 
-function SeoIllustration({ hideBackground, sx, ...other }: SvgProps) {
+export function SeoIllustration({ hideBackground, sx, ...other }: SvgProps) {
   const renderCharacterImage = () => (
     <image
       href={`${CONFIG.site.basePath}/assets/images/texitcoin-key.png`}
@@ -44,5 +42,3 @@ function SeoIllustration({ hideBackground, sx, ...other }: SvgProps) {
     </SvgIcon>
   );
 }
-
-export default memo(SeoIllustration);

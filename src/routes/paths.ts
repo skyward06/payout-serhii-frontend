@@ -156,7 +156,7 @@ export const paths = {
 
   comingSoon: ROOTS.COMING_SOON,
 
-  newHomepage: ROOTS.NEW_HOMEPAGE,
+  NewHomepage: ROOTS.NEW_HOMEPAGE,
 
   page403: '/403',
   notFound: '/404',

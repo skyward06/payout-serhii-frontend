@@ -11,7 +11,7 @@ import { STORAGE_TOKEN_KEY } from 'src/consts';
 
 import DarkLogo from 'src/components/logo/dark-logo';
 
-import { JoinNowButton } from 'src/sections/newHomepage/components/JoinNowButton';
+import { JoinNowButton } from 'src/sections/NewHomepage/components';
 
 import { HeaderSection } from './header-section';
 import { _account } from '../config-nav-account';

@@ -3,7 +3,7 @@ import Container from '@mui/material/Container';
 import Rewards from './Rewards';
 import { SignUpView } from '../SignUp';
 import Description from './Description';
-import { Packages } from '../newHomepage/Packages';
+import { Packages } from '../NewHomepage/Packages';
 
 export function RapidRewards() {
   return (

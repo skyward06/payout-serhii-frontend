@@ -19,8 +19,8 @@ import { Iconify } from 'src/components/Iconify';
 import DarkLogo from 'src/components/logo/dark-logo';
 import { NavBasicMobile, NavBasicDesktop } from 'src/components/NavBasic';
 
-import { Footer } from 'src/sections/newHomepage/Footer';
-import { JoinNowButton } from 'src/sections/newHomepage/components/JoinNowButton';
+import { Footer } from 'src/sections/NewHomepage/Footer';
+import { JoinNowButton } from 'src/sections/NewHomepage/components';
 
 import { Main } from '../main';
 
