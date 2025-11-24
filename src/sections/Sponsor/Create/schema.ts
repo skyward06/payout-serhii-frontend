@@ -22,7 +22,6 @@ export const Schema = zod
     mobile: zod.string(),
     zipCode: zod.string(),
     state: zod.string(),
-    note: zod.string().optional().nullable(),
     txcAddress: zod.string().optional().nullable(),
     placementParentId: zod.string().optional().nullable(),
     placementPosition: zod

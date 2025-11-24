@@ -272,15 +272,6 @@ export default function AddMiner() {
         </Field.Select>
       </Box>
 
-      <Field.Text
-        name="note"
-        label="Note"
-        multiline
-        rows={3}
-        placeholder="Write a comment here (optional)"
-        sx={{ mt: 2 }}
-      />
-
       <Box display="flex" justifyContent="flex-end" gap={2} alignItems="center" mt={2}>
         <LoadingButton
           color="primary"
