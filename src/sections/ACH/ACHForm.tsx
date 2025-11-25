@@ -63,12 +63,16 @@ export function ACHForm() {
       });
 
       if (data) {
+        recaptcha.current?.reset();
         router.push(paths.auth.verifyResult);
         toast.success('ACH payment submitted successfully.');
         reset();
       }
     } catch (error) {
+      recaptcha.current?.reset();
       toast.error((error as Error).message || 'Failed to submit ACH payment.');
+    } finally {
+      recaptcha.current?.reset();
     }
   });
 
