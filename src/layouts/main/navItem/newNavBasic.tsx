@@ -50,7 +50,7 @@ export function NewNavBasic({ children }: Props) {
       title: 'Resources',
       path: '#',
       children: [
-        { title: 'Texitcoin.org', path: 'https://texitcoin.org' },
+        { title: 'TEXITcoin.org', path: 'https://texitcoin.org' },
         { title: 'Web Wallet', path: 'https://wallet.texitcoin.org' },
         { title: 'Coin Market Cap', path: 'https://coinmarketcap.com/currencies/texitcoin/' },
         { title: 'Wrapped TXC', path: 'https://wtxc.texitcoin.org/' },
@@ -67,10 +67,8 @@ export function NewNavBasic({ children }: Props) {
         { title: 'Community', path: paths.comingSoon },
       ],
     },
-    {
-      title: 'Sign In',
-      path: paths.auth.signIn,
-    },
+    { title: 'Help', path: 'https://help.minetxc.com/' },
+    { title: 'Sign In', path: paths.auth.signIn },
   ];
 
   return (
