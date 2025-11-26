@@ -149,7 +149,7 @@ type TestimonialCardProps = StackProps & {
     content: string;
     avatarUrl: string;
     ratingNumber: number;
-    postedDate: IDateValue;
+    postedDate: IDateValue | Date | string;
   };
 };
 
