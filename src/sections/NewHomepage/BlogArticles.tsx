@@ -48,7 +48,7 @@ export function BlogArticles() {
   const carousel = useCarousel({ loop: true }, [Autoplay({ playOnInit: true, delay: 8000 })]);
 
   return (
-    <Card sx={{ bgcolor: 'common.black' }}>
+    <Card sx={{ bgcolor: 'common.black', height: '100%' }}>
       <CarouselDotButtons
         scrollSnaps={carousel.dots.scrollSnaps}
         selectedIndex={carousel.dots.selectedIndex}
@@ -73,7 +73,7 @@ export function BlogArticles() {
 
 function CarouselItem({ item }: { item: ItemProp }) {
   return (
-    <Box sx={{ width: 1, position: 'relative' }}>
+    <Box sx={{ width: 1, height: '100%', position: 'relative' }}>
       <Box
         sx={{
           p: 3,
