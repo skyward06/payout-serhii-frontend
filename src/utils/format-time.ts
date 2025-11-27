@@ -286,6 +286,10 @@ export function customizeDate(date: string | Date) {
   return `${formatDate(date, 'YYYY-MM-DD')}T00:00:00Z`;
 }
 
+export function formatUTCTime(date: string | Date) {
+  return `${date}Z`;
+}
+
 export function formatWeekNumber(date: string | Date, base: string = '2024-04-06') {
   const baseDate = dayjs(base).utc().startOf('day');
 

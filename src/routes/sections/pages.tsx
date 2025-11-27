@@ -30,6 +30,7 @@ const CommissionConfirmationPage = lazy(() => import('src/pages/Commission/Confi
 const ConfirmAddressPage = lazy(() => import('src/pages/ConfirmAddress'));
 const NewHomePage = lazy(() => import('src/pages/NewHomePage'));
 const ComingSoonPage = lazy(() => import('src/pages/ComingSoon'));
+const EventPage = lazy(() => import('src/pages/Event'));
 // ----------------------------------------------------------------------
 
 export const statisticsRoutes: RouteObject[] = [
@@ -140,6 +141,16 @@ export const statisticsRoutes: RouteObject[] = [
       <Suspense fallback={<LoadingScreen />}>
         <NewNavBasic>
           <ComingSoonPage />
+        </NewNavBasic>
+      </Suspense>
+    ),
+  },
+  {
+    path: 'event',
+    element: (
+      <Suspense fallback={<LoadingScreen />}>
+        <NewNavBasic>
+          <EventPage />
         </NewNavBasic>
       </Suspense>
     ),

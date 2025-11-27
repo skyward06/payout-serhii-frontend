@@ -7,9 +7,9 @@ import { RHFPhoneInput } from './RHFPhoneInput';
 import { RHFSwitch, RHFMultiSwitch } from './RHFSwitch';
 import { RHFSelect, RHFMultiSelect } from './RHFSelect';
 import { RHFCheckbox, RHFMultiCheckbox } from './RHFCheckbox';
-import { RHFDatePicker, RHFMobileDateTimePicker } from './RHFDatePicker';
 import { RHFAutocomplete, RHFCustomAutocomplete } from './RHFAutocomplete';
 import { RHFUpload, RHFUploadBox, RHFUploadAvatar, RHFSelectAvatar } from './RHFUpload';
+import { RHFDatePicker, RHFDateTimePicker, RHFMobileDateTimePicker } from './RHFDatePicker';
 
 // ----------------------------------------------------------------------
 
@@ -32,6 +32,7 @@ export const Field = {
   SelectAvatar: RHFSelectAvatar,
   Autocomplete: RHFAutocomplete,
   MultiCheckbox: RHFMultiCheckbox,
+  DateTimePicker: RHFDateTimePicker,
   CustomAutocomplete: RHFCustomAutocomplete,
   MobileDateTimePicker: RHFMobileDateTimePicker,
 };

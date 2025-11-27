@@ -1,12 +1,14 @@
 import type { Dayjs } from 'dayjs';
 import type { TextFieldProps } from '@mui/material/TextField';
 import type { DatePickerProps } from '@mui/x-date-pickers/DatePicker';
+import type { DateTimePickerProps } from '@mui/x-date-pickers/DateTimePicker';
 import type { MobileDateTimePickerProps } from '@mui/x-date-pickers/MobileDateTimePicker';
 
 import dayjs from 'dayjs';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
 
 import { formatStr } from 'src/utils/format-time';
@@ -77,6 +79,58 @@ export function RHFMobileDateTimePicker({
               ...slotProps?.textField,
             },
             ...slotProps,
+          }}
+          {...other}
+        />
+      )}
+    />
+  );
+}
+
+// ----------------------------------------------------------------------
+
+type RHFDateTimePickerProps = DateTimePickerProps<Dayjs> & {
+  name: string;
+};
+
+// ----------------------------------------------------------------------
+
+type DateInput = Dayjs | Date | string | number | null | undefined;
+
+function normalizeDateValue(value: DateInput): Dayjs | null {
+  if (dayjs.isDayjs(value)) return value;
+
+  const parsed = value ? dayjs(value) : null;
+  return parsed?.isValid() ? parsed : null;
+}
+
+export function RHFDateTimePicker({ name, slotProps, ...other }: RHFDateTimePickerProps) {
+  const { control } = useFormContext();
+
+  return (
+    <Controller
+      name={name}
+      control={control}
+      render={({ field, fieldState: { error } }) => (
+        <DateTimePicker
+          {...field}
+          value={normalizeDateValue(field.value)}
+          onChange={(newValue) => {
+            if (!newValue) {
+              field.onChange(null);
+              return;
+            }
+
+            const parsedValue = dayjs(newValue);
+            field.onChange(parsedValue.isValid() ? parsedValue.format() : newValue);
+          }}
+          slotProps={{
+            ...slotProps,
+            textField: {
+              ...slotProps?.textField,
+              error: !!error,
+              // helperText: error?.message ?? slotProps?.textField?.name,
+            },
           }}
           {...other}
         />
