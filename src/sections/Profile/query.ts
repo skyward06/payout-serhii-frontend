@@ -19,6 +19,7 @@ export const FETCH_ME_QUERY = gql(/* GraphQL */ `
       username
       fullName
       activated
+      potential
       sponsorId
       allowState
       ethAssetId
@@ -45,10 +46,10 @@ export const FETCH_ME_QUERY = gql(/* GraphQL */ `
       reimbursementEnabled
       orderedAvailablePoint
       preferredContactDetail
-      cashCommissionPotential
       groupSetting {
         id
         name
+        potentialType
         commissionDefaults
       }
       commission {
