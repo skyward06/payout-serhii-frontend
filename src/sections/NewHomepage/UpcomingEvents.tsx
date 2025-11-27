@@ -9,7 +9,7 @@ import { alpha } from '@mui/material/styles';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
-import { CALENDAR_LINK } from 'src/consts';
+import { paths } from 'src/routes/paths';
 
 import { Iconify } from 'src/components/Iconify';
 import { varFade, MotionViewport } from 'src/components/animate';
@@ -132,9 +132,7 @@ export function UpcomingEvents() {
                 variant="outlined"
                 size="large"
                 endIcon={<Iconify icon="eva:arrow-forward-fill" />}
-                onClick={() => {
-                  window.open(CALENDAR_LINK);
-                }}
+                onClick={() => window.open(paths.event.root, '_blank')}
               >
                 Check out the full event calendar
               </Button>
