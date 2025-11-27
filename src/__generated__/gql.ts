@@ -20,7 +20,10 @@ const documents = {
     "\n  query EmailRecipients($sort: String, $page: String, $filter: JSONObject) {\n    emailRecipients(sort: $sort, page: $page, filter: $filter) {\n      emailRecipients {\n        id\n        body\n        email\n        sender\n        status\n        sentAt\n        subject\n        openedAt\n        isVisible\n        senderName\n      }\n      total\n    }\n  }\n": types.EmailRecipientsDocument,
     "\n  query EmailRecipientById($emailRecipientByIdId: ID!) {\n    emailRecipientById(id: $emailRecipientByIdId) {\n      id\n      body\n      email\n      sender\n      status\n      sentAt\n      subject\n      openedAt\n      isVisible\n      senderName\n    }\n  }\n": types.EmailRecipientByIdDocument,
     "\n  mutation ConfirmEmail5071($data: SuspendedCommissionConfirmInput!) {\n    confirmEmail5071(data: $data) {\n      result\n      message\n    }\n  }\n": types.ConfirmEmail5071Document,
+    "\n  query Events($period: EventPeriod!) {\n    events(period: $period) {\n      id\n      end\n      color\n      start\n      allDay\n      region\n      title\n      createdAt\n      updatedAt\n      description\n    }\n  }\n": types.EventsDocument,
     "\n  query Invoices($sort: String, $page: String, $filter: JSONObject) {\n    invoices(sort: $sort, page: $page, filter: $filter) {\n      invoices {\n        id\n        ID\n        name\n        status\n        dueDate\n        createdAt\n        description\n        amountInCents\n        invoiceFile {\n          id\n          url\n          size\n          mimeType\n          isPublic\n          originalName\n        }\n      }\n      total\n    }\n  }\n": types.InvoicesDocument,
+    "\n  query SeatFilled {\n    seatFilled\n  }\n": types.SeatFilledDocument,
+    "\n  query CurrentNetworkHashRate {\n    currentNetworkHashRate\n  }\n": types.CurrentNetworkHashRateDocument,
     "\n  query Notifications($sort: String, $page: String, $filter: JSONObject) {\n    notifications(sort: $sort, page: $page, filter: $filter) {\n      notifications {\n        id\n        read\n        level\n        message\n        createdAt\n        updatedAt\n      }\n      total\n    }\n  }\n": types.NotificationsDocument,
     "\n  mutation SetReadNotification($data: IDInput!) {\n    setReadNotification(data: $data) {\n      message\n      result\n    }\n  }\n": types.SetReadNotificationDocument,
     "\n  mutation SetReadAllNotifications {\n    setReadAllNotifications {\n      count\n    }\n  }\n": types.SetReadAllNotificationsDocument,
@@ -99,8 +102,6 @@ const documents = {
     "\n  query PublicUploadPresignedURLs($data: PresignedUploadURLRequests!) {\n    publicUploadPresignedURLs(data: $data) {\n      id\n      url\n      size\n      mimeType\n      isPublic\n      originalName\n    }\n  }\n": types.PublicUploadPresignedUrLsDocument,
     "\n  mutation CompleteUpload($data: [CompleteUploadInput!]!) {\n    completeUpload(data: $data) {\n      id\n      url\n      size\n      mimeType\n      isPublic\n      originalName\n    }\n  }\n": types.CompleteUploadDocument,
     "\n  query Blocksdata($data: PeriodStatsArgs!) {\n    blocksData(data: $data) {\n      base\n      difficulty\n      hashRate\n    }\n  }\n": types.BlocksdataDocument,
-    "\n  query SeatFilled {\n    seatFilled\n  }\n": types.SeatFilledDocument,
-    "\n  query CurrentNetworkHashRate {\n    currentNetworkHashRate\n  }\n": types.CurrentNetworkHashRateDocument,
 };
 
 /**
@@ -148,7 +149,19 @@ export function gql(source: "\n  mutation ConfirmEmail5071($data: SuspendedCommi
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function gql(source: "\n  query Events($period: EventPeriod!) {\n    events(period: $period) {\n      id\n      end\n      color\n      start\n      allDay\n      region\n      title\n      createdAt\n      updatedAt\n      description\n    }\n  }\n"): (typeof documents)["\n  query Events($period: EventPeriod!) {\n    events(period: $period) {\n      id\n      end\n      color\n      start\n      allDay\n      region\n      title\n      createdAt\n      updatedAt\n      description\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function gql(source: "\n  query Invoices($sort: String, $page: String, $filter: JSONObject) {\n    invoices(sort: $sort, page: $page, filter: $filter) {\n      invoices {\n        id\n        ID\n        name\n        status\n        dueDate\n        createdAt\n        description\n        amountInCents\n        invoiceFile {\n          id\n          url\n          size\n          mimeType\n          isPublic\n          originalName\n        }\n      }\n      total\n    }\n  }\n"): (typeof documents)["\n  query Invoices($sort: String, $page: String, $filter: JSONObject) {\n    invoices(sort: $sort, page: $page, filter: $filter) {\n      invoices {\n        id\n        ID\n        name\n        status\n        dueDate\n        createdAt\n        description\n        amountInCents\n        invoiceFile {\n          id\n          url\n          size\n          mimeType\n          isPublic\n          originalName\n        }\n      }\n      total\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query SeatFilled {\n    seatFilled\n  }\n"): (typeof documents)["\n  query SeatFilled {\n    seatFilled\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query CurrentNetworkHashRate {\n    currentNetworkHashRate\n  }\n"): (typeof documents)["\n  query CurrentNetworkHashRate {\n    currentNetworkHashRate\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -461,14 +474,6 @@ export function gql(source: "\n  mutation CompleteUpload($data: [CompleteUploadI
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  query Blocksdata($data: PeriodStatsArgs!) {\n    blocksData(data: $data) {\n      base\n      difficulty\n      hashRate\n    }\n  }\n"): (typeof documents)["\n  query Blocksdata($data: PeriodStatsArgs!) {\n    blocksData(data: $data) {\n      base\n      difficulty\n      hashRate\n    }\n  }\n"];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(source: "\n  query SeatFilled {\n    seatFilled\n  }\n"): (typeof documents)["\n  query SeatFilled {\n    seatFilled\n  }\n"];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(source: "\n  query CurrentNetworkHashRate {\n    currentNetworkHashRate\n  }\n"): (typeof documents)["\n  query CurrentNetworkHashRate {\n    currentNetworkHashRate\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};
