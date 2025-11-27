@@ -15,7 +15,7 @@ export const PASSWORD_REGEXP =
 
 export const COMMISSION_TYPE = {
   NORMAL: { value: 'Normal', color: 'default' },
-  SUPERNOVA: { value: 'Supernova', color: 'secondary' },
+  SUPERNOVA: { value: 'Supernova', color: 'primary' },
 };
 
 export const COMMISSION_STATUS = {
@@ -115,9 +115,16 @@ export const NOTIFICATION_LEVEL = {
   TEAM_LEADER: 'Team Leader',
 };
 
+export const POTENTIAL_TYPE = {
+  CASH: { label: 'Cash', color: 'info' },
+  COMMISSION: { label: 'Commission', color: 'secondary' },
+};
+
 export const PAID_AS = {
-  Cash: { value: 'Cash', color: 'info', icon: 'solar:dollar-bold' },
-  Hash: { value: 'Hash', color: 'success', icon: 'solar:wallet-money-bold' },
+  CASH: { value: 'Cash', color: 'info', icon: 'solar:dollar-bold' },
+  HASH: { value: 'Hash', color: 'primary', icon: 'solar:wallet-money-bold' },
+  BOTH: { value: 'Both', color: 'success', icon: 'ic:round-merge' },
+  NONE: { value: 'None', color: 'default', icon: '' },
 };
 
 export enum State {

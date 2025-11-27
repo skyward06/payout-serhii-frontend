@@ -17,7 +17,11 @@ import { formatID } from 'src/utils/helper';
 import { formatWeekNumber } from 'src/utils/format-time';
 
 import { PAID_AS, COMMISSION_TYPE, COMMISSION_STATUS } from 'src/consts';
-import { CommissionType, CommissionDefault } from 'src/__generated__/graphql';
+import {
+  CommissionType,
+  CommissionDefault,
+  WeeklyCommissionPaymentMade,
+} from 'src/__generated__/graphql';
 
 import { AgGrid } from 'src/components/AgGrid';
 import { toast } from 'src/components/SnackBar';
@@ -26,7 +30,7 @@ import { LabelRenderer } from 'src/components/ItemRenderers';
 import { NoteView, PointView, PriceView } from 'src/components/Common';
 
 import { useFetchCommissions } from '../useApollo';
-import { parseType, commissionParseType } from './parseType';
+import { parseType, paidParseType, commissionParseType } from './parseType';
 
 import type { WeeklyCommission } from '../type';
 
@@ -229,18 +233,22 @@ export default function CommissionTable() {
         width: 150,
         resizable: true,
         editable: false,
-        sortable: false,
         cellClass: 'ag-cell-center',
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) =>
-          data?.paidAs === 'No payment' ? null : (
-            <Box display="flex">
-              <LabelRenderer
-                icon={PAID_AS[data?.paidAs! as keyof typeof PAID_AS].icon}
-                value={PAID_AS[data?.paidAs! as keyof typeof PAID_AS].value}
-                color={PAID_AS[data?.paidAs! as keyof typeof PAID_AS].color as LabelColor}
-              />
-            </Box>
-          ),
+        filter: 'agMultiColumnFilter',
+        filterParams: {
+          values: Object.values(WeeklyCommissionPaymentMade),
+          valueFormatter: (params: any) => paidParseType(params.value),
+          defaultToNothingSelected: true,
+        } as ISetFilterParams<WeeklyCommission>,
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
+          <Box display="flex">
+            <LabelRenderer
+              icon={PAID_AS[data?.paidAs! as keyof typeof PAID_AS]?.icon}
+              value={PAID_AS[data?.paidAs! as keyof typeof PAID_AS]?.value}
+              color={PAID_AS[data?.paidAs! as keyof typeof PAID_AS]?.color as LabelColor}
+            />
+          </Box>
+        ),
       },
       {
         field: 'note',

@@ -1,4 +1,8 @@
-import { CommissionType, CommissionDefault } from 'src/__generated__/graphql';
+import {
+  CommissionType,
+  CommissionDefault,
+  WeeklyCommissionPaymentMade,
+} from 'src/__generated__/graphql';
 
 export const parseType = (orderStatus: CommissionDefault): string => {
   switch (orderStatus) {
@@ -21,5 +25,20 @@ export const commissionParseType = (commissionType: CommissionType): string => {
       return 'Supernova';
     default:
       return commissionType;
+  }
+};
+
+export const paidParseType = (paidAs: WeeklyCommissionPaymentMade): string => {
+  switch (paidAs) {
+    case WeeklyCommissionPaymentMade.Cash:
+      return 'Cash';
+    case WeeklyCommissionPaymentMade.Hash:
+      return 'Hash';
+    case WeeklyCommissionPaymentMade.Both:
+      return 'Both';
+    case WeeklyCommissionPaymentMade.None:
+      return 'None';
+    default:
+      return paidAs;
   }
 };

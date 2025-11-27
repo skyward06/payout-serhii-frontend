@@ -54,10 +54,8 @@ export type Member = {
   createdAt?: any | null;
   country?: string | null;
   currentHashPower: number;
-  cashCommissionPotential: number;
   commission?: CommissionInfo | null;
   commissionDefault: CommissionDefault;
-  teamReport: Array<TeamReport>;
   deletedAt?: any | null;
   email: string;
   emailVerified: boolean;
@@ -75,6 +73,7 @@ export type Member = {
   OTPEnabled: boolean;
   orderedAvailablePoint: number;
   point: number;
+  potential: number;
   primaryAddress: string;
   peerAcceptable: boolean;
   peerCode?: string | null;
@@ -120,6 +119,7 @@ export type Member = {
   totalTXCShared: bigint;
   totalIntroducers: number;
   teamStrategy: TeamStrategy;
+  teamReport: Array<TeamReport>;
   username: string;
   updatedAt?: any | null;
   weeklyCommissions?: WeeklyCommission | null;
