@@ -113,6 +113,13 @@ export type AchHistory = {
   updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
 };
 
+export type AchOverview = {
+  __typename?: 'ACHOverview';
+  status: AchStatus;
+  totalAmountInCent: Scalars['BigInt']['output'];
+  totalCount: Scalars['Int']['output'];
+};
+
 export enum AchStatus {
   Cancelled = 'CANCELLED',
   Completed = 'COMPLETED',
@@ -2715,6 +2722,7 @@ export type Query = {
   achById: Ach;
   achByMemberId: Ach;
   achConfig: AchConfigResponse;
+  achOverview: Array<AchOverview>;
   addressByAddress: Address;
   addresses: AddressResponse;
   adminMe: Admin;
