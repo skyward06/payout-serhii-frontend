@@ -59,7 +59,7 @@ export function CalendarView() {
     onDateNext,
     onDateToday,
     onChangeView,
-    onSelectRange,
+    // onSelectRange,
     onClickEvent,
     onInitialView,
     //
@@ -130,7 +130,7 @@ export function CalendarView() {
       <DashboardContent maxWidth="xl" sx={{ ...flexProps }}>
         {canReset && renderResults}
 
-        <Card sx={{ ...flexProps, minHeight: '72vh', my: 2 }}>
+        <Card sx={{ ...flexProps, minHeight: '70vh', my: 4 }}>
           <StyledCalendar sx={{ ...flexProps, '.fc.fc-media-screen': { flex: '1 1 auto' } }}>
             <CalendarToolbar
               date={formatDate(date, 'DD MMM YYYY')}
@@ -157,7 +157,6 @@ export function CalendarView() {
               eventDisplay="block"
               events={dataFiltered}
               headerToolbar={false}
-              select={onSelectRange}
               eventClick={onClickEvent}
               aspectRatio={3}
               timeZone="utc"

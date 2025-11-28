@@ -37,14 +37,9 @@ export const StyledCalendar = styled('div')(({ theme }) => ({
   },
 
   // Event
-  // '& .fc .fc-event': {
-  //   borderColor: 'transparent !important',
-  //   backgroundColor: 'transparent !important',
-  // },
   '& .fc .fc-event .fc-event-main': {
     padding: '2px 4px',
     borderRadius: 6,
-    // backgroundColor: theme.vars.palette.common.white,
     '&::before': {
       top: 0,
       left: 0,
@@ -54,16 +49,13 @@ export const StyledCalendar = styled('div')(({ theme }) => ({
       height: '100%',
       borderRadius: 6,
       position: 'absolute',
-      // backgroundColor: 'currentColor',
       transition: theme.transitions.create(['opacity']),
       '&:hover': { '&::before': { opacity: 0.32 } },
     },
   },
-  // '& .fc .fc-event .fc-event-main-frame': {
-  //   fontSize: 13,
-  //   lineHeight: '20px',
-  //   filter: 'brightness(0.48)',
-  // },
+  '& .fc .fc-scroller-liquid-absolute': {
+    overflow: 'hidden !important',
+  },
   '& .fc .fc-daygrid-event .fc-event-title': {
     overflow: 'hidden',
     whiteSpace: 'nowrap',
