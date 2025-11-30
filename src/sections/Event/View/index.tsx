@@ -192,11 +192,7 @@ export function CalendarView() {
       >
         <DialogTitle sx={{ minHeight: 76 }}>Event</DialogTitle>
 
-        <CalendarForm
-          currentEvent={currentEvent}
-          colorOptions={CALENDAR_COLOR_OPTIONS}
-          onClose={onCloseForm}
-        />
+        <CalendarForm currentEvent={currentEvent} onClose={onCloseForm} />
       </Dialog>
 
       <CalendarFilters
