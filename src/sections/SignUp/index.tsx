@@ -486,6 +486,9 @@ export function SignUpView({ isComponent = false }: Props) {
       </Stack>
 
       <Stack direction={{ xs: 'column', md: 'row' }} justifyContent="flex-end" spacing={2}>
+        <Stack direction="row" justifyContent="flex-end">
+          <ReCAPTCHA ref={recaptcha} sitekey={CONFIG.RECAPTCHA_KEY} />
+        </Stack>
         <Stack direction="row" justifyContent="flex-end" spacing={2} alignItems="center">
           {!isComponent && (
             <Link onClick={handleSignOut} variant="subtitle2" sx={{ cursor: 'pointer' }}>
@@ -501,9 +504,6 @@ export function SignUpView({ isComponent = false }: Props) {
           >
             Submit
           </LoadingButton>
-        </Stack>
-        <Stack direction="row" justifyContent="flex-end">
-          <ReCAPTCHA ref={recaptcha} sitekey={CONFIG.RECAPTCHA_KEY} />
         </Stack>
       </Stack>
     </Stack>
