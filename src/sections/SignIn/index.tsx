@@ -149,6 +149,7 @@ export function SignInView() {
         />
       </Stack>
 
+      <ReCAPTCHA ref={recaptcha} sitekey={CONFIG.RECAPTCHA_KEY} />
       <LoadingButton
         fullWidth
         color="primary"
@@ -160,7 +161,6 @@ export function SignInView() {
       >
         Sign In
       </LoadingButton>
-      <ReCAPTCHA ref={recaptcha} sitekey={CONFIG.RECAPTCHA_KEY} />
     </Stack>
   );
 
