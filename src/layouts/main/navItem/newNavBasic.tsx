@@ -22,6 +22,8 @@ import { NavBasicMobile, NavBasicDesktop } from 'src/components/NavBasic';
 import { Footer } from 'src/sections/NewHomepage/Footer';
 import { JoinNowButton } from 'src/sections/NewHomepage/components';
 
+import { useAuthContext } from 'src/auth/hooks';
+
 import { Main } from '../main';
 
 // ----------------------------------------------------------------------
@@ -33,6 +35,7 @@ interface Props {
 export function NewNavBasic({ children }: Props) {
   const theme = useTheme();
   const mobileOpen = useBoolean();
+  const { user } = useAuthContext();
 
   const { offsetTop } = useScrollOffSetTop();
 
@@ -68,7 +71,7 @@ export function NewNavBasic({ children }: Props) {
       ],
     },
     { title: 'Help', path: 'https://help.minetxc.com/' },
-    { title: 'Sign In', path: paths.auth.signIn },
+    { title: 'Sign In', path: user ? paths.dashboard.overview.root : paths.auth.signIn },
   ];
 
   return (
