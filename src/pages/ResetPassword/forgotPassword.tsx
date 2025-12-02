@@ -1,3 +1,5 @@
+import { Helmet } from 'react-helmet-async';
+
 import { CONFIG } from 'src/config';
 
 import { ForgotPasswordView } from 'src/sections/ResetPassword/forgotPassword';
@@ -5,7 +7,9 @@ import { ForgotPasswordView } from 'src/sections/ResetPassword/forgotPassword';
 export default function Page() {
   return (
     <>
-      <title> {`${CONFIG.site.name} - Forgot Password`}</title>
+      <Helmet>
+        <title> {`${CONFIG.site.name} - Forgot Password`}</title>
+      </Helmet>
 
       <ForgotPasswordView />
     </>
