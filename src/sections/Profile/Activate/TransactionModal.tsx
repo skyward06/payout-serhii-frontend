@@ -34,7 +34,7 @@ export function TransactionModal({ open, txHash }: Props) {
       <DialogContent>
         <Stack spacing={2}>
           <Typography variant="body2" color="text.secondary">
-            Your missed reward transaction is being processed.
+            Your pending reward transaction is being processed.
           </Typography>
           <Box
             display="flex"
@@ -46,7 +46,7 @@ export function TransactionModal({ open, txHash }: Props) {
             gap={1}
             p={1}
           >
-            <Typography variant="body2">{truncateMiddle(txHash, smUp ? 40 : 25, false)}</Typography>
+            <Typography variant="body2">{truncateMiddle(txHash, smUp ? 40 : 15, false)}</Typography>
             <Iconify icon="bxs:copy" cursor="pointer" color="primary.main" width={18} height={18} />
           </Box>
         </Stack>

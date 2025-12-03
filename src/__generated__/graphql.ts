@@ -39,7 +39,6 @@ export type Ach = {
   checkNumber?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
-  frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['ID']['output'];
   member: MemberInfo;
   name: Scalars['String']['output'];
@@ -58,7 +57,6 @@ export type AchBatch = {
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   file: PFile;
-  frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['Int']['output'];
   totalAmountInCent: Scalars['BigInt']['output'];
   updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
@@ -105,7 +103,6 @@ export type AchHistory = {
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   fromStatus?: Maybe<AchStatus>;
-  frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['ID']['output'];
   isAdmin: Scalars['Boolean']['output'];
   reason?: Maybe<Scalars['String']['output']>;
@@ -190,7 +187,6 @@ export type Admin = {
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   email: Scalars['String']['output'];
-  frontActions?: Maybe<Array<FrontAction>>;
   fullName: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   role?: Maybe<Role>;
@@ -212,7 +208,6 @@ export type AdminNotes = {
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   description?: Maybe<Scalars['String']['output']>;
-  frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['ID']['output'];
   member?: Maybe<Member>;
   memberId: Scalars['String']['output'];
@@ -252,6 +247,11 @@ export type AssetCountInput = {
 
 export type AssetInput = {
   assetId: Scalars['String']['input'];
+};
+
+export type AssignGiftInput = {
+  code: Scalars['String']['input'];
+  memberId: Scalars['String']['input'];
 };
 
 export type AverageMinerRewardStatsResponse = {
@@ -338,6 +338,19 @@ export type BasicMember = {
   totalIntroducers: Scalars['Int']['output'];
   username: Scalars['String']['output'];
   zipCode?: Maybe<Scalars['String']['output']>;
+};
+
+export type BasicMemberGift = {
+  __typename?: 'BasicMemberGift';
+  code: Scalars['String']['output'];
+  createdAt: Scalars['DateTimeISO']['output'];
+  email: Scalars['String']['output'];
+  fullName: Scalars['String']['output'];
+  giftName?: Maybe<Scalars['String']['output']>;
+  id: Scalars['Int']['output'];
+  imgUrl?: Maybe<Scalars['String']['output']>;
+  memberId: Scalars['String']['output'];
+  username: Scalars['String']['output'];
 };
 
 export type BasicMemberInfo = {
@@ -474,7 +487,6 @@ export type Block = {
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   difficulty: Scalars['Float']['output'];
-  frontActions?: Maybe<Array<FrontAction>>;
   hashRate: Scalars['Float']['output'];
   issuedAt: Scalars['DateTimeISO']['output'];
   updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
@@ -501,7 +513,6 @@ export type Campaign = {
   body: Scalars['String']['output'];
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
-  frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['ID']['output'];
   listInfo?: Maybe<Scalars['String']['output']>;
   overview: EmailOverview;
@@ -530,7 +541,6 @@ export type Carton = {
   addresses: Array<CartonAddress>;
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
-  frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['ID']['output'];
   updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
 };
@@ -738,6 +748,12 @@ export type CreateEventInput = {
   region: Scalars['String']['input'];
   start: Scalars['DateTimeISO']['input'];
   title: Scalars['String']['input'];
+};
+
+export type CreateGiftInput = {
+  count: Scalars['Int']['input'];
+  imgUrl?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CreateGroupSettingCommissionBonusInput = {
@@ -961,7 +977,6 @@ export type EmailTemplate = {
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   description?: Maybe<Scalars['String']['output']>;
-  frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['Int']['output'];
   sender: Scalars['String']['output'];
   senderName: Scalars['String']['output'];
@@ -1004,7 +1019,6 @@ export type Event = {
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   description: Scalars['String']['output'];
   end: Scalars['DateTimeISO']['output'];
-  frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['ID']['output'];
   region: Scalars['String']['output'];
   start: Scalars['DateTimeISO']['output'];
@@ -1023,55 +1037,22 @@ export type FileMetaDataInput = {
   id: Scalars['ID']['input'];
 };
 
-export type FrontAction = {
-  __typename?: 'FrontAction';
-  action: FrontActionEnum;
-  extra?: Maybe<FrontActionExtra>;
-  message: Scalars['String']['output'];
-};
-
-export type FrontActionCreate12FreeBonusSale = {
-  __typename?: 'FrontActionCreate12FreeBonusSale';
-  fullName: Scalars['String']['output'];
-  isWithinSponsorRollDuration: Scalars['Boolean']['output'];
-  memberId: Scalars['ID']['output'];
-  packageId: Scalars['ID']['output'];
-  packageName: Scalars['String']['output'];
-  paymentMethod: Scalars['String']['output'];
-  sponsorCnt: Scalars['Int']['output'];
-  type: FrontActionEnum;
-  username: Scalars['String']['output'];
-};
-
-export enum FrontActionEnum {
-  Create_1_2FreeBonusSale = 'CREATE_1_2_FREE_BONUS_SALE',
-  Remove_1_2FreeBonusSale = 'REMOVE_1_2_FREE_BONUS_SALE',
-  Update_1_2FreeBonusSale = 'UPDATE_1_2_FREE_BONUS_SALE'
-}
-
-export type FrontActionExtra = FrontActionCreate12FreeBonusSale | FrontActionRemove12FreeBonusSale | FrontActionUpdate12FreeBonusSale;
-
-export type FrontActionRemove12FreeBonusSale = {
-  __typename?: 'FrontActionRemove12FreeBonusSale';
-  ID: Scalars['Float']['output'];
-  id: Scalars['ID']['output'];
-  type: FrontActionEnum;
-};
-
-export type FrontActionUpdate12FreeBonusSale = {
-  __typename?: 'FrontActionUpdate12FreeBonusSale';
-  ID: Scalars['Float']['output'];
-  id: Scalars['ID']['output'];
-  newPackageId: Scalars['ID']['output'];
-  newPackageName: Scalars['String']['output'];
-  oldPackageId: Scalars['ID']['output'];
-  oldPackageName: Scalars['String']['output'];
-  status: Scalars['Boolean']['output'];
-  type: FrontActionEnum;
-};
-
 export type GenerateWeeklyReportInput = {
   all: Scalars['Boolean']['input'];
+};
+
+export type Gift = {
+  __typename?: 'Gift';
+  code: Scalars['ID']['output'];
+  imgUrl?: Maybe<Scalars['String']['output']>;
+  isUsed: Scalars['Boolean']['output'];
+  name?: Maybe<Scalars['String']['output']>;
+};
+
+export type GiftResponse = {
+  __typename?: 'GiftResponse';
+  gifts: Array<Gift>;
+  total?: Maybe<Scalars['Int']['output']>;
 };
 
 export type GroupSetting = {
@@ -1079,7 +1060,6 @@ export type GroupSetting = {
   commissionDefaults: Array<CommissionDefault>;
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
-  frontActions?: Maybe<Array<FrontAction>>;
   groupSettingCommissionBonuses: Array<GroupSettingCommissionBonus>;
   id: Scalars['ID']['output'];
   limitDate: Scalars['DateTimeISO']['output'];
@@ -1097,7 +1077,6 @@ export type GroupSettingCommissionBonus = {
   commission: Scalars['Int']['output'];
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
-  frontActions?: Maybe<Array<FrontAction>>;
   lPoint: Scalars['Int']['output'];
   qPackageId: Scalars['ID']['output'];
   rPoint: Scalars['Int']['output'];
@@ -1162,7 +1141,6 @@ export type Invoice = {
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   description: Scalars['String']['output'];
   dueDate: Scalars['Date']['output'];
-  frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['ID']['output'];
   invoiceFile?: Maybe<PFile>;
   member?: Maybe<MemberInfo>;
@@ -1249,7 +1227,6 @@ export type Member = {
   email: Scalars['String']['output'];
   emailVerified: Scalars['Boolean']['output'];
   ethAssetId?: Maybe<Scalars['String']['output']>;
-  frontActions?: Maybe<Array<FrontAction>>;
   fullName: Scalars['String']['output'];
   gotAdmin?: Maybe<Admin>;
   groupSetting?: Maybe<BasicGroupSetting>;
@@ -1290,6 +1267,25 @@ export type Member = {
   updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   username: Scalars['String']['output'];
   zipCode?: Maybe<Scalars['String']['output']>;
+};
+
+export type MemberGift = {
+  __typename?: 'MemberGift';
+  code: Scalars['String']['output'];
+  createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
+  deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
+  gift: Gift;
+  id: Scalars['Int']['output'];
+  member: MemberInfo;
+  memberId: Scalars['String']['output'];
+  reason?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
+};
+
+export type MemberGiftResponse = {
+  __typename?: 'MemberGiftResponse';
+  memberGifts: Array<BasicMemberGift>;
+  total?: Maybe<Scalars['Int']['output']>;
 };
 
 export type MemberInOutRevenue = {
@@ -1338,7 +1334,6 @@ export type MemberList = {
   dynamic: Scalars['Boolean']['output'];
   emails: Array<Scalars['String']['output']>;
   filter?: Maybe<Scalars['JSON']['output']>;
-  frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
@@ -1370,7 +1365,6 @@ export type MemberStatistics = {
   __typename?: 'MemberStatistics';
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
-  frontActions?: Maybe<Array<FrontAction>>;
   hashPower: Scalars['Float']['output'];
   id: Scalars['ID']['output'];
   issuedAt: Scalars['DateTimeISO']['output'];
@@ -1394,7 +1388,6 @@ export type MemberStatisticsWallet = {
   __typename?: 'MemberStatisticsWallet';
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
-  frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['ID']['output'];
   issuedAt: Scalars['DateTimeISO']['output'];
   memberStatistic: MemberStatistics;
@@ -1416,7 +1409,6 @@ export type MemberWallet = {
   address: Scalars['String']['output'];
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
-  frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['ID']['output'];
   isDefault: Scalars['Boolean']['output'];
   memberId: Scalars['String']['output'];
@@ -1469,6 +1461,7 @@ export type Mutation = {
   adminLogin: LoginResponse;
   approveCommissionWithTransactionIds: Array<WeeklyCommission>;
   approveMember: SuccessResponse;
+  assignGift: MemberGift;
   calculateCommissions: SuccessResponse;
   calculatePreviewCommissions: SuccessResponse;
   cancelOrder: Order;
@@ -1511,6 +1504,7 @@ export type Mutation = {
   duplicateMember: Member;
   duplicateMember2: Array<Member>;
   forceMemberLogout: SuccessResponse;
+  generateGifts: ManySuccessResponse;
   generateNACHAFiles: Array<AchBatch>;
   generateWeekP2PInvoice: SuccessResponse;
   generateWeeklyReport: SuccessResponse;
@@ -1534,6 +1528,7 @@ export type Mutation = {
   removeAdminNote: SuccessResponse;
   removeCampaignSchedule: ScheduleCampaign;
   removeEvent: Event;
+  removeGift: Gift;
   removeGroupSetting: GroupSetting;
   removeMember: Member;
   removeMemberFromPlacementTree: SuccessResponse;
@@ -1635,6 +1630,11 @@ export type MutationApproveCommissionWithTransactionIdsArgs = {
 
 export type MutationApproveMemberArgs = {
   data: IdInput;
+};
+
+
+export type MutationAssignGiftArgs = {
+  data: AssignGiftInput;
 };
 
 
@@ -1833,6 +1833,11 @@ export type MutationForceMemberLogoutArgs = {
 };
 
 
+export type MutationGenerateGiftsArgs = {
+  data: CreateGiftInput;
+};
+
+
 export type MutationGenerateNachaFilesArgs = {
   data: NachaGenerateInput;
 };
@@ -1940,6 +1945,11 @@ export type MutationRemoveCampaignScheduleArgs = {
 
 export type MutationRemoveEventArgs = {
   data: IdInput;
+};
+
+
+export type MutationRemoveGiftArgs = {
+  code: Scalars['String']['input'];
 };
 
 
@@ -2258,7 +2268,6 @@ export type NotificationClient = {
   __typename?: 'NotificationClient';
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
-  frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['ID']['output'];
   level: NotificationLevel;
   message: Scalars['String']['output'];
@@ -2288,7 +2297,6 @@ export type Order = {
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   expiredAt: Scalars['DateTimeISO']['output'];
-  frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['ID']['output'];
   isP2P: Scalars['Boolean']['output'];
   member: Member;
@@ -2362,7 +2370,6 @@ export type Package = {
   editable: Scalars['Boolean']['output'];
   enrollVisibility: Scalars['Boolean']['output'];
   freeShare: Scalars['Boolean']['output'];
-  frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['ID']['output'];
   orderVisibility: Scalars['Boolean']['output'];
   point: Scalars['Float']['output'];
@@ -2374,7 +2381,7 @@ export type Package = {
 
 export type PackageResponse = {
   __typename?: 'PackageResponse';
-  packages?: Maybe<Array<Package>>;
+  packages: Array<Package>;
   total?: Maybe<Scalars['Int']['output']>;
 };
 
@@ -2401,7 +2408,6 @@ export type PaymentMethod = {
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   enrollmentVisible: Scalars['Boolean']['output'];
-  frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
@@ -2426,7 +2432,6 @@ export type Payout = {
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   display: Scalars['String']['output'];
-  frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['ID']['output'];
   method: Scalars['String']['output'];
   name: Scalars['String']['output'];
@@ -2488,6 +2493,9 @@ export enum PermissionType {
   EmailTemplateEdit = 'EMAIL_TEMPLATE_EDIT',
   EmailTemplateView = 'EMAIL_TEMPLATE_VIEW',
   EventEdit = 'EVENT_EDIT',
+  GiftAssign = 'GIFT_ASSIGN',
+  GiftGenerate = 'GIFT_GENERATE',
+  GiftView = 'GIFT_VIEW',
   GroupSettingEdit = 'GROUP_SETTING_EDIT',
   GroupSettingView = 'GROUP_SETTING_VIEW',
   InvoiceEdit = 'INVOICE_EDIT',
@@ -2496,6 +2504,7 @@ export enum PermissionType {
   LogView = 'LOG_VIEW',
   MemberAssetEdit = 'MEMBER_ASSET_EDIT',
   MemberEdit = 'MEMBER_EDIT',
+  MemberGiftView = 'MEMBER_GIFT_VIEW',
   MemberListEdit = 'MEMBER_LIST_EDIT',
   MemberListView = 'MEMBER_LIST_VIEW',
   MemberPasswordChange = 'MEMBER_PASSWORD_CHANGE',
@@ -2641,7 +2650,6 @@ export type Promo = {
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   description: Scalars['String']['output'];
   endDate: Scalars['Date']['output'];
-  frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['ID']['output'];
   startDate: Scalars['Date']['output'];
   status: Scalars['Boolean']['output'];
@@ -2660,7 +2668,6 @@ export type Proof = {
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   files?: Maybe<Array<PFile>>;
-  frontActions?: Maybe<Array<FrontAction>>;
   hashPower?: Maybe<Scalars['Int']['output']>;
   id: Scalars['ID']['output'];
   mineLocation?: Maybe<Scalars['String']['output']>;
@@ -2729,6 +2736,7 @@ export type Query = {
   adminNotes: AdminNotesResponse;
   admins: AdminsResponse;
   assetInfo: Scalars['String']['output'];
+  availableGifts: Array<Gift>;
   averageMemberReward: Array<AverageMinerRewardStatsResponse>;
   blocks: BlocksResponse;
   blocksData: Array<BlockStatsResponse>;
@@ -2758,6 +2766,7 @@ export type Query = {
   generateWhenLamboGameOverReport: SuccessResponse;
   generateWhenLamboGameOverReport2: SuccessResponse;
   getProtectedFileDownloadURL: Scalars['String']['output'];
+  gifts: GiftResponse;
   groupSettings: GroupSettingResponse;
   individualMembers: Array<IndividualMember>;
   introducers: IntroducersResponse;
@@ -2769,6 +2778,7 @@ export type Query = {
   liveUserStats: EntityStats;
   logs: LogResponse;
   memberById: Member;
+  memberGifts: MemberGiftResponse;
   memberInOutRevenues: MemberInOutRevenueResponse;
   memberListById: MemberList;
   memberLists: MemberListResponse;
@@ -2907,6 +2917,11 @@ export type QueryAssetInfoArgs = {
 };
 
 
+export type QueryAvailableGiftsArgs = {
+  code?: InputMaybe<Scalars['String']['input']>;
+};
+
+
 export type QueryAverageMemberRewardArgs = {
   data: PeriodStatsArgs;
 };
@@ -3026,6 +3041,13 @@ export type QueryGetProtectedFileDownloadUrlArgs = {
 };
 
 
+export type QueryGiftsArgs = {
+  code?: InputMaybe<Scalars['String']['input']>;
+  page?: InputMaybe<Scalars['String']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+};
+
+
 export type QueryGroupSettingsArgs = {
   filter?: InputMaybe<Scalars['JSONObject']['input']>;
   page?: InputMaybe<Scalars['String']['input']>;
@@ -3078,6 +3100,13 @@ export type QueryLogsArgs = {
 
 export type QueryMemberByIdArgs = {
   id: Scalars['ID']['input'];
+};
+
+
+export type QueryMemberGiftsArgs = {
+  filter?: InputMaybe<Scalars['JSONObject']['input']>;
+  page?: InputMaybe<Scalars['String']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -3561,7 +3590,6 @@ export type Role = {
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   description: Scalars['String']['output'];
-  frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   permissions: Array<PermissionType>;
@@ -3579,7 +3607,6 @@ export type Sale = {
   ID: Scalars['Int']['output'];
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
-  frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['ID']['output'];
   isMetal: Scalars['Boolean']['output'];
   member?: Maybe<MemberInfo>;
@@ -3605,7 +3632,6 @@ export type ScheduleCampaign = {
   __typename?: 'ScheduleCampaign';
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
-  frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['ID']['output'];
   lastRun?: Maybe<Scalars['DateTime']['output']>;
   listId: Scalars['String']['output'];
@@ -3653,7 +3679,6 @@ export type Setting = {
   communication: Scalars['Boolean']['output'];
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
-  frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['ID']['output'];
   memberId: Scalars['ID']['output'];
   updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
@@ -3663,7 +3688,6 @@ export type ShareAccount = {
   __typename?: 'ShareAccount';
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
-  frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['ID']['output'];
   isTexitRanger?: Maybe<Scalars['Boolean']['output']>;
   members?: Maybe<Array<BasicMemberInfo>>;
@@ -3780,7 +3804,6 @@ export type Statistics = {
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   from: Scalars['DateTimeISO']['output'];
-  frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['ID']['output'];
   issuedAt: Scalars['DateTimeISO']['output'];
   newBlocks: Scalars['Float']['output'];
@@ -3814,7 +3837,6 @@ export type SubmitAchInput = {
 
 export type SuccessResponse = {
   __typename?: 'SuccessResponse';
-  frontActions?: Maybe<Array<FrontAction>>;
   message?: Maybe<Scalars['String']['output']>;
   result: SuccessResult;
 };
@@ -3959,7 +3981,6 @@ export type Transaction = {
   chain: PaymentChain;
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
-  frontActions?: Maybe<Array<FrontAction>>;
   hash: Scalars['ID']['output'];
   order?: Maybe<Order>;
   tokenType: PaymentToken;
@@ -3982,7 +4003,6 @@ export type TransactionalEmail = {
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   eventType: TransactionalEmailType;
-  frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['ID']['output'];
   recipient?: Maybe<Scalars['String']['output']>;
   template: EmailTemplate;
@@ -4268,6 +4288,7 @@ export type UpdateShippingInput = {
 
 export enum UploadFileType {
   Avatar = 'AVATAR',
+  Gift = 'GIFT',
   Payment = 'PAYMENT',
   Reimbursement = 'REIMBURSEMENT'
 }
@@ -4302,7 +4323,6 @@ export type WtxcSwap = {
   email: Scalars['String']['output'];
   expiredAt: Scalars['DateTimeISO']['output'];
   from: WtxcSwapType;
-  frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['ID']['output'];
   inputAddress: Scalars['String']['output'];
   outputAddress: Scalars['String']['output'];
@@ -4363,7 +4383,6 @@ export type WeeklyCommission = {
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   endL: Scalars['Float']['output'];
   endR: Scalars['Float']['output'];
-  frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['ID']['output'];
   invoice?: Maybe<Invoice>;
   maxL: Scalars['Float']['output'];
@@ -4410,7 +4429,6 @@ export type WeeklyReport = {
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   file: PFile;
   fileId: Scalars['String']['output'];
-  frontActions?: Maybe<Array<FrontAction>>;
   id: Scalars['ID']['output'];
   updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   weekStartDate: Scalars['DateTimeISO']['output'];
@@ -4836,7 +4854,7 @@ export type PackagesQueryVariables = Exact<{
 }>;
 
 
-export type PackagesQuery = { __typename?: 'Query', packages: { __typename?: 'PackageResponse', total?: number | null, packages?: Array<{ __typename?: 'Package', id: string, date: any, token: number, point: number, amount: number, status: boolean, createdAt?: any | null, updatedAt?: any | null, deletedAt?: any | null, productName: string, orderVisibility: boolean, enrollVisibility: boolean }> | null } };
+export type PackagesQuery = { __typename?: 'Query', packages: { __typename?: 'PackageResponse', total?: number | null, packages: Array<{ __typename?: 'Package', id: string, date: any, token: number, point: number, amount: number, status: boolean, createdAt?: any | null, updatedAt?: any | null, deletedAt?: any | null, productName: string, orderVisibility: boolean, enrollVisibility: boolean }> } };
 
 export type OrderAvailablePointQueryVariables = Exact<{ [key: string]: never; }>;
 
