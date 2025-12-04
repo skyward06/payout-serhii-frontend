@@ -1,3 +1,4 @@
+import trim from 'lodash/trim';
 import states from 'states-us';
 import countries from 'country-list';
 import { useForm } from 'react-hook-form';
@@ -147,7 +148,7 @@ export function SignUpView({ isComponent = false }: Props) {
               paymentPeerCode: isPeerCode ? rest.paymentPeerCode : null,
               state: country === COUNTRY.USA ? state : '',
               username: removeSpecialCharacters(uname),
-              fullName: `${firstName} ${lastName}`,
+              fullName: `${trim(firstName)} ${trim(lastName)}`,
               assetId: rest.assetId === '' ? null : rest.assetId,
               sponsorUsername,
               ...(country !== COUNTRY.USA && {
