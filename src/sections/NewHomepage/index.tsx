@@ -3,7 +3,6 @@ import { useLocation } from 'react-router';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import Divider from '@mui/material/Divider';
 import Container from '@mui/material/Container';
 
 import { BackToTop } from 'src/components/animate/back-to-top';
@@ -15,6 +14,7 @@ import { Packages } from './Packages';
 import { SignUpView } from '../SignUp';
 import { QuickCharts } from './QuickCharts';
 import { HeroSection } from './HeroSection';
+import { LightWidget } from './LightWidget';
 import { ChartsSection } from './ChartsSection';
 import { UpcomingEvents } from './UpcomingEvents';
 import { ContentSections } from './ContentSections';
@@ -59,7 +59,6 @@ export function NewHomePage() {
 
         <HeroSection />
 
-        {/* <NewsArticles /> */}
         <Quick />
 
         <ChartsSection />
@@ -68,6 +67,8 @@ export function NewHomePage() {
 
         <ContentSections />
 
+        <LightWidget />
+
         <FeaturesSection />
 
         <HowItWorksSection />
@@ -75,10 +76,6 @@ export function NewHomePage() {
         <Texit />
 
         <Packages />
-
-        {/* <LatestNews /> */}
-
-        <Divider />
 
         <Box py={8} bgcolor="background.neutral">
           <Container>
