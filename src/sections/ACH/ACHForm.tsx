@@ -57,7 +57,6 @@ export function ACHForm() {
 
       const { data } = await createACH({
         id: state.id,
-        amountInCent: amountInCent * 100,
         recaptcha: captchaValue,
         ...newData,
       });
@@ -180,6 +179,7 @@ export function ACHForm() {
               name="amountInCent"
               label="Amount"
               required
+              disabled
               placeholder="e.g., 19.99"
               helperText="Enter the amount (e.g., 19.99). Minimum 0."
               InputProps={{
@@ -231,12 +231,14 @@ export function ACHForm() {
           </Grid>
 
           <Grid item xs={12}>
+            <Stack direction="row" justifyContent="flex-end">
+              <ReCAPTCHA ref={recaptcha} sitekey={CONFIG.RECAPTCHA_KEY} />
+            </Stack>
             <Stack direction="row" spacing={1.5} justifyContent="flex-end" sx={{ my: 1 }}>
               <LoadingButton
                 variant="outlined"
                 color="inherit"
                 onClick={() => reset(defaultValues)}
-                disabled={loading}
                 startIcon={<Iconify icon="mdi:restart" width={18} />}
               >
                 Reset
@@ -251,9 +253,6 @@ export function ACHForm() {
               >
                 Submit
               </LoadingButton>
-            </Stack>
-            <Stack direction="row" justifyContent="flex-end">
-              <ReCAPTCHA ref={recaptcha} sitekey={CONFIG.RECAPTCHA_KEY} />
             </Stack>
           </Grid>
         </Grid>
