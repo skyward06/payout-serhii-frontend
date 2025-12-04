@@ -10,7 +10,7 @@ import { CONFIG } from 'src/config';
 import { Breadcrumbs } from 'src/components/Breadcrumbs';
 import { LoadingScreen } from 'src/components/loading-screen';
 
-import CommissionList from 'src/sections/Commission/List';
+import { CommissionList } from 'src/sections/Commission/List';
 
 import { useAuthContext } from 'src/auth/hooks';
 

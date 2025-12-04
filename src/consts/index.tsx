@@ -23,6 +23,7 @@ export const COMMISSION_STATUS = {
   PREVIEW: { label: 'PREVIEW', value: 'Preview' },
   PENDING: { label: 'PENDING', value: 'Pending' },
   APPROVED: { label: 'APPROVED', value: 'Approved' },
+  ARCHIVED: { label: 'ARCHIVED', value: 'Archived' },
   SUSPENDED: { label: 'SUSPENDED', value: 'Suspended' },
 };
 

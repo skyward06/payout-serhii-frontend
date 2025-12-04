@@ -1,283 +1,103 @@
 import type { LabelColor } from 'src/components/Label';
-import type { CustomCellRendererProps } from '@ag-grid-community/react';
-import type { ColDef, ISetFilterParams, ITextFilterParams } from '@ag-grid-community/core';
 
-import dayjs from 'dayjs';
-import { useMemo } from 'react';
+import { useState, useEffect } from 'react';
 
-import Box from '@mui/material/Box';
-import Chip from '@mui/material/Chip';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
 import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
 
-import { useCopyToClipboard } from 'src/hooks/use-copy-to-clipboard';
+import { useAgQuery } from 'src/routes/hooks';
 
-import { formatID } from 'src/utils/helper';
-import { formatWeekNumber } from 'src/utils/format-time';
+import { useTabs } from 'src/hooks/use-tabs';
 
-import { PAID_AS, COMMISSION_TYPE, COMMISSION_STATUS } from 'src/consts';
-import {
-  CommissionType,
-  CommissionDefault,
-  WeeklyCommissionPaymentMade,
-} from 'src/__generated__/graphql';
+import { COMMISSION_STATUS } from 'src/consts';
+import { CommissionStatus } from 'src/__generated__/graphql';
 
-import { AgGrid } from 'src/components/AgGrid';
-import { toast } from 'src/components/SnackBar';
-import { Iconify } from 'src/components/Iconify';
-import { LabelRenderer } from 'src/components/ItemRenderers';
-import { NoteView, PointView, PriceView } from 'src/components/Common';
+import { Label } from 'src/components/Label';
 
-import { useFetchCommissions } from '../useApollo';
-import { parseType, paidParseType, commissionParseType } from './parseType';
+import { CommissionTable } from './CommissionTable';
+import { useFetchCommissionStats } from '../useApollo';
 
-import type { WeeklyCommission } from '../type';
+import type { CommissionRole } from './type';
 
-type BasicWeeklyCommission = Omit<WeeklyCommission, 'hasUSDC'>;
+const TABS: { value: CommissionRole; label: string; color: LabelColor }[] = [
+  { value: 'approved', label: 'Approved', color: 'primary' },
+  { value: 'pending', label: 'Pending', color: 'warning' },
+  { value: 'suspended', label: 'Suspended', color: 'error' },
+  { value: 'archived', label: 'Archived', color: 'default' },
+];
+export function CommissionList() {
+  const tabs = useTabs(CommissionStatus.Approved.toLowerCase());
+  const [customFilter, setCustomFilter] = useState<any>();
+  const [query, { setFilter }] = useAgQuery();
+  const { data, fetchCommissionStats } = useFetchCommissionStats();
 
-export default function CommissionTable() {
-  const { copy } = useCopyToClipboard();
+  const { filter = { status: CommissionStatus.Approved.toLowerCase() } } = query;
 
-  const { loading, rowCount, weeklyCommissions } = useFetchCommissions();
-
-  const onCopy = (value: string) => {
-    toast.success('Copied!');
-    copy(value);
+  const handleTabChange = (event: any, newValue: any) => {
+    tabs.onChange(event, newValue);
+    setFilter({});
+    setCustomFilter({});
   };
 
-  const colDefs = useMemo<ColDef<BasicWeeklyCommission>[]>(() => {
-    const baseColDef: ColDef<BasicWeeklyCommission>[] = [
-      {
-        field: 'ID',
-        headerName: 'ID',
-        width: 150,
-        resizable: true,
-        editable: false,
-        initialSort: 'asc',
-        cellClass: 'ag-cell-center tabular-nums',
-        filter: 'agNumberColumnFilter',
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
-          <Stack direction="row" justifyContent="space-between" alignItems="center">
-            {formatID(data?.ID, 'C')}
-            <IconButton onClick={() => onCopy(`${formatID(data?.ID, 'C')}`)}>
-              <Iconify icon="iconamoon:copy-fill" />
-            </IconButton>
-          </Stack>
-        ),
+  useEffect(() => {
+    fetchCommissionStats({
+      variables: {
+        suspendedFilter: {
+          status: COMMISSION_STATUS.SUSPENDED.label,
+        },
+        pendingFilter: {
+          status: COMMISSION_STATUS.PENDING.label,
+        },
+        approvedFilter: {
+          status: COMMISSION_STATUS.APPROVED.label,
+        },
+        archivedFilter: {
+          status: COMMISSION_STATUS.ARCHIVED.label,
+        },
       },
-      {
-        field: 'weekStartDate',
-        headerName: 'Week',
-        width: 250,
-        resizable: true,
-        editable: false,
-        sortable: false,
-        filterParams: { buttons: ['reset'] } as ITextFilterParams,
-        cellClass: 'ag-cell-center',
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
-          <Stack direction="row" alignItems="center" spacing={1}>
-            <Chip
-              label={`Week ${formatWeekNumber(data?.weekStartDate)}`}
-              size="small"
-              variant="soft"
-              color="primary"
-              sx={{ fontWeight: 600, minWidth: 70 }}
-            />
-            <Typography variant="body2" color="text.secondary">
-              {dayjs(data?.weekStartDate).utc().format('MMM DD')} -{' '}
-              {dayjs(data?.weekStartDate).utc().add(6, 'day').format('MMM DD')}
-            </Typography>
-          </Stack>
-        ),
-      },
-      {
-        headerName: 'BegLR',
-        width: 180,
-        resizable: true,
-        editable: false,
-        sortable: false,
-        cellClass: 'ag-cell-center tabular-nums',
-        filterParams: { buttons: ['reset'] } as ITextFilterParams,
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
-          <PointView leftValue={data?.begL!} rightValue={data?.begR!} />
-        ),
-      },
-      {
-        headerName: 'NewLR',
-        width: 180,
-        resizable: true,
-        editable: false,
-        sortable: false,
-        cellClass: 'ag-cell-center tabular-nums',
-        filterParams: { buttons: ['reset'] } as ITextFilterParams,
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
-          <PointView leftValue={data?.newL!} rightValue={data?.newR!} />
-        ),
-      },
-      {
-        headerName: 'MaxLR',
-        width: 180,
-        resizable: true,
-        editable: false,
-        sortable: false,
-        cellClass: 'ag-cell-center tabular-nums',
-        filterParams: { buttons: ['reset'] } as ITextFilterParams,
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
-          <PointView leftValue={data?.maxL!} rightValue={data?.maxR!} />
-        ),
-      },
-      {
-        headerName: 'Package',
-        width: 180,
-        resizable: true,
-        editable: false,
-        sortable: false,
-        cellClass: 'ag-cell-center tabular-nums',
-        filterParams: { buttons: ['reset'] } as ITextFilterParams,
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) =>
-          data?.status !== COMMISSION_STATUS.NONE.label ? (
-            <PointView leftValue={data?.pkgL!} rightValue={data?.pkgR!} />
-          ) : (
-            'None'
-          ),
-      },
-      {
-        headerName: 'EndLR',
-        width: 180,
-        resizable: true,
-        editable: false,
-        sortable: false,
-        cellClass: 'ag-cell-center tabular-nums',
-        filterParams: { buttons: ['reset'] } as ITextFilterParams,
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
-          <PointView leftValue={data?.endL!} rightValue={data?.endR!} />
-        ),
-      },
-      {
-        field: 'commission',
-        headerName: 'Commissions',
-        width: 160,
-        resizable: true,
-        editable: false,
-        cellClass: 'ag-cell-center tabular-nums ag-right-aligned-cell',
-        filter: 'agNumberColumnFilter',
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
-          <PriceView price={data?.commission ?? 0} />
-        ),
-      },
-      {
-        field: 'paymentMethod',
-        headerName: 'Method',
-        width: 180,
-        filter: 'agMultiColumnFilter',
-        resizable: true,
-        editable: false,
-        cellClass: 'ag-cell-center',
-        filterParams: {
-          values: Object.values(CommissionDefault),
-          valueFormatter: (params: any) => parseType(params.value),
-          defaultToNothingSelected: true,
-        } as ISetFilterParams<WeeklyCommission>,
-        cellRenderer: ({ data }: CustomCellRendererProps<WeeklyCommission>) => (
-          <Stack direction="row" alignItems="center" spacing={1}>
-            <LabelRenderer
-              icon={
-                data?.paymentMethod === CommissionDefault.Usdc
-                  ? 'cryptocurrency:usdc'
-                  : data?.paymentMethod === CommissionDefault.Hash
-                    ? 'solar:wallet-money-bold'
-                    : ''
-              }
-              color={
-                data?.paymentMethod === CommissionDefault.Usdc
-                  ? 'info'
-                  : data?.paymentMethod === CommissionDefault.Txc
-                    ? 'warning'
-                    : 'success'
-              }
-              value={data?.paymentMethod!}
-            />
-            {data?.hasUSDC && data.paymentMethod === CommissionDefault.Usdc && (
-              <Iconify icon="solar:check-circle-bold" width={20} color="success.main" />
-            )}
-          </Stack>
-        ),
-      },
-      {
-        field: 'commissionType',
-        headerName: 'Type',
-        width: 180,
-        filter: 'agMultiColumnFilter',
-        resizable: true,
-        editable: false,
-        filterParams: {
-          values: Object.values(CommissionType),
-          valueFormatter: (params: any) => commissionParseType(params.value),
-          defaultToNothingSelected: true,
-        } as ISetFilterParams<WeeklyCommission>,
-        cellClass: 'ag-cell-center',
-        cellRenderer: ({ data }: CustomCellRendererProps<WeeklyCommission>) => (
-          <Box display="flex">
-            <LabelRenderer
-              icon={data?.commissionType === CommissionType.Supernova ? 'solar:star-bold' : null}
-              value={COMMISSION_TYPE[data?.commissionType!].value}
-              color={COMMISSION_TYPE[data?.commissionType!].color as LabelColor}
-            />
-          </Box>
-        ),
-      },
-      {
-        field: 'paidAs',
-        headerName: 'Paid as',
-        width: 150,
-        resizable: true,
-        editable: false,
-        cellClass: 'ag-cell-center',
-        filter: 'agMultiColumnFilter',
-        filterParams: {
-          values: Object.values(WeeklyCommissionPaymentMade),
-          valueFormatter: (params: any) => paidParseType(params.value),
-          defaultToNothingSelected: true,
-        } as ISetFilterParams<WeeklyCommission>,
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
-          <Box display="flex">
-            <LabelRenderer
-              icon={PAID_AS[data?.paidAs! as keyof typeof PAID_AS]?.icon}
-              value={PAID_AS[data?.paidAs! as keyof typeof PAID_AS]?.value}
-              color={PAID_AS[data?.paidAs! as keyof typeof PAID_AS]?.color as LabelColor}
-            />
-          </Box>
-        ),
-      },
-      {
-        field: 'note',
-        headerName: 'Note',
-        flex: 1,
-        minWidth: 200,
-        resizable: true,
-        editable: false,
-        cellClass: 'ag-cell-center',
-        filter: 'agTextColumnFilter',
-        filterParams: { buttons: ['reset'] } as ITextFilterParams,
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicWeeklyCommission>) => (
-          <NoteView note={data?.note!} />
-        ),
-      },
-    ];
-
-    return baseColDef;
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <AgGrid<BasicWeeklyCommission>
-      gridKey="miner-commission-member-list"
-      loading={loading}
-      rowData={weeklyCommissions}
-      columnDefs={colDefs}
-      totalRowCount={rowCount}
-      rowHeight={45}
-    />
+    <>
+      <Tabs
+        value={tabs.value}
+        onChange={handleTabChange}
+        orientation="vertical"
+        sx={{
+          minWidth: 160,
+          borderRight: 1,
+          borderColor: 'divider',
+          [`& .MuiTabs-flexContainer`]: { gap: 0 },
+          [`& .MuiTabs-flexContainerVertical`]: {
+            padding: '16px',
+          },
+        }}
+      >
+        {TABS.map((tab) => (
+          <Tab
+            key={tab.value}
+            iconPosition="end"
+            label={
+              <Stack direction="row" flexGrow={1}>
+                {tab.label}
+              </Stack>
+            }
+            value={tab.value}
+            icon={
+              <Label
+                variant={(tab.value === filter.status && 'filled') || 'soft'}
+                color={tab.color}
+              >
+                {data ? data[tab.value].total! : 0}
+              </Label>
+            }
+          />
+        ))}
+      </Tabs>
+      <CommissionTable status={tabs.value} customFilter={customFilter} />
+    </>
   );
 }
