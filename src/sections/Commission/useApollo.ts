@@ -1,19 +1,10 @@
 import { useRef, useMemo } from 'react';
-import { useQuery, useLazyQuery } from '@apollo/client';
-
-import { useAgQuery as useQueryString } from 'src/routes/hooks';
-
-import { parseFilterModel } from 'src/utils/parseFilter';
+import { useLazyQuery } from '@apollo/client';
 
 import { FETCH_COMMISSION_QUERY, FETCH_COMMISSION_STATS_QUERY } from './query';
 
 export function useFetchCommissions() {
-  const [{ page = '1,50', sort = 'ID', filter }] = useQueryString();
-  const graphQueryFilter = useMemo(() => parseFilterModel({}, filter), [filter]);
-
-  const { loading, data } = useQuery(FETCH_COMMISSION_QUERY, {
-    variables: { filter: graphQueryFilter, page, sort },
-  });
+  const [fetchCommissions, { loading, data }] = useLazyQuery(FETCH_COMMISSION_QUERY);
 
   const rowCountRef = useRef(data?.weeklyCommissions.total ?? 0);
 
@@ -31,6 +22,7 @@ export function useFetchCommissions() {
     loading,
     rowCount,
     weeklyCommissions: data?.weeklyCommissions.weeklyCommissions ?? [],
+    fetchCommissions,
   };
 }
 
