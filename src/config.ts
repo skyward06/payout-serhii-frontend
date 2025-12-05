@@ -16,6 +16,7 @@ export type ConfigValue = {
   SERVER_BASE: string;
   SERVER_URL: string;
   ASSET_URL: string;
+  SANITY_SERVER: string;
   redirectPath: string;
   storageTokenKey: string;
   IFRAME_RESIZER_LICENSE_KEY: string;
@@ -36,6 +37,7 @@ export const CONFIG: ConfigValue = {
   SERVER_BASE: import.meta.env.VITE_BASE_URL ?? '',
   SERVER_URL: import.meta.env.VITE_SERVER_URL ?? '',
   ASSET_URL: import.meta.env.VITE_ASSET_URL ?? '',
+  SANITY_SERVER: import.meta.env.VITE_SANITY_SERVER ?? '',
   IFRAME_RESIZER_LICENSE_KEY: import.meta.env.VITE_IFRAME_RESIZER_LICENSE_KEY ?? '',
   RECAPTCHA_KEY: import.meta.env.VITE_RECAPTCHA_KEY ?? '',
   redirectPath: paths.pages.intro.root,
