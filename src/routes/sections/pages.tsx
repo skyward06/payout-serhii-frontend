@@ -32,6 +32,9 @@ const ConfirmAddressPage = lazy(() => import('src/pages/ConfirmAddress'));
 const NewHomePage = lazy(() => import('src/pages/NewHomePage'));
 const ComingSoonPage = lazy(() => import('src/pages/ComingSoon'));
 const EventPage = lazy(() => import('src/pages/Event'));
+const PostPage = lazy(() => import('src/pages/Post/List'));
+const PostViewPage = lazy(() => import('src/pages/Post/View'));
+const PostProvider = lazy(() => import('src/libs/Post'));
 // ----------------------------------------------------------------------
 
 export const statisticsRoutes: RouteObject[] = [
@@ -158,7 +161,7 @@ export const statisticsRoutes: RouteObject[] = [
     ),
   },
   {
-    path: '/ach-form',
+    path: 'ach-form',
     element: (
       <AuthCenteredLayout width="860px">
         <Suspense fallback={<LoadingScreen />}>
@@ -166,5 +169,26 @@ export const statisticsRoutes: RouteObject[] = [
         </Suspense>
       </AuthCenteredLayout>
     ),
+  },
+  {
+    path: 'post',
+    element: (
+      <Suspense fallback={<LoadingScreen />}>
+        <NewNavBasic>
+          <Outlet />
+        </NewNavBasic>
+      </Suspense>
+    ),
+    children: [
+      { index: true, element: <PostPage /> },
+      {
+        path: ':slug',
+        element: (
+          <PostProvider>
+            <PostViewPage />
+          </PostProvider>
+        ),
+      },
+    ],
   },
 ];

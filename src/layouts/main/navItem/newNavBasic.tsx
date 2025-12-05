@@ -59,6 +59,7 @@ export function NewNavBasic({ children }: Props) {
         { title: 'Wrapped TXC', path: 'https://wtxc.texitcoin.org/' },
         { title: 'Exchange', path: 'https://coinmarketcap.com/currencies/texitcoin/#Markets' },
         { title: 'Swag', path: 'https://shoptxc.com/' },
+        { title: 'Blog', path: paths.pages.post.root },
       ],
     },
     {

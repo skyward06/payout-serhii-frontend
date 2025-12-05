@@ -20,6 +20,7 @@ const ROOTS = {
   MAINTENANCE: '/maintenance',
   ABOUT_US: '/about-us',
   ORDER: '/order',
+  POST: '/post',
 
   // Dashboard
   COMMISSION: '/commission',
@@ -102,6 +103,9 @@ export const paths = {
 
     // ACH Form
     ach: { root: ROOTS.ACH },
+
+    // POST
+    post: { root: ROOTS.POST, view: (slug: string) => `${ROOTS.POST}/${slug}` },
   },
 
   // DASHBOARD

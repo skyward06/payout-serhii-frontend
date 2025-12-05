@@ -1,8 +1,12 @@
+import type { PostType } from 'src/libs/Post/type';
+
+import { useEffect } from 'react';
 import Autoplay from 'embla-carousel-autoplay';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Link from '@mui/material/Link';
+import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 
 import { varAlpha } from 'src/theme/styles';
@@ -15,38 +19,56 @@ import {
   CarouselArrowBasicButtons,
 } from 'src/components/carousel';
 
-import { posts } from '../Post/List/const';
-
-import type { PostItemType } from '../Post/List/type';
+import { useFetchPosts } from '../Post/useApollo';
+import { getCoverImageUrl } from '../Post/utils/getCoverImageUrl';
 
 export function BlogArticles() {
   const carousel = useCarousel({ loop: true }, [Autoplay({ playOnInit: true, delay: 8000 })]);
 
+  const { loading, posts, fetchPosts } = useFetchPosts();
+
+  useEffect(() => {
+    fetchPosts({
+      variables: {
+        data: {},
+        page: `1,3`,
+        sort: '',
+      },
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
-    <Card sx={{ bgcolor: 'common.black', height: '100%' }}>
-      <CarouselDotButtons
-        scrollSnaps={carousel.dots.scrollSnaps}
-        selectedIndex={carousel.dots.selectedIndex}
-        onClickDot={carousel.dots.onClickDot}
-        sx={{ top: 16, left: 16, position: 'absolute', color: 'primary.light' }}
-      />
+    <>
+      {loading ? (
+        <Skeleton variant="rectangular" height={320} />
+      ) : (
+        <Card sx={{ bgcolor: 'common.black', height: '100%' }}>
+          <CarouselDotButtons
+            scrollSnaps={carousel.dots.scrollSnaps}
+            selectedIndex={carousel.dots.selectedIndex}
+            onClickDot={carousel.dots.onClickDot}
+            sx={{ top: 16, left: 16, position: 'absolute', color: 'primary.light' }}
+          />
 
-      <CarouselArrowBasicButtons
-        {...carousel.arrows}
-        options={carousel.options}
-        sx={{ top: 8, right: 8, position: 'absolute', color: 'common.white' }}
-      />
+          <CarouselArrowBasicButtons
+            {...carousel.arrows}
+            options={carousel.options}
+            sx={{ top: 8, right: 8, position: 'absolute', color: 'common.white' }}
+          />
 
-      <Carousel carousel={carousel}>
-        {posts.map((post) => (
-          <CarouselItem key={post.slug} item={post} />
-        ))}
-      </Carousel>
-    </Card>
+          <Carousel carousel={carousel}>
+            {posts.map((post) => (
+              <CarouselItem key={post.slug} item={post} />
+            ))}
+          </Carousel>
+        </Card>
+      )}
+    </>
   );
 }
 
-function CarouselItem({ item }: { item: PostItemType }) {
+function CarouselItem({ item }: { item: PostType }) {
   return (
     <Box sx={{ width: 1, height: '100%', position: 'relative' }}>
       <Box
@@ -94,7 +116,7 @@ function CarouselItem({ item }: { item: PostItemType }) {
 
       <Image
         alt={item.title}
-        src={item.coverImage}
+        src={getCoverImageUrl(item.coverImage ?? '')}
         slotProps={{
           overlay: {
             background: (theme) =>
