@@ -24,7 +24,7 @@ export default function Detail() {
   const [loading, setLoading] = useState<boolean>(true);
   const [data, setData] = useState<any[]>([]);
 
-  const CONTENT_QUERY = `*[_type == "post" && slug.current == "${slug}"] {
+  const CONTENT_QUERY = `*[_type == "resource" && slug.current == "${slug}"] {
     ...,
     category->,
     body

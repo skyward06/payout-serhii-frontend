@@ -18,7 +18,7 @@ export default function Item({ title }: Props) {
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const CONTENT_QUERY = `*[_type == "post" && category->title == "${title}"] | order(date desc) {
+  const CONTENT_QUERY = `*[_type == "resource" && category->title == "${title}"] | order(date desc) {
     ...,
     category->,
     body,
