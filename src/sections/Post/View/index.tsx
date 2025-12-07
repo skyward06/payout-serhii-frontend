@@ -27,7 +27,7 @@ export function PostView({ post }: Props) {
           startIcon={<Iconify icon="famicons:arrow-back" />}
           onClick={() => router.push(paths.pages.post.root)}
         >
-          Back to Blog
+          Go to Blog
         </Button>
       </Stack>
 

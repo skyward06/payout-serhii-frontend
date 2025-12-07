@@ -93,21 +93,6 @@ export function PostItem({ post }: PostCardProps) {
           {post.description}
         </Typography>
 
-        <Typography
-          variant="body2"
-          color="text.disabled"
-          sx={{
-            lineHeight: 1.6,
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            display: '-webkit-box',
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical',
-          }}
-        >
-          {post.content}
-        </Typography>
-
         <Box sx={{ flexGrow: 1 }} />
 
         <Button
