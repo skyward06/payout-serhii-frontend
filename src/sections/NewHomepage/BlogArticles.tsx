@@ -100,7 +100,7 @@ function CarouselItem({ item }: { item: PostType }) {
           {item.description}
         </Typography>
 
-        <Typography
+        {/* <Typography
           variant="body2"
           sx={{
             overflow: 'hidden',
@@ -111,7 +111,7 @@ function CarouselItem({ item }: { item: PostType }) {
           }}
         >
           {item.content}
-        </Typography>
+        </Typography> */}
       </Box>
 
       <Image
