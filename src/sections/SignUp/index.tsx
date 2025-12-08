@@ -341,7 +341,7 @@ export function SignUpView({ isComponent = false }: Props) {
             label="Package"
             required
             fullWidth
-            helperText="Please select a payment type first"
+            helperText="Please select a payment method first"
             options={products.map(
               (option) => `${option.id}::$${option.amount} @ ${option.productName}`
             )}
