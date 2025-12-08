@@ -1,17 +1,17 @@
-import type { CreateAchInput } from 'src/__generated__/graphql';
+import type { OrderAchSubmitInput } from 'src/__generated__/graphql';
 
 import { useCallback } from 'react';
 import { useMutation } from '@apollo/client';
 
-import { CREATE_ACH } from './query';
+import { SUBMIT_ORDER_ACH } from './query';
 
-export function useCreateACH() {
-  const [submit, { loading }] = useMutation(CREATE_ACH);
+export function useSubmitOrderACH() {
+  const [submit, { loading }] = useMutation(SUBMIT_ORDER_ACH);
 
-  const createACH = useCallback(
-    (data: CreateAchInput) => submit({ variables: { data } }),
+  const submitOrderACH = useCallback(
+    (data: OrderAchSubmitInput) => submit({ variables: { data } }),
     [submit]
   );
 
-  return { loading, createACH };
+  return { loading, submitOrderACH };
 }

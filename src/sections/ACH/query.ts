@@ -1,9 +1,9 @@
 import { gql } from 'src/__generated__/gql';
 
-export const CREATE_ACH = gql(/* GraphQL */ `
-  mutation CreateACH($data: CreateACHInput!) {
-    createACH(data: $data) {
-      id
+export const SUBMIT_ORDER_ACH = gql(/* GraphQL */ `
+  mutation SubmitOrderACHPayment($data: OrderACHSubmitInput!) {
+    submitOrderACHPayment(data: $data) {
+      ID
     }
   }
 `);

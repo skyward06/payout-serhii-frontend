@@ -13,7 +13,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n  mutation CreateACH($data: CreateACHInput!) {\n    createACH(data: $data) {\n      id\n    }\n  }\n": types.CreateAchDocument,
+    "\n  mutation SubmitOrderACHPayment($data: OrderACHSubmitInput!) {\n    submitOrderACHPayment(data: $data) {\n      ID\n    }\n  }\n": types.SubmitOrderAchPaymentDocument,
     "\n  query CalculateProfitability($data: ProfitabilityCalculationInput!) {\n    calculateProfitability(data: $data) {\n      startDate\n      target\n      init\n      period\n      txc\n      txcCost\n      extraTXC\n      endDate\n      txcPrice\n    }\n  }\n": types.CalculateProfitabilityDocument,
     "\n  query WeeklyCommissions($sort: String, $page: String, $filter: JSONObject) {\n    weeklyCommissions(sort: $sort, page: $page, filter: $filter) {\n      weeklyCommissions {\n        id\n        ID\n        begL\n        begR\n        newL\n        newR\n        maxL\n        maxR\n        endL\n        endR\n        pkgL\n        pkgR\n        note\n        paidAs\n        status\n        hasUSDC\n        username\n        fullName\n        memberId\n        createdAt\n        shortNote\n        commission\n        commissionType\n        weekStartDate\n        paymentMethod\n      }\n      total\n    }\n  }\n": types.WeeklyCommissionsDocument,
     "\n  query FetchCommissionStats(\n    $allFilter: JSONObject\n    $pendingFilter: JSONObject\n    $approvedFilter: JSONObject\n    $archivedFilter: JSONObject\n    $suspendedFilter: JSONObject\n  ) {\n    all: weeklyCommissions(filter: $allFilter) {\n      total\n    }\n    pending: weeklyCommissions(filter: $pendingFilter) {\n      total\n    }\n    suspended: weeklyCommissions(filter: $suspendedFilter) {\n      total\n    }\n    approved: weeklyCommissions(filter: $approvedFilter) {\n      total\n    }\n    archived: weeklyCommissions(filter: $archivedFilter) {\n      total\n    }\n  }\n": types.FetchCommissionStatsDocument,
@@ -27,13 +27,14 @@ const documents = {
     "\n  query Notifications($sort: String, $page: String, $filter: JSONObject) {\n    notifications(sort: $sort, page: $page, filter: $filter) {\n      notifications {\n        id\n        read\n        level\n        message\n        createdAt\n        updatedAt\n      }\n      total\n    }\n  }\n": types.NotificationsDocument,
     "\n  mutation SetReadNotification($data: IDInput!) {\n    setReadNotification(data: $data) {\n      message\n      result\n    }\n  }\n": types.SetReadNotificationDocument,
     "\n  mutation SetReadAllNotifications {\n    setReadAllNotifications {\n      count\n    }\n  }\n": types.SetReadAllNotificationsDocument,
-    "\n  query OrderById($data: IDInput!) {\n    orderById(data: $data) {\n      id\n      ID\n      status\n      expiredAt\n      paidBalance\n      paymentToken\n      paymentChain\n      acceptFirstTx\n      paymentAddress\n      requiredBalance\n      availablePaymentMethods {\n        isP2P\n        paymentChain\n        paymentToken\n      }\n    }\n  }\n": types.OrderByIdDocument,
+    "\n  query OrderById($data: IDInput!) {\n    orderById(data: $data) {\n      id\n      ID\n      status\n      expiredAt\n      paidBalance\n      paymentType\n      paymentToken\n      paymentChain\n      acceptFirstTx\n      paymentAddress\n      requiredBalance\n      availablePaymentMethods {\n        paymentChain\n        paymentToken\n        paymentType\n      }\n    }\n  }\n": types.OrderByIdDocument,
     "\n  query CheckOrder($data: IDInput!) {\n    orderById(data: $data) {\n      status\n    }\n  }\n": types.CheckOrderDocument,
     "\n  mutation CreateAddHashOrder($data: CreateOrderInput!) {\n    createAddHashOrder(data: $data) {\n      id\n    }\n  }\n": types.CreateAddHashOrderDocument,
     "\n  mutation CreateSignUpOrder($data: CreateSignUpOrderInput!) {\n    createSignUpOrder(data: $data) {\n      id\n    }\n  }\n": types.CreateSignUpOrderDocument,
     "\n  mutation CancelOrder($data: IDInput!) {\n    cancelOrder(data: $data) {\n      id\n      status\n    }\n  }\n": types.CancelOrderDocument,
     "\n  mutation SetOrderPayment($data: OrderPaymentSetInput!) {\n    setOrderPayment(data: $data) {\n      id\n      status\n      paymentToken\n      paymentAddress\n      requiredBalance\n    }\n  }\n": types.SetOrderPaymentDocument,
-    "\n  query PaymentMethods($sort: String, $page: String, $filter: JSONObject) {\n    paymentMethods(sort: $sort, page: $page, filter: $filter) {\n      paymentMethods {\n        id\n        name\n        adminVisible\n        enrollmentVisible\n        createdAt\n      }\n      total\n    }\n  }\n": types.PaymentMethodsDocument,
+    "\n  query PaymentMethods {\n    paymentMethods {\n      id\n      name\n      createdAt\n      adminVisible\n      enrollmentVisible\n    }\n  }\n": types.PaymentMethodsDocument,
+    "\n  query EnrollmentPaymentMethods {\n    enrollmentPaymentMethods {\n      id\n      name\n      adminVisible\n      enrollmentVisible\n    }\n  }\n": types.EnrollmentPaymentMethodsDocument,
     "\n  mutation ConfirmPeerPayment($data: PeerConfirmationInput!) {\n    confirmPeerPayment(data: $data) {\n      result\n      message\n    }\n  }\n": types.ConfirmPeerPaymentDocument,
     "\n  query PlacementMembersWithLevel($data: PlacementWithLevelInput!) {\n    placementMembersWithLevel(data: $data) {\n      id\n      status\n      username\n      fullName\n      createdAt\n      teamStrategy\n      placementStatus\n      placementPosition\n      placementParentId\n      commission {\n        begL\n        begR\n        newL\n        newR\n      }\n    }\n  }\n": types.PlacementMembersWithLevelDocument,
     "\n  query PlacementChildrenById($data: IDInput!) {\n    placementChildrenById(data: $data) {\n      id\n      status\n      username\n      fullName\n      createdAt\n      teamStrategy\n      placementStatus\n      placementPosition\n      placementParentId\n      commission {\n        begL\n        begR\n        newL\n        newR\n      }\n    }\n  }\n": types.PlacementChildrenByIdDocument,
@@ -76,8 +77,8 @@ const documents = {
     "\n  mutation Login($data: MemberLoginInput!) {\n    memberLogin(data: $data) {\n      status\n      accessToken\n      passwordExpired\n    }\n  }\n": types.LoginDocument,
     "\n  mutation SignUpMember($data: SignupFormInput!) {\n    signUpMember(data: $data) {\n      id\n      email\n      username\n    }\n  }\n": types.SignUpMemberDocument,
     "\n  mutation SendEmailVerificationCode {\n    sendEmailVerificationCode {\n      message\n      result\n    }\n  }\n": types.SendEmailVerificationCodeDocument,
-    "\n  query Promos($sort: String, $page: String, $filter: JSONObject) {\n    promos(sort: $sort, page: $page, filter: $filter) {\n      promos {\n        id\n        code\n        status\n        endDate\n        startDate\n        createdAt\n        updatedAt\n        deletedAt\n        description\n      }\n      total\n    }\n  }\n": types.PromosDocument,
-    "\n  query checkPeerCode($code: String!) {\n    checkIfPeerCodeExists(code: $code)\n  }\n": types.CheckPeerCodeDocument,
+    "\n  query Promos($sort: String, $page: String, $filter: JSONObject) {\n    promos(sort: $sort, page: $page, filter: $filter) {\n      promotions {\n        code\n        status\n        endDate\n        startDate\n        createdAt\n        updatedAt\n        deletedAt\n        description\n      }\n      total\n    }\n  }\n": types.PromosDocument,
+    "\n  query SignUpPackages {\n    signUpPackages {\n      id\n      ID\n      date\n      token\n      point\n      amount\n      status\n      editable\n      freeShare\n      productName\n      orderVisibility\n      enrollVisibility\n    }\n  }\n": types.SignUpPackagesDocument,
     "\n  mutation CreateAddMemberOrder($data: CreateAddMemberOrderInput!) {\n    createAddMemberOrder(data: $data) {\n      id\n    }\n  }\n": types.CreateAddMemberOrderDocument,
     "\n  query Query($data: LiveStatsArgs!) {\n    liveBlockStats(data: $data) {\n      dailyData {\n        count\n        field\n      }\n      meta\n      total\n    }\n    liveMiningStats {\n      dailyData {\n        count\n        field\n      }\n      meta\n      total\n    }\n    liveUserStats(data: $data) {\n      dailyData {\n        count\n        field\n      }\n      meta\n      total\n    }\n  }\n": types.QueryDocument,
     "\n  query Statistics($page: String, $filter: JSONObject, $sort: String) {\n    statistics(page: $page, filter: $filter, sort: $sort) {\n      statistics {\n        id\n        totalHashPower\n        newBlocks\n        totalBlocks\n        totalMembers\n        txcShared\n        issuedAt\n        from\n        to\n        status\n        createdAt\n        updatedAt\n        deletedAt\n      }\n      total\n    }\n  }\n": types.StatisticsDocument,
@@ -123,7 +124,7 @@ export function gql(source: string): unknown;
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  mutation CreateACH($data: CreateACHInput!) {\n    createACH(data: $data) {\n      id\n    }\n  }\n"): (typeof documents)["\n  mutation CreateACH($data: CreateACHInput!) {\n    createACH(data: $data) {\n      id\n    }\n  }\n"];
+export function gql(source: "\n  mutation SubmitOrderACHPayment($data: OrderACHSubmitInput!) {\n    submitOrderACHPayment(data: $data) {\n      ID\n    }\n  }\n"): (typeof documents)["\n  mutation SubmitOrderACHPayment($data: OrderACHSubmitInput!) {\n    submitOrderACHPayment(data: $data) {\n      ID\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -179,7 +180,7 @@ export function gql(source: "\n  mutation SetReadAllNotifications {\n    setRead
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  query OrderById($data: IDInput!) {\n    orderById(data: $data) {\n      id\n      ID\n      status\n      expiredAt\n      paidBalance\n      paymentToken\n      paymentChain\n      acceptFirstTx\n      paymentAddress\n      requiredBalance\n      availablePaymentMethods {\n        isP2P\n        paymentChain\n        paymentToken\n      }\n    }\n  }\n"): (typeof documents)["\n  query OrderById($data: IDInput!) {\n    orderById(data: $data) {\n      id\n      ID\n      status\n      expiredAt\n      paidBalance\n      paymentToken\n      paymentChain\n      acceptFirstTx\n      paymentAddress\n      requiredBalance\n      availablePaymentMethods {\n        isP2P\n        paymentChain\n        paymentToken\n      }\n    }\n  }\n"];
+export function gql(source: "\n  query OrderById($data: IDInput!) {\n    orderById(data: $data) {\n      id\n      ID\n      status\n      expiredAt\n      paidBalance\n      paymentType\n      paymentToken\n      paymentChain\n      acceptFirstTx\n      paymentAddress\n      requiredBalance\n      availablePaymentMethods {\n        paymentChain\n        paymentToken\n        paymentType\n      }\n    }\n  }\n"): (typeof documents)["\n  query OrderById($data: IDInput!) {\n    orderById(data: $data) {\n      id\n      ID\n      status\n      expiredAt\n      paidBalance\n      paymentType\n      paymentToken\n      paymentChain\n      acceptFirstTx\n      paymentAddress\n      requiredBalance\n      availablePaymentMethods {\n        paymentChain\n        paymentToken\n        paymentType\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -203,7 +204,11 @@ export function gql(source: "\n  mutation SetOrderPayment($data: OrderPaymentSet
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  query PaymentMethods($sort: String, $page: String, $filter: JSONObject) {\n    paymentMethods(sort: $sort, page: $page, filter: $filter) {\n      paymentMethods {\n        id\n        name\n        adminVisible\n        enrollmentVisible\n        createdAt\n      }\n      total\n    }\n  }\n"): (typeof documents)["\n  query PaymentMethods($sort: String, $page: String, $filter: JSONObject) {\n    paymentMethods(sort: $sort, page: $page, filter: $filter) {\n      paymentMethods {\n        id\n        name\n        adminVisible\n        enrollmentVisible\n        createdAt\n      }\n      total\n    }\n  }\n"];
+export function gql(source: "\n  query PaymentMethods {\n    paymentMethods {\n      id\n      name\n      createdAt\n      adminVisible\n      enrollmentVisible\n    }\n  }\n"): (typeof documents)["\n  query PaymentMethods {\n    paymentMethods {\n      id\n      name\n      createdAt\n      adminVisible\n      enrollmentVisible\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query EnrollmentPaymentMethods {\n    enrollmentPaymentMethods {\n      id\n      name\n      adminVisible\n      enrollmentVisible\n    }\n  }\n"): (typeof documents)["\n  query EnrollmentPaymentMethods {\n    enrollmentPaymentMethods {\n      id\n      name\n      adminVisible\n      enrollmentVisible\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -375,11 +380,11 @@ export function gql(source: "\n  mutation SendEmailVerificationCode {\n    sendE
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  query Promos($sort: String, $page: String, $filter: JSONObject) {\n    promos(sort: $sort, page: $page, filter: $filter) {\n      promos {\n        id\n        code\n        status\n        endDate\n        startDate\n        createdAt\n        updatedAt\n        deletedAt\n        description\n      }\n      total\n    }\n  }\n"): (typeof documents)["\n  query Promos($sort: String, $page: String, $filter: JSONObject) {\n    promos(sort: $sort, page: $page, filter: $filter) {\n      promos {\n        id\n        code\n        status\n        endDate\n        startDate\n        createdAt\n        updatedAt\n        deletedAt\n        description\n      }\n      total\n    }\n  }\n"];
+export function gql(source: "\n  query Promos($sort: String, $page: String, $filter: JSONObject) {\n    promos(sort: $sort, page: $page, filter: $filter) {\n      promotions {\n        code\n        status\n        endDate\n        startDate\n        createdAt\n        updatedAt\n        deletedAt\n        description\n      }\n      total\n    }\n  }\n"): (typeof documents)["\n  query Promos($sort: String, $page: String, $filter: JSONObject) {\n    promos(sort: $sort, page: $page, filter: $filter) {\n      promotions {\n        code\n        status\n        endDate\n        startDate\n        createdAt\n        updatedAt\n        deletedAt\n        description\n      }\n      total\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  query checkPeerCode($code: String!) {\n    checkIfPeerCodeExists(code: $code)\n  }\n"): (typeof documents)["\n  query checkPeerCode($code: String!) {\n    checkIfPeerCodeExists(code: $code)\n  }\n"];
+export function gql(source: "\n  query SignUpPackages {\n    signUpPackages {\n      id\n      ID\n      date\n      token\n      point\n      amount\n      status\n      editable\n      freeShare\n      productName\n      orderVisibility\n      enrollVisibility\n    }\n  }\n"): (typeof documents)["\n  query SignUpPackages {\n    signUpPackages {\n      id\n      ID\n      date\n      token\n      point\n      amount\n      status\n      editable\n      freeShare\n      productName\n      orderVisibility\n      enrollVisibility\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -1,10 +1,10 @@
 import { useRef, useMemo } from 'react';
-import { useMutation, useLazyQuery } from '@apollo/client';
+import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
 
 import {
   SIGN_UP_MEMBER,
-  CHECK_PEER_CODE,
   FETCH_PROMOS_QUERY,
+  FETCH_SIGNUP_PACKAGES,
   SEND_EMAIL_VERIFICATION_CODE,
 } from './query';
 
@@ -39,13 +39,13 @@ export function useFetchPromos() {
     called,
     loading,
     rowCount,
-    promos: data?.promos.promos ?? [],
+    promos: data?.promos.promotions ?? [],
     fetchPromos,
   };
 }
 
-export function useCheckPeerCode() {
-  const [checkPeerCode, { loading, data, error }] = useLazyQuery(CHECK_PEER_CODE);
+export function useFetchSignUpPackages() {
+  const { loading, data, error } = useQuery(FETCH_SIGNUP_PACKAGES);
 
-  return { loading, exist: data?.checkIfPeerCodeExists ?? false, error, checkPeerCode };
+  return { loading, packages: data?.signUpPackages ?? [], error };
 }

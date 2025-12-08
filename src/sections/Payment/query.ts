@@ -1,16 +1,24 @@
 import { gql } from 'src/__generated__/gql';
 
 export const FETCH_PAYMENT_QUERY = gql(/* GraphQL */ `
-  query PaymentMethods($sort: String, $page: String, $filter: JSONObject) {
-    paymentMethods(sort: $sort, page: $page, filter: $filter) {
-      paymentMethods {
-        id
-        name
-        adminVisible
-        enrollmentVisible
-        createdAt
-      }
-      total
+  query PaymentMethods {
+    paymentMethods {
+      id
+      name
+      createdAt
+      adminVisible
+      enrollmentVisible
+    }
+  }
+`);
+
+export const ENROLLMENT_PAYMENT_METHODS = gql(/* GraphQL */ `
+  query EnrollmentPaymentMethods {
+    enrollmentPaymentMethods {
+      id
+      name
+      adminVisible
+      enrollmentVisible
     }
   }
 `);
