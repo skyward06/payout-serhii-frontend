@@ -40,8 +40,8 @@ import { useAuthContext } from 'src/auth/hooks';
 import Calculator from './Calculator';
 import { Schema, type SchemaType } from './schema';
 import { useCreateSignUpOrder } from '../Order/useApollo';
-import { useSignUp, useFetchSignUpPackages } from './useApollo';
 import { useFetchEnrollmentPaymentMethods } from '../Payment/useApollo';
+import { useSignUp, useFetchSignUpPackages, usePaymentMethodPackageRules } from './useApollo';
 
 // ----------------------------------------------------------------------
 
@@ -105,6 +105,7 @@ export function SignUpView({ isComponent = false }: Props) {
   const { user, signOut } = useAuthContext();
   const { packages } = useFetchSignUpPackages();
   const { createSignUpOrder } = useCreateSignUpOrder();
+  const { packageRules } = usePaymentMethodPackageRules();
   const { payments } = useFetchEnrollmentPaymentMethods();
 
   const paymentData = useMemo(
@@ -210,12 +211,37 @@ export function SignUpView({ isComponent = false }: Props) {
   );
 
   useEffect(() => {
+    const paymentMethodPackageMap: Record<string, any[]> = {};
+
+    packages.forEach(({ id }) => {
+      paymentMethodPackageMap[id] = payments.slice();
+
+      const whiteList = packageRules.filter((rule) => rule.packageId === id && rule.isWhiteList);
+      const blackList = packageRules.filter((rule) => rule.packageId === id && !rule.isWhiteList);
+
+      if (whiteList.length > 0) {
+        paymentMethodPackageMap[id] = paymentMethodPackageMap[id].filter((pm) =>
+          whiteList.some((rule) => rule.paymentMethod.toLowerCase() === pm.name.toLowerCase())
+        );
+      }
+
+      if (blackList.length > 0) {
+        paymentMethodPackageMap[id] = paymentMethodPackageMap[id].filter(
+          (pm) =>
+            !blackList.some((rule) => rule.paymentMethod.toLowerCase() === pm.name.toLowerCase())
+        );
+      }
+    });
+
     setProducts(
-      packages.filter((item) =>
-        item.availablePaymentMethods.some((pm) => pm.id === paymentMethod?.split('::')[0])
+      packages.filter(({ id }) =>
+        paymentMethodPackageMap[id].map((item) => item.id).includes(paymentMethod.split('::')[0])
       )
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paymentMethod, packages]);
+
+  console.log('products: ', products);
 
   useEffect(() => {
     localStorage.setItem('payout_reference', refID);

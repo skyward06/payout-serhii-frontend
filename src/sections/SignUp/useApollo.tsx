@@ -4,8 +4,9 @@ import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
 import {
   SIGN_UP_MEMBER,
   FETCH_PROMOS_QUERY,
-  FETCH_SIGNUP_PACKAGES,
+  FETCH_SIGN_UP_PACKAGES,
   SEND_EMAIL_VERIFICATION_CODE,
+  PAYMENT_METHOD_PACKAGE_RULES,
 } from './query';
 
 export function useSignUp() {
@@ -44,8 +45,14 @@ export function useFetchPromos() {
   };
 }
 
+export function usePaymentMethodPackageRules() {
+  const { loading, data, error } = useQuery(PAYMENT_METHOD_PACKAGE_RULES);
+
+  return { loading, packageRules: data?.paymentMethodPackageRules ?? [], error };
+}
+
 export function useFetchSignUpPackages() {
-  const { loading, data, error } = useQuery(FETCH_SIGNUP_PACKAGES);
+  const { loading, data, error } = useQuery(FETCH_SIGN_UP_PACKAGES);
 
   return { loading, packages: data?.signUpPackages ?? [], error };
 }

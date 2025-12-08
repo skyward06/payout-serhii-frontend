@@ -37,7 +37,7 @@ export const FETCH_PROMOS_QUERY = gql(/* GraphQL */ `
   }
 `);
 
-export const FETCH_SIGNUP_PACKAGES = gql(/* GraphQL */ `
+export const FETCH_SIGN_UP_PACKAGES = gql(/* GraphQL */ `
   query SignUpPackages {
     signUpPackages {
       id
@@ -52,9 +52,17 @@ export const FETCH_SIGNUP_PACKAGES = gql(/* GraphQL */ `
       productName
       orderVisibility
       enrollVisibility
-      availablePaymentMethods {
-        id
-      }
+    }
+  }
+`);
+
+export const PAYMENT_METHOD_PACKAGE_RULES = gql(/* GraphQL */ `
+  query PaymentMethodPackageRules {
+    paymentMethodPackageRules {
+      id
+      packageId
+      isWhiteList
+      paymentMethod
     }
   }
 `);

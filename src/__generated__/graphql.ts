@@ -973,18 +973,6 @@ export type EmailTemplateResponse = {
   total?: Maybe<Scalars['Int']['output']>;
 };
 
-export type EnrollmentPaymentMethod = {
-  __typename?: 'EnrollmentPaymentMethod';
-  adminVisible: Scalars['Boolean']['output'];
-  availablePackages: Array<Package>;
-  createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
-  deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
-  enrollmentVisible: Scalars['Boolean']['output'];
-  id: Scalars['ID']['output'];
-  name: Scalars['String']['output'];
-  updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
-};
-
 export type EntityLog = {
   __typename?: 'EntityLog';
   action: Scalars['String']['output'];
@@ -2449,6 +2437,17 @@ export type PaymentMethod = {
   updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
 };
 
+export type PaymentMethodPackageRule = {
+  __typename?: 'PaymentMethodPackageRule';
+  createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
+  deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
+  id: Scalars['ID']['output'];
+  isWhiteList: Scalars['Boolean']['output'];
+  packageId: Scalars['String']['output'];
+  paymentMethod: Scalars['String']['output'];
+  updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
+};
+
 export enum PaymentToken {
   Pyusd = 'PYUSD',
   Txc = 'TXC',
@@ -2882,7 +2881,7 @@ export type Query = {
   emailSystemOverview: EmailOverview;
   emailTemplateById: EmailTemplate;
   emailTemplates: EmailTemplateResponse;
-  enrollmentPaymentMethods: Array<EnrollmentPaymentMethod>;
+  enrollmentPaymentMethods: Array<PaymentMethod>;
   events: Array<Event>;
   generate2FA: Scalars['String']['output'];
   generateCommissionTXCSendmany: Array<CommissionSendmany>;
@@ -2927,6 +2926,7 @@ export type Query = {
   packageBySId: Package;
   packages: PackageResponse;
   paymentMethodById: PaymentMethod;
+  paymentMethodPackageRules: Array<PaymentMethodPackageRule>;
   paymentMethods: Array<PaymentMethod>;
   placementChildrenById: Array<PlacementMember>;
   placementMembersToBottom: Array<PlacementMember>;
@@ -2962,7 +2962,7 @@ export type Query = {
   shippingById: Shipping;
   shippingMemberInfos: Array<ShippingMemberInfo>;
   shippings: ShippingResponse;
-  signUpPackages: Array<SignUpPackage>;
+  signUpPackages: Array<Package>;
   sponsorMembers: Array<SponsorMember>;
   statisticById: Statistics;
   statistics: StatisticsResponse;
@@ -3896,26 +3896,6 @@ export type ShippingResponse = {
   total?: Maybe<Scalars['Int']['output']>;
 };
 
-export type SignUpPackage = {
-  __typename?: 'SignUpPackage';
-  ID: Scalars['Int']['output'];
-  amount: Scalars['Float']['output'];
-  availablePaymentMethods: Array<PaymentMethod>;
-  createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
-  date: Scalars['DateTimeISO']['output'];
-  deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
-  editable: Scalars['Boolean']['output'];
-  enrollVisibility: Scalars['Boolean']['output'];
-  freeShare: Scalars['Boolean']['output'];
-  id: Scalars['ID']['output'];
-  orderVisibility: Scalars['Boolean']['output'];
-  point: Scalars['Float']['output'];
-  productName: Scalars['String']['output'];
-  status: Scalars['Boolean']['output'];
-  token: Scalars['Float']['output'];
-  updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
-};
-
 export type SignupFormInput = {
   assetId?: InputMaybe<Scalars['String']['input']>;
   city?: InputMaybe<Scalars['String']['input']>;
@@ -4765,7 +4745,7 @@ export type PaymentMethodsQuery = { __typename?: 'Query', paymentMethods: Array<
 export type EnrollmentPaymentMethodsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type EnrollmentPaymentMethodsQuery = { __typename?: 'Query', enrollmentPaymentMethods: Array<{ __typename?: 'EnrollmentPaymentMethod', id: string, name: string, adminVisible: boolean, enrollmentVisible: boolean }> };
+export type EnrollmentPaymentMethodsQuery = { __typename?: 'Query', enrollmentPaymentMethods: Array<{ __typename?: 'PaymentMethod', id: string, name: string, adminVisible: boolean, enrollmentVisible: boolean }> };
 
 export type ConfirmPeerPaymentMutationVariables = Exact<{
   data: PeerConfirmationInput;
@@ -5081,7 +5061,12 @@ export type PromosQuery = { __typename?: 'Query', promos: { __typename?: 'Promot
 export type SignUpPackagesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type SignUpPackagesQuery = { __typename?: 'Query', signUpPackages: Array<{ __typename?: 'SignUpPackage', id: string, ID: number, date: any, token: number, point: number, amount: number, status: boolean, editable: boolean, freeShare: boolean, productName: string, orderVisibility: boolean, enrollVisibility: boolean, availablePaymentMethods: Array<{ __typename?: 'PaymentMethod', id: string }> }> };
+export type SignUpPackagesQuery = { __typename?: 'Query', signUpPackages: Array<{ __typename?: 'Package', id: string, ID: number, date: any, token: number, point: number, amount: number, status: boolean, editable: boolean, freeShare: boolean, productName: string, orderVisibility: boolean, enrollVisibility: boolean }> };
+
+export type PaymentMethodPackageRulesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PaymentMethodPackageRulesQuery = { __typename?: 'Query', paymentMethodPackageRules: Array<{ __typename?: 'PaymentMethodPackageRule', id: string, packageId: string, isWhiteList: boolean, paymentMethod: string }> };
 
 export type CreateAddMemberOrderMutationVariables = Exact<{
   data: CreateAddMemberOrderInput;
@@ -5338,7 +5323,8 @@ export const LoginDocument = {"kind":"Document","definitions":[{"kind":"Operatio
 export const SignUpMemberDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SignUpMember"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"SignupFormInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"signUpMember"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"username"}}]}}]}}]} as unknown as DocumentNode<SignUpMemberMutation, SignUpMemberMutationVariables>;
 export const SendEmailVerificationCodeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SendEmailVerificationCode"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sendEmailVerificationCode"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"result"}}]}}]}}]} as unknown as DocumentNode<SendEmailVerificationCodeMutation, SendEmailVerificationCodeMutationVariables>;
 export const PromosDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Promos"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sort"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"page"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"JSONObject"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"promos"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"sort"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sort"}}},{"kind":"Argument","name":{"kind":"Name","value":"page"},"value":{"kind":"Variable","name":{"kind":"Name","value":"page"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"promotions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"endDate"}},{"kind":"Field","name":{"kind":"Name","value":"startDate"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"deletedAt"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]} as unknown as DocumentNode<PromosQuery, PromosQueryVariables>;
-export const SignUpPackagesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SignUpPackages"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"signUpPackages"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"ID"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"token"}},{"kind":"Field","name":{"kind":"Name","value":"point"}},{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"editable"}},{"kind":"Field","name":{"kind":"Name","value":"freeShare"}},{"kind":"Field","name":{"kind":"Name","value":"productName"}},{"kind":"Field","name":{"kind":"Name","value":"orderVisibility"}},{"kind":"Field","name":{"kind":"Name","value":"enrollVisibility"}},{"kind":"Field","name":{"kind":"Name","value":"availablePaymentMethods"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<SignUpPackagesQuery, SignUpPackagesQueryVariables>;
+export const SignUpPackagesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SignUpPackages"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"signUpPackages"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"ID"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"token"}},{"kind":"Field","name":{"kind":"Name","value":"point"}},{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"editable"}},{"kind":"Field","name":{"kind":"Name","value":"freeShare"}},{"kind":"Field","name":{"kind":"Name","value":"productName"}},{"kind":"Field","name":{"kind":"Name","value":"orderVisibility"}},{"kind":"Field","name":{"kind":"Name","value":"enrollVisibility"}}]}}]}}]} as unknown as DocumentNode<SignUpPackagesQuery, SignUpPackagesQueryVariables>;
+export const PaymentMethodPackageRulesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PaymentMethodPackageRules"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"paymentMethodPackageRules"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"packageId"}},{"kind":"Field","name":{"kind":"Name","value":"isWhiteList"}},{"kind":"Field","name":{"kind":"Name","value":"paymentMethod"}}]}}]}}]} as unknown as DocumentNode<PaymentMethodPackageRulesQuery, PaymentMethodPackageRulesQueryVariables>;
 export const CreateAddMemberOrderDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateAddMemberOrder"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateAddMemberOrderInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createAddMemberOrder"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateAddMemberOrderMutation, CreateAddMemberOrderMutationVariables>;
 export const QueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Query"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"LiveStatsArgs"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"liveBlockStats"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"dailyData"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}},{"kind":"Field","name":{"kind":"Name","value":"field"}}]}},{"kind":"Field","name":{"kind":"Name","value":"meta"}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}},{"kind":"Field","name":{"kind":"Name","value":"liveMiningStats"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"dailyData"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}},{"kind":"Field","name":{"kind":"Name","value":"field"}}]}},{"kind":"Field","name":{"kind":"Name","value":"meta"}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}},{"kind":"Field","name":{"kind":"Name","value":"liveUserStats"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"dailyData"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}},{"kind":"Field","name":{"kind":"Name","value":"field"}}]}},{"kind":"Field","name":{"kind":"Name","value":"meta"}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]} as unknown as DocumentNode<QueryQuery, QueryQueryVariables>;
 export const StatisticsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Statistics"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"page"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"JSONObject"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sort"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"statistics"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"page"},"value":{"kind":"Variable","name":{"kind":"Name","value":"page"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}},{"kind":"Argument","name":{"kind":"Name","value":"sort"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sort"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"statistics"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"totalHashPower"}},{"kind":"Field","name":{"kind":"Name","value":"newBlocks"}},{"kind":"Field","name":{"kind":"Name","value":"totalBlocks"}},{"kind":"Field","name":{"kind":"Name","value":"totalMembers"}},{"kind":"Field","name":{"kind":"Name","value":"txcShared"}},{"kind":"Field","name":{"kind":"Name","value":"issuedAt"}},{"kind":"Field","name":{"kind":"Name","value":"from"}},{"kind":"Field","name":{"kind":"Name","value":"to"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"deletedAt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}}]}}]} as unknown as DocumentNode<StatisticsQuery, StatisticsQueryVariables>;

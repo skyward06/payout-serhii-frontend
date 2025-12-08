@@ -24,8 +24,11 @@ import { toast } from 'src/components/SnackBar';
 import { Form, Field } from 'src/components/Form';
 import { SearchMiner } from 'src/components/SearchMiner';
 
-import { useFetchPackages } from 'src/sections/Sales/useApollo';
 import { PlacementSelector } from 'src/sections/Sponsor/Create/placementSelector';
+import {
+  useFetchSignUpPackages,
+  usePaymentMethodPackageRules,
+} from 'src/sections/SignUp/useApollo';
 
 import { useAuthContext } from 'src/auth/hooks';
 
@@ -37,6 +40,7 @@ export default function AddMiner() {
   const { user } = useAuthContext();
 
   const [state, setState] = useState<string>();
+  const [products, setProducts] = useState<any[]>([]);
   const [packageId, setPackageId] = useState<string>();
   const [sponsorId, setSponsorId] = useState<string | null>(null);
   const [placementParentId, setPlacementParentId] = useState<string | null>(null);
@@ -71,8 +75,10 @@ export default function AddMiner() {
   } = methods;
 
   const country = watch('country');
+  const paymentTypeValue = watch('paymentType');
 
-  const { packages, fetchPackages } = useFetchPackages();
+  const { packages } = useFetchSignUpPackages();
+  const { packageRules } = usePaymentMethodPackageRules();
   const { createAddMemberOrder } = useCreateAddMemberOrder();
 
   const handlePackageChange = (value: string) => {
@@ -110,7 +116,7 @@ export default function AddMiner() {
               packageId,
               placementParentId,
               assetId: rest.assetId === '' ? null : rest.assetId,
-              paymentType: paymentType as PaymentType,
+              paymentType: paymentType.toUpperCase() as PaymentType,
               commissionDefault: commissionDefault as CommissionDefault,
               fullName: `${firstName} ${lastName}`,
               ...((user?.isTexitRanger || user?.peerAcceptable) && {
@@ -119,7 +125,7 @@ export default function AddMiner() {
               ...(country !== COUNTRY.USA && {
                 txcAddress,
               }),
-              ...(watch('paymentType') === PaymentType.Gift && {
+              ...(paymentTypeValue?.toUpperCase() === PaymentType.Gift && {
                 giftCode,
               }),
             },
@@ -146,12 +152,34 @@ export default function AddMiner() {
   );
 
   useEffect(() => {
-    fetchPackages({
-      variables: { filter: { status: true, enrollVisibility: true }, sort: '-amount' },
+    const paymentMethodPackageMap: Record<string, any[]> = {};
+
+    packages.forEach(({ id }) => {
+      paymentMethodPackageMap[id] = Object.keys(PaymentType)
+        .filter((item) => item !== 'None')
+        .slice();
+
+      const whiteList = packageRules.filter((rule) => rule.packageId === id && rule.isWhiteList);
+      const blackList = packageRules.filter((rule) => rule.packageId === id && !rule.isWhiteList);
+
+      if (whiteList.length > 0) {
+        paymentMethodPackageMap[id] = paymentMethodPackageMap[id].filter((pm) =>
+          whiteList.some((rule) => rule.paymentMethod.toLowerCase() === pm.toLowerCase())
+        );
+      }
+
+      if (blackList.length > 0) {
+        paymentMethodPackageMap[id] = paymentMethodPackageMap[id].filter(
+          (pm) => !blackList.some((rule) => rule.paymentMethod.toLowerCase() === pm.toLowerCase())
+        );
+      }
     });
 
+    setProducts(
+      packages.filter(({ id }) => paymentMethodPackageMap[id].includes(paymentTypeValue))
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [paymentTypeValue, packages]);
 
   useEffect(() => {
     setValue('assetId', '');
@@ -241,7 +269,7 @@ export default function AddMiner() {
           onChange={(event) => handlePackageChange(event.target.value)}
           required
         >
-          {packages.map((option) => (
+          {products.map((option) => (
             <MenuItem key={option?.id} value={option?.id}>
               {`$${option?.amount} @ ${option?.productName}`}
             </MenuItem>
@@ -285,8 +313,8 @@ export default function AddMiner() {
         </Field.Select>
 
         <Field.Select name="paymentType" label="Payment Type" required>
-          {Object.values(PaymentType)
-            .filter((item) => item !== PaymentType.None)
+          {Object.keys(PaymentType)
+            .filter((item) => item !== 'None')
             .map((option) => (
               <MenuItem key={option} value={option}>
                 {option}
@@ -294,7 +322,7 @@ export default function AddMiner() {
             ))}
         </Field.Select>
 
-        {watch('paymentType') === PaymentType.Gift && (
+        {paymentTypeValue?.toUpperCase() === PaymentType.Gift && (
           <Field.Text name="giftCode" label="Gift Code" />
         )}
       </Box>
