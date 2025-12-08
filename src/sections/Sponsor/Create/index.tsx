@@ -267,6 +267,7 @@ export default function AddMiner() {
           inputProps={{ sx: { width: 'auto', minWidth: '100%' } }}
           value={location.state?.packageId ?? packageId}
           onChange={(event) => handlePackageChange(event.target.value)}
+          helperText="Please select a payment type first"
           required
         >
           {products.map((option) => (
