@@ -21,6 +21,7 @@ export const Schema = zod
     city: zod.string(),
     zipCode: zod.string(),
     state: zod.string(),
+    giftCode: zod.string().optional().nullable(),
     country: zod.string({ required_error: 'Country is required' }),
     primaryAddress: zod.string(),
     sponsorUsername: zod.string(),

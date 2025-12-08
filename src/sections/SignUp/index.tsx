@@ -24,7 +24,6 @@ import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 
 import { useBoolean } from 'src/hooks/useBoolean';
-import useIframeResizer from 'src/hooks/use-iframe-resizer';
 
 import { removeSpecialCharacters } from 'src/utils/helper';
 
@@ -39,11 +38,10 @@ import { Form, Field } from 'src/components/Form';
 import { useAuthContext } from 'src/auth/hooks';
 
 import Calculator from './Calculator';
-import { useSignUp } from './useApollo';
 import { Schema, type SchemaType } from './schema';
-import { useFetchPackages } from '../Sales/useApollo';
-import { useFetchPayments } from '../Payment/useApollo';
 import { useCreateSignUpOrder } from '../Order/useApollo';
+import { useSignUp, useFetchSignUpPackages } from './useApollo';
+import { useFetchEnrollmentPaymentMethods } from '../Payment/useApollo';
 
 // ----------------------------------------------------------------------
 
@@ -54,7 +52,7 @@ interface Props {
 export function SignUpView({ isComponent = false }: Props) {
   const router = useRouter();
   const [state, setState] = useState<string>();
-  const { sendMessage } = useIframeResizer();
+  const [products, setProducts] = useState<any[]>([]);
   const recaptcha = useRef<any>();
 
   const location = useLocation();
@@ -76,6 +74,7 @@ export function SignUpView({ isComponent = false }: Props) {
     uname: '',
     primaryAddress: '',
     secondaryAddress: '',
+    paymentMethod: `${PAYMENT_METHOD_IDS[0]}::Crypto`,
     commissionDefault: CommissionDefault.Usdc,
     state: '',
     country: COUNTRY.USA,
@@ -100,12 +99,13 @@ export function SignUpView({ isComponent = false }: Props) {
   const paymentMethod = watch('paymentMethod');
 
   const isPeerCode = paymentMethod?.split('::')[0] === PAYMENT_METHOD_IDS[1];
+  const isGiftCode = paymentMethod?.split('::')[0] === PAYMENT_METHOD_IDS[4];
 
   const { submitSignUp } = useSignUp();
-  const { payments } = useFetchPayments();
   const { user, signOut } = useAuthContext();
+  const { packages } = useFetchSignUpPackages();
   const { createSignUpOrder } = useCreateSignUpOrder();
-  const { packages, fetchPackages } = useFetchPackages();
+  const { payments } = useFetchEnrollmentPaymentMethods();
 
   const paymentData = useMemo(
     () =>
@@ -118,7 +118,16 @@ export function SignUpView({ isComponent = false }: Props) {
   );
 
   const onSubmit = handleSubmit(
-    async ({ firstName, lastName, sponsorUsername, uname, txcAddress, packageId, ...rest }) => {
+    async ({
+      firstName,
+      lastName,
+      sponsorUsername,
+      uname,
+      txcAddress,
+      packageId,
+      giftCode,
+      ...rest
+    }) => {
       try {
         const captchaValue = recaptcha.current.getValue();
 
@@ -151,6 +160,7 @@ export function SignUpView({ isComponent = false }: Props) {
               fullName: `${trim(firstName)} ${trim(lastName)}`,
               assetId: rest.assetId === '' ? null : rest.assetId,
               sponsorUsername,
+              ...(isGiftCode && { giftCode }),
               ...(country !== COUNTRY.USA && {
                 txcAddress,
               }),
@@ -165,17 +175,11 @@ export function SignUpView({ isComponent = false }: Props) {
 
           const searchParams = new URLSearchParams({ email: rest.email }).toString();
 
-          if (rest.paymentMethod.split('::')[0] === PAYMENT_METHOD_IDS[2]) {
-            router.push(paths.pages.ach.root, {
-              state: {
-                id: data.signUpMember.id,
-                amount: packageId.split('::')[1].split(' @ ')[0].replace('$', ''),
-              },
-            });
-            return;
-          }
-
-          if (rest.paymentMethod.split('::')[0] === PAYMENT_METHOD_IDS[0]) {
+          if (
+            rest.paymentMethod.split('::')[0] === PAYMENT_METHOD_IDS[0] ||
+            rest.paymentMethod.split('::')[0] === PAYMENT_METHOD_IDS[2] ||
+            rest.paymentMethod.split('::')[0] === PAYMENT_METHOD_IDS[4]
+          ) {
             const { data: order } = await createSignUpOrder({
               variables: {
                 data: { memberId: data.signUpMember.id },
@@ -183,24 +187,8 @@ export function SignUpView({ isComponent = false }: Props) {
             });
 
             if (order) {
-              if (isComponent) {
-                sendMessage({
-                  action: 'redirect',
-                  payload: {
-                    url: paths.pages.order.detail(order.createSignUpOrder.id),
-                  },
-                });
-              } else {
-                router.push(paths.pages.order.detail(order.createSignUpOrder.id));
-              }
+              router.push(paths.pages.order.detail(order.createSignUpOrder.id));
             }
-          } else if (isComponent) {
-            sendMessage({
-              action: 'redirect',
-              payload: {
-                url: `${paths.auth.verifyResult}?${searchParams}`,
-              },
-            });
           } else {
             router.push(`${paths.auth.verifyResult}?${searchParams}`);
           }
@@ -213,32 +201,7 @@ export function SignUpView({ isComponent = false }: Props) {
           if (error.path?.includes('username')) {
             setError('uname', { type: 'manual', message: error?.message || '' });
           }
-
-          if (isComponent && window.parent !== window) {
-            window.parent.postMessage(
-              {
-                action: 'showAlert',
-                payload: {
-                  type: 'error',
-                  message: error.message,
-                },
-              },
-              '*'
-            );
-          } else {
-            toast.error(error.message);
-          }
-        } else {
-          window.parent.postMessage(
-            {
-              action: 'showAlert',
-              payload: {
-                type: 'error',
-                message: err,
-              },
-            },
-            '*'
-          );
+          toast.error(error.message);
         }
       } finally {
         recaptcha.current?.reset();
@@ -247,10 +210,14 @@ export function SignUpView({ isComponent = false }: Props) {
   );
 
   useEffect(() => {
-    fetchPackages({
-      variables: { filter: { status: true, enrollVisibility: true }, sort: '-amount' },
-    });
+    setProducts(
+      packages.filter((item) =>
+        item.availablePaymentMethods.some((pm) => pm.id === paymentMethod?.split('::')[0])
+      )
+    );
+  }, [paymentMethod, packages]);
 
+  useEffect(() => {
     localStorage.setItem('payout_reference', refID);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -338,7 +305,6 @@ export function SignUpView({ isComponent = false }: Props) {
 
       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
         <Field.Text name="city" label="City" />
-
         <Field.Text name="zipCode" label="Zip Code" />
       </Stack>
 
@@ -349,7 +315,7 @@ export function SignUpView({ isComponent = false }: Props) {
             label="Package"
             required
             fullWidth
-            options={packages.map(
+            options={products.map(
               (option) => `${option.id}::$${option.amount} @ ${option.productName}`
             )}
             getOptionLabel={(option: any) => option.split('::')[1]}
@@ -420,6 +386,12 @@ export function SignUpView({ isComponent = false }: Props) {
           />
         </Stack>
       </Stack>
+
+      {isGiftCode && (
+        <Stack direction="row" justifyContent="flex-end">
+          <Field.Text name="giftCode" label="Gift Code" sx={{ width: 200 }} />
+        </Stack>
+      )}
 
       {isPeerCode && (
         <Stack direction="row" justifyContent="flex-end">

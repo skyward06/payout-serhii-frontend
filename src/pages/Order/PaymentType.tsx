@@ -1,5 +1,5 @@
 import { PaymentTypeSelector } from 'src/sections/Order/PaymentType';
 
-export default function PaymentSelectorPage() {
+export default function PaymentTypeSelectorPage() {
   return <PaymentTypeSelector />;
 }

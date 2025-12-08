@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import QRCode from 'react-qr-code';
+import { useLocation } from 'react-router';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -15,12 +16,14 @@ import { truncateMiddle } from 'src/utils/helper';
 
 import { CONFIG } from 'src/config';
 import { CHAIN_UNIT, PAYMENT_METHOD } from 'src/consts';
+import { PaymentType } from 'src/__generated__/graphql';
 import { useOrderContext } from 'src/libs/Order/Context/useOrderContext';
 
 import { toast } from 'src/components/SnackBar';
 import { Iconify } from 'src/components/Iconify';
 
 import { Timer } from './Timer';
+import { ACHForm } from '../ACH';
 import { HelpView } from './Help';
 import { useCancelOrder } from './useApollo';
 
@@ -28,6 +31,7 @@ export default function PaymentWaiting() {
   const theme = useTheme();
 
   const { copy } = useCopyToClipboard();
+  const { state } = useLocation();
 
   const { order: current } = useOrderContext();
 
@@ -89,6 +93,10 @@ export default function PaymentWaiting() {
       }
     }
   };
+
+  if (current.paymentType === PaymentType.Ach || state?.isHashAch) {
+    return <ACHForm amount={Number(current.requiredBalance) / 100} orderId={current.id} />;
+  }
 
   return (
     <>

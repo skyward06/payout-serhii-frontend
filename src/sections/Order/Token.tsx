@@ -7,8 +7,8 @@ import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
 import { CONFIG } from 'src/config';
-import { PaymentChain, PaymentToken } from 'src/__generated__/graphql';
 import { useOrderContext } from 'src/libs/Order/Context/useOrderContext';
+import { PaymentType, PaymentChain, PaymentToken } from 'src/__generated__/graphql';
 
 import { toast } from 'src/components/SnackBar';
 import { Iconify } from 'src/components/Iconify';
@@ -27,7 +27,9 @@ export function Token({ paymentType, setPaymentType }: Props) {
   const paymentTokens = useMemo(
     () => [
       ...new Set(
-        order.availablePaymentMethods.map((item) => (item.isP2P ? 'PEER' : item.paymentToken))
+        order?.availablePaymentMethods
+          .filter((item) => item.paymentType === PaymentType.Crypto)
+          .map((item) => item.paymentToken)
       ),
     ],
     [order]

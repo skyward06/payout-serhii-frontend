@@ -1,7 +1,4 @@
-import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
-import { useLocation } from 'react-router';
-import ReCAPTCHA from 'react-google-recaptcha';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import Chip from '@mui/material/Chip';
@@ -16,31 +13,32 @@ import InputAdornment from '@mui/material/InputAdornment';
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 
-import { CONFIG } from 'src/config';
-
 import { toast } from 'src/components/SnackBar';
 import { Iconify } from 'src/components/Iconify';
 import { Form, Field } from 'src/components/Form';
 
-import { useCreateACH } from './useApollo';
+import { useSubmitOrderACH } from './useApollo';
 import { Schema, type SchemaType } from './schema';
 
-export function ACHForm() {
+interface Props {
+  amount: number;
+  orderId: string;
+}
+
+export function ACHForm({ amount, orderId }: Props) {
   const router = useRouter();
-  const { state } = useLocation();
-  const recaptcha = useRef<any>();
 
   const defaultValues = {
     accountNumber: '',
     routingNumber: '',
-    amountInCent: Number(state?.amount ?? 0),
+    amountInCent: amount,
     bankName: '',
     checkNumber: '',
     name: '',
     sign: '',
   };
 
-  const { loading, createACH } = useCreateACH();
+  const { loading, submitOrderACH } = useSubmitOrderACH();
 
   const methods = useForm<SchemaType>({ resolver: zodResolver(Schema), defaultValues });
 
@@ -48,30 +46,18 @@ export function ACHForm() {
 
   const onSubmit = handleSubmit(async ({ amountInCent, ...newData }) => {
     try {
-      const captchaValue = recaptcha.current.getValue();
-
-      if (!captchaValue) {
-        toast.error('Please verify the reCAPTCHA!');
-        return;
-      }
-
-      const { data } = await createACH({
-        id: state.id,
-        recaptcha: captchaValue,
+      const { data } = await submitOrderACH({
+        orderId,
         ...newData,
       });
 
       if (data) {
-        recaptcha.current?.reset();
         router.push(paths.auth.verifyResult);
         toast.success('ACH payment submitted successfully.');
         reset();
       }
     } catch (error) {
-      recaptcha.current?.reset();
       toast.error((error as Error).message || 'Failed to submit ACH payment.');
-    } finally {
-      recaptcha.current?.reset();
     }
   });
 
@@ -97,7 +83,7 @@ export function ACHForm() {
             <Divider textAlign="left">Bank details</Divider>
           </Grid>
 
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={12}>
             <Field.Text
               fullWidth
               name="accountNumber"
@@ -115,7 +101,7 @@ export function ACHForm() {
             />
           </Grid>
 
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={12}>
             <Field.Text
               fullWidth
               name="routingNumber"
@@ -133,7 +119,7 @@ export function ACHForm() {
             />
           </Grid>
 
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={12}>
             <Field.Text
               fullWidth
               name="bankName"
@@ -151,7 +137,7 @@ export function ACHForm() {
             />
           </Grid>
 
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={12}>
             <Field.Text
               fullWidth
               name="checkNumber"
@@ -172,7 +158,7 @@ export function ACHForm() {
             <Divider textAlign="left">Payment & authorization</Divider>
           </Grid>
 
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={12}>
             <Field.Text
               fullWidth
               type="number"
@@ -192,7 +178,7 @@ export function ACHForm() {
             />
           </Grid>
 
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={12}>
             <Field.Text
               fullWidth
               name="name"
@@ -231,9 +217,6 @@ export function ACHForm() {
           </Grid>
 
           <Grid item xs={12}>
-            <Stack direction="row" justifyContent="flex-end">
-              <ReCAPTCHA ref={recaptcha} sitekey={CONFIG.RECAPTCHA_KEY} />
-            </Stack>
             <Stack direction="row" spacing={1.5} justifyContent="flex-end" sx={{ my: 1 }}>
               <LoadingButton
                 variant="outlined"

@@ -7,8 +7,8 @@ import LoadingButton from '@mui/lab/LoadingButton';
 
 import { useRouter } from 'src/routes/hooks';
 
-import { OrderStatus, PaymentToken } from 'src/__generated__/graphql';
 import { useOrderContext } from 'src/libs/Order/Context/useOrderContext';
+import { OrderStatus, PaymentType, PaymentToken } from 'src/__generated__/graphql';
 
 import { toast } from 'src/components/SnackBar';
 
@@ -33,12 +33,9 @@ export default function PaymentSelector() {
         variables: {
           data: {
             id: order!.id,
-            ...(paymentType.paymentToken === 'PEER'
-              ? { isP2P: true }
-              : {
-                  paymentChain: paymentType!.paymentChain,
-                  paymentToken: paymentType!.paymentToken,
-                }),
+            paymentChain: paymentType!.paymentChain,
+            paymentToken: paymentType!.paymentToken,
+            paymentType: PaymentType.Crypto,
           },
         },
       });

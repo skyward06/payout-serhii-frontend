@@ -17,11 +17,13 @@ export const Schema = zod
     secondaryAddress: zod.string(),
     assetId: zod.string().optional().nullable(),
     country: zod.string({ required_error: 'Country is required' }),
+    paymentType: zod.string({ required_error: 'Payment Type is required' }),
     commissionDefault: zod.string({ required_error: 'Commission Default is required' }),
     city: zod.string(),
     mobile: zod.string(),
     zipCode: zod.string(),
     state: zod.string(),
+    giftCode: zod.string().optional().nullable(),
     txcAddress: zod.string().optional().nullable(),
     placementParentId: zod.string().optional().nullable(),
     placementPosition: zod

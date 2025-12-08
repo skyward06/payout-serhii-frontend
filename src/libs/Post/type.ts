@@ -13,14 +13,14 @@ export type PostType = {
     __typename?: 'PostMetaTag';
     slug: string;
     title: string;
-    description: string;
+    description?: string | null;
   }[];
   coverImage?: CoverImage | string | null;
   metaKeywords: {
     __typename?: 'PostMetaKeyword';
     slug: string;
     title: string;
-    description: string;
+    description?: string | null;
   }[];
 };
 

@@ -26,7 +26,7 @@ import { Helmet } from 'react-helmet-async';
 type KeywordObject = {
   title: string;
   slug: string;
-  description: string;
+  description?: string | null;
 };
 
 type SEOProps = {

@@ -18,7 +18,7 @@ import { useRouter } from 'src/routes/hooks';
 import { removeSpecialCharacters } from 'src/utils/helper';
 
 import { COUNTRY } from 'src/consts';
-import { CommissionDefault } from 'src/__generated__/graphql';
+import { PaymentType, CommissionDefault } from 'src/__generated__/graphql';
 
 import { toast } from 'src/components/SnackBar';
 import { Form, Field } from 'src/components/Form';
@@ -80,7 +80,16 @@ export default function AddMiner() {
   };
 
   const onSubmit = handleSubmit(
-    async ({ firstName, lastName, uname, txcAddress, commissionDefault, ...rest }) => {
+    async ({
+      firstName,
+      lastName,
+      uname,
+      txcAddress,
+      giftCode,
+      paymentType,
+      commissionDefault,
+      ...rest
+    }) => {
       try {
         if (!packageId) {
           toast.error('Package is required');
@@ -101,6 +110,7 @@ export default function AddMiner() {
               packageId,
               placementParentId,
               assetId: rest.assetId === '' ? null : rest.assetId,
+              paymentType: paymentType as PaymentType,
               commissionDefault: commissionDefault as CommissionDefault,
               fullName: `${firstName} ${lastName}`,
               ...((user?.isTexitRanger || user?.peerAcceptable) && {
@@ -108,6 +118,9 @@ export default function AddMiner() {
               }),
               ...(country !== COUNTRY.USA && {
                 txcAddress,
+              }),
+              ...(watch('paymentType') === PaymentType.Gift && {
+                giftCode,
               }),
             },
           },
@@ -270,6 +283,20 @@ export default function AddMiner() {
             </MenuItem>
           ))}
         </Field.Select>
+
+        <Field.Select name="paymentType" label="Payment Type" required>
+          {Object.values(PaymentType)
+            .filter((item) => item !== PaymentType.None)
+            .map((option) => (
+              <MenuItem key={option} value={option}>
+                {option}
+              </MenuItem>
+            ))}
+        </Field.Select>
+
+        {watch('paymentType') === PaymentType.Gift && (
+          <Field.Text name="giftCode" label="Gift Code" />
+        )}
       </Box>
 
       <Box display="flex" justifyContent="flex-end" gap={2} alignItems="center" mt={2}>

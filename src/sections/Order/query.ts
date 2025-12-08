@@ -8,15 +8,16 @@ export const FETCH_ORDER_BY_ID = gql(/* GraphQL */ `
       status
       expiredAt
       paidBalance
+      paymentType
       paymentToken
       paymentChain
       acceptFirstTx
       paymentAddress
       requiredBalance
       availablePaymentMethods {
-        isP2P
         paymentChain
         paymentToken
+        paymentType
       }
     }
   }

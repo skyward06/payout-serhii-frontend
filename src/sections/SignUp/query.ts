@@ -22,8 +22,7 @@ export const SEND_EMAIL_VERIFICATION_CODE = gql(/* GraphQL */ `
 export const FETCH_PROMOS_QUERY = gql(/* GraphQL */ `
   query Promos($sort: String, $page: String, $filter: JSONObject) {
     promos(sort: $sort, page: $page, filter: $filter) {
-      promos {
-        id
+      promotions {
         code
         status
         endDate
@@ -38,8 +37,24 @@ export const FETCH_PROMOS_QUERY = gql(/* GraphQL */ `
   }
 `);
 
-export const CHECK_PEER_CODE = gql(/* GraphQL */ `
-  query checkPeerCode($code: String!) {
-    checkIfPeerCodeExists(code: $code)
+export const FETCH_SIGNUP_PACKAGES = gql(/* GraphQL */ `
+  query SignUpPackages {
+    signUpPackages {
+      id
+      ID
+      date
+      token
+      point
+      amount
+      status
+      editable
+      freeShare
+      productName
+      orderVisibility
+      enrollVisibility
+      availablePaymentMethods {
+        id
+      }
+    }
   }
 `);
