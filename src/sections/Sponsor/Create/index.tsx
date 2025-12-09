@@ -164,13 +164,14 @@ export default function AddMiner() {
 
       if (whiteList.length > 0) {
         paymentMethodPackageMap[id] = paymentMethodPackageMap[id].filter((pm) =>
-          whiteList.some((rule) => rule.paymentMethod.toLowerCase() === pm.toLowerCase())
+          whiteList.some((rule) => pm.toLowerCase().includes(rule.paymentMethod.toLowerCase()))
         );
       }
 
       if (blackList.length > 0) {
         paymentMethodPackageMap[id] = paymentMethodPackageMap[id].filter(
-          (pm) => !blackList.some((rule) => rule.paymentMethod.toLowerCase() === pm.toLowerCase())
+          (pm) =>
+            !blackList.some((rule) => pm.toLowerCase().includes(rule.paymentMethod.toLowerCase()))
         );
       }
     });
@@ -318,7 +319,7 @@ export default function AddMiner() {
             .filter((item) => item !== 'None')
             .map((option) => (
               <MenuItem key={option} value={option}>
-                {option}
+                {option === 'Gift' ? 'Gift Card' : option}
               </MenuItem>
             ))}
         </Field.Select>

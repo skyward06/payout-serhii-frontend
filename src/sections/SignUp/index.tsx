@@ -221,14 +221,16 @@ export function SignUpView({ isComponent = false }: Props) {
 
       if (whiteList.length > 0) {
         paymentMethodPackageMap[id] = paymentMethodPackageMap[id].filter((pm) =>
-          whiteList.some((rule) => rule.paymentMethod.toLowerCase() === pm.name.toLowerCase())
+          whiteList.some((rule) => pm.name.toLowerCase().includes(rule.paymentMethod.toLowerCase()))
         );
       }
 
       if (blackList.length > 0) {
         paymentMethodPackageMap[id] = paymentMethodPackageMap[id].filter(
           (pm) =>
-            !blackList.some((rule) => rule.paymentMethod.toLowerCase() === pm.name.toLowerCase())
+            !blackList.some((rule) =>
+              pm.name.toLowerCase().includes(rule.paymentMethod.toLowerCase())
+            )
         );
       }
     });
@@ -240,8 +242,6 @@ export function SignUpView({ isComponent = false }: Props) {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paymentMethod, packages]);
-
-  console.log('products: ', products);
 
   useEffect(() => {
     localStorage.setItem('payout_reference', refID);
@@ -407,7 +407,7 @@ export function SignUpView({ isComponent = false }: Props) {
             getOptionLabel={(option: any) => option.split('::')[1]}
             renderOption={(props, option) => (
               <li {...props} key={option.split('::')[0]}>
-                {option.split('::')[1]}
+                {option.split('::')[1] === 'Gift' ? 'Gift Card' : option.split('::')[1]}
               </li>
             )}
           />
