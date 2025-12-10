@@ -33,7 +33,6 @@ export function ACHForm({ amount, orderId }: Props) {
     routingNumber: '',
     amountInCent: amount,
     bankName: '',
-    checkNumber: '',
     name: '',
     sign: '',
   };
@@ -131,23 +130,6 @@ export function ACHForm({ amount, orderId }: Props) {
                 startAdornment: (
                   <InputAdornment position="start">
                     <Iconify icon="mdi:bank-outline" width={20} />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={12}>
-            <Field.Text
-              fullWidth
-              name="checkNumber"
-              label="Check Number"
-              placeholder="Optional"
-              helperText="Optional reference/check number"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Iconify icon="mdi:checkbox-marked-outline" width={20} />
                   </InputAdornment>
                 ),
               }}

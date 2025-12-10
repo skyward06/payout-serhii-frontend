@@ -1,25 +1,22 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 import { useRouter } from 'src/routes/hooks';
 
 import { PaymentType } from 'src/__generated__/graphql';
 import { useOrderContext } from 'src/libs/Order/Context/useOrderContext';
 
+import { toast } from 'src/components/SnackBar';
 import { Iconify } from 'src/components/Iconify';
 
 import PaymentSelector from './PaymentSelector';
-import { useSetOrderPayment } from './useApollo';
-
-const PAYMENT_TYPES = [
-  { label: 'Ach', icon: 'ant-design:bank-filled' },
-  { label: 'Crypto', icon: 'material-symbols:token-outline-rounded' },
-];
+import { useCancelOrder, useSetOrderPayment } from './useApollo';
 
 export function PaymentTypeSelector() {
   const theme = useTheme();
@@ -28,7 +25,23 @@ export function PaymentTypeSelector() {
   const [step, setStep] = useState<number>(0);
 
   const { order } = useOrderContext();
+  const { loading: canceling, cancelOrder } = useCancelOrder();
   const { loading, setOrderPayment } = useSetOrderPayment();
+
+  const PAYMENT_TYPES: any[] = useMemo(() => {
+    const baseTypes = [
+      {
+        label: 'Crypto',
+        icon: 'material-symbols:token-outline-rounded',
+      },
+    ];
+
+    if (order.availablePaymentMethods.map((item) => item.paymentType).includes(PaymentType.Ach)) {
+      baseTypes.push({ label: 'Ach', icon: 'ant-design:bank-filled' });
+    }
+
+    return baseTypes;
+  }, [order]);
 
   const handleNext = async () => {
     if (type === 'Ach') {
@@ -41,6 +54,16 @@ export function PaymentTypeSelector() {
       }
     } else {
       setStep(1);
+    }
+  };
+
+  const handleCancel = async () => {
+    try {
+      await cancelOrder({ variables: { data: { id: order.id } } });
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
     }
   };
 
@@ -94,7 +117,9 @@ export function PaymentTypeSelector() {
           </Box>
 
           <Stack direction="row" justifyContent="flex-end" spacing={2}>
-            <Button variant="outlined">Cancel</Button>
+            <LoadingButton variant="outlined" loading={canceling} onClick={handleCancel}>
+              Cancel
+            </LoadingButton>
             <Button variant="contained" color="primary" onClick={handleNext}>
               Next
             </Button>

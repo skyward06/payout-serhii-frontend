@@ -36,8 +36,6 @@ export const Schema = zod.object({
     .trim()
     .min(1, { message: 'Bank Name must be at least 1 characters' }),
 
-  checkNumber: zod.string().optional().nullable(),
-
   name: zod
     .string({ required_error: 'Name is required' })
     .trim()

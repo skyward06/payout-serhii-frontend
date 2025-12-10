@@ -77,6 +77,13 @@ export default function AddMiner() {
   const country = watch('country');
   const paymentTypeValue = watch('paymentType');
 
+  const paymentTypeData =
+    user?.country === COUNTRY.USA
+      ? Object.keys(PaymentType).filter((item) => item !== 'None')
+      : Object.keys(PaymentType)
+          .filter((item) => item !== 'None')
+          .filter((item) => item !== 'Ach');
+
   const { packages } = useFetchSignUpPackages();
   const { packageRules } = usePaymentMethodPackageRules();
   const { createAddMemberOrder } = useCreateAddMemberOrder();
@@ -315,13 +322,11 @@ export default function AddMiner() {
         </Field.Select>
 
         <Field.Select name="paymentType" label="Payment Type" required>
-          {Object.keys(PaymentType)
-            .filter((item) => item !== 'None')
-            .map((option) => (
-              <MenuItem key={option} value={option}>
-                {option === 'Gift' ? 'Gift Card' : option}
-              </MenuItem>
-            ))}
+          {paymentTypeData.map((option) => (
+            <MenuItem key={option} value={option}>
+              {option === 'Gift' ? 'Gift Card' : option}
+            </MenuItem>
+          ))}
         </Field.Select>
 
         {paymentTypeValue?.toUpperCase() === PaymentType.Gift && (
