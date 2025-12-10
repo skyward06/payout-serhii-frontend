@@ -19,16 +19,14 @@ import { removeSpecialCharacters } from 'src/utils/helper';
 
 import { COUNTRY } from 'src/consts';
 import { PaymentType, CommissionDefault } from 'src/__generated__/graphql';
+import { usePackagesContext } from 'src/libs/Packages/Context/usePackagesContext';
 
 import { toast } from 'src/components/SnackBar';
 import { Form, Field } from 'src/components/Form';
 import { SearchMiner } from 'src/components/SearchMiner';
 
+import { usePaymentMethodPackageRules } from 'src/sections/SignUp/useApollo';
 import { PlacementSelector } from 'src/sections/Sponsor/Create/placementSelector';
-import {
-  useFetchSignUpPackages,
-  usePaymentMethodPackageRules,
-} from 'src/sections/SignUp/useApollo';
 
 import { useAuthContext } from 'src/auth/hooks';
 
@@ -58,6 +56,7 @@ export default function AddMiner() {
     state: '',
     zipCode: '',
     city: '',
+    paymentType: 'Crypto',
     commissionDefault: CommissionDefault.Usdc,
   };
 
@@ -84,7 +83,7 @@ export default function AddMiner() {
           .filter((item) => item !== 'None')
           .filter((item) => item !== 'Ach');
 
-  const { packages } = useFetchSignUpPackages();
+  const { packages } = usePackagesContext();
   const { packageRules } = usePaymentMethodPackageRules();
   const { createAddMemberOrder } = useCreateAddMemberOrder();
 
@@ -268,6 +267,14 @@ export default function AddMiner() {
           <SearchMiner label="Sponsor" setMemberId={setSponsorId} />
         )}
 
+        <Field.Select name="paymentType" label="Payment Type" required>
+          {paymentTypeData.map((option) => (
+            <MenuItem key={option} value={option}>
+              {option === 'Gift' ? 'Gift Card' : option}
+            </MenuItem>
+          ))}
+        </Field.Select>
+
         <Field.Select
           name="packageId"
           label="Package"
@@ -317,14 +324,6 @@ export default function AddMiner() {
           {Object.values(CommissionDefault).map((option) => (
             <MenuItem key={option} value={option}>
               {option}
-            </MenuItem>
-          ))}
-        </Field.Select>
-
-        <Field.Select name="paymentType" label="Payment Type" required>
-          {paymentTypeData.map((option) => (
-            <MenuItem key={option} value={option}>
-              {option === 'Gift' ? 'Gift Card' : option}
             </MenuItem>
           ))}
         </Field.Select>
