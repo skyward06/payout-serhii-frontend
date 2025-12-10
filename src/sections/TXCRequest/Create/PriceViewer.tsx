@@ -24,14 +24,15 @@ interface Props {
 export function PriceViewer({ loading, price, getPrice }: Props) {
   return (
     <Stack spacing={2}>
-      <Box>
+      <Stack direction="row" spacing={1} alignItems="baseline">
         <Typography variant="h2" lineHeight={1}>
           {fCurrency(price, { minimumFractionDigits: 4, maximumFractionDigits: 4 })}
         </Typography>
-        <Typography variant="caption" sx={{ opacity: 0.8, mt: 0.5 }}>
-          per coin
+        <Typography variant="body1">/</Typography>
+        <Typography variant="caption" sx={{ opacity: 0.8 }}>
+          TXC
         </Typography>
-      </Box>
+      </Stack>
 
       <Stack direction="row" spacing={1} alignItems="center">
         <Tooltip title="Refresh to get current price" arrow placement="bottom">
@@ -74,7 +75,7 @@ export function PriceViewer({ loading, price, getPrice }: Props) {
 
       <Box p={1.5} borderRadius={1} bgcolor="rgba(255, 255, 255, 0.12)">
         <Typography variant="caption" color="inherit" display="block" sx={{ opacity: 0.9 }}>
-          * Includes 5% convenience fee
+          Includes 5% convenience fee
         </Typography>
       </Box>
     </Stack>

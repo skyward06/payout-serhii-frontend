@@ -25,7 +25,7 @@ const TIPS = [
   {
     icon: 'solar:chat-round-call-bold-duotone',
     title: 'Need Help?',
-    text: 'Submit a ticket in your dashboard',
+    text: 'Submit a ticket',
   },
 ] as const;
 
