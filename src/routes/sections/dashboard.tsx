@@ -52,6 +52,10 @@ const CommunicationPage = lazy(() => import('src/pages/Communication'));
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
+const PackageProvider = lazy(() => import('src/libs/Packages'));
+// ----------------------------------------------------------------------
+
+// ----------------------------------------------------------------------
 const TXCRequestPage = lazy(() => import('src/pages/TXCRequest/List'));
 const TXCRequestCreatePage = lazy(() => import('src/pages/TXCRequest/Create'));
 // ----------------------------------------------------------------------
@@ -128,7 +132,14 @@ export const dashboardRoutes = [
               { path: 'added', element: <SponsorListPage allowState="ADDED" /> },
               { path: 'graveyard', element: <SponsorListPage allowState="GRAVEYARD" /> },
               { path: 'tree', element: <SponsorTreePage /> },
-              { path: 'new', element: <SponsorNewPage /> },
+              {
+                path: 'new',
+                element: (
+                  <PackageProvider>
+                    <SponsorNewPage />
+                  </PackageProvider>
+                ),
+              },
             ],
           },
         ],
