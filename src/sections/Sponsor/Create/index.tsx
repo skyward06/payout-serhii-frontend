@@ -33,7 +33,7 @@ import { useAuthContext } from 'src/auth/hooks';
 import { Schema, type SchemaType } from './schema';
 import { useCreateAddMemberOrder } from '../useApollo';
 
-export default function AddMiner() {
+export function AddMiner() {
   const router = useRouter();
   const { user } = useAuthContext();
 

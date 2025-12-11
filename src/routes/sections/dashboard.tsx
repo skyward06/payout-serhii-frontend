@@ -88,11 +88,11 @@ export const dashboardRoutes = [
     element: (
       <AuthGuard>
         <DashboardLayout>
-          <DashboardContent>
-            <Suspense fallback={<LoadingScreen />}>
+          <Suspense fallback={<LoadingScreen />}>
+            <DashboardContent maxWidth="xl">
               <Outlet />
-            </Suspense>
-          </DashboardContent>
+            </DashboardContent>
+          </Suspense>
         </DashboardLayout>
       </AuthGuard>
     ),

@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import { CONFIG } from 'src/config';
 import { MemberState } from 'src/__generated__/graphql';
 
-import SponsorNew from 'src/sections/Sponsor/Create';
+import { AddMiner } from 'src/sections/Sponsor/Create';
 
 import { useAuthContext } from 'src/auth/hooks';
 
@@ -26,7 +26,7 @@ export default function SponsorCreatePage() {
           </Typography>
         </Box>
       ) : (
-        <SponsorNew />
+        <AddMiner />
       )}
     </>
   );
