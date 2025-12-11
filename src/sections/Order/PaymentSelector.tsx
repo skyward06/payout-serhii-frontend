@@ -62,8 +62,14 @@ export default function PaymentSelector() {
       setStep(1);
       return;
     }
+
     if (!paymentType) {
       toast.error('Payment is required');
+      return;
+    }
+
+    if (!paymentType.chain) {
+      toast.error('Chain is required');
       return;
     }
 
