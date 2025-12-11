@@ -68,7 +68,7 @@ export default function PaymentSelector() {
       return;
     }
 
-    if (!paymentType.chain) {
+    if (!paymentType.paymentChain) {
       toast.error('Chain is required');
       return;
     }
