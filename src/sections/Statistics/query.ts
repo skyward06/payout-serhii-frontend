@@ -52,29 +52,6 @@ export const FETCH_STATISTICS_QUERY = gql(/* GraphQL */ `
   }
 `);
 
-export const FETCH_MEMBER_STATISTICS_QUERY = gql(/* GraphQL */ `
-  query TXCMemberStatistics($page: String, $filter: JSONObject, $sort: String) {
-    memberStatistics(page: $page, filter: $filter, sort: $sort) {
-      memberStatistics {
-        id
-        hashPower
-        txcShared
-        issuedAt
-        percent
-        createdAt
-        updatedAt
-        deletedAt
-        member {
-          id
-          username
-          fullName
-        }
-      }
-      total
-    }
-  }
-`);
-
 export const FETCH_HISTORY_STATISTICS_QUERY = gql(/* GraphQL */ `
   query HistoryStatistics($page: String, $filter: JSONObject, $sort: String) {
     statistics(page: $page, filter: $filter, sort: $sort) {

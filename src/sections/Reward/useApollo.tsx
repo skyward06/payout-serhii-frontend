@@ -1,7 +1,11 @@
 import { useRef, useMemo } from 'react';
 import { useQuery, useLazyQuery } from '@apollo/client';
 
-import { REWARD_BY_WALLETS, FETCH_MEMBER_STATISTICS_QUERY } from './query';
+import {
+  REWARD_BY_WALLETS,
+  FETCH_MEMBER_STATISTICS,
+  MEMBER_STATISTICS_WALLETS_BY_DATE,
+} from './query';
 
 export function useFetchReward({ from, to }: { from: string; to: string }) {
   const { loading, data } = useQuery(REWARD_BY_WALLETS, {
@@ -12,7 +16,7 @@ export function useFetchReward({ from, to }: { from: string; to: string }) {
 }
 
 export function useFetchMemberStatistics() {
-  const [fetchMemberStatistics, { loading, data }] = useLazyQuery(FETCH_MEMBER_STATISTICS_QUERY);
+  const [fetchMemberStatistics, { loading, data }] = useLazyQuery(FETCH_MEMBER_STATISTICS);
 
   const rowCountRef = useRef(data?.memberStatistics.total ?? 0);
 
@@ -31,5 +35,17 @@ export function useFetchMemberStatistics() {
     rowCount,
     memberStatistics: data?.memberStatistics.memberStatistics ?? [],
     fetchMemberStatistics,
+  };
+}
+
+export function useFetchMemberStatisticsWalletsByDate() {
+  const [fetchMemberStatisticsWalletsByDate, { loading, data }] = useLazyQuery(
+    MEMBER_STATISTICS_WALLETS_BY_DATE
+  );
+
+  return {
+    loading,
+    wallets: data?.memberStatisticWalletsByDate ?? [],
+    fetchMemberStatisticsWalletsByDate,
   };
 }
