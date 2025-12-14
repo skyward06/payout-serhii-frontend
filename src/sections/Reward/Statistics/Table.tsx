@@ -1,5 +1,4 @@
-import { useMemo } from 'react';
-import { useQuery as useGraphQuery } from '@apollo/client';
+import { useMemo, useEffect } from 'react';
 
 import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
@@ -15,13 +14,12 @@ import { LoadingScreen } from 'src/components/loading-screen';
 import { useTable, TableHeadCustom, TablePaginationCustom } from 'src/components/Table';
 
 import TableRow from './TableRow';
-import { FETCH_MEMBER_STATISTICS_QUERY } from '../query';
+import { useFetchMemberStatistics } from '../useApollo';
 
 import type { IMemberStatisticsTableFilters } from './types';
 
 const TABLE_HEAD = [
   { id: 'issuedAt', label: 'Date', width: 200, sortable: true },
-  { id: 'username', label: 'Username', width: 200, sortable: true },
   { id: 'hashPower', label: 'Hash Power', width: 200, sortable: true },
   { id: 'reward', label: 'Rewarded TXC', width: 200, sortable: true },
   { id: 'percent', label: 'Percent', width: 130, sortable: true },
@@ -48,15 +46,18 @@ export default function BlocksTable({ id }: Props) {
       .join(',');
   }, [sort]);
 
-  const { loading, data: memberStatisticsData } = useGraphQuery(FETCH_MEMBER_STATISTICS_QUERY, {
-    variables: {
-      page: page && `${page.page},${page.pageSize}`,
-      filter: { statisticsId: id },
-      sort: graphQuerySort,
-    },
-  });
+  const { loading, rowCount, memberStatistics, fetchMemberStatistics } = useFetchMemberStatistics();
 
-  const memberStatistics = memberStatisticsData?.memberStatistics.memberStatistics ?? [];
+  useEffect(() => {
+    fetchMemberStatistics({
+      variables: {
+        page: page && `${page.page},${page.pageSize}`,
+        filter: { statisticsId: id },
+        sort: graphQuerySort,
+      },
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query, id, fetchMemberStatistics]);
 
   return (
     <Grid container spacing={1}>
@@ -80,9 +81,7 @@ export default function BlocksTable({ id }: Props) {
                     order={sort && sort[Object.keys(sort)[0]]}
                     orderBy={sort && Object.keys(sort)[0]}
                     headLabel={TABLE_HEAD}
-                    rowCount={
-                      loading ? 0 : memberStatisticsData?.memberStatistics.memberStatistics!.length
-                    }
+                    rowCount={rowCount}
                     onSort={(currentId) => {
                       const isAsc = sort && sort[currentId] === 'asc';
                       const newSort = { [id]: isAsc ? 'desc' : ('asc' as SortOrder) };
@@ -101,7 +100,7 @@ export default function BlocksTable({ id }: Props) {
         </TableContainer>
 
         <TablePaginationCustom
-          count={loading ? 0 : memberStatisticsData?.memberStatistics!.total!}
+          count={loading ? 0 : rowCount!}
           page={loading ? 0 : page!.page - 1}
           rowsPerPage={page?.pageSize}
           onPageChange={(_, curPage) => {

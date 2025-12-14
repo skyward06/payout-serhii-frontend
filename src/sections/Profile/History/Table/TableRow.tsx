@@ -19,7 +19,7 @@ type Props = {
 
 export function TableItemRow({ row, selected }: Props) {
   const theme = useTheme();
-  const { issuedAt, hashPower, txcShared, percent } = row;
+  const { issuedAt, hashPower, txcShared, statistic } = row;
 
   return (
     <TableRow
@@ -90,18 +90,10 @@ export function TableItemRow({ row, selected }: Props) {
             letterSpacing={-1}
             sx={{ fontVariantNumeric: 'tabular-nums' }}
           >
-            {fNumber(percent / 100)} %
+            {fNumber(txcShared / (statistic?.txcShared ?? 0) / 100)} %
           </Typography>
         </Box>
       </TableCell>
-
-      {/* <TableCell>
-        <LabelRenderer
-          color={sent ? 'success' : 'error'}
-          value={sent ? 'Received' : 'Not Received'}
-          icon={sent ? 'solar:check-circle-bold' : 'solar:close-circle-bold'}
-        />
-      </TableCell> */}
     </TableRow>
   );
 }

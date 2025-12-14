@@ -4,14 +4,11 @@ import { CONFIG } from 'src/config';
 
 import StatisticsDetail from 'src/sections/Reward/Statistics/Detail';
 
-// ----------------------------------------------------------------------
-const metadata = { title: `${CONFIG.site.name} / Statistics` };
-
 export default function Page() {
   return (
     <>
       <Helmet>
-        <title>{metadata.title}</title>
+        <title>{`${CONFIG.site.name} - Reward`}</title>
       </Helmet>
 
       <StatisticsDetail />

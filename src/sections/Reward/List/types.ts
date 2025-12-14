@@ -9,15 +9,8 @@ export type IStatisticsPrismaFilter = {
   issuedAt?: any;
 };
 
-export type RewardByWallet = {
-  __typename?: 'RewardByWallet';
+export type RewardByAddress = {
+  __typename?: 'RewardByAddress';
   txc: bigint;
-  wallet: {
-    __typename?: 'MemberWallet';
-    address: string;
-    payout?: {
-      __typename?: 'Payout';
-      method: string;
-    } | null;
-  };
+  address: string;
 };

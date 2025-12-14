@@ -1,5 +1,5 @@
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useQuery as useGraphQuery } from '@apollo/client';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -21,7 +21,7 @@ import {
   TablePaginationCustom,
 } from 'src/components/Table';
 
-import { FETCH_MEMBER_STATISTICS_QUERY } from 'src/sections/Reward/query';
+import { useFetchMemberStatistics } from 'src/sections/Reward/useApollo';
 
 import { TableItemRow } from './TableRow';
 import { LoadingContent } from './LoadingContent';
@@ -33,7 +33,6 @@ const TABLE_HEAD = [
   { id: 'hashPower', label: 'Hash Power', width: 200, sortable: true },
   { id: 'reward', label: 'Rewarded TXC', width: 200, sortable: true },
   { id: 'percent', label: 'Percent', width: 130, sortable: true },
-  // { id: 'sent', label: 'Received', width: 120, sortable: true },
 ];
 
 export default function MemberStatistics() {
@@ -46,17 +45,20 @@ export default function MemberStatistics() {
 
   const { page = { page: 1, pageSize: 10 } } = query;
 
-  const { loading, data } = useGraphQuery(FETCH_MEMBER_STATISTICS_QUERY, {
-    variables: {
-      page: page && `${page.page},${page.pageSize}`,
-      filter: { memberId },
-      sort: 'issuedAt',
-    },
-  });
+  const { loading, memberStatistics, rowCount, fetchMemberStatistics } = useFetchMemberStatistics();
 
-  const tableData = data?.memberStatistics ?? { memberStatistics: [], total: 0 };
+  const notFound = !memberStatistics?.length;
 
-  const notFound = !tableData?.memberStatistics?.length;
+  useEffect(() => {
+    fetchMemberStatistics({
+      variables: {
+        page: page && `${page.page},${page.pageSize}`,
+        filter: { memberId },
+        sort: 'issuedAt',
+      },
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query, memberId, fetchMemberStatistics]);
 
   return (
     <Card
@@ -116,12 +118,9 @@ export default function MemberStatistics() {
                 },
               }}
             >
-              <TableHeadCustom
-                headLabel={TABLE_HEAD}
-                rowCount={loading ? 0 : tableData?.memberStatistics?.length}
-              />
+              <TableHeadCustom headLabel={TABLE_HEAD} rowCount={rowCount} />
               <TableBody>
-                {tableData.memberStatistics!.map((row) => (
+                {memberStatistics!.map((row) => (
                   <TableItemRow
                     key={row!.id}
                     row={row!}
@@ -151,7 +150,7 @@ export default function MemberStatistics() {
         }}
       >
         <TablePaginationCustom
-          count={loading ? 0 : tableData.total!}
+          count={loading ? 0 : rowCount!}
           page={loading ? 0 : page!.page - 1}
           rowsPerPage={page?.pageSize}
           onPageChange={(_, curPage) => {

@@ -1,5 +1,3 @@
-import { useLazyQuery } from '@apollo/client';
-
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import Tooltip from '@mui/material/Tooltip';
@@ -22,7 +20,7 @@ import { Label } from 'src/components/Label';
 import { Iconify } from 'src/components/Iconify';
 import { TableSkeleton } from 'src/components/Table';
 
-import { FETCH_MEMBER_STATISTICS_WALLETS_QUERY } from '../../query';
+import { useFetchMemberStatisticsWalletsByDate } from '../../useApollo';
 
 // ----------------------------------------------------------------------
 
@@ -33,7 +31,7 @@ type Props = {
 };
 
 export default function StatisticsTableRow({ row, selected }: Props) {
-  const { id, sent, issuedAt, txcShared, statistic } = row;
+  const { sent, issuedAt, txcShared, statistic } = row;
 
   const { status, newBlocks, totalMembers, totalHashPower } = statistic;
 
@@ -41,14 +39,8 @@ export default function StatisticsTableRow({ row, selected }: Props) {
 
   const collapsible = useBoolean();
 
-  const [fetchMemberStatistics, { loading, data }] = useLazyQuery(
-    FETCH_MEMBER_STATISTICS_WALLETS_QUERY,
-    {
-      variables: { filter: { issuedAt } },
-    }
-  );
-
-  const reward = data?.memberStatisticsWallets.memberStatisticsWallets ?? [];
+  const { loading, wallets, fetchMemberStatisticsWalletsByDate } =
+    useFetchMemberStatisticsWalletsByDate();
 
   return (
     <>
@@ -56,7 +48,7 @@ export default function StatisticsTableRow({ row, selected }: Props) {
         selected={selected}
         onClick={() => {
           if (!collapsible.value) {
-            fetchMemberStatistics();
+            fetchMemberStatisticsWalletsByDate({ variables: { data: { issuedAt } } });
           }
         }}
       >
@@ -86,7 +78,7 @@ export default function StatisticsTableRow({ row, selected }: Props) {
             <Tooltip title="View" placement="top" arrow>
               <IconButton
                 color="success"
-                onClick={() => router.push(paths.dashboard.reward.view(id))}
+                onClick={() => router.push(paths.dashboard.reward.view(statistic.id))}
               >
                 <Iconify icon="solar:eye-bold" />
               </IconButton>
@@ -115,7 +107,6 @@ export default function StatisticsTableRow({ row, selected }: Props) {
                   <TableRow>
                     <TableCell>date</TableCell>
                     <TableCell>address</TableCell>
-                    <TableCell>hashPower</TableCell>
                     <TableCell>txc</TableCell>
                   </TableRow>
                 </TableHead>
@@ -123,16 +114,15 @@ export default function StatisticsTableRow({ row, selected }: Props) {
                 <TableBody>
                   {loading ? (
                     <>
-                      {new Array(3).fill('').map(() => (
+                      {new Array(1).fill('').map(() => (
                         <TableSkeleton height={7} />
                       ))}
                     </>
                   ) : (
-                    reward?.map((item) => (
+                    wallets?.map((item) => (
                       <TableRow key={item?.id}>
                         <TableCell>{formatDate(item?.issuedAt)}</TableCell>
-                        <TableCell>{item?.memberWallet?.address}</TableCell>
-                        <TableCell>{item?.memberStatistic?.hashPower}</TableCell>
+                        <TableCell>{item?.address}</TableCell>
                         <TableCell>{(item?.txc ?? 0) / 10 ** 8}</TableCell>
                       </TableRow>
                     ))

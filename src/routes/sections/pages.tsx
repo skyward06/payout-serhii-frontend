@@ -26,7 +26,6 @@ const IntroductionPage = lazy(() => import('src/pages/Introduction'));
 const AboutUsPage = lazy(() => import('src/pages/AboutUs'));
 const RapidRewardsPage = lazy(() => import('src/pages/RapidRewards'));
 const SilverGuaranteePage = lazy(() => import('src/pages/SilverGuarantee'));
-const RewardDetailPage = lazy(() => import('src/pages/MemberStatistics/List'));
 const CommissionConfirmationPage = lazy(() => import('src/pages/Commission/Confirmation'));
 const ConfirmAddressPage = lazy(() => import('src/pages/ConfirmAddress'));
 const NewHomePage = lazy(() => import('src/pages/NewHomePage'));
@@ -61,16 +60,6 @@ export const statisticsRoutes: RouteObject[] = [
       <Suspense fallback={<LoadingScreen />}>
         <MainLayout>
           <StatisticsPage />
-        </MainLayout>
-      </Suspense>
-    ),
-  },
-  {
-    path: 'reward/:id',
-    element: (
-      <Suspense fallback={<LoadingScreen />}>
-        <MainLayout>
-          <RewardDetailPage />
         </MainLayout>
       </Suspense>
     ),

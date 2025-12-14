@@ -1,5 +1,6 @@
+import type { MemberStatistics } from 'src/__generated__/graphql';
+
 import type { Sale } from '../Sales/List/type';
-import type { MemberStatistics } from '../MemberStatistics/List/type';
 
 export type StatisticsSale = {
   __typename?: 'StatisticsSale';
