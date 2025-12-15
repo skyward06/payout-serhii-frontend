@@ -29,14 +29,7 @@ export default function SaleListView() {
         resizable: true,
         editable: false,
         cellClass: 'ag-cell-center',
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicSale>) => (
-          <LabelRenderer
-            icon="solar:bill-list-bold"
-            value={formatID(data?.ID!, 'S')}
-            color="primary"
-            variant="outlined"
-          />
-        ),
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicSale>) => formatID(data?.ID!, 'S'),
       },
       {
         field: 'productName',
@@ -61,11 +54,6 @@ export default function SaleListView() {
         editable: false,
         cellClass: 'ag-cell-center',
         filterParams: { buttons: ['reset'] } as ITextFilterParams,
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicSale>) => (
-          <Box display="flex">
-            <LabelRenderer icon="solar:card-bold" value={data?.paymentMethod!} color="success" />
-          </Box>
-        ),
       },
       {
         field: 'amount',
@@ -74,15 +62,8 @@ export default function SaleListView() {
         filter: 'agNumberColumnFilter',
         resizable: true,
         editable: false,
-        cellClass: 'ag-cell-center ',
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicSale>) => (
-          <IconRenderer
-            icon="material-symbols:paid-outline-rounded"
-            value={fCurrency(data?.amount)}
-            color="info"
-            sx={{ justifyContent: 'space-between' }}
-          />
-        ),
+        cellClass: 'ag-cell-center ag-right-aligned-cell',
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicSale>) => fCurrency(data?.amount),
       },
       {
         field: 'token',
@@ -91,14 +72,7 @@ export default function SaleListView() {
         filter: 'agNumberColumnFilter',
         resizable: true,
         editable: false,
-        cellClass: 'ag-cell-center',
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicSale>) => (
-          <IconRenderer
-            icon="solar:routing-2-bold"
-            value={data?.token!}
-            sx={{ justifyContent: 'space-between' }}
-          />
-        ),
+        cellClass: 'ag-cell-center ag-right-aligned-cell',
       },
       {
         field: 'point',
@@ -128,9 +102,7 @@ export default function SaleListView() {
         editable: false,
         initialSort: 'desc',
         cellClass: 'ag-cell-center',
-        cellRenderer: ({ data }: CustomCellRendererProps<BasicSale>) => (
-          <IconRenderer icon="lineicons:calendar-days" value={formatDate(data?.createdAt)} />
-        ),
+        cellRenderer: ({ data }: CustomCellRendererProps<BasicSale>) => formatDate(data?.orderedAt),
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
