@@ -16,7 +16,7 @@ import ListItemText from '@mui/material/ListItemText';
 import { useCopyToClipboard } from 'src/hooks/use-copy-to-clipboard';
 
 import { formatID } from 'src/utils/helper';
-import { fNumber } from 'src/utils/formatNumber';
+import { fNumber, fCurrency } from 'src/utils/formatNumber';
 import { formatDate, formatTime } from 'src/utils/format-time';
 
 import { TXC_REQUEST_STATUS } from 'src/consts';
@@ -26,7 +26,7 @@ import { AgGrid } from 'src/components/AgGrid';
 import { toast } from 'src/components/SnackBar';
 import { Iconify } from 'src/components/Iconify';
 import { type LabelColor } from 'src/components/Label';
-import { IconRenderer, LabelRenderer } from 'src/components/ItemRenderers';
+import { LabelRenderer } from 'src/components/ItemRenderers';
 
 import { parseType } from './parseType';
 import { useFetchTXCRequestList } from '../useApollo';
@@ -87,14 +87,8 @@ export default function TXCRequestList() {
         editable: false,
         sortable: false,
         cellClass: 'tabular-nums ag-right-aligned-cell ag-cell-center',
-        cellRenderer: ({ data }: CustomCellRendererProps<TXCRequest>) => (
-          <IconRenderer
-            icon="material-symbols:paid-outline-rounded"
-            value={fNumber(Number(data?.inputBalanceInCent) / 100, { minimumFractionDigits: 2 })}
-            color="info"
-            sx={{ justifyContent: 'space-between' }}
-          />
-        ),
+        cellRenderer: ({ data }: CustomCellRendererProps<TXCRequest>) =>
+          fCurrency(Number(data?.inputBalanceInCent) / 100, { minimumFractionDigits: 2 }),
       },
       {
         field: 'sentBalance',
@@ -154,19 +148,14 @@ export default function TXCRequestList() {
         editable: false,
         cellClass: 'tabular-nums',
         cellRenderer: ({ data }: CustomCellRendererProps<TXCRequest>) => (
-          <IconRenderer
-            icon="lineicons:calendar-days"
-            value={
-              <ListItemText
-                primary={formatDate(data?.paidAt)}
-                secondary={formatTime(data?.paidAt)}
-                primaryTypographyProps={{ typography: 'body2' }}
-                secondaryTypographyProps={{
-                  component: 'span',
-                  color: 'text.disabled',
-                }}
-              />
-            }
+          <ListItemText
+            primary={formatDate(data?.paidAt)}
+            secondary={formatTime(data?.paidAt)}
+            primaryTypographyProps={{ typography: 'body2' }}
+            secondaryTypographyProps={{
+              component: 'span',
+              color: 'text.disabled',
+            }}
           />
         ),
       },
