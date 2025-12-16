@@ -233,7 +233,7 @@ export function SignUpView({ isComponent = false }: Props) {
 
     setProducts(
       packages.filter(({ id }) =>
-        paymentMethodPackageMap[id].map((item) => item.id).includes(paymentMethod.split('::')[0])
+        paymentMethodPackageMap[id].map((item) => item.id).includes(paymentMethod?.split('::')[0])
       )
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps

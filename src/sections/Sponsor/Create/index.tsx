@@ -183,7 +183,7 @@ export function AddMiner() {
       packages.filter(({ id }) => paymentMethodPackageMap[id].includes(paymentTypeValue))
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [paymentTypeValue, packages]);
+  }, [paymentTypeValue, packages, packageRules]);
 
   useEffect(() => {
     setValue('assetId', '');
