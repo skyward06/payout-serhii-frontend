@@ -221,16 +221,12 @@ export function SignUpView({ isComponent = false }: Props) {
 
       if (whiteList.length > 0) {
         paymentMethodPackageMap[id] = paymentMethodPackageMap[id].filter((pm) =>
-          whiteList.some((rule) => pm.name.toLowerCase().includes(rule.paymentMethod.toLowerCase()))
+          whiteList.some((rule) => pm.name.toLowerCase() === rule.paymentMethod.toLowerCase())
         );
-      }
-
-      if (blackList.length > 0) {
+      } else if (blackList.length > 0) {
         paymentMethodPackageMap[id] = paymentMethodPackageMap[id].filter(
           (pm) =>
-            !blackList.some((rule) =>
-              pm.name.toLowerCase().includes(rule.paymentMethod.toLowerCase())
-            )
+            !blackList.some((rule) => pm.name.toLowerCase() === rule.paymentMethod.toLowerCase())
         );
       }
     });

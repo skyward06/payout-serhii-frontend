@@ -170,14 +170,11 @@ export function AddMiner() {
 
       if (whiteList.length > 0) {
         paymentMethodPackageMap[id] = paymentMethodPackageMap[id].filter((pm) =>
-          whiteList.some((rule) => pm.toLowerCase().includes(rule.paymentMethod.toLowerCase()))
+          whiteList.some((rule) => pm.toLowerCase() === rule.paymentMethod.toLowerCase())
         );
-      }
-
-      if (blackList.length > 0) {
+      } else if (blackList.length > 0) {
         paymentMethodPackageMap[id] = paymentMethodPackageMap[id].filter(
-          (pm) =>
-            !blackList.some((rule) => pm.toLowerCase().includes(rule.paymentMethod.toLowerCase()))
+          (pm) => !blackList.some((rule) => pm.toLowerCase() === rule.paymentMethod.toLowerCase())
         );
       }
     });
