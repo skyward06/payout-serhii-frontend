@@ -84,6 +84,14 @@ export function HelpView() {
             Please be cautious when clicking the cancel button, as it will close your order
           </Typography>
         </Stack>
+
+        <Stack direction="row" spacing={2}>
+          <Iconify icon="lets-icons:check-fill" color="primary.main" />
+          <Typography variant="body2">
+            Only first transaction will be processed by the system, subsequent transactions will be
+            ignored
+          </Typography>
+        </Stack>
       </Box>
 
       <Divider sx={{ borderStyle: 'dashed', my: 2 }} />
