@@ -15,7 +15,6 @@ import {
   VERIFY_2FA_TOKEN,
   VERIFY_2FA_ENABLE,
   EMAIL_VERIFY_CODE,
-  UPDATE_SETTING_MEMBER,
   MEMBER_EXCHANGE_LOGIN,
   UPDATE_MEMBER_PASSWORD,
   FETCH_MEMBER_STATISTICS,
@@ -109,15 +108,6 @@ export function useDisable2FA() {
   const [disable2FA, { loading, data, error }] = useMutation(DISABLE_2FA);
 
   return { loading, data, error, disable2FA };
-}
-
-export function useUpdateSettingMember() {
-  const [updateSettingMember, { loading, data, error }] = useMutation(UPDATE_SETTING_MEMBER, {
-    awaitRefetchQueries: true,
-    refetchQueries: ['fetchMe'],
-  });
-
-  return { loading, data, error, updateSettingMember };
 }
 
 export function useMemberLogout() {

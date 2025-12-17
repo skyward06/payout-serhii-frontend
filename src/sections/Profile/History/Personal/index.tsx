@@ -6,7 +6,6 @@ import { BasicInfo } from './Basic';
 import { AddressInfo } from './Address';
 import { AccountInfo } from './Account';
 import { PaymentInfo } from './Payment';
-import { SettingsInfo } from './Settings';
 
 export default function Personal() {
   const { user } = useAuthContext();
@@ -24,8 +23,6 @@ export default function Personal() {
       <TeamInfo />
 
       {user?.memberWallets && user.memberWallets.length > 0 && <PaymentInfo />}
-
-      <SettingsInfo />
     </>
   );
 }

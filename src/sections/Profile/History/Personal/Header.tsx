@@ -11,8 +11,6 @@ import { CustomAvatar } from 'src/components/CustomAvatar';
 
 import { useAuthContext } from 'src/auth/hooks';
 
-import { Setting } from '../Setting';
-
 export function Header() {
   const theme = useTheme();
   const { user } = useAuthContext();
@@ -35,8 +33,6 @@ export function Header() {
               <Chip label={user?.username} size="small" variant="soft" />
             </Stack>
           </Stack>
-
-          <Setting />
         </Stack>
       </Box>
     </Card>

@@ -2,7 +2,6 @@ import type { Sale } from 'src/sections/Sales/List/type';
 import type { WeeklyCommission } from 'src/sections/Commission/type';
 import type {
   Session,
-  Setting,
   EntityLog,
   AdminNotes,
   TeamReport,
@@ -109,7 +108,6 @@ export type Member = {
     fullName: string;
   } | null;
   session?: Session | null;
-  setting?: Setting | null;
   sponsorId?: string | null;
   sales?: Array<Sale> | null;
   shareIsTexitRanger: boolean;
