@@ -52,6 +52,10 @@ const CommunicationPage = lazy(() => import('src/pages/Communication'));
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
+const EmailRegionListPage = lazy(() => import('src/pages/Region'));
+// ----------------------------------------------------------------------
+
+// ----------------------------------------------------------------------
 const PackageProvider = lazy(() => import('src/libs/Packages'));
 // ----------------------------------------------------------------------
 
@@ -144,14 +148,9 @@ export const dashboardRoutes = [
           },
         ],
       },
-      {
-        path: 'placement',
-        children: [{ index: true, element: <PlacementListPage /> }],
-      },
-      {
-        path: 'commission',
-        children: [{ index: true, element: <CommissionListPage /> }],
-      },
+      { path: 'placement', element: <PlacementListPage /> },
+      { path: 'commission', element: <CommissionListPage /> },
+      { path: 'email-region', element: <EmailRegionListPage /> },
       {
         path: 'resource',
         children: [

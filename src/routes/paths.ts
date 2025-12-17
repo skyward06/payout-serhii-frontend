@@ -37,7 +37,8 @@ const ROOTS = {
   SILVER_GUARANTEE: '/silverbugs',
   SPONSOR: '/sponsorships',
   TEAM: '/team',
-  TXC_REQUEST: 'txc-request',
+  TXC_REQUEST: '/txc-request',
+  EMAIL_REGION: '/email-region',
 
   // Widget
   WIDGET: '/widget',
@@ -46,6 +47,8 @@ const ROOTS = {
   PEER: '/peer',
 
   CONFIRM_ADDRESS: '/confirm-address',
+
+  CONFIRM_UNSUBSCRIBE: '/unsubscribe',
 
   EVENT: '/event',
 
@@ -138,15 +141,10 @@ export const paths = {
       root: ROOTS.PROFILE,
       activation: `${ROOTS.PROFILE}/activation`,
     },
-    notifications: {
-      root: ROOTS.NOTIFICATIONS,
-    },
-    communication: {
-      root: ROOTS.COMMUNICATION,
-    },
-    team: {
-      root: ROOTS.TEAM,
-    },
+    notifications: { root: ROOTS.NOTIFICATIONS },
+    communication: { root: ROOTS.COMMUNICATION },
+    emailRegion: { root: ROOTS.EMAIL_REGION },
+    team: { root: ROOTS.TEAM },
     invoice: { root: ROOTS.INVOICE },
     txcRequest: { root: ROOTS.TXC_REQUEST, new: `${ROOTS.TXC_REQUEST}/new` },
     reimbursement: {
@@ -165,6 +163,8 @@ export const paths = {
   event: { root: ROOTS.EVENT },
 
   confirmAddress: ROOTS.CONFIRM_ADDRESS,
+
+  confirmUnsubscribe: ROOTS.CONFIRM_UNSUBSCRIBE,
 
   comingSoon: ROOTS.COMING_SOON,
 

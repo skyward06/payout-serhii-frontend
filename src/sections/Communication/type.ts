@@ -3,8 +3,8 @@ import type { EmailStatus } from 'src/__generated__/graphql';
 export type EmailRecipient = {
   __typename?: 'EmailRecipient';
   id: string;
-  email: string;
   sender: string;
+  receiver: string;
   isVisible: boolean;
   senderName: string;
   status: EmailStatus;

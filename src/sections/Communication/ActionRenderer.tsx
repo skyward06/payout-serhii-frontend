@@ -34,5 +34,5 @@ export const ActionRender = memo(
       </>
     );
   },
-  (prev, next) => prev.data?.email === next.data?.email
+  (prev, next) => prev.data?.id === next.data?.id
 );

@@ -34,6 +34,7 @@ const EventPage = lazy(() => import('src/pages/Event'));
 const PostPage = lazy(() => import('src/pages/Post/List'));
 const PostViewPage = lazy(() => import('src/pages/Post/View'));
 const PostProvider = lazy(() => import('src/libs/Post'));
+const ConfirmUnsubscribePage = lazy(() => import('src/pages/Region/Confirm'));
 // ----------------------------------------------------------------------
 
 export const statisticsRoutes: RouteObject[] = [
@@ -119,6 +120,16 @@ export const statisticsRoutes: RouteObject[] = [
       </AuthCenteredLayout>
     ),
   },
+
+  {
+    path: 'unsubscribe',
+    element: (
+      <AuthCenteredLayout>
+        <ConfirmUnsubscribePage />
+      </AuthCenteredLayout>
+    ),
+  },
+
   {
     path: 'new-homepage',
     element: (

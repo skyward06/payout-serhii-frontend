@@ -36,7 +36,7 @@ export default function CommunicationTable() {
         filterParams: { buttons: ['reset'] } as ITextFilterParams,
       },
       {
-        field: 'email',
+        field: 'receiver',
         headerName: 'Email',
         width: 300,
         filter: 'agTextColumnFilter',
@@ -44,7 +44,7 @@ export default function CommunicationTable() {
         editable: false,
         filterParams: { buttons: ['reset'] } as ITextFilterParams,
         cellRenderer: ({ data }: CustomCellRendererProps<EmailRecipient>) => (
-          <IconRenderer icon="ic:outline-email" value={data?.email!} />
+          <IconRenderer icon="ic:outline-email" value={data?.receiver!} />
         ),
       },
       {

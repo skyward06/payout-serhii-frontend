@@ -69,6 +69,7 @@ export const navData = [
       { title: 'Reward', path: paths.dashboard.reward.root, icon: ICONS.reward },
       { title: 'Team', path: paths.dashboard.team.root, icon: ICONS.team },
       { title: 'Communication', path: paths.dashboard.communication.root, icon: ICONS.send },
+      { title: 'Email Region', path: paths.dashboard.emailRegion.root, icon: ICONS.send },
       { title: 'TXC Purchase', path: paths.dashboard.txcRequest.root, icon: ICONS.txc_buy },
       { title: 'Reimbursement', path: paths.dashboard.reimbursement.root, icon: ICONS.backup },
       { title: 'My account', path: paths.dashboard.profile.root, icon: ICONS.user },
