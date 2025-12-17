@@ -6,12 +6,12 @@ export const FETCH_EMAIL_RECIPIENTS = gql(/* GraphQL */ `
       emailRecipients {
         id
         body
-        email
         sender
         status
         sentAt
         subject
         openedAt
+        receiver
         isVisible
         senderName
       }
@@ -25,14 +25,44 @@ export const FETCH_CAMPAIGN_MEMBER = gql(/* GraphQL */ `
     emailRecipientById(id: $emailRecipientByIdId) {
       id
       body
-      email
       sender
       status
       sentAt
       subject
       openedAt
+      receiver
       isVisible
       senderName
+    }
+  }
+`);
+
+export const EMAIL_REGION_WITH_UNSUBSCRIBE = gql(/* GraphQL */ `
+  query EmailRegionsWithUnsubscribe {
+    emailRegionsWithUnsubscribe {
+      id
+      region
+      description
+      unsubscribed
+      unsubscribedAt
+    }
+  }
+`);
+
+export const SUBSCRIBE_EMAIL_REGION = gql(/* GraphQL */ `
+  mutation SubscribeEmailRegion($subscribeEmailRegionId: ID!) {
+    subscribeEmailRegion(id: $subscribeEmailRegionId) {
+      result
+      message
+    }
+  }
+`);
+
+export const UNSUBSCRIBE_EMAIL_REGION = gql(/* GraphQL */ `
+  mutation UnsubscribeEmailRegion($unsubscribeEmailRegionId: ID!) {
+    unsubscribeEmailRegion(id: $unsubscribeEmailRegionId) {
+      result
+      message
     }
   }
 `);
