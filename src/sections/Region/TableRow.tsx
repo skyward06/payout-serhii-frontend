@@ -1,10 +1,9 @@
 import type { EmailRegionWithUnsubscribe } from 'src/__generated__/graphql';
 
-import { ListItemText } from '@mui/material';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 
-import { formatDate, formatTime } from 'src/utils/format-time';
+import { formatDateTime } from 'src/utils/format-time';
 
 import { ActionRenderer } from './ActionRenderer';
 
@@ -19,15 +18,7 @@ export function EmailRegionTableRow({ row }: Props) {
       <TableCell align="left">{row.description}</TableCell>
       <TableCell align="left">{row.unsubscribed ? 'Unsubscribed' : 'Subscribed'}</TableCell>
       <TableCell align="left">
-        <ListItemText
-          primary={row?.unsubscribedAt ? formatDate(row.unsubscribedAt) : '—'}
-          secondary={row?.unsubscribedAt ? formatTime(row.unsubscribedAt) : ''}
-          primaryTypographyProps={{ typography: 'subtitle1' }}
-          secondaryTypographyProps={{
-            component: 'span',
-            color: 'text.disabled',
-          }}
-        />
+        {row?.unsubscribedAt ? formatDateTime(row.unsubscribedAt, 'MM/DD/YYYY hh:mm a') : '-'}
       </TableCell>
       <TableCell>
         <ActionRenderer id={row.id} isSubscribed={!row.unsubscribed} />

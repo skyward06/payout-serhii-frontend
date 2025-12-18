@@ -498,6 +498,7 @@ export type Campaign = {
   id: Scalars['ID']['output'];
   listInfo?: Maybe<Scalars['String']['output']>;
   overview: EmailOverview;
+  region?: Maybe<EmailRegion>;
   sender: Scalars['String']['output'];
   senderName: Scalars['String']['output'];
   status: CampaignStatus;
