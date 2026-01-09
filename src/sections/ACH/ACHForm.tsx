@@ -1,227 +1,151 @@
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import type { PlaidLinkOptions } from 'react-plaid-link';
 
-import Chip from '@mui/material/Chip';
-import Grid from '@mui/material/Grid';
-import Alert from '@mui/material/Alert';
+import { ApolloError } from '@apollo/client';
+import { usePlaidLink } from 'react-plaid-link';
+import { useMemo, useState, useEffect, useCallback } from 'react';
+
+import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import Divider from '@mui/material/Divider';
+import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import LoadingButton from '@mui/lab/LoadingButton';
-import InputAdornment from '@mui/material/InputAdornment';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 
+import { fCurrency } from 'src/utils/formatNumber';
+
+import { useOrderContext } from 'src/libs/Order/Context/useOrderContext';
+
+import { Label } from 'src/components/Label';
 import { toast } from 'src/components/SnackBar';
 import { Iconify } from 'src/components/Iconify';
-import { Form, Field } from 'src/components/Form';
 
-import { useSubmitOrderACH } from './useApollo';
-import { Schema, type SchemaType } from './schema';
+import { HelpView } from './Helper';
+import {
+  useCreatePlaidLinkToken,
+  useSubmitOrderACHWithPlaid,
+  useExchangePlaidPublicToken,
+} from './useApollo';
 
 interface Props {
   amount: number;
-  orderId: string;
 }
 
-export function ACHForm({ amount, orderId }: Props) {
+export function ACHForm({ amount }: Props) {
   const router = useRouter();
 
-  const defaultValues = {
-    accountNumber: '',
-    routingNumber: '',
-    amountInCent: amount,
-    bankName: '',
-    name: '',
-    sign: '',
-  };
+  const { order } = useOrderContext();
+  const [linkToken, setLinkToken] = useState<string>('');
 
-  const { loading, submitOrderACH } = useSubmitOrderACH();
+  const { createPlaidLinkToken } = useCreatePlaidLinkToken();
+  const { submitOrderACHWithPlaid } = useSubmitOrderACHWithPlaid();
+  const { exchangePlaidPublicToken } = useExchangePlaidPublicToken();
 
-  const methods = useForm<SchemaType>({ resolver: zodResolver(Schema), defaultValues });
+  const handleExchangePlaid = useCallback(
+    async ({ public_token }: { public_token: string }) => {
+      try {
+        const { data } = await exchangePlaidPublicToken({ publicToken: public_token });
 
-  const { reset, handleSubmit } = methods;
+        if (data) {
+          const account = data.exchangePlaidPublicToken.accounts[0];
 
-  const onSubmit = handleSubmit(async ({ amountInCent, ...newData }) => {
-    try {
-      const { data } = await submitOrderACH({
-        orderId,
-        ...newData,
-      });
+          if (data.exchangePlaidPublicToken.accounts.length > 1) {
+            toast.warning('Multiple accounts detected. Using the first one selected.');
+          }
+
+          if ((account.balances.available ?? 0) < (order.requiredBalance ?? 0)) {
+            toast.warning(
+              `Insufficient funds in the selected account. Available: $${account.balances.available}, Required: $${(order.requiredBalance ?? 0) / 100}. But this is just for bank account verification. So you can charge before real transaction.`,
+              { duration: 10000 }
+            );
+          }
+
+          const { data: result } = await submitOrderACHWithPlaid({
+            name: account.name,
+            orderId: order.id,
+            plaidAccessToken: data.exchangePlaidPublicToken.accessToken,
+            plaidAccountId: account.accountId,
+            checkNumber: account.accountNumber,
+            sign: account.name,
+          });
+
+          if (result?.submitOrderACHPaymentWithPlaid.ID) {
+            router.push(paths.auth.verifyResult);
+          }
+        }
+      } catch (err) {
+        if (err instanceof ApolloError) {
+          const [error] = err.graphQLErrors;
+
+          if (error.message.includes('Insufficient funds')) {
+            toast.warning(`${error.message} `, { duration: 10000 });
+          } else {
+            toast.error(error.message);
+          }
+        }
+      }
+    },
+    [exchangePlaidPublicToken, submitOrderACHWithPlaid, order, router]
+  );
+
+  const config: PlaidLinkOptions = useMemo(
+    () => ({
+      onSuccess: (public_token: string) => {
+        handleExchangePlaid({ public_token });
+      },
+      token: linkToken,
+    }),
+    [linkToken, handleExchangePlaid]
+  );
+
+  const { open, ready } = usePlaidLink(config);
+
+  useEffect(() => {
+    async function createPlaid() {
+      const { data } = await createPlaidLinkToken({ id: order.id });
 
       if (data) {
-        router.push(paths.auth.verifyResult);
-        toast.success('ACH payment submitted successfully.');
-        reset();
+        setLinkToken(data.createPlaidLinkToken.linkToken);
       }
-    } catch (error) {
-      toast.error((error as Error).message || 'Failed to submit ACH payment.');
     }
-  });
+
+    createPlaid();
+  }, [order, createPlaidLinkToken]);
 
   return (
-    <>
-      <Stack spacing={1.5} sx={{ mb: 2.5 }}>
-        <Stack direction="row" alignItems="center" spacing={1}>
-          <Iconify icon="mdi:bank-transfer" width={24} />
-          <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            ACH Payment Details
+    <Stack spacing={3}>
+      <Box mt={2} display="grid" gap={1}>
+        <Stack direction="row" justifyContent="space-between" alignItems="center">
+          <Typography variant="body2" color="text.secondary">
+            Payment method
           </Typography>
-          <Chip size="small" label="ACH" color="primary" variant="soft" />
+          <Label variant="soft" color="primary">
+            ACH
+          </Label>
         </Stack>
-        <Alert severity="info" variant="outlined">
-          Enter the bank account and payment information below. Double-check numbers before
-          submitting.
-        </Alert>
-      </Stack>
+        <Stack direction="row" justifyContent="space-between" alignItems="center">
+          <Typography variant="body2" color="text.secondary">
+            Amount Required
+          </Typography>
+          <Typography variant="body2" color="primary.main">
+            {fCurrency(amount)}
+          </Typography>
+        </Stack>
+      </Box>
 
-      <Form methods={methods} onSubmit={onSubmit}>
-        <Grid container spacing={2.5}>
-          <Grid item xs={12}>
-            <Divider textAlign="left">Bank details</Divider>
-          </Grid>
+      <Button
+        fullWidth
+        variant="contained"
+        color="primary"
+        onClick={() => open()}
+        disabled={!ready}
+        startIcon={<Iconify icon="eva:link-2-fill" />}
+        sx={{ py: 1.5 }}
+      >
+        {ready ? 'Verify Bank Account with Plaid' : 'Loading...'}
+      </Button>
 
-          <Grid item xs={12} sm={12}>
-            <Field.Text
-              fullWidth
-              name="accountNumber"
-              label="Account Number"
-              required
-              placeholder="e.g., 000123456789"
-              helperText="Your bank account number"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Iconify icon="mdi:card-account-details-outline" width={20} />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={12}>
-            <Field.Text
-              fullWidth
-              name="routingNumber"
-              label="Routing Number"
-              required
-              placeholder="9-digit routing number"
-              helperText="ABA routing number (9 digits)"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Iconify icon="mdi:shield-key-outline" width={20} />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={12}>
-            <Field.Text
-              fullWidth
-              name="bankName"
-              label="Bank Name"
-              required
-              placeholder="e.g., First National Bank"
-              helperText="Name of your bank"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Iconify icon="mdi:bank-outline" width={20} />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            <Divider textAlign="left">Payment & authorization</Divider>
-          </Grid>
-
-          <Grid item xs={12} sm={12}>
-            <Field.Text
-              fullWidth
-              type="number"
-              name="amountInCent"
-              label="Amount"
-              required
-              disabled
-              placeholder="e.g., 19.99"
-              helperText="Enter the amount (e.g., 19.99). Minimum 0."
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Iconify icon="mdi:currency-usd" width={20} />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={12}>
-            <Field.Text
-              fullWidth
-              name="name"
-              label="Account Holder Name"
-              required
-              placeholder="Full legal name"
-              helperText="Name on the bank account"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Iconify icon="mdi:account-outline" width={20} />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            <Field.Text
-              fullWidth
-              name="sign"
-              label="Signature"
-              required
-              placeholder="Type your full name as signature"
-              helperText="By signing, you authorize this ACH debit."
-              multiline
-              rows={3}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Iconify icon="mdi:signature-freehand" width={20} />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            <Stack direction="row" spacing={1.5} justifyContent="flex-end" sx={{ my: 1 }}>
-              <LoadingButton
-                variant="outlined"
-                color="inherit"
-                onClick={() => reset(defaultValues)}
-                startIcon={<Iconify icon="mdi:restart" width={18} />}
-              >
-                Reset
-              </LoadingButton>
-
-              <LoadingButton
-                type="submit"
-                color="primary"
-                variant="contained"
-                loading={loading}
-                startIcon={<Iconify icon="mdi:check-circle-outline" width={18} />}
-              >
-                Submit
-              </LoadingButton>
-            </Stack>
-          </Grid>
-        </Grid>
-      </Form>
-    </>
+      <HelpView />
+    </Stack>
   );
 }
