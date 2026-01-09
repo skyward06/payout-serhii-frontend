@@ -49,7 +49,6 @@ export const FETCH_ME_QUERY = gql(/* GraphQL */ `
       groupSetting {
         id
         name
-        potentialType
         commissionDefaults
       }
       commission {

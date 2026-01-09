@@ -95,7 +95,7 @@ export default function PaymentWaiting() {
   };
 
   if (current.paymentType === PaymentType.Ach || state?.isHashAch) {
-    return <ACHForm amount={Number(current.requiredBalance) / 100} orderId={current.id} />;
+    return <ACHForm amount={Number(current.requiredBalance) / 100} />;
   }
 
   return (

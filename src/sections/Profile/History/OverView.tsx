@@ -5,7 +5,7 @@ import Divider from '@mui/material/Divider';
 
 import { fNumber } from 'src/utils/formatNumber';
 
-import { POTENTIAL_TYPE, CASH_POTENTIAL_URL } from 'src/consts';
+import { CASH_POTENTIAL_URL } from 'src/consts';
 
 import { Iconify } from 'src/components/Iconify';
 
@@ -31,7 +31,8 @@ export default function OverView() {
           {fNumber(user?.potential ?? 0)}
           <Stack direction="row" justifyContent="space-around" alignItems="center">
             <Box component="span" sx={{ color: 'text.secondary', typography: 'body2' }}>
-              {`${POTENTIAL_TYPE[user?.groupSetting?.potentialType!]?.label} Potential`}
+              {/* {`${POTENTIAL_TYPE[user?.groupSetting?.potentialType!]?.label} Potential`} */}
+              Potential
             </Box>
             {user?.isTexitRanger && (
               <Iconify
