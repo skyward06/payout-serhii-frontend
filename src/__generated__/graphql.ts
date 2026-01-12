@@ -132,6 +132,32 @@ export type AchStatusChangeInput = {
   reason?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type AchStatusWithOrder = {
+  __typename?: 'ACHStatusWithOrder';
+  ID: Scalars['Int']['output'];
+  acceptFirstTx: Scalars['Boolean']['output'];
+  availablePaymentMethods: Array<OrderPaymentMethod>;
+  completedAt?: Maybe<Scalars['DateTimeISO']['output']>;
+  createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
+  deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
+  expiredAt: Scalars['DateTimeISO']['output'];
+  id: Scalars['ID']['output'];
+  insufficientFunds: Scalars['Boolean']['output'];
+  member: Member;
+  orderRequest: OrderRequest;
+  paidAt?: Maybe<Scalars['DateTimeISO']['output']>;
+  paidBalance: Scalars['BigInt']['output'];
+  paymentAddress?: Maybe<Scalars['String']['output']>;
+  paymentChain?: Maybe<PaymentChain>;
+  paymentToken?: Maybe<PaymentToken>;
+  paymentType: PaymentType;
+  requiredBalance?: Maybe<Scalars['BigInt']['output']>;
+  status: OrderStatus;
+  transactions?: Maybe<Array<Transaction>>;
+  updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
+  usdBalance: Scalars['Float']['output'];
+};
+
 export type AccessTokenResponse = {
   __typename?: 'AccessTokenResponse';
   accessToken: Scalars['String']['output'];
@@ -1564,7 +1590,7 @@ export type Mutation = {
   setTransactionalEmail: TransactionalEmail;
   signUpMember: SignupMemberResponse;
   submitACH: Ach;
-  submitOrderACHPaymentWithPlaid: Order;
+  submitOrderACHPaymentWithPlaid: AchStatusWithOrder;
   subscribeEmailRegion: SuccessResponse;
   suspendCommission: SuspendedCommissions;
   unpublishPost: Post;
@@ -4683,7 +4709,7 @@ export type SubmitOrderAchPaymentWithPlaidMutationVariables = Exact<{
 }>;
 
 
-export type SubmitOrderAchPaymentWithPlaidMutation = { __typename?: 'Mutation', submitOrderACHPaymentWithPlaid: { __typename?: 'Order', ID: number } };
+export type SubmitOrderAchPaymentWithPlaidMutation = { __typename?: 'Mutation', submitOrderACHPaymentWithPlaid: { __typename?: 'ACHStatusWithOrder', ID: number } };
 
 export type CreatePlaidLinkTokenMutationVariables = Exact<{
   data: IdInput;
