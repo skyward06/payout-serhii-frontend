@@ -9,8 +9,7 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-import { paths } from 'src/routes/paths';
-import { useRouter } from 'src/routes/hooks';
+import { useBoolean } from 'src/hooks/useBoolean';
 
 import { fCurrency } from 'src/utils/formatNumber';
 
@@ -21,24 +20,22 @@ import { toast } from 'src/components/SnackBar';
 import { Iconify } from 'src/components/Iconify';
 
 import { HelpView } from './Helper';
-import {
-  useCreatePlaidLinkToken,
-  useSubmitOrderACHWithPlaid,
-  useExchangePlaidPublicToken,
-} from './useApollo';
+import { ConfirmationHolder } from './ConfirmationHolder';
+import { useCreatePlaidLinkToken, useExchangePlaidPublicToken } from './useApollo';
 
 interface Props {
   amount: number;
 }
 
 export function ACHForm({ amount }: Props) {
-  const router = useRouter();
+  const isOpen = useBoolean();
+  const [accessToken, setAccessToken] = useState<string>('');
+  const [selectedAccount, setSelectedAccount] = useState<any>(null);
 
   const { order } = useOrderContext();
   const [linkToken, setLinkToken] = useState<string>('');
 
   const { createPlaidLinkToken } = useCreatePlaidLinkToken();
-  const { submitOrderACHWithPlaid } = useSubmitOrderACHWithPlaid();
   const { exchangePlaidPublicToken } = useExchangePlaidPublicToken();
 
   const handleExchangePlaid = useCallback(
@@ -60,18 +57,9 @@ export function ACHForm({ amount }: Props) {
             );
           }
 
-          const { data: result } = await submitOrderACHWithPlaid({
-            name: account.name,
-            orderId: order.id,
-            plaidAccessToken: data.exchangePlaidPublicToken.accessToken,
-            plaidAccountId: account.accountId,
-            checkNumber: account.accountNumber,
-            sign: account.name,
-          });
-
-          if (result?.submitOrderACHPaymentWithPlaid.ID) {
-            router.push(paths.auth.verifyResult);
-          }
+          setSelectedAccount(account);
+          setAccessToken(data.exchangePlaidPublicToken.accessToken);
+          isOpen.onTrue();
         }
       } catch (err) {
         if (err instanceof ApolloError) {
@@ -85,7 +73,8 @@ export function ACHForm({ amount }: Props) {
         }
       }
     },
-    [exchangePlaidPublicToken, submitOrderACHWithPlaid, order, router]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [exchangePlaidPublicToken, order]
   );
 
   const config: PlaidLinkOptions = useMemo(
@@ -146,6 +135,13 @@ export function ACHForm({ amount }: Props) {
       </Button>
 
       <HelpView />
+
+      <ConfirmationHolder
+        open={isOpen}
+        accessToken={accessToken}
+        account={selectedAccount}
+        orderId={order.id}
+      />
     </Stack>
   );
 }
