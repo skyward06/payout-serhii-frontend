@@ -31,7 +31,7 @@ export default function OverView() {
           {fNumber(user?.potential ?? 0)}
           <Stack direction="row" justifyContent="space-around" alignItems="center">
             <Box component="span" sx={{ color: 'text.secondary', typography: 'body2' }}>
-              Potential
+              Commission Potential
             </Box>
             {user?.isTexitRanger && (
               <Iconify

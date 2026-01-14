@@ -63,6 +63,7 @@ export type Member = {
   groupSetting?: BasicGroupSetting | null;
   id: string;
   isTexitRanger: boolean;
+  isRapidReward: boolean;
   introduceMembers?: Array<Member> | null;
   totalTXCNotReceived: bigint;
   lastAdminNote?: string | null;

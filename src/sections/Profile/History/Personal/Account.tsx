@@ -157,6 +157,33 @@ export function AccountInfo() {
             </Box>
           </Stack>
         </Grid>
+        <Grid xs={12} md={6}>
+          <Stack spacing={1.5}>
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <Box
+                width={32}
+                height={32}
+                display="flex"
+                borderRadius={1}
+                alignItems="center"
+                justifyContent="center"
+                bgcolor={alpha(theme.palette.info.main, 0.08)}
+              >
+                <Iconify icon="solar:money-bag-bold-duotone" width={18} color="success.main" />
+              </Box>
+              <Typography variant="caption" color="text.secondary" fontWeight={600}>
+                Rapid Reward
+              </Typography>
+            </Stack>
+            <Box pl={5}>
+              <LabelRenderer
+                icon={user?.isRapidReward ? 'solar:check-circle-bold' : 'solar:close-circle-bold'}
+                color={user?.isRapidReward ? 'success' : 'error'}
+                value={user?.isRapidReward ? 'Enabled' : 'Disabled'}
+              />
+            </Box>
+          </Stack>
+        </Grid>
       </Grid>
     </Card>
   );

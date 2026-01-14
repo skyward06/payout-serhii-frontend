@@ -29,6 +29,7 @@ export const FETCH_ME_QUERY = gql(/* GraphQL */ `
       teamStrategy
       emailVerified
       isTexitRanger
+      isRapidReward
       totalTXCShared
       peerAcceptable
       peerETHAddress
