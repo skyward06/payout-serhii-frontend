@@ -24,17 +24,19 @@ interface Props {
 export function PriceViewer({ loading, price, getPrice }: Props) {
   return (
     <Stack spacing={2}>
-      <Stack direction="row" spacing={1} alignItems="baseline">
+      <Stack direction="row" alignItems="center" spacing={1}>
         <Typography variant="h2" lineHeight={1}>
           {fCurrency(price, { minimumFractionDigits: 4, maximumFractionDigits: 4 })}
         </Typography>
-        <Typography variant="body1">/</Typography>
-        <Typography variant="caption" sx={{ opacity: 0.8 }}>
-          TXC
-        </Typography>
-      </Stack>
-
-      <Stack direction="row" spacing={1} alignItems="center">
+        <Stack>
+          <Typography lineHeight={1}>*</Typography>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Typography variant="body1">/</Typography>
+            <Typography variant="caption" sx={{ opacity: 0.8 }}>
+              TXC
+            </Typography>
+          </Stack>
+        </Stack>
         <Tooltip title="Refresh to get current price" arrow placement="bottom">
           <IconButton
             onClick={getPrice}
@@ -54,7 +56,9 @@ export function PriceViewer({ loading, price, getPrice }: Props) {
             />
           </IconButton>
         </Tooltip>
+      </Stack>
 
+      <Stack direction="row" spacing={1} alignItems="center">
         <Typography variant="caption" color="inherit" sx={{ opacity: 0.9 }}>
           Updated from{' '}
           <Link

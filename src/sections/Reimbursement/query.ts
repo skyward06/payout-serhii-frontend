@@ -28,8 +28,8 @@ export const FETCH_REIMBURSEMENT = gql(/* GraphQL */ `
 `);
 
 export const FETCH_REIMBURSEMENT_BY_ID = gql(/* GraphQL */ `
-  query ReimbursementById($id: Int!) {
-    reimbursementById(ID: $id) {
+  query ReimbursementById($reimbursementByIdId: Int!) {
+    reimbursementById(id: $reimbursementByIdId) {
       id
       status
       memberId

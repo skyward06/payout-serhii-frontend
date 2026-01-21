@@ -23,7 +23,7 @@ export const FETCH_PLACEMENT_MEMBERS_WITH_LEVEL = gql(/* GraphQL */ `
 `);
 
 export const FETCH_PLACEMENT_CHILDREN_BY_ID = gql(/* GraphQL */ `
-  query PlacementChildrenById($data: IDInput!) {
+  query PlacementChildrenById($data: IdInput!) {
     placementChildrenById(data: $data) {
       id
       status
@@ -45,7 +45,7 @@ export const FETCH_PLACEMENT_CHILDREN_BY_ID = gql(/* GraphQL */ `
 `);
 
 export const FETCH_PLACEMENT_TO_MEMBERS = gql(/* GraphQL */ `
-  query PlacementMembersToMember($data: IDInput!) {
+  query PlacementMembersToMember($data: IdInput!) {
     placementMembersToMember(data: $data) {
       id
       status

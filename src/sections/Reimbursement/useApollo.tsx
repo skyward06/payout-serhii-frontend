@@ -37,8 +37,10 @@ export function useFetchReimbursement() {
   return { loading, rowCount, reimbursements: data?.reimbursements.reimbursements ?? [] };
 }
 
-export function useFetchReimbursementById(id: number) {
-  const { data } = useSuspenseQuery(FETCH_REIMBURSEMENT_BY_ID, { variables: { id } });
+export function useFetchReimbursementById(reimbursementByIdId: number) {
+  const { data } = useSuspenseQuery(FETCH_REIMBURSEMENT_BY_ID, {
+    variables: { reimbursementByIdId },
+  });
 
   return { reimbursement: data.reimbursementById };
 }

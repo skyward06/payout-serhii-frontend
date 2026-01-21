@@ -17,7 +17,7 @@ export const FETCH_NOTIFICATION_QUERY = gql(/* GraphQL */ `
 `);
 
 export const SET_READ_NOTIFICATIONS = gql(/* GraphQL */ `
-  mutation SetReadNotification($data: IDInput!) {
+  mutation SetReadNotification($data: IdInput!) {
     setReadNotification(data: $data) {
       message
       result

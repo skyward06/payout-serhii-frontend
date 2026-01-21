@@ -9,7 +9,7 @@ export const SUBMIT_ORDER_ACH_PLAID = gql(/* GraphQL */ `
 `);
 
 export const CREATE_PLAID_LINK_TOKEN = gql(/* GraphQL */ `
-  mutation CreatePlaidLinkToken($data: IDInput!) {
+  mutation CreatePlaidLinkToken($data: IdInput!) {
     createPlaidLinkToken(data: $data) {
       requestId
       linkToken

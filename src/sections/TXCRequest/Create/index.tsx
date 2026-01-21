@@ -136,7 +136,7 @@ export default function TXCRequest() {
                   letterSpacing={1}
                   mb={2}
                 >
-                  Amount Calculator
+                  Please fill in transaction details
                 </Typography>
                 <Estimator isTXC={isTXC} price={price} />
               </Box>
@@ -150,7 +150,7 @@ export default function TXCRequest() {
                   fontWeight={700}
                   letterSpacing={1}
                 >
-                  Wallet Address
+                  Your Wallet Address
                 </Typography>
                 <Field.CustomAutocomplete
                   freeSolo

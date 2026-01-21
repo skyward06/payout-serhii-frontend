@@ -1,7 +1,7 @@
 import { gql } from 'src/__generated__/gql';
 
 export const FETCH_ORDER_BY_ID = gql(/* GraphQL */ `
-  query OrderById($data: IDInput!) {
+  query OrderById($data: IdInput!) {
     orderById(data: $data) {
       id
       ID
@@ -24,7 +24,7 @@ export const FETCH_ORDER_BY_ID = gql(/* GraphQL */ `
 `);
 
 export const CHECK_ORDER_STATUS = gql(/* GraphQL */ `
-  query CheckOrder($data: IDInput!) {
+  query CheckOrder($data: IdInput!) {
     orderById(data: $data) {
       status
     }
@@ -48,7 +48,7 @@ export const CREATE_SIGNUP_ORDER = gql(/* GraphQL */ `
 `);
 
 export const CANCEL_ORDER = gql(/* GraphQL */ `
-  mutation CancelOrder($data: IDInput!) {
+  mutation CancelOrder($data: IdInput!) {
     cancelOrder(data: $data) {
       id
       status

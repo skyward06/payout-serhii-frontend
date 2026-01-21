@@ -17,7 +17,7 @@ import Contact from './contact';
 export default function TeamCommissionTable() {
   const { user } = useAuthContext();
 
-  const [statusOptions, setStatusOpions] = useState<
+  const [statusOptions, setStatusOptions] = useState<
     { value: string; label: string; color: LabelColor }[]
   >([
     { value: 'LEFT', label: 'Left', color: 'info' },
@@ -26,7 +26,7 @@ export default function TeamCommissionTable() {
   ]);
 
   const [contact, setContact] = useState<boolean>(false);
-  const [teamReport, setTeamReport] = useState<TeamReportSection>(TeamReportSection.Left);
+  const [teamReport, setTeamReport] = useState<TeamReportSection>(TeamReportSection.Team);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: any) => {
     if (
@@ -43,7 +43,7 @@ export default function TeamCommissionTable() {
 
   useEffect(() => {
     if (user?.teamReport.includes(TeamReport.Credentials)) {
-      setStatusOpions([
+      setStatusOptions([
         ...statusOptions,
         { value: 'CREDENTIALS', label: 'Contact', color: 'secondary' },
       ]);
