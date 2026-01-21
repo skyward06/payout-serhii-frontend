@@ -20,8 +20,9 @@ export default function TeamCommissionTable() {
   const [statusOptions, setStatusOptions] = useState<
     { value: string; label: string; color: LabelColor }[]
   >([
-    { value: 'LEFT', label: 'Left', color: 'info' },
-    { value: 'RIGHT', label: 'Right', color: 'success' },
+    // { value: 'LEFT', label: 'Left', color: 'info' },
+    // { value: 'RIGHT', label: 'Right', color: 'success' },
+    { value: 'TEAM', label: 'Team', color: 'info' },
     { value: 'REFERRAL', label: 'Referral', color: 'primary' },
   ]);
 
