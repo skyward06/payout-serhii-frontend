@@ -14,8 +14,8 @@ const TIPS = [
   },
   {
     icon: 'solar:chart-2-bold-duotone',
-    title: 'Conversion Rate',
-    text: 'Final amount determined at order completion',
+    title: 'Convenience Fee',
+    text: 'Includes 5% convenience fee',
   },
   {
     icon: 'solar:shield-check-bold-duotone',

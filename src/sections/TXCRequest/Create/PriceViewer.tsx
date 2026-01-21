@@ -1,6 +1,5 @@
 import type { UseBooleanReturn } from 'src/hooks/useBoolean';
 
-import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
@@ -76,12 +75,6 @@ export function PriceViewer({ loading, price, getPrice }: Props) {
           </Link>
         </Typography>
       </Stack>
-
-      <Box p={1.5} borderRadius={1} bgcolor="rgba(255, 255, 255, 0.12)">
-        <Typography variant="caption" color="inherit" display="block" sx={{ opacity: 0.9 }}>
-          Includes 5% convenience fee
-        </Typography>
-      </Box>
     </Stack>
   );
 }
