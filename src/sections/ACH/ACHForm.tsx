@@ -50,7 +50,7 @@ export function ACHForm({ amount }: Props) {
             toast.warning('Multiple accounts detected. Using the first one selected.');
           }
 
-          if ((account.balances.available ?? 0) < (order.requiredBalance ?? 0)) {
+          if ((account.balances.available ?? 0) < (order.requiredBalance ?? 0) / 100) {
             toast.warning(
               `Insufficient funds in the selected account. Available: $${account.balances.available}, Required: $${(order.requiredBalance ?? 0) / 100}. But this is just for bank account verification. So you can charge before real transaction.`,
               { duration: 10000 }
