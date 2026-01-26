@@ -14,26 +14,22 @@ import { useAuthContext } from 'src/auth/hooks';
 import Report from './report';
 import Contact from './contact';
 
+const initialOptions: { value: string; label: string; color: LabelColor }[] = [
+  { value: 'TEAM', label: 'Team', color: 'info' },
+  { value: 'REFERRAL', label: 'Referral', color: 'primary' },
+];
+
 export default function TeamCommissionTable() {
   const { user } = useAuthContext();
 
-  const [statusOptions, setStatusOptions] = useState<
-    { value: string; label: string; color: LabelColor }[]
-  >([
-    // { value: 'LEFT', label: 'Left', color: 'info' },
-    // { value: 'RIGHT', label: 'Right', color: 'success' },
-    { value: 'TEAM', label: 'Team', color: 'info' },
-    { value: 'REFERRAL', label: 'Referral', color: 'primary' },
-  ]);
+  const [statusOptions, setStatusOptions] =
+    useState<{ value: string; label: string; color: LabelColor }[]>(initialOptions);
 
   const [contact, setContact] = useState<boolean>(false);
   const [teamReport, setTeamReport] = useState<TeamReportSection>(TeamReportSection.Team);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: any) => {
-    if (
-      Object.values(TeamReportSection).includes(newValue) &&
-      user?.teamReport.includes(newValue)
-    ) {
+    if (Object.values(TeamReportSection).includes(newValue)) {
       setContact(false);
       setTeamReport(newValue);
     } else {
@@ -45,7 +41,7 @@ export default function TeamCommissionTable() {
   useEffect(() => {
     if (user?.teamReport.includes(TeamReport.Credentials)) {
       setStatusOptions([
-        ...statusOptions,
+        ...initialOptions,
         { value: 'CREDENTIALS', label: 'Contact', color: 'secondary' },
       ]);
     }
