@@ -4223,6 +4223,7 @@ export type TxcSharedResponse = {
 export type Team = {
   __typename?: 'Team';
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
+  crmUrl?: Maybe<Scalars['String']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   id: Scalars['ID']['output'];
   leader: MemberInfo;
@@ -4235,6 +4236,7 @@ export type Team = {
 };
 
 export type TeamInput = {
+  crmUrl?: InputMaybe<Scalars['String']['input']>;
   leaderId: Scalars['String']['input'];
   manualMemberIds?: InputMaybe<Array<Scalars['String']['input']>>;
   name: Scalars['String']['input'];
@@ -4251,6 +4253,7 @@ export enum TeamReport {
 export type TeamReportItem = {
   __typename?: 'TeamReportItem';
   actualTeamMember: Scalars['Int']['output'];
+  crmUrl?: Maybe<Scalars['String']['output']>;
   directLeadersUnder: Scalars['Int']['output'];
   id: Scalars['ID']['output'];
   leadersTeamMember: Scalars['Int']['output'];
@@ -4643,6 +4646,7 @@ export type UpdateShippingInput = {
 };
 
 export type UpdateTeamInput = {
+  crmUrl?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['String']['input'];
   leaderId: Scalars['String']['input'];
   manualMemberIds?: InputMaybe<Array<Scalars['String']['input']>>;
