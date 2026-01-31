@@ -21,6 +21,8 @@ export const FETCH_ME_QUERY = gql(/* GraphQL */ `
       activated
       potential
       sponsorId
+      sponsor30
+      sponsor90
       allowState
       ethAssetId
       teamReport
@@ -29,7 +31,6 @@ export const FETCH_ME_QUERY = gql(/* GraphQL */ `
       teamStrategy
       emailVerified
       isTexitRanger
-      isRapidReward
       totalTXCShared
       peerAcceptable
       peerETHAddress

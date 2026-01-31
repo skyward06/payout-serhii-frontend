@@ -8,7 +8,7 @@ import { alpha, useTheme } from '@mui/material/styles';
 
 import { useCopyToClipboard } from 'src/hooks/use-copy-to-clipboard';
 
-import { truncateMiddle } from 'src/utils/helper';
+import { truncateMiddle, checkRapidReward } from 'src/utils/helper';
 
 import { toast } from 'src/components/SnackBar';
 import { Iconify } from 'src/components/Iconify';
@@ -17,6 +17,8 @@ import { LabelRenderer } from 'src/components/ItemRenderers';
 import { useAuthContext } from 'src/auth/hooks';
 
 import { InfoItem } from './InfoItem';
+
+import type { Member } from '../../type';
 
 export function AccountInfo() {
   const theme = useTheme();
@@ -177,12 +179,57 @@ export function AccountInfo() {
             </Stack>
             <Box pl={5}>
               <LabelRenderer
-                icon={user?.isRapidReward ? 'solar:check-circle-bold' : 'solar:close-circle-bold'}
-                color={user?.isRapidReward ? 'success' : 'error'}
-                value={user?.isRapidReward ? 'Enabled' : 'Disabled'}
+                icon={
+                  checkRapidReward(user as Member)
+                    ? 'solar:check-circle-bold'
+                    : 'solar:close-circle-bold'
+                }
+                color={checkRapidReward(user as Member) ? 'success' : 'error'}
+                value={checkRapidReward(user as Member) ? 'Enabled' : 'Disabled'}
               />
             </Box>
           </Stack>
+        </Grid>
+        {/* <Grid xs={12} md={6}>
+          <Stack spacing={1.5}>
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <Box
+                width={32}
+                height={32}
+                display="flex"
+                borderRadius={1}
+                alignItems="center"
+                justifyContent="center"
+                bgcolor={alpha(theme.palette.info.main, 0.08)}
+              >
+                <Iconify icon="solar:money-bag-bold-duotone" width={18} color="success.main" />
+              </Box>
+              <Typography variant="caption" color="text.secondary" fontWeight={600}>
+                CP
+              </Typography>
+            </Stack>
+            <Box pl={5}>
+              <LabelRenderer
+                icon={user?.isTexitRanger ? 'solar:check-circle-bold' : 'solar:close-circle-bold'}
+                color={user?.isTexitRanger ? 'success' : 'error'}
+                value={user?.isTexitRanger ? 'Enabled' : 'Disabled'}
+              />
+            </Box>
+          </Stack>
+        </Grid> */}
+        <Grid xs={12} md={6}>
+          <InfoItem
+            icon="solar:user-bold-duotone"
+            label="Sponsors in 30 days"
+            value={user?.sponsor30}
+          />
+        </Grid>
+        <Grid xs={12} md={6}>
+          <InfoItem
+            icon="solar:user-bold-duotone"
+            label="Sponsors in 90 days"
+            value={user?.sponsor90}
+          />
         </Grid>
       </Grid>
     </Card>

@@ -3,6 +3,8 @@
  * https://github.com/you-dont-need-x/you-dont-need-lodash
  */
 
+import type { Member } from 'src/sections/Profile/type';
+
 import type { InputNumberValue } from './formatNumber';
 
 // ----------------------------------------------------------------------
@@ -170,3 +172,6 @@ export const makeDecimal = (value: number, length: number): string => {
 
   return value.toString();
 };
+
+export const checkRapidReward = (member: Member) =>
+  member?.isTexitRanger && member?.sponsor30 >= 1 && member?.sponsor90 >= 3;
