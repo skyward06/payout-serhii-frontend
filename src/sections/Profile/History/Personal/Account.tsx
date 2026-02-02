@@ -130,26 +130,11 @@ export function AccountInfo() {
             color="success"
           />
         </Grid>
-
         <Grid xs={12} md={6}>
-          <Stack spacing={1.5}>
-            <Stack direction="row" alignItems="center" spacing={1}>
-              <Box
-                width={32}
-                height={32}
-                display="flex"
-                borderRadius={1}
-                alignItems="center"
-                justifyContent="center"
-                bgcolor={alpha(theme.palette.info.main, 0.08)}
-              >
-                <Iconify icon="solar:money-bag-bold-duotone" width={18} color="success.main" />
-              </Box>
-              <Typography variant="caption" color="text.secondary" fontWeight={600}>
-                Reimbursement
-              </Typography>
-            </Stack>
-            <Box pl={5}>
+          <InfoItem
+            label="Reimbursement"
+            icon="solar:money-bag-bold-duotone"
+            value={
               <LabelRenderer
                 icon={
                   user?.reimbursementEnabled ? 'solar:check-circle-bold' : 'solar:close-circle-bold'
@@ -157,28 +142,14 @@ export function AccountInfo() {
                 color={user?.reimbursementEnabled ? 'success' : 'error'}
                 value={user?.reimbursementEnabled ? 'Enabled' : 'Disabled'}
               />
-            </Box>
-          </Stack>
+            }
+          />
         </Grid>
         <Grid xs={12} md={6}>
-          <Stack spacing={1.5}>
-            <Stack direction="row" alignItems="center" spacing={1}>
-              <Box
-                width={32}
-                height={32}
-                display="flex"
-                borderRadius={1}
-                alignItems="center"
-                justifyContent="center"
-                bgcolor={alpha(theme.palette.info.main, 0.08)}
-              >
-                <Iconify icon="solar:money-bag-bold-duotone" width={18} color="success.main" />
-              </Box>
-              <Typography variant="caption" color="text.secondary" fontWeight={600}>
-                Rapid Reward
-              </Typography>
-            </Stack>
-            <Box pl={5}>
+          <InfoItem
+            label="Rapid Reward"
+            icon="solar:money-bag-bold-duotone"
+            value={
               <LabelRenderer
                 icon={
                   checkRapidReward(user as Member)
@@ -188,29 +159,15 @@ export function AccountInfo() {
                 color={checkRapidReward(user as Member) ? 'success' : 'error'}
                 value={checkRapidReward(user as Member) ? 'Enabled' : 'Disabled'}
               />
-            </Box>
-          </Stack>
+            }
+          />
         </Grid>
         <Grid xs={12} md={6}>
-          <Stack spacing={1.5}>
-            <Stack direction="row" alignItems="center" spacing={1}>
-              <Box
-                width={32}
-                height={32}
-                display="flex"
-                borderRadius={1}
-                alignItems="center"
-                justifyContent="center"
-                bgcolor={alpha(theme.palette.info.main, 0.08)}
-              >
-                <Iconify icon="solar:money-bag-bold-duotone" width={18} color="success.main" />
-              </Box>
-              <Typography variant="caption" color="text.secondary" fontWeight={600}>
-                CP
-              </Typography>
-            </Stack>
-            <Box pl={5}>{fNumber(user?.potential)}</Box>
-          </Stack>
+          <InfoItem
+            label="CP"
+            icon="solar:money-bag-bold-duotone"
+            value={fNumber(user?.potential)}
+          />
         </Grid>
         <Grid xs={12} md={6}>
           <InfoItem
