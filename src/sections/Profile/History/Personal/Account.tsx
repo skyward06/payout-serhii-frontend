@@ -8,6 +8,7 @@ import { alpha, useTheme } from '@mui/material/styles';
 
 import { useCopyToClipboard } from 'src/hooks/use-copy-to-clipboard';
 
+import { fNumber } from 'src/utils/formatNumber';
 import { truncateMiddle, checkRapidReward } from 'src/utils/helper';
 
 import { toast } from 'src/components/SnackBar';
@@ -190,7 +191,7 @@ export function AccountInfo() {
             </Box>
           </Stack>
         </Grid>
-        {/* <Grid xs={12} md={6}>
+        <Grid xs={12} md={6}>
           <Stack spacing={1.5}>
             <Stack direction="row" alignItems="center" spacing={1}>
               <Box
@@ -208,15 +209,9 @@ export function AccountInfo() {
                 CP
               </Typography>
             </Stack>
-            <Box pl={5}>
-              <LabelRenderer
-                icon={user?.isTexitRanger ? 'solar:check-circle-bold' : 'solar:close-circle-bold'}
-                color={user?.isTexitRanger ? 'success' : 'error'}
-                value={user?.isTexitRanger ? 'Enabled' : 'Disabled'}
-              />
-            </Box>
+            <Box pl={5}>{fNumber(user?.potential)}</Box>
           </Stack>
-        </Grid> */}
+        </Grid>
         <Grid xs={12} md={6}>
           <InfoItem
             icon="solar:user-bold-duotone"
