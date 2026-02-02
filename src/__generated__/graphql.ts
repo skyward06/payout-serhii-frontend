@@ -40,7 +40,7 @@ export type Ach = {
   createdAt?: Maybe<Scalars['DateTimeISO']['output']>;
   deletedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   id: Scalars['ID']['output'];
-  member: MemberInfo;
+  member?: Maybe<MemberInfo>;
   name: Scalars['String']['output'];
   note?: Maybe<Scalars['String']['output']>;
   routingNumber: Scalars['String']['output'];
