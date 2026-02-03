@@ -12,6 +12,7 @@ import { paths } from 'src/routes/paths';
 import { useBoolean } from 'src/hooks/useBoolean';
 import { useScrollOffSetTop } from 'src/hooks/use-scroll-offset-top';
 
+import { COIN_MARKET_CAP } from 'src/consts';
 import { bgBlur, varAlpha } from 'src/theme/styles';
 import { LayoutSection } from 'src/layouts/core/layout-section';
 
@@ -56,9 +57,9 @@ export function NewNavBasic({ children }: Props) {
       children: [
         { title: 'TEXITcoin.org', path: 'https://texitcoin.org' },
         { title: 'Web Wallet', path: 'https://wallet.texitcoin.org' },
-        { title: 'Coin Market Cap', path: 'https://coinmarketcap.com/currencies/texitcoin/' },
+        { title: 'Coin Market Cap', path: COIN_MARKET_CAP },
         { title: 'Wrapped TXC', path: 'https://wtxc.texitcoin.org/' },
-        { title: 'Exchange', path: 'https://coinmarketcap.com/currencies/texitcoin/#Markets' },
+        { title: 'Exchange', path: `${COIN_MARKET_CAP}#Markets` },
         { title: 'Swag', path: 'https://shoptxc.com/' },
         { title: 'Blog', path: paths.pages.post.root },
       ],
