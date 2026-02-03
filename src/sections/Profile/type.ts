@@ -101,7 +101,6 @@ export type Member = {
   reimbursementEnabled?: boolean | null;
   status: boolean;
   state?: string | null;
-  sponsor30: number;
   sponsor90: number;
   sponsor?: {
     __typename?: 'MemberInfo';

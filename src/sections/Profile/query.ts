@@ -21,7 +21,6 @@ export const FETCH_ME_QUERY = gql(/* GraphQL */ `
       activated
       potential
       sponsorId
-      sponsor30
       sponsor90
       allowState
       ethAssetId
