@@ -15,7 +15,6 @@ import Report from './report';
 import Contact from './contact';
 
 const initialOptions: { value: string; label: string; color: LabelColor }[] = [
-  { value: 'TEAM', label: 'Team', color: 'info' },
   { value: 'REFERRAL', label: 'Referral', color: 'primary' },
 ];
 
@@ -26,7 +25,7 @@ export default function TeamCommissionTable() {
     useState<{ value: string; label: string; color: LabelColor }[]>(initialOptions);
 
   const [contact, setContact] = useState<boolean>(false);
-  const [teamReport, setTeamReport] = useState<TeamReportSection>(TeamReportSection.Team);
+  const [teamReport, setTeamReport] = useState<TeamReportSection>(TeamReportSection.Referral);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: any) => {
     if (Object.values(TeamReportSection).includes(newValue)) {
@@ -39,12 +38,23 @@ export default function TeamCommissionTable() {
   };
 
   useEffect(() => {
-    if (user?.teamReport.includes(TeamReport.Credentials)) {
-      setStatusOptions([
-        ...initialOptions,
-        { value: 'CREDENTIALS', label: 'Contact', color: 'secondary' },
-      ]);
-    }
+    setStatusOptions([
+      ...initialOptions,
+      ...([
+        user?.teamReport.includes(TeamReport.Credentials) && {
+          value: 'CREDENTIALS',
+          label: 'Contact',
+          color: 'secondary',
+        },
+      ].filter(Boolean) as { value: string; label: string; color: LabelColor }[]),
+      ...([
+        user?.isTexitRanger && {
+          value: 'TEAM',
+          label: 'Team',
+          color: 'info',
+        },
+      ].filter(Boolean) as { value: string; label: string; color: LabelColor }[]),
+    ]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
