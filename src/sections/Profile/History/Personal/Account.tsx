@@ -169,13 +169,13 @@ export function AccountInfo() {
             value={fNumber(user?.potential)}
           />
         </Grid>
-        <Grid xs={12} md={6}>
+        {/* <Grid xs={12} md={6}>
           <InfoItem
             icon="solar:user-bold-duotone"
             label="Sponsors in 30 days"
             value={user?.sponsor30}
           />
-        </Grid>
+        </Grid> */}
         <Grid xs={12} md={6}>
           <InfoItem
             icon="solar:user-bold-duotone"
