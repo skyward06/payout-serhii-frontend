@@ -212,6 +212,7 @@ export const dashboardRoutes = [
           },
         ],
       },
+      // { path: 'refund-policy', element: <RefundPolicyPage /> },
     ],
   },
 ];

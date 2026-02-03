@@ -35,6 +35,7 @@ const PostPage = lazy(() => import('src/pages/Post/List'));
 const PostViewPage = lazy(() => import('src/pages/Post/View'));
 const PostProvider = lazy(() => import('src/libs/Post'));
 const ConfirmUnsubscribePage = lazy(() => import('src/pages/Region/Confirm'));
+const RefundPolicyPage = lazy(() => import('src/pages/RefundPolicy'));
 // ----------------------------------------------------------------------
 
 export const statisticsRoutes: RouteObject[] = [
@@ -53,6 +54,7 @@ export const statisticsRoutes: RouteObject[] = [
       { path: 'silverbugs', element: <SilverGuaranteePage /> },
       { path: 'contact', element: <ContactPage /> },
       { path: 'about-us', element: <AboutUsPage /> },
+      { path: 'refund-policy', element: <RefundPolicyPage /> },
     ],
   },
   {

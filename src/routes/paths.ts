@@ -39,6 +39,7 @@ const ROOTS = {
   TEAM: '/team',
   TXC_REQUEST: '/txc-request',
   EMAIL_REGION: '/email-region',
+  REFUND_POLICY: '/refund-policy',
 
   // Widget
   WIDGET: '/widget',
@@ -109,6 +110,9 @@ export const paths = {
 
     // POST
     post: { root: ROOTS.POST, view: (slug: string) => `${ROOTS.POST}/${slug}` },
+
+    // Refund Policy
+    refundPolicy: { root: ROOTS.REFUND_POLICY },
   },
 
   // DASHBOARD
