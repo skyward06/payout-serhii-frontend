@@ -1,15 +1,30 @@
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
+import { useRouter } from 'src/routes/hooks';
+
+import { Iconify } from 'src/components/Iconify';
+
 import { SectionText, SectionTitle } from './components';
 
 export function RefundPolicyView() {
+  const router = useRouter();
+
   return (
     <Container>
       <Box py={4}>
+        <Button
+          startIcon={<Iconify icon="eva:arrow-back-fill" />}
+          onClick={() => router.back()}
+          sx={{ mb: 3 }}
+        >
+          Go Back
+        </Button>
+
         <Typography typography="h2" fontWeight={700} textAlign="center" mb={5}>
           Refund Policy
         </Typography>
