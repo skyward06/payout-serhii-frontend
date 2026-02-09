@@ -10,7 +10,6 @@ export type Package = {
   productName: string;
   status: boolean;
   enrollVisibility: boolean;
-  date: any;
   sales?: Array<Sale> | null;
   paymentMethodLinks?: Array<PaymentMethodLink> | null;
   createdAt?: any | null;

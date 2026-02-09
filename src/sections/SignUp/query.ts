@@ -42,7 +42,6 @@ export const FETCH_SIGN_UP_PACKAGES = gql(/* GraphQL */ `
     signUpPackages {
       id
       ID
-      date
       token
       point
       amount
