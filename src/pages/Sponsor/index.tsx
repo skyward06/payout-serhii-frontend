@@ -3,17 +3,12 @@ import { useMatch } from 'react-router';
 
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
-import Button from '@mui/material/Button';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 
-import { MemberState } from 'src/__generated__/graphql';
-
 import { Iconify } from 'src/components/Iconify';
 import { Breadcrumbs } from 'src/components/Breadcrumbs';
-
-import { useAuthContext } from 'src/auth/hooks';
 
 const TABS = [
   { value: 'approved', label: 'Approved', icon: <Iconify icon="duo-icons:approved" width={24} /> },
@@ -33,7 +28,6 @@ interface Props {
 
 export default function Sponsor({ children }: Props) {
   const router = useRouter();
-  const { user } = useAuthContext();
 
   const param = useMatch(paths.dashboard.sponsor.tabMatch);
   const tabParam = param?.params.tab;
@@ -46,23 +40,21 @@ export default function Sponsor({ children }: Props) {
     <>
       <Breadcrumbs
         heading="Sponsorships"
-        sx={{
-          mb: { xs: 1, md: 2 },
-        }}
-        action={
-          user?.allowState === MemberState.Ban ? null : (
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<Iconify icon="fa6-solid:plus" />}
-              onClick={() => {
-                router.push(`${paths.dashboard.sponsor.root}/new`);
-              }}
-            >
-              Add Miner
-            </Button>
-          )
-        }
+        sx={{ mb: { xs: 1, md: 2 } }}
+        // action={
+        //   user?.allowState === MemberState.Ban ? null : (
+        //     <Button
+        //       variant="contained"
+        //       color="primary"
+        //       startIcon={<Iconify icon="fa6-solid:plus" />}
+        //       onClick={() => {
+        //         router.push(`${paths.dashboard.sponsor.root}/new`);
+        //       }}
+        //     >
+        //       Add Miner
+        //     </Button>
+        //   )
+        // }
       />
 
       <Tabs value={tabParam || ''} onChange={handleTabChange} sx={{ mb: 1 }}>

@@ -11,8 +11,6 @@ import { STORAGE_TOKEN_KEY } from 'src/consts';
 
 import DarkLogo from 'src/components/logo/dark-logo';
 
-import { JoinNowButton } from 'src/sections/NewHomepage/components';
-
 import { HeaderSection } from './header-section';
 import { _account } from '../config-nav-account';
 import { MenuButton } from '../components/menu-button';
@@ -119,7 +117,7 @@ export function HeaderBase({
                     >
                       Sign In
                     </LoadingButton>
-                    <JoinNowButton
+                    {/* <JoinNowButton
                       color="primary"
                       sx={{
                         bgcolor: (themeConfig) => themeConfig.palette.primary.main,
@@ -129,7 +127,7 @@ export function HeaderBase({
                         borderRadius: 1,
                         mt: 0,
                       }}
-                    />
+                    /> */}
                   </>
                 )
               )}

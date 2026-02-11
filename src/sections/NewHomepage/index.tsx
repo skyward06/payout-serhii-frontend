@@ -3,7 +3,6 @@ import { useLocation } from 'react-router';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import Container from '@mui/material/Container';
 
 import { BackToTop } from 'src/components/animate/back-to-top';
 import { ScrollProgress, useScrollProgress } from 'src/components/animate/scroll-progress';
@@ -11,7 +10,6 @@ import { ScrollProgress, useScrollProgress } from 'src/components/animate/scroll
 import { Texit } from './Texit';
 import { Quick } from './Quick';
 import { Packages } from './Packages';
-import { SignUpView } from '../SignUp';
 import { QuickCharts } from './QuickCharts';
 import { HeroSection } from './HeroSection';
 import { LightWidget } from './LightWidget';
@@ -77,11 +75,11 @@ export function NewHomePage() {
 
         <Packages />
 
-        <Box py={8} bgcolor="background.neutral">
+        {/* <Box py={8} bgcolor="background.neutral">
           <Container>
             <SignUpView />
           </Container>
-        </Box>
+        </Box> */}
       </Box>
     </Stack>
   );

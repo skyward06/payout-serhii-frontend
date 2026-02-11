@@ -21,7 +21,6 @@ import DarkLogo from 'src/components/logo/dark-logo';
 import { NavBasicMobile, NavBasicDesktop } from 'src/components/NavBasic';
 
 import { Footer } from 'src/sections/NewHomepage/Footer';
-import { JoinNowButton } from 'src/sections/NewHomepage/components';
 
 import { Main } from '../main';
 
@@ -139,7 +138,7 @@ export function NavBasic({ children }: Props) {
                     sx={{ display: { xs: 'none', sm: 'block' } }}
                   />
 
-                  <JoinNowButton />
+                  {/* <JoinNowButton /> */}
                 </Stack>
               </Box>
 

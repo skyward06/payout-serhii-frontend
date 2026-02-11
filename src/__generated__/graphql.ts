@@ -341,6 +341,7 @@ export type BasicMember = {
   adminFullname?: Maybe<Scalars['String']['output']>;
   adminUsername?: Maybe<Scalars['String']['output']>;
   allowState: MemberState;
+  approvedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   assetId?: Maybe<Scalars['String']['output']>;
   city?: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['DateTimeISO']['output'];
@@ -1284,6 +1285,7 @@ export type Member = {
   activationTx?: Maybe<Scalars['String']['output']>;
   adminNotes: Array<AdminNotes>;
   allowState: MemberState;
+  approvedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   assetId?: Maybe<Scalars['String']['output']>;
   avatar?: Maybe<Scalars['String']['output']>;
   city?: Maybe<Scalars['String']['output']>;

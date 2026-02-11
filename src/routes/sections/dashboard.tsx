@@ -56,7 +56,7 @@ const EmailRegionListPage = lazy(() => import('src/pages/Region'));
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
-const PackageProvider = lazy(() => import('src/libs/Packages'));
+// const PackageProvider = lazy(() => import('src/libs/Packages'));
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
@@ -75,7 +75,7 @@ const ReimbursementEditPage = lazy(() => import('src/pages/Reimbursement/Edit'))
 const SponsorListPage = lazy(() => import('src/pages/Sponsor/List'));
 const SponsorWrapper = lazy(() => import('src/pages/Sponsor'));
 const SponsorTreePage = lazy(() => import('src/pages/Sponsor/Tree'));
-const SponsorNewPage = lazy(() => import('src/pages/Sponsor/New'));
+// const SponsorNewPage = lazy(() => import('src/pages/Sponsor/New'));
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
@@ -136,14 +136,14 @@ export const dashboardRoutes = [
               { path: 'added', element: <SponsorListPage allowState="ADDED" /> },
               { path: 'graveyard', element: <SponsorListPage allowState="GRAVEYARD" /> },
               { path: 'tree', element: <SponsorTreePage /> },
-              {
-                path: 'new',
-                element: (
-                  <PackageProvider>
-                    <SponsorNewPage />
-                  </PackageProvider>
-                ),
-              },
+              // {
+              //   path: 'new',
+              //   element: (
+              //     <PackageProvider>
+              //       <SponsorNewPage />
+              //     </PackageProvider>
+              //   ),
+              // },
             ],
           },
         ],
