@@ -16,6 +16,7 @@ import { SettingsDrawer, defaultSettings, SettingsProvider } from 'src/component
 
 import ApolloProvider from './ApolloProvider';
 import { DayjsProvider } from './DayjsProvider';
+import { GraduationPopup } from './components/GraduationPopup';
 
 // ----------------------------------------------------------------------
 
@@ -32,6 +33,7 @@ export default function App() {
                 <SnackBar />
                 <ProgressBar />
                 <SettingsDrawer />
+                <GraduationPopup />
                 <Router />
               </MotionLazy>
             </ThemeProvider>
