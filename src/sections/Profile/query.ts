@@ -34,6 +34,7 @@ export const FETCH_ME_QUERY = gql(/* GraphQL */ `
       peerAcceptable
       peerETHAddress
       primaryAddress
+      sponsorRefunded
       currentHashPower
       secondaryAddress
       totalIntroducers

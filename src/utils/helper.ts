@@ -174,4 +174,6 @@ export const makeDecimal = (value: number, length: number): string => {
 };
 
 export const checkRapidReward = (member: Member) =>
-  (member?.potential > 0 || member?.isTexitRanger) && member?.sponsor90 >= 3;
+  (member?.potential > 0 || member?.isTexitRanger) &&
+  member?.sponsor90 >= 3 &&
+  !member.sponsorRefunded;
