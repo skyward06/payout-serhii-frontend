@@ -3829,7 +3829,7 @@ export type RefLinkDuplicationResponse = {
 
 export type RefundMarkMemberInput = {
   id: Scalars['ID']['input'];
-  refunded: Scalars['Boolean']['input'];
+  sponsorRefunded: Scalars['Boolean']['input'];
 };
 
 export type Reimbursement = {

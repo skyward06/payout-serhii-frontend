@@ -169,18 +169,27 @@ export function AccountInfo() {
             value={fNumber(user?.potential)}
           />
         </Grid>
-        {/* <Grid xs={12} md={6}>
-          <InfoItem
-            icon="solar:user-bold-duotone"
-            label="Sponsors in 30 days"
-            value={user?.sponsor30}
-          />
-        </Grid> */}
         <Grid xs={12} md={6}>
           <InfoItem
             icon="solar:user-bold-duotone"
             label="Sponsors in 90 days"
             value={user?.sponsor90}
+          />
+        </Grid>
+        <Grid xs={12} md={6}>
+          <InfoItem
+            label="Sponsor Refunded"
+            icon="solar:money-bag-bold-duotone"
+            value={
+              <Iconify
+                icon={
+                  user?.sponsorRefunded
+                    ? 'ic:twotone-check-box'
+                    : 'iconamoon:sign-times-square-duotone'
+                }
+                color={user?.sponsorRefunded ? 'success.main' : 'error.main'}
+              />
+            }
           />
         </Grid>
       </Grid>
