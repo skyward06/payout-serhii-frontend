@@ -176,22 +176,6 @@ export function AccountInfo() {
             value={user?.sponsor90}
           />
         </Grid>
-        <Grid xs={12} md={6}>
-          <InfoItem
-            label="Sponsor Refunded"
-            icon="solar:money-bag-bold-duotone"
-            value={
-              <Iconify
-                icon={
-                  user?.sponsorRefunded
-                    ? 'ic:twotone-check-box'
-                    : 'iconamoon:sign-times-square-duotone'
-                }
-                color={user?.sponsorRefunded ? 'success.main' : 'error.main'}
-              />
-            }
-          />
-        </Grid>
       </Grid>
     </Card>
   );
