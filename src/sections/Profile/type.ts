@@ -102,7 +102,6 @@ export type Member = {
   status: boolean;
   state?: string | null;
   sponsor90: number;
-  sponsorRefunded: boolean;
   sponsor?: {
     __typename?: 'MemberInfo';
     id: string;
